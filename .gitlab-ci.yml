@@ -17,31 +17,28 @@ validate-commits:
   image: alpine:latest
   before_script:
     - apk add --no-cache git
+    - git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   cache: {}
   script:
     - |
       PATTERN='^(feat|fix|test|chore|docs|refactor|style|perf|ci)(\(.+\))?: .+'
-      if [ "$CI_PIPELINE_SOURCE" = "merge_request_event" ]; then
-        git log origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME..HEAD --pretty=format:"%s" | while read -r msg; do
-          echo "Checking: $msg"
-          if ! echo "$msg" | grep -qE "$PATTERN"; then
-            echo "ERROR: Commit message does not follow convention: '$msg'"
-            echo "Required format: <type>: <description>"
-            echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
-            exit 1
-          fi
-        done
-      else
-        echo "Checking: $CI_COMMIT_MESSAGE"
-        if ! echo "$CI_COMMIT_MESSAGE" | grep -qE "$PATTERN"; then
-          echo "ERROR: Commit message does not follow convention."
-          echo "Required format: <type>: <description>"
-          echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
-          exit 1
-        fi
+      FAILED=0
+      git log origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}..HEAD --no-merges --pretty=format:"%s" > /tmp/commits.txt
+      if [ ! -s /tmp/commits.txt ]; then
+        echo "No commits to validate."
+        exit 0
       fi
+      while IFS= read -r msg; do
+        echo "Checking: $msg"
+        if ! echo "$msg" | grep -qE "$PATTERN"; then
+          echo "ERROR: Commit message does not follow convention: '$msg'"
+          echo "Required format: <type>(<scope>): <description>"
+          echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
+          FAILED=1
+        fi
+      done < /tmp/commits.txt
+      exit $FAILED
   only:
-    - main
     - merge_requests
 
 # Install dependencies — shared across all jobs via cache
