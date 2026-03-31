@@ -212,7 +212,11 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
             {step === 0 ? 'Cancel' : '← Back'}
           </button>
 
-          {error && <span data-testid="wizard-error" className="flex-1 text-sm text-red-400">{error}</span>}
+          {error && (
+            <span data-testid="wizard-error" className="flex-1 text-sm text-red-400">
+              {error}
+            </span>
+          )}
           {!error && <span className="flex-1" />}
 
           <button
