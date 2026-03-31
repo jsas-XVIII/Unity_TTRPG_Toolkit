@@ -14,7 +14,7 @@ default:
 
 validate-commits:
   stage: validate
-  image: alpine:latest
+  image: alpine/git:latest
   before_script: []
   cache: {}
   script:
