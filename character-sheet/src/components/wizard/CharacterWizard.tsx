@@ -148,7 +148,7 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
       <div className="bg-gray-900 border-b border-gray-800 px-6 py-4">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-semibold text-gray-300">
+            <span data-testid="wizard-step-label" className="text-sm font-semibold text-gray-300">
               New Character — Step {step + 1} of {STEPS.length}
             </span>
             <span className="text-sm text-amber-400 font-semibold">{STEPS[step]}</span>
@@ -205,16 +205,22 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
       <div className="bg-gray-900 border-t border-gray-800 px-6 py-4">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
           <button
+            data-testid="wizard-back"
             onClick={goBack}
             className="px-5 py-2 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm"
           >
             {step === 0 ? 'Cancel' : '← Back'}
           </button>
 
-          {error && <span className="flex-1 text-sm text-red-400">{error}</span>}
+          {error && (
+            <span data-testid="wizard-error" className="flex-1 text-sm text-red-400">
+              {error}
+            </span>
+          )}
           {!error && <span className="flex-1" />}
 
           <button
+            data-testid="wizard-next"
             onClick={goNext}
             className="px-6 py-2 rounded bg-amber-700 hover:bg-amber-600 text-white font-semibold text-sm"
           >

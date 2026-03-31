@@ -20,6 +20,7 @@ export default function StepName({ draft, onChange }: Props) {
           Character Name <span className="text-red-500">*</span>
         </label>
         <input
+          data-testid="input-name"
           className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-amber-500"
           value={draft.name}
           onChange={(e) => onChange({ name: e.target.value })}
@@ -31,6 +32,7 @@ export default function StepName({ draft, onChange }: Props) {
       <div>
         <label className="block text-sm font-semibold text-gray-300 mb-1">Age</label>
         <input
+          data-testid="input-age"
           className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-amber-500"
           value={draft.age}
           onChange={(e) => onChange({ age: e.target.value })}
@@ -47,6 +49,7 @@ export default function StepName({ draft, onChange }: Props) {
           {([150, 250] as const).map((amount) => (
             <button
               key={amount}
+              data-testid={`denerim-${amount}`}
               onClick={() => onChange({ startingDenerim: amount })}
               className={`flex-1 py-3 rounded-lg border-2 text-center transition-colors ${
                 draft.startingDenerim === amount

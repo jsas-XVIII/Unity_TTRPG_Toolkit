@@ -26,6 +26,7 @@ export default function StepRace({ draft, onChange }: Props) {
           return (
             <button
               key={race.name}
+              data-testid={`race-${race.name.toLowerCase()}`}
               onClick={() => onChange({ race: race.name as Race })}
               className={`text-left rounded-lg border-2 p-4 transition-colors ${
                 selected

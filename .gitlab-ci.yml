@@ -1,5 +1,6 @@
 stages:
   - validate
+  - test
   - build
 
 default:
@@ -14,32 +15,32 @@ default:
 validate-commits:
   stage: validate
   image: alpine:latest
-  before_script: []
+  variables:
+    GIT_DEPTH: 0
+  before_script:
+    - apk add --no-cache git
+    - git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   cache: {}
   script:
     - |
       PATTERN='^(feat|fix|test|chore|docs|refactor|style|perf|ci)(\(.+\))?: .+'
-      if [ "$CI_PIPELINE_SOURCE" = "merge_request_event" ]; then
-        git log origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME..HEAD --pretty=format:"%s" | while read -r msg; do
-          echo "Checking: $msg"
-          if ! echo "$msg" | grep -qE "$PATTERN"; then
-            echo "ERROR: Commit message does not follow convention: '$msg'"
-            echo "Required format: <type>: <description>"
-            echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
-            exit 1
-          fi
-        done
-      else
-        echo "Checking: $CI_COMMIT_MESSAGE"
-        if ! echo "$CI_COMMIT_MESSAGE" | grep -qE "$PATTERN"; then
-          echo "ERROR: Commit message does not follow convention."
-          echo "Required format: <type>: <description>"
-          echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
-          exit 1
-        fi
+      FAILED=0
+      git log origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}..HEAD --no-merges --pretty=format:"%s" > /tmp/commits.txt
+      if [ ! -s /tmp/commits.txt ]; then
+        echo "No commits to validate."
+        exit 0
       fi
+      while IFS= read -r msg; do
+        echo "Checking: $msg"
+        if ! echo "$msg" | grep -qE "$PATTERN"; then
+          echo "ERROR: Commit message does not follow convention: '$msg'"
+          echo "Required format: <type>(<scope>): <description>"
+          echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
+          FAILED=1
+        fi
+      done < /tmp/commits.txt
+      exit $FAILED
   only:
-    - main
     - merge_requests
 
 # Install dependencies — shared across all jobs via cache
@@ -52,6 +53,9 @@ install:
     paths:
       - character-sheet/node_modules/
     expire_in: 1 hour
+  only:
+    - main
+    - merge_requests
 
 lint:
   stage: validate
@@ -59,18 +63,39 @@ lint:
   script:
     - cd character-sheet
     - npm run lint
+  only:
+    - main
+    - merge_requests
 
-# Uncomment when tests are added
-# test:
-#   stage: validate
-#   needs: [install]
-#   script:
-#     - cd character-sheet
-#     - npm test
+test:e2e:
+  stage: test
+  image: cypress/browsers:node-22.12.0-chrome-131.0.6778.139-1-ff-133.0.3-edge-131.0.2903.99-1
+  needs: [lint]
+  variables:
+    CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/.cypress-cache"
+    CYPRESS_BASE_URL: "http://localhost:4173"
+  cache:
+    key:
+      prefix: cypress
+      files:
+        - character-sheet/package-lock.json
+    paths:
+      - character-sheet/node_modules/
+      - .cypress-cache/
+  script:
+    - cd character-sheet
+    - npm ci
+    - npm run build
+    - npm run preview &
+    - npx wait-on http://localhost:4173 --timeout 30000
+    - npm run cy:run -- --browser chrome
+  only:
+    - main
+    - merge_requests
 
 build:
   stage: build
-  needs: [lint]
+  needs: [install, lint, test:e2e]
   script:
     - cd character-sheet
     - npm run build
