@@ -5,7 +5,12 @@
       "Bash(npm install:*)",
       "Bash(npx tsc:*)",
       "Bash(npm run:*)",
-      "Bash(sed 's/.*\\\\.//')"
+      "Bash(sed 's/.*\\\\.//')",
+      "WebFetch(domain:hub.docker.com)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(git:*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(''''scripts:'''', d.get\\(''''scripts'''',{}\\)\\); print\\(''''install:'''', d.get\\(''''scripts'''',{}\\).get\\(''''postinstall'''',''''''''\\)\\)\")"
     ]
   }
 }
