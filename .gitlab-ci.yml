@@ -73,6 +73,7 @@ test:e2e:
   needs: [lint]
   variables:
     CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/.cypress-cache"
+    CYPRESS_BASE_URL: "http://localhost:4173"
   cache:
     key:
       prefix: cypress
@@ -84,7 +85,8 @@ test:e2e:
   script:
     - cd character-sheet
     - npm ci
-    - npm run test:e2e -- --browser chrome
+    - npm run build
+    - npm run test:e2e:ci -- --browser chrome
   only:
     - main
     - merge_requests
