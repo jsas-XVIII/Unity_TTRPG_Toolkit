@@ -1,5 +1,6 @@
 stages:
   - validate
+  - test
   - build
 
 default:
@@ -66,17 +67,20 @@ lint:
     - main
     - merge_requests
 
-# Uncomment when tests are added
-# test:
-#   stage: validate
-#   needs: [install]
-#   script:
-#     - cd character-sheet
-#     - npm test
+test:e2e:
+  stage: test
+  image: cypress/browsers:node-22.12.0-chrome-131.0.6778.264-1-ff-133.0.2-edge-131.0.2903.112-1
+  needs: [install]
+  script:
+    - cd character-sheet
+    - npm run test:e2e -- --browser chrome
+  only:
+    - main
+    - merge_requests
 
 build:
   stage: build
-  needs: [lint]
+  needs: [lint, test:e2e]
   script:
     - cd character-sheet
     - npm run build
