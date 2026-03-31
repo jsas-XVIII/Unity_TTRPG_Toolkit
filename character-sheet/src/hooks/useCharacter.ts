@@ -114,9 +114,7 @@ function reducer(state: Character, action: Action): Character {
     case 'SET_CORE_PATH':
       return {
         ...state,
-        corePaths: state.corePaths.map((cp) =>
-          cp.id === action.path.id ? action.path : cp
-        ),
+        corePaths: state.corePaths.map((cp) => (cp.id === action.path.id ? action.path : cp)),
       }
 
     case 'ADD_CORE_PATH':
@@ -138,7 +136,10 @@ export function useCharacter(initial: Character) {
     ? computeDerivedStats(character, classDef)
     : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
 
-  const setCharacter = useCallback((c: Character) => dispatch({ type: 'SET_CHARACTER', payload: c }), [])
+  const setCharacter = useCallback(
+    (c: Character) => dispatch({ type: 'SET_CHARACTER', payload: c }),
+    []
+  )
 
   return { character, derived, dispatch, setCharacter }
 }

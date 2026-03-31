@@ -11,7 +11,15 @@ interface Props {
   dispatch: Dispatch<Action>
 }
 
-function Pips({ current, max, onSet }: { current: number; max: number; onSet: (v: number) => void }) {
+function Pips({
+  current,
+  max,
+  onSet,
+}: {
+  current: number
+  max: number
+  onSet: (v: number) => void
+}) {
   return (
     <div className="flex flex-wrap gap-1 mt-1">
       {Array.from({ length: max }).map((_, i) => (
@@ -19,9 +27,7 @@ function Pips({ current, max, onSet }: { current: number; max: number; onSet: (v
           key={i}
           onClick={() => onSet(current === i + 1 ? i : i + 1)}
           className={`w-6 h-6 rounded-full border transition-colors ${
-            i < current
-              ? 'bg-amber-500 border-amber-400'
-              : 'bg-gray-800 border-gray-600'
+            i < current ? 'bg-amber-500 border-amber-400' : 'bg-gray-800 border-gray-600'
           }`}
         />
       ))}
@@ -37,7 +43,9 @@ export default function ResourceTracker({ primary, secondary, dispatch }: Props)
       <div className="mb-3">
         <div className="flex justify-between items-baseline">
           <span className="text-sm font-semibold text-amber-400">{primary.name}</span>
-          <span className="text-xs text-gray-400">{primary.current} / {primary.max} · {primary.rechargeDie}</span>
+          <span className="text-xs text-gray-400">
+            {primary.current} / {primary.max} · {primary.rechargeDie}
+          </span>
         </div>
         <Pips
           current={primary.current}
@@ -50,7 +58,9 @@ export default function ResourceTracker({ primary, secondary, dispatch }: Props)
         <div>
           <div className="flex justify-between items-baseline">
             <span className="text-sm font-semibold text-blue-400">{secondary.name}</span>
-            <span className="text-xs text-gray-400">{secondary.current} / {secondary.max}</span>
+            <span className="text-xs text-gray-400">
+              {secondary.current} / {secondary.max}
+            </span>
           </div>
           <Pips
             current={secondary.current}

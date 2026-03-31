@@ -120,7 +120,6 @@ export interface Character {
   gear: number
 }
 
-
 export interface CharacterSummary {
   id: string
   name: string

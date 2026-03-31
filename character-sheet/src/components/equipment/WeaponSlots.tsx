@@ -4,9 +4,7 @@ import type { Weapon } from '../../types/equipment'
 import type { Dispatch } from 'react'
 import { WEAPON_TEMPLATES } from '../../constants/weapons'
 
-type Action =
-  | { type: 'ADD_WEAPON'; weapon: Weapon }
-  | { type: 'REMOVE_WEAPON'; id: string }
+type Action = { type: 'ADD_WEAPON'; weapon: Weapon } | { type: 'REMOVE_WEAPON'; id: string }
 
 interface Props {
   weapons: Weapon[]
@@ -39,12 +37,16 @@ export default function WeaponSlots({ weapons, dispatch }: Props) {
         <div key={w.id} className="flex items-center gap-2 bg-gray-800 rounded px-3 py-2 mb-1">
           <div className="flex-1">
             <span className="text-sm font-semibold text-white">{w.name}</span>
-            <span className="ml-2 text-xs text-gray-500">{w.category} · {w.damageDie}</span>
+            <span className="ml-2 text-xs text-gray-500">
+              {w.category} · {w.damageDie}
+            </span>
           </div>
           <button
             className="text-gray-600 hover:text-red-400 text-xs"
             onClick={() => dispatch({ type: 'REMOVE_WEAPON', id: w.id })}
-          >✕</button>
+          >
+            ✕
+          </button>
         </div>
       ))}
       <div className="flex gap-2 mt-1">
@@ -54,13 +56,17 @@ export default function WeaponSlots({ weapons, dispatch }: Props) {
           onChange={(e) => setSelectedCategory(e.target.value as Weapon['category'])}
         >
           {WEAPON_TEMPLATES.map((t) => (
-            <option key={t.category} value={t.category}>{t.category} ({t.damageDie})</option>
+            <option key={t.category} value={t.category}>
+              {t.category} ({t.damageDie})
+            </option>
           ))}
         </select>
         <button
           className="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-xs text-gray-300"
           onClick={addWeapon}
-        >Add</button>
+        >
+          Add
+        </button>
       </div>
     </div>
   )

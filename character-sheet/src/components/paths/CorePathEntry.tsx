@@ -1,9 +1,7 @@
 import type { CorePath } from '../../types/character'
 import type { Dispatch } from 'react'
 
-type Action =
-  | { type: 'SET_CORE_PATH'; path: CorePath }
-  | { type: 'REMOVE_CORE_PATH'; id: string }
+type Action = { type: 'SET_CORE_PATH'; path: CorePath } | { type: 'REMOVE_CORE_PATH'; id: string }
 
 interface Props {
   path: CorePath
@@ -21,12 +19,16 @@ export default function CorePathEntry({ path, dispatch }: Props) {
         <button
           className="w-6 h-6 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm"
           onClick={() => update({ points: Math.min(6, path.points + 1) })}
-        >+</button>
+        >
+          +
+        </button>
         <span className="text-xl font-bold text-amber-400 w-6 text-center">{path.points}</span>
         <button
           className="w-6 h-6 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm"
           onClick={() => update({ points: Math.max(1, path.points - 1) })}
-        >−</button>
+        >
+          −
+        </button>
       </div>
       <div className="flex-1">
         <input
@@ -47,7 +49,9 @@ export default function CorePathEntry({ path, dispatch }: Props) {
         className="text-gray-600 hover:text-red-400 text-sm"
         onClick={() => dispatch({ type: 'REMOVE_CORE_PATH', id: path.id })}
         title="Remove path"
-      >✕</button>
+      >
+        ✕
+      </button>
     </div>
   )
 }

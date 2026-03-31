@@ -6,15 +6,25 @@ import { CLASS_MAP } from '../../constants/classes'
 import type { Character, Perk } from '../../types/character'
 import type { Attributes } from '../../types/character'
 
-import StepName, { validateStepName } from './steps/StepName'
-import StepRace, { validateStepRace } from './steps/StepRace'
-import StepAttributes, { validateStepAttributes } from './steps/StepAttributes'
-import StepClass, { validateStepClass } from './steps/StepClass'
-import StepCorePaths, { validateStepCorePaths } from './steps/StepCorePaths'
-import StepPerk, { validateStepPerk } from './steps/StepPerk'
-import StepPowers, { validateStepPowers } from './steps/StepPowers'
-import StepEquipment, { validateStepEquipment } from './steps/StepEquipment'
+import StepName from './steps/StepName'
+import StepRace from './steps/StepRace'
+import StepAttributes from './steps/StepAttributes'
+import StepClass from './steps/StepClass'
+import StepCorePaths from './steps/StepCorePaths'
+import StepPerk from './steps/StepPerk'
+import StepPowers from './steps/StepPowers'
+import StepEquipment from './steps/StepEquipment'
 import StepReview from './steps/StepReview'
+import {
+  validateStepName,
+  validateStepRace,
+  validateStepAttributes,
+  validateStepClass,
+  validateStepCorePaths,
+  validateStepPerk,
+  validateStepPowers,
+  validateStepEquipment,
+} from './stepValidators'
 
 interface Props {
   onComplete: (character: Character) => void
@@ -47,13 +57,20 @@ function buildCharacter(draft: WizardDraft): Character {
   // Selected class perk → Class perk entry
   const selectedPerk = classDef.classPerks.find((p) => p.id === draft.selectedPerkId)
   const perks: Perk[] = selectedPerk
-    ? [{ id: uuidv4(), name: selectedPerk.name, description: selectedPerk.description, source: 'Class' }]
+    ? [
+        {
+          id: uuidv4(),
+          name: selectedPerk.name,
+          description: selectedPerk.description,
+          source: 'Class',
+        },
+      ]
     : []
 
-  const spentDenerim = [...draft.weapons.map((w) => w.cost), ...draft.armor.map((a) => a.cost)].reduce(
-    (s, c) => s + c,
-    0
-  )
+  const spentDenerim = [
+    ...draft.weapons.map((w) => w.cost),
+    ...draft.armor.map((a) => a.cost),
+  ].reduce((s, c) => s + c, 0)
 
   const maxHp = classDef.hpBase + attributes.might
 
@@ -108,7 +125,10 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
 
   function goNext() {
     const err = VALIDATORS[step](draft)
-    if (err) { setError(err); return }
+    if (err) {
+      setError(err)
+      return
+    }
     setError(null)
     if (step < STEPS.length - 1) setStep((s) => s + 1)
     else onComplete(buildCharacter(draft))
@@ -128,7 +148,9 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
       <div className="bg-gray-900 border-b border-gray-800 px-6 py-4">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-semibold text-gray-300">New Character — Step {step + 1} of {STEPS.length}</span>
+            <span className="text-sm font-semibold text-gray-300">
+              New Character — Step {step + 1} of {STEPS.length}
+            </span>
             <span className="text-sm text-amber-400 font-semibold">{STEPS[step]}</span>
           </div>
           {/* Step pills */}
@@ -138,12 +160,17 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
                 key={s}
                 onClick={() => {
                   // Only allow jumping back to already-validated steps
-                  if (i < step) { setStep(i); setError(null) }
+                  if (i < step) {
+                    setStep(i)
+                    setError(null)
+                  }
                 }}
                 className={`flex-1 h-1.5 rounded-full transition-colors ${
-                  i < step ? 'bg-amber-500 cursor-pointer' :
-                  i === step ? 'bg-amber-700' :
-                  'bg-gray-700 cursor-default'
+                  i < step
+                    ? 'bg-amber-500 cursor-pointer'
+                    : i === step
+                      ? 'bg-amber-700'
+                      : 'bg-gray-700 cursor-default'
                 }`}
                 title={s}
               />
@@ -151,7 +178,9 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
           </div>
           <div className="text-xs text-gray-600 flex justify-between">
             {STEPS.map((s, i) => (
-              <span key={s} className={i === step ? 'text-amber-400' : ''}>{i === step ? s : ''}</span>
+              <span key={s} className={i === step ? 'text-amber-400' : ''}>
+                {i === step ? s : ''}
+              </span>
             ))}
           </div>
         </div>
@@ -182,9 +211,7 @@ export default function CharacterWizard({ onComplete, onCancel }: Props) {
             {step === 0 ? 'Cancel' : '← Back'}
           </button>
 
-          {error && (
-            <span className="flex-1 text-sm text-red-400">{error}</span>
-          )}
+          {error && <span className="flex-1 text-sm text-red-400">{error}</span>}
           {!error && <span className="flex-1" />}
 
           <button

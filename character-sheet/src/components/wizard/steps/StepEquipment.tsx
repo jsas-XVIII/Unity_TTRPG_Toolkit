@@ -35,7 +35,14 @@ export default function StepEquipment({ draft, onChange }: Props) {
     onChange({
       weapons: [
         ...draft.weapons,
-        { id: uuidv4(), name: template.examples[0], category: template.category, damageDie: template.damageDie, cost: template.cost, notes: '' },
+        {
+          id: uuidv4(),
+          name: template.examples[0],
+          category: template.category,
+          damageDie: template.damageDie,
+          cost: template.cost,
+          notes: '',
+        },
       ],
     })
   }
@@ -50,7 +57,15 @@ export default function StepEquipment({ draft, onChange }: Props) {
     onChange({
       armor: [
         ...draft.armor,
-        { id: uuidv4(), name: template.examples[0], category: template.category, quality: template.quality, av: template.av, cost: template.cost, notes: '' },
+        {
+          id: uuidv4(),
+          name: template.examples[0],
+          category: template.category,
+          quality: template.quality,
+          av: template.av,
+          cost: template.cost,
+          notes: '',
+        },
       ],
     })
   }
@@ -64,21 +79,29 @@ export default function StepEquipment({ draft, onChange }: Props) {
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Starting Equipment</h2>
         <p className="text-sm text-gray-400">
-          Spend your starting Denerim on weapons and armor. Without competency you suffer Hindrance on attacks or defense.
+          Spend your starting Denerim on weapons and armor. Without competency you suffer Hindrance
+          on attacks or defense.
         </p>
       </div>
 
       {/* Budget */}
-      <div className={`flex items-center gap-3 px-4 py-3 rounded-lg ${remaining < 0 ? 'bg-red-950 border border-red-800' : 'bg-gray-800'}`}>
+      <div
+        className={`flex items-center gap-3 px-4 py-3 rounded-lg ${remaining < 0 ? 'bg-red-950 border border-red-800' : 'bg-gray-800'}`}
+      >
         <span className="text-sm text-gray-400">Denerim budget:</span>
-        <span className={`text-2xl font-bold ${remaining < 0 ? 'text-red-400' : 'text-amber-400'}`}>{remaining}</span>
-        <span className="text-xs text-gray-500">/ {total} (spent {used})</span>
+        <span className={`text-2xl font-bold ${remaining < 0 ? 'text-red-400' : 'text-amber-400'}`}>
+          {remaining}
+        </span>
+        <span className="text-xs text-gray-500">
+          / {total} (spent {used})
+        </span>
       </div>
 
       {classDef && (
         <div className="bg-gray-800 rounded-lg px-4 py-2 text-xs text-gray-500">
           <span className="text-gray-400 font-semibold">{classDef.name} competencies — </span>
-          Weapons: {classDef.weaponCompetencies.join(', ')} · Armor: {classDef.armorCompetencies.join(', ')}
+          Weapons: {classDef.weaponCompetencies.join(', ')} · Armor:{' '}
+          {classDef.armorCompetencies.join(', ')}
         </div>
       )}
 
@@ -89,14 +112,23 @@ export default function StepEquipment({ draft, onChange }: Props) {
           <div key={w.id} className="flex items-center gap-2 bg-gray-800 rounded px-3 py-2 mb-1">
             <div className="flex-1 text-sm">
               <span className="text-white font-semibold">{w.name}</span>
-              <span className="ml-2 text-gray-500">{w.category} · {w.damageDie} · {w.cost}D</span>
+              <span className="ml-2 text-gray-500">
+                {w.category} · {w.damageDie} · {w.cost}D
+              </span>
             </div>
-            <button className="text-gray-600 hover:text-red-400 text-xs" onClick={() => removeWeapon(w.id)}>✕</button>
+            <button
+              className="text-gray-600 hover:text-red-400 text-xs"
+              onClick={() => removeWeapon(w.id)}
+            >
+              ✕
+            </button>
           </div>
         ))}
 
         {competentWeapons.length > 0 && (
-          <p className="text-xs text-gray-600 mb-1">Your competent weapon types are highlighted first.</p>
+          <p className="text-xs text-gray-600 mb-1">
+            Your competent weapon types are highlighted first.
+          </p>
         )}
 
         <div className="flex gap-2">
@@ -109,7 +141,8 @@ export default function StepEquipment({ draft, onChange }: Props) {
               const isCompetent = classDef?.weaponCompetencies.includes(t.category)
               return (
                 <option key={i} value={i}>
-                  {isCompetent ? '★ ' : ''}{t.category} ({t.damageDie}) — {t.cost}D
+                  {isCompetent ? '★ ' : ''}
+                  {t.category} ({t.damageDie}) — {t.cost}D
                 </option>
               )
             })}
@@ -131,9 +164,16 @@ export default function StepEquipment({ draft, onChange }: Props) {
           <div key={a.id} className="flex items-center gap-2 bg-gray-800 rounded px-3 py-2 mb-1">
             <div className="flex-1 text-sm">
               <span className="text-white font-semibold">{a.name}</span>
-              <span className="ml-2 text-gray-500">{a.quality} {a.category} · +{a.av} AV · {a.cost}D</span>
+              <span className="ml-2 text-gray-500">
+                {a.quality} {a.category} · +{a.av} AV · {a.cost}D
+              </span>
             </div>
-            <button className="text-gray-600 hover:text-red-400 text-xs" onClick={() => removeArmor(a.id)}>✕</button>
+            <button
+              className="text-gray-600 hover:text-red-400 text-xs"
+              onClick={() => removeArmor(a.id)}
+            >
+              ✕
+            </button>
           </div>
         ))}
 
@@ -147,7 +187,8 @@ export default function StepEquipment({ draft, onChange }: Props) {
               const isCompetent = classDef?.armorCompetencies.includes(t.category)
               return (
                 <option key={i} value={i}>
-                  {isCompetent ? '★ ' : ''}{t.quality} {t.category} (+{t.av} AV) — {t.cost}D
+                  {isCompetent ? '★ ' : ''}
+                  {t.quality} {t.category} (+{t.av} AV) — {t.cost}D
                 </option>
               )
             })}
@@ -168,8 +209,4 @@ export default function StepEquipment({ draft, onChange }: Props) {
       </p>
     </div>
   )
-}
-
-export function validateStepEquipment(_draft: WizardDraft): string | null {
-  return null
 }

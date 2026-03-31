@@ -22,7 +22,13 @@ export default function InventoryBlock({ denerim, necessities, gear, dispatch }:
             min={0}
             className="w-full bg-transparent text-amber-400 font-bold text-lg focus:outline-none"
             value={denerim}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'denerim', value: parseInt(e.target.value, 10) || 0 })}
+            onChange={(e) =>
+              dispatch({
+                type: 'SET_FIELD',
+                field: 'denerim',
+                value: parseInt(e.target.value, 10) || 0,
+              })
+            }
           />
         </div>
         <div className="bg-gray-800 rounded p-2">
@@ -32,7 +38,13 @@ export default function InventoryBlock({ denerim, necessities, gear, dispatch }:
             min={0}
             className="w-full bg-transparent text-white font-bold text-lg focus:outline-none"
             value={necessities}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'necessities', value: parseInt(e.target.value, 10) || 0 })}
+            onChange={(e) =>
+              dispatch({
+                type: 'SET_FIELD',
+                field: 'necessities',
+                value: parseInt(e.target.value, 10) || 0,
+              })
+            }
           />
         </div>
         <div className="bg-gray-800 rounded p-2">
@@ -42,7 +54,13 @@ export default function InventoryBlock({ denerim, necessities, gear, dispatch }:
             min={0}
             className="w-full bg-transparent text-white font-bold text-lg focus:outline-none"
             value={gear}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'gear', value: parseInt(e.target.value, 10) || 0 })}
+            onChange={(e) =>
+              dispatch({
+                type: 'SET_FIELD',
+                field: 'gear',
+                value: parseInt(e.target.value, 10) || 0,
+              })
+            }
           />
         </div>
       </div>

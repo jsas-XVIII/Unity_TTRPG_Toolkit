@@ -1,0 +1,83 @@
+stages:
+  - validate
+  - build
+
+default:
+  image: node:22-alpine
+  cache:
+    key:
+      files:
+        - character-sheet/package-lock.json
+    paths:
+      - character-sheet/node_modules/
+
+validate-commits:
+  stage: validate
+  image: alpine:latest
+  before_script: []
+  cache: {}
+  script:
+    - |
+      PATTERN='^(feat|fix|test|chore|docs|refactor|style|perf|ci)(\(.+\))?: .+'
+      if [ "$CI_PIPELINE_SOURCE" = "merge_request_event" ]; then
+        git log origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME..HEAD --pretty=format:"%s" | while read -r msg; do
+          echo "Checking: $msg"
+          if ! echo "$msg" | grep -qE "$PATTERN"; then
+            echo "ERROR: Commit message does not follow convention: '$msg'"
+            echo "Required format: <type>: <description>"
+            echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
+            exit 1
+          fi
+        done
+      else
+        echo "Checking: $CI_COMMIT_MESSAGE"
+        if ! echo "$CI_COMMIT_MESSAGE" | grep -qE "$PATTERN"; then
+          echo "ERROR: Commit message does not follow convention."
+          echo "Required format: <type>: <description>"
+          echo "Allowed types: feat, fix, test, chore, docs, refactor, style, perf, ci"
+          exit 1
+        fi
+      fi
+  only:
+    - main
+    - merge_requests
+
+# Install dependencies — shared across all jobs via cache
+install:
+  stage: validate
+  script:
+    - cd character-sheet
+    - npm ci
+  artifacts:
+    paths:
+      - character-sheet/node_modules/
+    expire_in: 1 hour
+
+lint:
+  stage: validate
+  needs: [install]
+  script:
+    - cd character-sheet
+    - npm run lint
+
+# Uncomment when tests are added
+# test:
+#   stage: validate
+#   needs: [install]
+#   script:
+#     - cd character-sheet
+#     - npm test
+
+build:
+  stage: build
+  needs: [lint]
+  script:
+    - cd character-sheet
+    - npm run build
+  artifacts:
+    paths:
+      - character-sheet/dist/
+    expire_in: 1 week
+  only:
+    - main
+    - merge_requests

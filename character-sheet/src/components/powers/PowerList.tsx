@@ -43,7 +43,9 @@ export default function PowerList({ powers, dispatch }: Props) {
         <div className="mb-4">
           <p className="text-xs text-gray-500 uppercase mb-2">Tier I</p>
           <div className="space-y-1">
-            {tier1.map((p) => <PowerCard key={p.id} power={p} dispatch={dispatch} />)}
+            {tier1.map((p) => (
+              <PowerCard key={p.id} power={p} dispatch={dispatch} />
+            ))}
           </div>
         </div>
       )}
@@ -52,7 +54,9 @@ export default function PowerList({ powers, dispatch }: Props) {
         <div className="mb-4">
           <p className="text-xs text-amber-700 uppercase mb-2">Tier II</p>
           <div className="space-y-1">
-            {tier2.map((p) => <PowerCard key={p.id} power={p} dispatch={dispatch} />)}
+            {tier2.map((p) => (
+              <PowerCard key={p.id} power={p} dispatch={dispatch} />
+            ))}
           </div>
         </div>
       )}

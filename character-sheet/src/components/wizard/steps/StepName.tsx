@@ -10,11 +10,15 @@ export default function StepName({ draft, onChange }: Props) {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Character Concept</h2>
-        <p className="text-sm text-gray-400">Give your character a name and a few details before you begin.</p>
+        <p className="text-sm text-gray-400">
+          Give your character a name and a few details before you begin.
+        </p>
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-300 mb-1">Character Name <span className="text-red-500">*</span></label>
+        <label className="block text-sm font-semibold text-gray-300 mb-1">
+          Character Name <span className="text-red-500">*</span>
+        </label>
         <input
           className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-amber-500"
           value={draft.name}
@@ -36,7 +40,9 @@ export default function StepName({ draft, onChange }: Props) {
 
       <div>
         <label className="block text-sm font-semibold text-gray-300 mb-2">Starting Denerim</label>
-        <p className="text-xs text-gray-500 mb-2">Set by the GM — difficult starts leave little room for extras.</p>
+        <p className="text-xs text-gray-500 mb-2">
+          Set by the GM — difficult starts leave little room for extras.
+        </p>
         <div className="flex gap-3">
           {([150, 250] as const).map((amount) => (
             <button
@@ -49,16 +55,13 @@ export default function StepName({ draft, onChange }: Props) {
               }`}
             >
               <div className="text-2xl font-bold">{amount}</div>
-              <div className="text-xs mt-0.5">{amount === 150 ? 'Difficult start' : 'Relaxed start'}</div>
+              <div className="text-xs mt-0.5">
+                {amount === 150 ? 'Difficult start' : 'Relaxed start'}
+              </div>
             </button>
           ))}
         </div>
       </div>
     </div>
   )
-}
-
-export function validateStepName(draft: WizardDraft): string | null {
-  if (!draft.name.trim()) return 'Character name is required.'
-  return null
 }

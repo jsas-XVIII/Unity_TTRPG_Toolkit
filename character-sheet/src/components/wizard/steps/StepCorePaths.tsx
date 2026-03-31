@@ -51,27 +51,35 @@ export default function StepCorePaths({ draft, onChange }: Props) {
     updatePath(id, { points: next })
   }
 
-  const valid = paths.length === MAX_PATHS && usedPoints === TOTAL_POINTS && paths.every((p) => p.name.trim())
+  const valid =
+    paths.length === MAX_PATHS && usedPoints === TOTAL_POINTS && paths.every((p) => p.name.trim())
 
   return (
     <div className="space-y-4">
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Core Paths</h2>
         <p className="text-sm text-gray-400">
-          Choose <strong className="text-white">3 Core Paths</strong> — your character's background skills.
-          Distribute <strong className="text-white">5 points</strong> across them (min 1, max 3 per path at Level 1).
+          Choose <strong className="text-white">3 Core Paths</strong> — your character's background
+          skills. Distribute <strong className="text-white">5 points</strong> across them (min 1,
+          max 3 per path at Level 1).
         </p>
       </div>
 
       {/* Points budget */}
-      <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${remaining === 0 ? 'bg-green-950 border border-green-800' : 'bg-gray-800'}`}>
+      <div
+        className={`flex items-center gap-2 px-4 py-2 rounded-lg ${remaining === 0 ? 'bg-green-950 border border-green-800' : 'bg-gray-800'}`}
+      >
         <span className="text-sm text-gray-400">Points remaining:</span>
-        <span className={`text-xl font-bold ${remaining === 0 ? 'text-green-400' : remaining > 0 ? 'text-amber-400' : 'text-red-400'}`}>
+        <span
+          className={`text-xl font-bold ${remaining === 0 ? 'text-green-400' : remaining > 0 ? 'text-amber-400' : 'text-red-400'}`}
+        >
           {remaining}
         </span>
         <span className="text-xs text-gray-600">/ {TOTAL_POINTS}</span>
         {paths.length < MAX_PATHS && (
-          <span className="ml-auto text-xs text-gray-500">{paths.length}/{MAX_PATHS} paths</span>
+          <span className="ml-auto text-xs text-gray-500">
+            {paths.length}/{MAX_PATHS} paths
+          </span>
         )}
       </div>
 
@@ -86,13 +94,19 @@ export default function StepCorePaths({ draft, onChange }: Props) {
                   className="w-7 h-7 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm disabled:opacity-30"
                   onClick={() => setPoints(path.id, 1)}
                   disabled={path.points >= MAX_PER_PATH || remaining < 1}
-                >+</button>
-                <span className="text-xl font-bold text-amber-400 w-7 text-center">{path.points}</span>
+                >
+                  +
+                </button>
+                <span className="text-xl font-bold text-amber-400 w-7 text-center">
+                  {path.points}
+                </span>
                 <button
                   className="w-7 h-7 rounded bg-gray-700 hover:bg-gray-600 text-white text-sm disabled:opacity-30"
                   onClick={() => setPoints(path.id, -1)}
                   disabled={path.points <= MIN_PER_PATH}
-                >−</button>
+                >
+                  −
+                </button>
               </div>
 
               {/* Name */}
@@ -104,14 +118,18 @@ export default function StepCorePaths({ draft, onChange }: Props) {
                 list={`sample-paths-${path.id}`}
               />
               <datalist id={`sample-paths-${path.id}`}>
-                {SAMPLE_PATHS.map((s) => <option key={s} value={s} />)}
+                {SAMPLE_PATHS.map((s) => (
+                  <option key={s} value={s} />
+                ))}
               </datalist>
 
               <button
                 className="text-gray-600 hover:text-red-400"
                 onClick={() => removePath(path.id)}
                 title="Remove"
-              >✕</button>
+              >
+                ✕
+              </button>
             </div>
 
             <textarea
@@ -135,16 +153,10 @@ export default function StepCorePaths({ draft, onChange }: Props) {
       )}
 
       {!valid && paths.length === MAX_PATHS && usedPoints !== TOTAL_POINTS && (
-        <p className="text-xs text-amber-400">You must use all {TOTAL_POINTS} points. Currently using {usedPoints}.</p>
+        <p className="text-xs text-amber-400">
+          You must use all {TOTAL_POINTS} points. Currently using {usedPoints}.
+        </p>
       )}
     </div>
   )
-}
-
-export function validateStepCorePaths(draft: WizardDraft): string | null {
-  if (draft.corePaths.length !== 3) return 'You must have exactly 3 Core Paths.'
-  const total = draft.corePaths.reduce((s, p) => s + p.points, 0)
-  if (total !== TOTAL_POINTS) return `You must spend exactly 5 points (currently ${total}).`
-  if (draft.corePaths.some((p) => !p.name.trim())) return 'All Core Paths must have a name.'
-  return null
 }

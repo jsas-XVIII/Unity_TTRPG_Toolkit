@@ -18,7 +18,8 @@ export const CLASSES: ClassDefinition[] = [
       {
         id: 'dreadnought-perk-1',
         name: 'Shieldbreaker',
-        description: 'Melee attacks gain +1 Armor Penetration (ignore 1 AV); +2 at Level 5, +3 at Level 9.',
+        description:
+          'Melee attacks gain +1 Armor Penetration (ignore 1 AV); +2 at Level 5, +3 at Level 9.',
       },
       {
         id: 'dreadnought-perk-2',
@@ -165,7 +166,8 @@ export const CLASSES: ClassDefinition[] = [
   },
   {
     name: 'Priest',
-    description: 'A pious caster that wields her faith as a weapon while bolstering and healing allies.',
+    description:
+      'A pious caster that wields her faith as a weapon while bolstering and healing allies.',
     mainAttribute: 'mind',
     hpBase: 10,
     recuperationDie: 'd6',
@@ -192,7 +194,8 @@ export const CLASSES: ClassDefinition[] = [
   },
   {
     name: 'Primalist',
-    description: 'A hybrid warrior harnessing the power of nature to call down the elements and augment his body.',
+    description:
+      'A hybrid warrior harnessing the power of nature to call down the elements and augment his body.',
     mainAttribute: 'might',
     hpBase: 11,
     recuperationDie: 'd8',
@@ -206,7 +209,7 @@ export const CLASSES: ClassDefinition[] = [
     classPerks: [
       {
         id: 'primalist-perk-1',
-        name: 'Nature\'s Wrath',
+        name: "Nature's Wrath",
         description: 'Elemental powers deal +1 damage per Spirit spent above the base cost.',
       },
       {
@@ -246,4 +249,7 @@ export const CLASSES: ClassDefinition[] = [
   },
 ]
 
-export const CLASS_MAP = Object.fromEntries(CLASSES.map((c) => [c.name, c])) as Record<string, ClassDefinition>
+export const CLASS_MAP = Object.fromEntries(CLASSES.map((c) => [c.name, c])) as Record<
+  string,
+  ClassDefinition
+>

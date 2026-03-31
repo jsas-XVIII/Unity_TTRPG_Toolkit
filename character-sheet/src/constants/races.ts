@@ -44,4 +44,7 @@ export const RACES: RaceDefinition[] = [
   },
 ]
 
-export const RACE_MAP = Object.fromEntries(RACES.map((r) => [r.name, r])) as Record<Race, RaceDefinition>
+export const RACE_MAP = Object.fromEntries(RACES.map((r) => [r.name, r])) as Record<
+  Race,
+  RaceDefinition
+>

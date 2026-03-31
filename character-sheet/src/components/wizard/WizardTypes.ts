@@ -8,7 +8,7 @@ export type ArrayChoice = 'balanced' | 'focused'
 // focused:  +2, 0, 0, -1
 export const ARRAY_MODIFIERS: Record<ArrayChoice, number[]> = {
   balanced: [1, 1, 0, -1],
-  focused:  [2, 0, 0, -1],
+  focused: [2, 0, 0, -1],
 }
 
 export interface WizardDraft {

@@ -4,9 +4,7 @@ import type { Perk, PerkSource } from '../../types/character'
 import type { Dispatch } from 'react'
 import { GENERAL_PERKS } from '../../constants/perks'
 
-type Action =
-  | { type: 'ADD_PERK'; perk: Perk }
-  | { type: 'REMOVE_PERK'; id: string }
+type Action = { type: 'ADD_PERK'; perk: Perk } | { type: 'REMOVE_PERK'; id: string }
 
 interface Props {
   perks: Perk[]
@@ -38,14 +36,14 @@ export default function PerkList({ perks, dispatch }: Props) {
       <div className="flex items-start gap-2 py-1.5 border-b border-gray-800 last:border-0">
         <div className="flex-1">
           <span className="text-sm font-semibold text-white">{perk.name}</span>
-          {perk.description && (
-            <p className="text-xs text-gray-400 mt-0.5">{perk.description}</p>
-          )}
+          {perk.description && <p className="text-xs text-gray-400 mt-0.5">{perk.description}</p>}
         </div>
         <button
           className="text-gray-600 hover:text-red-400 text-xs"
           onClick={() => dispatch({ type: 'REMOVE_PERK', id: perk.id })}
-        >✕</button>
+        >
+          ✕
+        </button>
       </div>
     )
   }
@@ -57,14 +55,18 @@ export default function PerkList({ perks, dispatch }: Props) {
       {classPerks.length > 0 && (
         <div className="mb-3">
           <p className="text-xs text-gray-500 uppercase mb-1">Class Perks</p>
-          {classPerks.map((p) => <PerkRow key={p.id} perk={p} />)}
+          {classPerks.map((p) => (
+            <PerkRow key={p.id} perk={p} />
+          ))}
         </div>
       )}
 
       {generalPerks.length > 0 && (
         <div className="mb-3">
           <p className="text-xs text-gray-500 uppercase mb-1">General Perks</p>
-          {generalPerks.map((p) => <PerkRow key={p.id} perk={p} />)}
+          {generalPerks.map((p) => (
+            <PerkRow key={p.id} perk={p} />
+          ))}
         </div>
       )}
 
@@ -76,7 +78,9 @@ export default function PerkList({ perks, dispatch }: Props) {
             onChange={(e) => setSelectedPerkName(e.target.value)}
           >
             {GENERAL_PERKS.map((p) => (
-              <option key={p.name} value={p.name}>{p.name}</option>
+              <option key={p.name} value={p.name}>
+                {p.name}
+              </option>
             ))}
           </select>
           <button

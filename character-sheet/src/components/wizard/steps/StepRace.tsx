@@ -15,7 +15,9 @@ export default function StepRace({ draft, onChange }: Props) {
     <div className="space-y-4">
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Choose a Race</h2>
-        <p className="text-sm text-gray-400">Your race sets your baseline attributes and grants a unique Racial Power.</p>
+        <p className="text-sm text-gray-400">
+          Your race sets your baseline attributes and grants a unique Racial Power.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -43,7 +45,9 @@ export default function StepRace({ draft, onChange }: Props) {
                   return (
                     <div key={key} className="text-center">
                       <div className="text-xs text-gray-500">{ATTR_LABELS[i]}</div>
-                      <div className={`text-base font-bold ${val > 0 ? 'text-amber-400' : val < 0 ? 'text-red-400' : 'text-gray-400'}`}>
+                      <div
+                        className={`text-base font-bold ${val > 0 ? 'text-amber-400' : val < 0 ? 'text-red-400' : 'text-gray-400'}`}
+                      >
                         {val > 0 ? `+${val}` : val}
                       </div>
                     </div>
@@ -52,7 +56,9 @@ export default function StepRace({ draft, onChange }: Props) {
               </div>
 
               {/* Racial power */}
-              <div className={`rounded p-2 text-xs ${selected ? 'bg-amber-900/40' : 'bg-gray-900'}`}>
+              <div
+                className={`rounded p-2 text-xs ${selected ? 'bg-amber-900/40' : 'bg-gray-900'}`}
+              >
                 <span className="font-semibold text-amber-300">{race.racialPowerName}: </span>
                 <span className="text-gray-400">{race.racialPowerDescription}</span>
               </div>
@@ -62,9 +68,4 @@ export default function StepRace({ draft, onChange }: Props) {
       </div>
     </div>
   )
-}
-
-export function validateStepRace(draft: WizardDraft): string | null {
-  if (!draft.race) return 'Please select a race.'
-  return null
 }

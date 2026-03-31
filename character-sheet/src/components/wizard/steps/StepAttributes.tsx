@@ -69,7 +69,8 @@ export default function StepAttributes({ draft, onChange }: Props) {
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Distribute Attributes</h2>
         <p className="text-sm text-gray-400">
-          Choose an array and assign each modifier to one attribute. No attribute may exceed +3 at character creation.
+          Choose an array and assign each modifier to one attribute. No attribute may exceed +3 at
+          character creation.
         </p>
       </div>
 
@@ -90,7 +91,9 @@ export default function StepAttributes({ draft, onChange }: Props) {
               <div className="text-sm font-semibold text-white capitalize mb-1">{choice}</div>
               <div className="text-amber-400 font-mono text-sm">
                 {ARRAY_MODIFIERS[choice].map((m, i) => (
-                  <span key={i} className="mr-1">{m > 0 ? `+${m}` : m}</span>
+                  <span key={i} className="mr-1">
+                    {m > 0 ? `+${m}` : m}
+                  </span>
                 ))}
               </div>
             </button>
@@ -101,14 +104,18 @@ export default function StepAttributes({ draft, onChange }: Props) {
       {/* Modifier pool remaining */}
       <div className="flex items-center gap-2">
         <span className="text-xs text-gray-500">Unassigned modifiers:</span>
-        {pool.length === 0
-          ? <span className="text-xs text-green-400">All assigned ✓</span>
-          : pool.map((m, i) => (
-            <span key={i} className={`text-sm font-bold px-2 py-0.5 rounded ${m > 0 ? 'bg-amber-900 text-amber-300' : m < 0 ? 'bg-red-900 text-red-300' : 'bg-gray-700 text-gray-400'}`}>
+        {pool.length === 0 ? (
+          <span className="text-xs text-green-400">All assigned ✓</span>
+        ) : (
+          pool.map((m, i) => (
+            <span
+              key={i}
+              className={`text-sm font-bold px-2 py-0.5 rounded ${m > 0 ? 'bg-amber-900 text-amber-300' : m < 0 ? 'bg-red-900 text-red-300' : 'bg-gray-700 text-gray-400'}`}
+            >
               {m > 0 ? `+${m}` : m}
             </span>
           ))
-        }
+        )}
       </div>
 
       {/* Attribute assignment rows */}
@@ -120,7 +127,10 @@ export default function StepAttributes({ draft, onChange }: Props) {
           const opts = optionsFor(attr)
 
           return (
-            <div key={attr} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 bg-gray-800 rounded-lg px-4 py-3">
+            <div
+              key={attr}
+              className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 bg-gray-800 rounded-lg px-4 py-3"
+            >
               <div>
                 <div className="text-sm font-bold text-white">{ATTR_LABELS[attr]}</div>
                 <div className="text-xs text-gray-500">{ATTR_DESC[attr]}</div>
@@ -128,7 +138,9 @@ export default function StepAttributes({ draft, onChange }: Props) {
 
               <div className="text-center">
                 <div className="text-xs text-gray-500 mb-0.5">Racial</div>
-                <div className={`text-base font-bold ${racialVal > 0 ? 'text-amber-400' : racialVal < 0 ? 'text-red-400' : 'text-gray-400'}`}>
+                <div
+                  className={`text-base font-bold ${racialVal > 0 ? 'text-amber-400' : racialVal < 0 ? 'text-red-400' : 'text-gray-400'}`}
+                >
                   {racialVal > 0 ? `+${racialVal}` : racialVal}
                 </div>
               </div>
@@ -145,18 +157,26 @@ export default function StepAttributes({ draft, onChange }: Props) {
                 >
                   <option value="">—</option>
                   {opts.map((m, i) => (
-                    <option key={i} value={m}>{m > 0 ? `+${m}` : m}</option>
+                    <option key={i} value={m}>
+                      {m > 0 ? `+${m}` : m}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div className="text-center min-w-[2.5rem]">
                 <div className="text-xs text-gray-500 mb-0.5">Final</div>
-                <div className={`text-xl font-bold ${
-                  finalVal === null ? 'text-gray-600' :
-                  finalVal > 0 ? 'text-amber-400' :
-                  finalVal < 0 ? 'text-red-400' : 'text-white'
-                }`}>
+                <div
+                  className={`text-xl font-bold ${
+                    finalVal === null
+                      ? 'text-gray-600'
+                      : finalVal > 0
+                        ? 'text-amber-400'
+                        : finalVal < 0
+                          ? 'text-red-400'
+                          : 'text-white'
+                  }`}
+                >
                   {finalVal === null ? '?' : finalVal > 0 ? `+${finalVal}` : finalVal}
                 </div>
               </div>
@@ -166,16 +186,10 @@ export default function StepAttributes({ draft, onChange }: Props) {
       </div>
 
       {allAssigned && (
-        <p className="text-xs text-green-400">All attributes assigned. No attribute may exceed +3 — check with your GM if needed.</p>
+        <p className="text-xs text-green-400">
+          All attributes assigned. No attribute may exceed +3 — check with your GM if needed.
+        </p>
       )}
     </div>
   )
-}
-
-export function validateStepAttributes(draft: WizardDraft): string | null {
-  const allAssigned = (['might', 'agility', 'mind', 'presence'] as const).every(
-    (k) => draft.attrAssignments[k] !== null
-  )
-  if (!allAssigned) return 'Assign a modifier to every attribute.'
-  return null
 }

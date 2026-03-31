@@ -32,7 +32,9 @@ export default function ArtifactList({ artifacts, artifactCapacity, dispatch }: 
     <div>
       <div className="flex items-center gap-2 mb-2">
         <p className="text-xs text-gray-500 uppercase">Artifacts</p>
-        <span className={`text-xs px-1.5 rounded ${overCapacity ? 'bg-red-900 text-red-300' : 'bg-gray-800 text-gray-500'}`}>
+        <span
+          className={`text-xs px-1.5 rounded ${overCapacity ? 'bg-red-900 text-red-300' : 'bg-gray-800 text-gray-500'}`}
+        >
           {equippedCount}/{artifactCapacity} equipped {overCapacity && '⚠ Hindrance!'}
         </span>
       </div>
@@ -46,13 +48,17 @@ export default function ArtifactList({ artifacts, artifactCapacity, dispatch }: 
             className="accent-amber-500"
             title="Equipped"
           />
-          <span className={`flex-1 text-sm ${a.equipped ? 'text-amber-300 font-semibold' : 'text-gray-400'}`}>
+          <span
+            className={`flex-1 text-sm ${a.equipped ? 'text-amber-300 font-semibold' : 'text-gray-400'}`}
+          >
             {a.name}
           </span>
           <button
             className="text-gray-600 hover:text-red-400 text-xs"
             onClick={() => dispatch({ type: 'REMOVE_ARTIFACT', id: a.id })}
-          >✕</button>
+          >
+            ✕
+          </button>
         </div>
       ))}
 
@@ -67,7 +73,9 @@ export default function ArtifactList({ artifacts, artifactCapacity, dispatch }: 
         <button
           className="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-xs text-gray-300"
           onClick={addArtifact}
-        >Add</button>
+        >
+          Add
+        </button>
       </div>
     </div>
   )

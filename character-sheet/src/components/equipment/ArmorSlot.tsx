@@ -4,9 +4,7 @@ import type { ArmorItem } from '../../types/equipment'
 import type { Dispatch } from 'react'
 import { ARMOR_TEMPLATES } from '../../constants/armor'
 
-type Action =
-  | { type: 'ADD_ARMOR'; armor: ArmorItem }
-  | { type: 'REMOVE_ARMOR'; id: string }
+type Action = { type: 'ADD_ARMOR'; armor: ArmorItem } | { type: 'REMOVE_ARMOR'; id: string }
 
 interface Props {
   armor: ArmorItem[]
@@ -40,12 +38,16 @@ export default function ArmorSlot({ armor, dispatch }: Props) {
         <div key={a.id} className="flex items-center gap-2 bg-gray-800 rounded px-3 py-2 mb-1">
           <div className="flex-1">
             <span className="text-sm font-semibold text-white">{a.name}</span>
-            <span className="ml-2 text-xs text-gray-500">{a.quality} {a.category} · +{a.av} AV</span>
+            <span className="ml-2 text-xs text-gray-500">
+              {a.quality} {a.category} · +{a.av} AV
+            </span>
           </div>
           <button
             className="text-gray-600 hover:text-red-400 text-xs"
             onClick={() => dispatch({ type: 'REMOVE_ARMOR', id: a.id })}
-          >✕</button>
+          >
+            ✕
+          </button>
         </div>
       ))}
       <div className="flex gap-2 mt-1">
@@ -55,13 +57,17 @@ export default function ArmorSlot({ armor, dispatch }: Props) {
           onChange={(e) => setSelectedIdx(Number(e.target.value))}
         >
           {ARMOR_TEMPLATES.map((t, i) => (
-            <option key={i} value={i}>{t.quality} {t.category} (+{t.av} AV)</option>
+            <option key={i} value={i}>
+              {t.quality} {t.category} (+{t.av} AV)
+            </option>
           ))}
         </select>
         <button
           className="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-xs text-gray-300"
           onClick={addArmor}
-        >Add</button>
+        >
+          Add
+        </button>
       </div>
     </div>
   )

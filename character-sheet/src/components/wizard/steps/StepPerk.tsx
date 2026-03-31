@@ -18,8 +18,8 @@ export default function StepPerk({ draft, onChange }: Props) {
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Class Perk</h2>
         <p className="text-sm text-gray-400">
-          Choose <strong className="text-white">1</strong> of your {classDef.name}'s starting perks. These are
-          mostly non-combat bonuses that reinforce your class identity.
+          Choose <strong className="text-white">1</strong> of your {classDef.name}'s starting perks.
+          These are mostly non-combat bonuses that reinforce your class identity.
         </p>
       </div>
 
@@ -37,7 +37,9 @@ export default function StepPerk({ draft, onChange }: Props) {
               }`}
             >
               <div className="flex items-center gap-3 mb-1">
-                <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${selected ? 'border-amber-500 bg-amber-500' : 'border-gray-500'}`} />
+                <div
+                  className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${selected ? 'border-amber-500 bg-amber-500' : 'border-gray-500'}`}
+                />
                 <span className="text-base font-bold text-white">{perk.name}</span>
               </div>
               <p className="text-sm text-gray-400 ml-7">{perk.description}</p>
@@ -46,12 +48,9 @@ export default function StepPerk({ draft, onChange }: Props) {
         })}
       </div>
 
-      <p className="text-xs text-gray-600">Additional General Perks become available as you level up.</p>
+      <p className="text-xs text-gray-600">
+        Additional General Perks become available as you level up.
+      </p>
     </div>
   )
-}
-
-export function validateStepPerk(draft: WizardDraft): string | null {
-  if (!draft.selectedPerkId) return 'Please choose a Class Perk.'
-  return null
 }
