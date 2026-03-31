@@ -52,6 +52,9 @@ install:
     paths:
       - character-sheet/node_modules/
     expire_in: 1 hour
+  only:
+    - main
+    - merge_requests
 
 lint:
   stage: validate
@@ -59,6 +62,9 @@ lint:
   script:
     - cd character-sheet
     - npm run lint
+  only:
+    - main
+    - merge_requests
 
 # Uncomment when tests are added
 # test:
