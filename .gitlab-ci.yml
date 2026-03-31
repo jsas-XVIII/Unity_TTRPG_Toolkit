@@ -86,7 +86,9 @@ test:e2e:
     - cd character-sheet
     - npm ci
     - npm run build
-    - npm run test:e2e:ci -- --browser chrome
+    - npm run preview &
+    - npx wait-on http://localhost:4173 --timeout 30000
+    - npm run cy:run -- --browser chrome
   only:
     - main
     - merge_requests
