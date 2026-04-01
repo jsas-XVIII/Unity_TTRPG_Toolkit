@@ -1,45 +1,71 @@
 // App.tsx — root of the React application.
-// Owns top-level state: which view is active (wizard vs sheet) and the current character.
+// Owns top-level state: which view is active and the current character.
 // All persistence calls (create / update) flow through the `api` hook so the same
 // code works whether the backend is localStorage (Phase 1) or a C# REST API (Phase 2).
 
 import { useState } from 'react'
+import HomeScreen from './components/layout/HomeScreen'
+import CharacterRoster from './components/layout/CharacterRoster'
 import CharacterSheet from './components/layout/CharacterSheet'
 import CharacterWizard from './components/wizard/CharacterWizard'
+import ImportConfirmModal from './components/layout/ImportConfirmModal'
+import DuplicateCharacterModal from './components/layout/DuplicateCharacterModal'
 import type { Character } from './types/character'
 import { useApi } from './hooks/useApi'
+import { checkImport } from './utils/importCharacter'
 
-type View = 'wizard' | 'sheet'
+// The four screens the app can show
+type View = 'home' | 'roster' | 'wizard' | 'sheet'
 
 export default function App() {
-  // useApi returns either localStorageRepository or restApiRepository depending on VITE_USE_API env var
+  // useApi returns localStorageRepository or restApiRepository depending on VITE_USE_API env var
   const api = useApi()
 
-  // Controls which top-level screen is shown
-  const [view, setView] = useState<View>('wizard')
-
-  // The active character; null until the wizard completes or a character is imported
+  const [view, setView] = useState<View>('home')
   const [character, setCharacter] = useState<Character | null>(null)
-
-  // Drives the temporary save/error toast in the top-right corner
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle')
 
+  // Holds a successfully imported character while the ImportConfirmModal is open.
+  const [importedCharacter, setImportedCharacter] = useState<Character | null>(null)
+
+  // Set when an imported file matches an id already in storage.
+  // fromHome tracks whether the import originated from the home screen (load directly)
+  // or the character sheet (show ImportConfirmModal after resolving).
+  const [duplicateImport, setDuplicateImport] = useState<{
+    parsed: Character
+    fromHome: boolean
+  } | null>(null)
+
+  // --- Roster ---
+
+  // Called when the user picks a character from the roster.
+  async function handleRosterSelect(id: string) {
+    try {
+      const loaded = await api.getById(id)
+      setCharacter(loaded)
+      setView('sheet')
+    } catch {
+      setSaveStatus('error')
+    }
+  }
+
+  // --- Wizard ---
+
   // Called when the New Character wizard finishes its final step.
-  // Persists the new character and transitions to the sheet view.
   async function handleWizardComplete(newChar: Character) {
     try {
       const created = await api.create(newChar)
       setCharacter(created)
       setView('sheet')
     } catch {
-      // LocalStorage create shouldn't fail, but handle gracefully
       setCharacter(newChar)
       setView('sheet')
     }
   }
 
+  // --- Sheet actions ---
+
   // Called by the Save button on the character sheet.
-  // Attempts an update first; falls back to create if the character isn't in storage yet.
   async function handleSave(c: Character) {
     try {
       setCharacter(c)
@@ -55,7 +81,6 @@ export default function App() {
   }
 
   // Called by the Export JSON button.
-  // Serialises the character to a .json file and triggers a browser download — no server involved.
   function handleExport(c: Character) {
     const blob = new Blob([JSON.stringify(c, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
@@ -66,61 +91,149 @@ export default function App() {
     URL.revokeObjectURL(url)
   }
 
-  // Called by the Import JSON button with the selected File object.
-  // Reads the file as text, parses the JSON, then saves it as a new character entry
-  // (api.create always assigns a fresh UUID, so importing never overwrites an existing record).
-  function handleImport(file: File) {
-    const reader = new FileReader()
-    reader.onload = async (e) => {
-      try {
-        const parsed = JSON.parse(e.target?.result as string)
-        const created = await api.create(parsed)
+  // --- Import flow ---
+
+  // Shared handler for both import entry points.
+  // Reads the file, checks for a duplicate id, then either:
+  //   - Creates immediately (new id) and proceeds
+  //   - Opens DuplicateCharacterModal (existing id)
+  // fromHome=true  → load sheet directly after resolving
+  // fromHome=false → show ImportConfirmModal after resolving
+  async function handleFileSelected(file: File, fromHome: boolean) {
+    try {
+      const result = await checkImport(file, api)
+      if (result.status === 'duplicate') {
+        setDuplicateImport({ parsed: result.parsed, fromHome })
+        return
+      }
+      const created = await api.create(result.parsed)
+      if (fromHome) {
         setCharacter(created)
         setView('sheet')
-      } catch {
-        setSaveStatus('error')
+      } else {
+        setImportedCharacter(created)
       }
+    } catch {
+      setSaveStatus('error')
     }
-    reader.readAsText(file)
   }
 
-  // Returns to the wizard so the user can create a new character without losing the current one in storage
-  function handleNewCharacter() {
-    setView('wizard')
+  // Import JSON button on the character sheet — shows ImportConfirmModal after resolving
+  function handleImport(file: File) {
+    handleFileSelected(file, false)
   }
 
-  if (view === 'wizard') {
-    return (
-      <CharacterWizard
-        onComplete={handleWizardComplete}
-        onCancel={character ? () => setView('sheet') : () => {}}
-      />
-    )
+  // Import Character button on the home screen — loads sheet directly after resolving
+  function handleImportDirect(file: File) {
+    handleFileSelected(file, true)
   }
 
-  if (!character) return null
+  // User confirmed they want a copy of the duplicate.
+  // Creates a new entry with a fresh id and " - copy" appended to the name.
+  async function handleDuplicateConfirm() {
+    if (!duplicateImport) return
+    const { parsed, fromHome } = duplicateImport
+    try {
+      const { id: _id, ...rest } = parsed
+      const copy = await api.create({ ...rest, name: `${parsed.name} - copy` })
+      setDuplicateImport(null)
+      if (fromHome) {
+        setCharacter(copy)
+        setView('sheet')
+      } else {
+        setImportedCharacter(copy)
+      }
+    } catch {
+      setSaveStatus('error')
+    }
+  }
+
+  // User cancelled — block the import, do nothing
+  function handleDuplicateDismiss() {
+    setDuplicateImport(null)
+  }
+
+  // ImportConfirmModal: switch to the imported character
+  function handleImportConfirm() {
+    if (!importedCharacter) return
+    setCharacter(importedCharacter)
+    setView('sheet')
+    setImportedCharacter(null)
+  }
+
+  // ImportConfirmModal: stay on current screen
+  function handleImportDismiss() {
+    setImportedCharacter(null)
+  }
+
+  // --- Routing ---
+  // Single return so modals can overlay any view.
 
   return (
     <>
-      {/* Save confirmation toast */}
-      {saveStatus === 'saved' && (
-        <div className="fixed top-4 right-4 bg-green-800 text-green-200 px-4 py-2 rounded shadow-lg z-50 text-sm">
-          Character saved!
-        </div>
+      {view === 'home' && (
+        <HomeScreen
+          onNewCharacter={() => setView('wizard')}
+          onExistingCharacter={() => setView('roster')}
+          onImport={handleImportDirect}
+        />
       )}
-      {/* Save error toast */}
-      {saveStatus === 'error' && (
-        <div className="fixed top-4 right-4 bg-red-800 text-red-200 px-4 py-2 rounded shadow-lg z-50 text-sm">
-          Save failed.
-        </div>
+
+      {view === 'roster' && (
+        <CharacterRoster
+          api={api}
+          onSelect={handleRosterSelect}
+          onBack={() => setView('home')}
+        />
       )}
-      <CharacterSheet
-        initial={character}
-        onSave={handleSave}
-        onExport={handleExport}
-        onImport={handleImport}
-        onNewCharacter={handleNewCharacter}
-      />
+
+      {view === 'wizard' && (
+        <CharacterWizard
+          onComplete={handleWizardComplete}
+          onCancel={() => setView('home')}
+        />
+      )}
+
+      {view === 'sheet' && character && (
+        <>
+          {saveStatus === 'saved' && (
+            <div className="fixed top-4 right-4 bg-green-800 text-green-200 px-4 py-2 rounded shadow-lg z-40 text-sm">
+              Character saved!
+            </div>
+          )}
+          {saveStatus === 'error' && (
+            <div className="fixed top-4 right-4 bg-red-800 text-red-200 px-4 py-2 rounded shadow-lg z-40 text-sm">
+              Save failed.
+            </div>
+          )}
+          <CharacterSheet
+            key={character.id}
+            initial={character}
+            onSave={handleSave}
+            onExport={handleExport}
+            onImport={handleImport}
+            onNewCharacter={() => setView('home')}
+          />
+        </>
+      )}
+
+      {/* Duplicate detected — ask the user if they want a copy */}
+      {duplicateImport && (
+        <DuplicateCharacterModal
+          character={duplicateImport.parsed}
+          onConfirm={handleDuplicateConfirm}
+          onDismiss={handleDuplicateDismiss}
+        />
+      )}
+
+      {/* Successful import — ask whether to switch to the character */}
+      {importedCharacter && (
+        <ImportConfirmModal
+          character={importedCharacter}
+          onConfirm={handleImportConfirm}
+          onDismiss={handleImportDismiss}
+        />
+      )}
     </>
   )
 }

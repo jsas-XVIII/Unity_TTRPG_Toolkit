@@ -1,11 +1,11 @@
 // localStorage.test.ts — unit tests for the localStorage repository.
 //
-// These tests focus on the create() method because that is what handleImport
-// calls when a JSON file is imported. The key behaviours being verified:
-//   1. create() always assigns a fresh UUID (ignores any id on the input)
-//   2. The character is persisted and retrievable
-//   3. Importing the same file twice creates two independent copies
-//   4. update() throws when the id doesn't exist (enforces the create path for imports)
+// Key behaviours verified:
+//   1. create() preserves the id when one is supplied (import path)
+//   2. create() generates a new UUID when no id is supplied (wizard path)
+//   3. The character is persisted and retrievable
+//   4. Importing the same file twice detects a duplicate (same id stored)
+//   5. update() throws when the id doesn't exist
 
 import { describe, it, expect, beforeEach } from 'vitest'
 import { localStorageRepository as repo } from './localStorage'
@@ -17,17 +17,19 @@ beforeEach(() => {
 })
 
 describe('localStorageRepository.create()', () => {
-  it('assigns a new UUID, ignoring the id on the input', async () => {
+  it('preserves the id when one is provided (import path)', async () => {
     const created = await repo.create(baseCharacter)
+    expect(created.id).toBe(baseCharacter.id)
+  })
 
-    // The repository must never re-use the id from the imported file
-    expect(created.id).not.toBe(baseCharacter.id)
-    // The id should be a non-empty string (uuid format check is covered by uuid library)
+  it('generates a new UUID when no id is provided (wizard path)', async () => {
+    const { id: _id, ...withoutId } = baseCharacter
+    const created = await repo.create(withoutId)
     expect(typeof created.id).toBe('string')
     expect(created.id.length).toBeGreaterThan(0)
   })
 
-  it('persists the character so it can be retrieved by its new id', async () => {
+  it('persists the character so it can be retrieved by its id', async () => {
     const created = await repo.create(baseCharacter)
     const fetched = await repo.getById(created.id)
 
@@ -36,19 +38,7 @@ describe('localStorageRepository.create()', () => {
     expect(fetched.race).toBe(baseCharacter.race)
   })
 
-  it('importing the same file twice creates two independent copies with different UUIDs', async () => {
-    const first = await repo.create(baseCharacter)
-    const second = await repo.create(baseCharacter)
-
-    // Each import must produce a unique record — no silent overwrites
-    expect(first.id).not.toBe(second.id)
-
-    // Both records should exist in storage
-    const all = await repo.getAll()
-    expect(all).toHaveLength(2)
-  })
-
-  it('preserves all character fields apart from id', async () => {
+  it('preserves all character fields', async () => {
     const created = await repo.create(baseCharacter)
 
     expect(created.name).toBe(baseCharacter.name)
@@ -57,20 +47,23 @@ describe('localStorageRepository.create()', () => {
     expect(created.primaryResource).toEqual(baseCharacter.primaryResource)
     expect(created.secondaryResource).toBeNull()
   })
+
+  it('getById finds the character after creation, enabling duplicate detection', async () => {
+    await repo.create(baseCharacter)
+    // checkImport calls getById to detect duplicates before calling create again
+    const found = await repo.getById(baseCharacter.id)
+    expect(found.id).toBe(baseCharacter.id)
+  })
 })
 
 describe('localStorageRepository.getById()', () => {
-  it('throws if the id does not exist — update() would fail the same way', async () => {
-    // This is why handleImport uses create() rather than update():
-    // an imported character's original id may not exist in this browser's storage
+  it('throws if the id does not exist', async () => {
     await expect(repo.getById('non-existent-id')).rejects.toThrow()
   })
 })
 
 describe('localStorageRepository.update()', () => {
   it('throws when the character has not been created first', async () => {
-    // Confirms that importing a file with an unknown id cannot silently
-    // overwrite or corrupt storage — it would just throw and show the error toast
     await expect(repo.update(baseCharacter.id, { name: 'Should Not Work' })).rejects.toThrow()
   })
 
