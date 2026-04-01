@@ -67,6 +67,26 @@ lint:
     - main
     - merge_requests
 
+typecheck:
+  stage: validate
+  needs: [install]
+  script:
+    - cd character-sheet
+    - npm run typecheck
+  only:
+    - main
+    - merge_requests
+
+audit:
+  stage: validate
+  cache: {}
+  script:
+    - cd character-sheet
+    - npm audit --audit-level=high
+  only:
+    - main
+    - merge_requests
+
 test:e2e:
   stage: test
   image: cypress/browsers:node-22.12.0-chrome-131.0.6778.139-1-ff-133.0.3-edge-131.0.2903.99-1
@@ -93,9 +113,19 @@ test:e2e:
     - main
     - merge_requests
 
+test:unit:
+  stage: test
+  needs: [install]
+  script:
+    - cd character-sheet
+    - npm run test:unit
+  only:
+    - main
+    - merge_requests
+
 build:
   stage: build
-  needs: [install, lint, test:e2e]
+  needs: [install, lint, typecheck, test:e2e, test:unit]
   script:
     - cd character-sheet
     - npm run build
