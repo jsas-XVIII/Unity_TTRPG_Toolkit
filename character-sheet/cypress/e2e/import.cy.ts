@@ -93,7 +93,7 @@ describe('Import from the home screen', () => {
     visitWithCharacter('test-uuid-1234', 'Aldric Voss')
     uploadFile('aldric_voss.json')
     cy.contains('Create Copy').click()
-    cy.contains('Aldric Voss - copy').should('be.visible')
+    cy.get('[data-testid="character-name"]').should('have.value', 'Aldric Voss - copy')
     cy.contains('Import JSON').should('be.visible')
   })
 })
@@ -122,7 +122,7 @@ describe('Import from the character sheet', () => {
   it('"Switch to" loads the imported character on the sheet', () => {
     uploadFile('lyra_ashveil.json')
     cy.contains('Switch to Lyra Ashveil').click()
-    cy.contains('Lyra Ashveil').should('be.visible')
+    cy.get('[data-testid="character-name"]').should('have.value', 'Lyra Ashveil')
     cy.contains('Import Successful').should('not.exist')
   })
 })

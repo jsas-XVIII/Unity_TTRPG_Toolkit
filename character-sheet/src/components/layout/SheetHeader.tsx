@@ -26,6 +26,7 @@ export default function SheetHeader({ character, dispatch }: Props) {
         <div className="lg:col-span-2">
           <label className="block text-xs text-gray-400 mb-1">{FIELD_LABEL.name}</label>
           <input
+            data-testid="character-name"
             className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white text-lg font-semibold focus:outline-none focus:border-amber-500"
             value={character.name}
             onChange={(e) => handleChange('name', e.target.value)}
