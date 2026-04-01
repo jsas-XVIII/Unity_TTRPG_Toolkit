@@ -58,9 +58,9 @@ export const localStorageRepository: CharacterRepository = {
 
   async create(dto: CreateCharacterDto): Promise<Character> {
     const characters = loadAll()
-    // Always generate a fresh UUID here — any id on the dto is intentionally ignored.
-    // This means importing an exported character always creates a new independent copy.
-    const character: Character = { ...dto, id: uuidv4() }
+    // Preserve the id if the dto already has one (e.g. an imported character).
+    // Only generate a fresh UUID when no id is supplied (e.g. new characters from the wizard).
+    const character: Character = { ...dto, id: dto.id ?? uuidv4() }
     characters.push(character)
     saveAll(characters)
     return character

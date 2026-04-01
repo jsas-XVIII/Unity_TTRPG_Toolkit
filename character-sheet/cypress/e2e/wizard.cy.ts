@@ -1,6 +1,7 @@
 describe('Character Creation Wizard', () => {
   beforeEach(() => {
     cy.visit('/')
+    cy.contains('New Character').click()
   })
 
   it('loads the app and shows the wizard on step 1', () => {

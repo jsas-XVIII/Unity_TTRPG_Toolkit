@@ -128,4 +128,4 @@ export interface CharacterSummary {
   level: number
 }
 
-export type CreateCharacterDto = Omit<Character, 'id'>
+export type CreateCharacterDto = Omit<Character, 'id'> & { id?: string }

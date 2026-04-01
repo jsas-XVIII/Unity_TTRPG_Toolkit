@@ -109,6 +109,11 @@ test:e2e:
     - npm run preview &
     - npx wait-on http://localhost:4173 --timeout 30000
     - npm run cy:run -- --browser chrome
+  artifacts:
+    when: always
+    paths:
+      - character-sheet/cypress/screenshots/
+    expire_in: 3 days
   only:
     - main
     - merge_requests
