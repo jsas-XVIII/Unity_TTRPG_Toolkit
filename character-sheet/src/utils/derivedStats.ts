@@ -10,14 +10,14 @@ import type { ClassDefinition } from '../types/class'
 
 // The shape of the computed stats object returned to components
 export interface DerivedStats {
-  ar: number             // Attack Rating
-  dr: number             // Defense Rating
-  mr: number             // Mental Resistance
-  speed: number          // Movement speed
-  av: number             // Armor Value (sum of all equipped armor)
-  maxHp: number          // Maximum hit points
+  ar: number // Attack Rating
+  dr: number // Defense Rating
+  mr: number // Mental Resistance
+  speed: number // Movement speed
+  av: number // Armor Value (sum of all equipped armor)
+  maxHp: number // Maximum hit points
   maxRecuperations: number
-  hl: number             // Half Level — used in some power / ability formulas
+  hl: number // Half Level — used in some power / ability formulas
 }
 
 // ---------------------------------------------------------------------------
