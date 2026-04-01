@@ -209,6 +209,11 @@ Each GM/group runs their own Netlify instance (their own fork of the repo). Home
 
 **Future:** If multi-tenancy becomes a requirement (one hosted app, multiple groups), the path would be Supabase (Postgres + auth) — but this is out of scope for the current build.
 
+### GM Content Authoring — In-App Tool (Option B)
+The GM adds homebrew content (abilities, perks, weapons, etc.) via a form-based authoring tool built into the app. The tool generates a JSON file the GM downloads, then uploads directly to the repo via the GitLab web editor. No git knowledge or local installs required — just a GitLab account with repo access.
+
+**Why:** Keeps the workflow accessible to non-technical GMs while avoiding the complexity of a CMS integration. Also a strong portfolio piece — demonstrates thinking about the full content authoring lifecycle, not just the player-facing UI.
+
 ---
 
 ## Implementation Phases
