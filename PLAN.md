@@ -197,6 +197,20 @@ JSON blob keeps schema stable as rules evolve. Scalar columns support listing/fi
 
 ---
 
+## Architecture Decisions
+
+### Game Reference Data — JSON files (not SQLite)
+Races, abilities, perks, artifacts, weapons, equipment, and powers are static rulebook content stored as JSON files in the repo (`src/data/`). The GM can add homebrew content via a GM authoring tool that generates new JSON entries.
+
+**Why:** The data is read-only reference content — SQLite would add unnecessary complexity (migrations, sync scripts, distribution). JSON files are versioned with the repo and deployed automatically via Netlify.
+
+### Multi-Group Isolation — Per-Instance Model (Option A)
+Each GM/group runs their own Netlify instance (their own fork of the repo). Homebrew content is committed to their fork and auto-deployed. Groups are isolated by default with zero infrastructure cost.
+
+**Future:** If multi-tenancy becomes a requirement (one hosted app, multiple groups), the path would be Supabase (Postgres + auth) — but this is out of scope for the current build.
+
+---
+
 ## Implementation Phases
 
 ### Phase 1 — Interactive Character Sheet (localStorage)
