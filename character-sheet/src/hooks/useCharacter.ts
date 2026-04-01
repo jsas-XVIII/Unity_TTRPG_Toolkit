@@ -1,9 +1,24 @@
+// useCharacter.ts — central state hook for a character sheet session.
+//
+// Pattern: useReducer + pure reducer function.
+// Components never mutate character data directly; they dispatch typed Action objects.
+// The reducer returns a new Character object, React re-renders, and derived stats
+// are recomputed in the hook body on every render.
+//
+// Why useReducer instead of useState?
+// The character has many independent sub-fields. useReducer keeps all update logic
+// in one place (the reducer below) rather than scattered across components.
+
 import { useReducer, useCallback } from 'react'
 import type { Character, Power, CorePath, Perk } from '../types/character'
 import type { Weapon, ArmorItem, Artifact } from '../types/equipment'
 import { CLASS_MAP } from '../constants/classes'
 import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
 
+// ---------------------------------------------------------------------------
+// Action union type
+// Each action variant maps to one specific state mutation in the reducer below.
+// ---------------------------------------------------------------------------
 type Action =
   | { type: 'SET_CHARACTER'; payload: Character }
   | { type: 'SET_FIELD'; field: keyof Character; value: unknown }
@@ -28,20 +43,28 @@ type Action =
   | { type: 'ADD_CORE_PATH'; path: CorePath }
   | { type: 'REMOVE_CORE_PATH'; id: string }
 
+// ---------------------------------------------------------------------------
+// Reducer — pure function: (currentState, action) => nextState
+// Spread syntax is used throughout so the original state object is never mutated.
+// ---------------------------------------------------------------------------
 function reducer(state: Character, action: Action): Character {
   switch (action.type) {
+    // Replace the entire character (used when loading a different character)
     case 'SET_CHARACTER':
       return action.payload
 
+    // Generic single top-level field update (e.g. name, notes, level)
     case 'SET_FIELD':
       return { ...state, [action.field]: action.value }
 
+    // Update one of the four core attributes; preserves the other three
     case 'SET_ATTRIBUTE':
       return { ...state, attributes: { ...state.attributes, [action.attr]: action.value } }
 
     case 'SET_HP':
       return { ...state, currentHp: action.value }
 
+    // Clamps fading stacks to the valid range 0–5
     case 'SET_FADING':
       return { ...state, fadingStacks: Math.min(5, Math.max(0, action.value)) }
 
@@ -51,6 +74,7 @@ function reducer(state: Character, action: Action): Character {
         primaryResource: { ...state.primaryResource, current: action.current },
       }
 
+    // Guard: if this character has no secondary resource, do nothing
     case 'SET_SECONDARY_RESOURCE':
       if (!state.secondaryResource) return state
       return {
@@ -58,24 +82,23 @@ function reducer(state: Character, action: Action): Character {
         secondaryResource: { ...state.secondaryResource, current: action.current },
       }
 
+    // --- Equipment: append / filter pattern ---
     case 'ADD_WEAPON':
       return { ...state, weapons: [...state.weapons, action.weapon] }
-
     case 'REMOVE_WEAPON':
       return { ...state, weapons: state.weapons.filter((w) => w.id !== action.id) }
 
     case 'ADD_ARMOR':
       return { ...state, armor: [...state.armor, action.armor] }
-
     case 'REMOVE_ARMOR':
       return { ...state, armor: state.armor.filter((a) => a.id !== action.id) }
 
     case 'ADD_ARTIFACT':
       return { ...state, artifacts: [...state.artifacts, action.artifact] }
-
     case 'REMOVE_ARTIFACT':
       return { ...state, artifacts: state.artifacts.filter((a) => a.id !== action.id) }
 
+    // Flips the equipped boolean on a single artifact without touching the rest
     case 'TOGGLE_ARTIFACT_EQUIPPED':
       return {
         ...state,
@@ -84,12 +107,13 @@ function reducer(state: Character, action: Action): Character {
         ),
       }
 
+    // --- Powers ---
     case 'ADD_POWER':
       return { ...state, powers: [...state.powers, action.power] }
-
     case 'REMOVE_POWER':
       return { ...state, powers: state.powers.filter((p) => p.id !== action.id) }
 
+    // Flips the purchased boolean on a specific upgrade within a specific power
     case 'TOGGLE_UPGRADE':
       return {
         ...state,
@@ -105,21 +129,21 @@ function reducer(state: Character, action: Action): Character {
         ),
       }
 
+    // --- Perks ---
     case 'ADD_PERK':
       return { ...state, perks: [...state.perks, action.perk] }
-
     case 'REMOVE_PERK':
       return { ...state, perks: state.perks.filter((p) => p.id !== action.id) }
 
+    // --- Core Paths ---
+    // SET replaces an existing path in-place (e.g. renaming or adjusting points)
     case 'SET_CORE_PATH':
       return {
         ...state,
         corePaths: state.corePaths.map((cp) => (cp.id === action.path.id ? action.path : cp)),
       }
-
     case 'ADD_CORE_PATH':
       return { ...state, corePaths: [...state.corePaths, action.path] }
-
     case 'REMOVE_CORE_PATH':
       return { ...state, corePaths: state.corePaths.filter((cp) => cp.id !== action.id) }
 
@@ -128,14 +152,20 @@ function reducer(state: Character, action: Action): Character {
   }
 }
 
+// ---------------------------------------------------------------------------
+// useCharacter — the public hook consumed by CharacterSheet and its children
+// ---------------------------------------------------------------------------
 export function useCharacter(initial: Character) {
   const [character, dispatch] = useReducer(reducer, initial)
 
+  // Look up the class definition so we can pass the main attribute to computeDerivedStats.
+  // Falls back to safe zeros if the class name doesn't match any known class.
   const classDef = CLASS_MAP[character.className]
   const derived: DerivedStats = classDef
     ? computeDerivedStats(character, classDef)
     : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
 
+  // Convenience wrapper so callers can do setCharacter(c) instead of dispatch({ type: 'SET_CHARACTER', ... })
   const setCharacter = useCallback(
     (c: Character) => dispatch({ type: 'SET_CHARACTER', payload: c }),
     []
