@@ -28,7 +28,13 @@ interface Props {
   onNewCharacter: () => void
 }
 
-export default function CharacterSheet({ initial, onSave, onExport, onImport, onNewCharacter }: Props) {
+export default function CharacterSheet({
+  initial,
+  onSave,
+  onExport,
+  onImport,
+  onNewCharacter,
+}: Props) {
   // useCharacter wraps useReducer and re-computes derived stats whenever character changes
   const { character, derived, dispatch } = useCharacter(initial)
 
