@@ -37,7 +37,9 @@ describe('DuplicateCharacterModal', () => {
   it('shows class, race, and level', () => {
     renderModal()
     expect(
-      screen.getByText(`${baseCharacter.className} · ${baseCharacter.race} · Level ${baseCharacter.level}`)
+      screen.getByText(
+        `${baseCharacter.className} · ${baseCharacter.race} · Level ${baseCharacter.level}`
+      )
     ).toBeInTheDocument()
   })
 
@@ -68,7 +70,9 @@ describe('DuplicateCharacterModal', () => {
   it('calls onDismiss when the backdrop is clicked', async () => {
     const onDismiss = vi.fn()
     renderModal({ onDismiss })
-    const backdrop = screen.getByRole('button', { name: /cancel/i }).closest('.fixed') as HTMLElement
+    const backdrop = screen
+      .getByRole('button', { name: /cancel/i })
+      .closest('.fixed') as HTMLElement
     await userEvent.click(backdrop)
     expect(onDismiss).toHaveBeenCalled()
   })

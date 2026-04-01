@@ -134,7 +134,8 @@ export default function App() {
     if (!duplicateImport) return
     const { parsed, fromHome } = duplicateImport
     try {
-      const { id: _id, ...rest } = parsed
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id, ...rest } = parsed
       const copy = await api.create({ ...rest, name: `${parsed.name} - copy` })
       setDuplicateImport(null)
       if (fromHome) {
@@ -180,18 +181,11 @@ export default function App() {
       )}
 
       {view === 'roster' && (
-        <CharacterRoster
-          api={api}
-          onSelect={handleRosterSelect}
-          onBack={() => setView('home')}
-        />
+        <CharacterRoster api={api} onSelect={handleRosterSelect} onBack={() => setView('home')} />
       )}
 
       {view === 'wizard' && (
-        <CharacterWizard
-          onComplete={handleWizardComplete}
-          onCancel={() => setView('home')}
-        />
+        <CharacterWizard onComplete={handleWizardComplete} onCancel={() => setView('home')} />
       )}
 
       {view === 'sheet' && character && (

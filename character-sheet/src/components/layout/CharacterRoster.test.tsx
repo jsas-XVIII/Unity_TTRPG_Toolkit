@@ -65,13 +65,17 @@ describe('CharacterRoster — empty state', () => {
 
   it('shows a prompt to create the first character', async () => {
     renderRoster([])
-    expect(await screen.findByRole('button', { name: /create your first character/i })).toBeInTheDocument()
+    expect(
+      await screen.findByRole('button', { name: /create your first character/i })
+    ).toBeInTheDocument()
   })
 
   it('calls onBack when "Create your first character" is clicked', async () => {
     const onBack = vi.fn()
     renderRoster([], { onBack })
-    await userEvent.click(await screen.findByRole('button', { name: /create your first character/i }))
+    await userEvent.click(
+      await screen.findByRole('button', { name: /create your first character/i })
+    )
     expect(onBack).toHaveBeenCalledOnce()
   })
 })

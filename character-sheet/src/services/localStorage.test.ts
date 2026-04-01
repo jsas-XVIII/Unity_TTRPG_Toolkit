@@ -23,7 +23,8 @@ describe('localStorageRepository.create()', () => {
   })
 
   it('generates a new UUID when no id is provided (wizard path)', async () => {
-    const { id: _id, ...withoutId } = baseCharacter
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, ...withoutId } = baseCharacter
     const created = await repo.create(withoutId)
     expect(typeof created.id).toBe('string')
     expect(created.id.length).toBeGreaterThan(0)

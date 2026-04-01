@@ -5,7 +5,7 @@
 import type { Character } from '../../types/character'
 
 interface Props {
-  character: Character  // the incoming character from the file
+  character: Character // the incoming character from the file
   onConfirm: () => void // create a copy
   onDismiss: () => void // cancel — do nothing
 }
@@ -36,10 +36,8 @@ export default function DuplicateCharacterModal({ character, onConfirm, onDismis
         </p>
         <p className="text-sm text-gray-400 mb-6">
           Do you want to import it as a copy?{' '}
-          <span className="text-gray-300 font-medium">
-            "{character.name} - copy"
-          </span>{' '}
-          will be created as a separate character.
+          <span className="text-gray-300 font-medium">"{character.name} - copy"</span> will be
+          created as a separate character.
         </p>
 
         {/* Actions */}

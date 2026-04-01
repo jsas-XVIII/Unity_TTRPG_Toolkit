@@ -56,9 +56,7 @@ export default function CharacterRoster({ api, onSelect, onBack }: Props) {
 
       {/* Content */}
       <div className="flex-1 max-w-2xl w-full mx-auto px-6 py-8">
-        {loading && (
-          <p className="text-gray-500 text-sm">Loading…</p>
-        )}
+        {loading && <p className="text-gray-500 text-sm">Loading…</p>}
 
         {!loading && characters.length === 0 && (
           <div className="flex flex-col items-center justify-center h-64 text-center gap-4">
@@ -80,7 +78,8 @@ export default function CharacterRoster({ api, onSelect, onBack }: Props) {
                 {pendingDeleteId === c.id ? (
                   <div className="flex items-center justify-between px-5 py-4 rounded-xl bg-gray-900 border border-red-800">
                     <span className="text-sm text-gray-300">
-                      Delete <span className="font-semibold text-gray-100">{c.name}</span>? This cannot be undone.
+                      Delete <span className="font-semibold text-gray-100">{c.name}</span>? This
+                      cannot be undone.
                     </span>
                     <div className="flex gap-2 ml-4 shrink-0">
                       <button
@@ -101,10 +100,7 @@ export default function CharacterRoster({ api, onSelect, onBack }: Props) {
                   // Default state — load button + separate delete button
                   <div className="flex items-center gap-2 rounded-xl bg-gray-900 border border-gray-700 hover:border-gray-600 transition-all pr-3">
                     {/* Clickable area for loading the character — takes up most of the card */}
-                    <button
-                      onClick={() => onSelect(c.id)}
-                      className="flex-1 text-left px-5 py-4"
-                    >
+                    <button onClick={() => onSelect(c.id)} className="flex-1 text-left px-5 py-4">
                       <span className="block text-base font-bold text-gray-100">{c.name}</span>
                       <span className="block text-sm text-gray-400 mt-0.5">
                         {c.className} · {c.race} · Level {c.level}

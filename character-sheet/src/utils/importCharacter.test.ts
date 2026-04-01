@@ -61,7 +61,8 @@ describe('checkImport — existing character (id already in storage)', () => {
 
   it('returns "new" on first import and "duplicate" on second', async () => {
     const api = mockApi({
-      getById: vi.fn()
+      getById: vi
+        .fn()
         .mockRejectedValueOnce(new Error('Not found'))
         .mockResolvedValueOnce(baseCharacter),
     })

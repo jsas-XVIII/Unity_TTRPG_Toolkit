@@ -17,10 +17,7 @@ import { baseCharacter } from '../../test/fixtures'
 
 expect.extend(matchers)
 
-function renderModal(overrides?: {
-  onConfirm?: () => void
-  onDismiss?: () => void
-}) {
+function renderModal(overrides?: { onConfirm?: () => void; onDismiss?: () => void }) {
   const props = {
     character: baseCharacter,
     onConfirm: overrides?.onConfirm ?? vi.fn(),
@@ -39,7 +36,9 @@ describe('ImportConfirmModal', () => {
   it('shows class, race, and level', () => {
     renderModal()
     expect(
-      screen.getByText(`${baseCharacter.className} · ${baseCharacter.race} · Level ${baseCharacter.level}`)
+      screen.getByText(
+        `${baseCharacter.className} · ${baseCharacter.race} · Level ${baseCharacter.level}`
+      )
     ).toBeInTheDocument()
   })
 
@@ -66,7 +65,9 @@ describe('ImportConfirmModal', () => {
     const onDismiss = vi.fn()
     renderModal({ onDismiss })
     // The backdrop is the outermost div — click it directly
-    const backdrop = screen.getByRole('button', { name: /stay here/i }).closest('.fixed') as HTMLElement
+    const backdrop = screen
+      .getByRole('button', { name: /stay here/i })
+      .closest('.fixed') as HTMLElement
     await userEvent.click(backdrop)
     // onDismiss may be called more than once (backdrop + bubbled click from child); just assert it fired
     expect(onDismiss).toHaveBeenCalled()
