@@ -10,7 +10,8 @@
       "WebFetch(domain:github.com)",
       "WebSearch",
       "Bash(git:*)",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(''''scripts:'''', d.get\\(''''scripts'''',{}\\)\\); print\\(''''install:'''', d.get\\(''''scripts'''',{}\\).get\\(''''postinstall'''',''''''''\\)\\)\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(''''scripts:'''', d.get\\(''''scripts'''',{}\\)\\); print\\(''''install:'''', d.get\\(''''scripts'''',{}\\).get\\(''''postinstall'''',''''''''\\)\\)\")",
+      "Bash(npx vitest:*)"
     ]
   }
 }
