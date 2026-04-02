@@ -12,7 +12,9 @@
       "Bash(git:*)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(''''scripts:'''', d.get\\(''''scripts'''',{}\\)\\); print\\(''''install:'''', d.get\\(''''scripts'''',{}\\).get\\(''''postinstall'''',''''''''\\)\\)\")",
       "Bash(npx vitest:*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(python3:*)",
+      "Bash(node:*)"
     ]
   }
 }
