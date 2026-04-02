@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "power-card.schema.json",
+  "title": "Power Card",
+  "description": "A power card in the Unity TTRPG system. Characters choose 3 Tier I powers at Level 1 and 2 Tier II powers at Level 5.",
+  "type": "object",
+  "required": ["id", "name", "tier", "actionType", "cost", "target", "range", "effectsText", "upgrades"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this power"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name of the power"
+    },
+    "tier": {
+      "type": "integer",
+      "enum": [1, 2],
+      "description": "Power tier. Tier I powers are chosen at Level 1; Tier II powers at Level 5."
+    },
+    "actionType": {
+      "type": "string",
+      "enum": [
+        "Standard",
+        "Quick",
+        "Movement",
+        "Free",
+        "Reaction",
+        "Maintain",
+        "Overdrive",
+        "Ultimate",
+        "Passive"
+      ],
+      "description": "The action slot this power uses. Each action type may be used once per round except Free (unlimited) and Reaction (once per round, usable on the GM's turn). Overdrive and Ultimate are once per Full Rest."
+    },
+    "cost": {
+      "type": "string",
+      "description": "Class resource cost to activate this power (e.g. '1 Fury', '2 Mana', '1 Bile + 2 Blood', 'None'). Maintain powers reduce the max resource pool by this amount while active."
+    },
+    "target": {
+      "type": "string",
+      "enum": [
+        "Self",
+        "Single",
+        "Single Ally",
+        "All Allies",
+        "AoE",
+        "AoE Enemies"
+      ],
+      "description": "What or who this power can target. 'AoE Enemies' is an AoE that explicitly cannot hit allies even if they are in range."
+    },
+    "range": {
+      "type": "string",
+      "enum": ["Self", "Adjacent", "Nearby", "Far", "Very Far"],
+      "description": "Maximum range band at which this power can be used. Adjacent = within 2.5m; Nearby = 2.5–8m; Far = 8–16m; Very Far = 16–24m."
+    },
+    "effectsText": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Full description of the power's effects. Should include attack roll instructions if applicable, and separate Success/Failure outcomes where relevant."
+    },
+    "upgrades": {
+      "type": "array",
+      "description": "Optional upgrades that can be purchased to enhance this power.",
+      "items": {
+        "$ref": "#/$defs/PowerUpgrade"
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "PowerUpgrade": {
+      "title": "Power Upgrade",
+      "description": "An optional enhancement that can be purchased for a power.",
+      "type": "object",
+      "required": ["id", "name", "description", "purchased"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this upgrade"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Display name of the upgrade"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What this upgrade does when applied to the power"
+        },
+        "purchased": {
+          "type": "boolean",
+          "description": "Whether the character has purchased this upgrade",
+          "default": false
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "id": "cleave",
+      "name": "Cleave",
+      "tier": 1,
+      "actionType": "Standard",
+      "cost": "2 Fury",
+      "target": "AoE",
+      "range": "Adjacent",
+      "effectsText": "Roll 1d4 to determine the number of Adjacent enemies hit. Roll your Basic Attack against each target.\nSuccess. Each hit target suffers 1d10 + HL damage.\nFailure. Each hit target suffers half damage.",
+      "upgrades": []
+    },
+    {
+      "id": "tumble",
+      "name": "Tumble",
+      "tier": 1,
+      "actionType": "Reaction",
+      "cost": "1 Guile",
+      "target": "Self",
+      "range": "Self",
+      "effectsText": "Declare after being hit. Reduce incoming damage by 3.",
+      "upgrades": []
+    },
+    {
+      "id": "back-to-back",
+      "name": "Back to Back",
+      "tier": 1,
+      "actionType": "Standard",
+      "cost": "2 Discipline",
+      "target": "Single Ally",
+      "range": "Adjacent",
+      "effectsText": "You and one Adjacent Ally roll Attack and Defense rolls for each other, using the highest result. Lasts 2 rounds.",
+      "upgrades": []
+    }
+  ]
+}
