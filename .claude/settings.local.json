@@ -14,7 +14,9 @@
       "Bash(npx vitest:*)",
       "Bash(npx eslint:*)",
       "Bash(python3:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm show:*)"
     ]
   }
 }
