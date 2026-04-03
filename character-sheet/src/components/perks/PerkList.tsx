@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Perk, PerkSource } from '../../types/character'
 import type { Dispatch } from 'react'
 import { GENERAL_PERKS } from '../../constants/perks'
+import { CARD, SECTION_HEADING, REMOVE_BTN } from '../../styles/classes'
 
 type Action = { type: 'ADD_PERK'; perk: Perk } | { type: 'REMOVE_PERK'; id: string }
 
@@ -39,7 +40,7 @@ export default function PerkList({ perks, dispatch }: Props) {
           {perk.description && <p className="text-xs text-gray-400 mt-0.5">{perk.description}</p>}
         </div>
         <button
-          className="text-gray-600 hover:text-red-400 text-xs"
+          className={REMOVE_BTN}
           onClick={() => dispatch({ type: 'REMOVE_PERK', id: perk.id })}
         >
           ✕
@@ -49,8 +50,8 @@ export default function PerkList({ perks, dispatch }: Props) {
   }
 
   return (
-    <div className="bg-gray-900 rounded-lg p-4">
-      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Perks</h2>
+    <div className={CARD}>
+      <h2 className={SECTION_HEADING}>Perks</h2>
 
       {classPerks.length > 0 && (
         <div className="mb-3">

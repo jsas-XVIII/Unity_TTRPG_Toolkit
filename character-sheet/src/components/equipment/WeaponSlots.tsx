@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Weapon } from '../../types/equipment'
 import type { Dispatch } from 'react'
 import { WEAPON_TEMPLATES } from '../../constants/weapons'
+import { REMOVE_BTN } from '../../styles/classes'
 
 type Action = { type: 'ADD_WEAPON'; weapon: Weapon } | { type: 'REMOVE_WEAPON'; id: string }
 
@@ -42,7 +43,7 @@ export default function WeaponSlots({ weapons, dispatch }: Props) {
             </span>
           </div>
           <button
-            className="text-gray-600 hover:text-red-400 text-xs"
+            className={REMOVE_BTN}
             onClick={() => dispatch({ type: 'REMOVE_WEAPON', id: w.id })}
           >
             ✕

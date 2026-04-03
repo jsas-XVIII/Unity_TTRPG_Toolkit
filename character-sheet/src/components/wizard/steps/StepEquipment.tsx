@@ -5,6 +5,7 @@ import type { WizardDraft } from '../WizardTypes'
 import { WEAPON_TEMPLATES } from '../../../constants/weapons'
 import { ARMOR_TEMPLATES } from '../../../constants/armor'
 import { CLASS_MAP } from '../../../constants/classes'
+import { REMOVE_BTN } from '../../../styles/classes'
 
 interface Props {
   draft: WizardDraft
@@ -116,10 +117,7 @@ export default function StepEquipment({ draft, onChange }: Props) {
                 {w.category} · {w.damageDie} · {w.cost}D
               </span>
             </div>
-            <button
-              className="text-gray-600 hover:text-red-400 text-xs"
-              onClick={() => removeWeapon(w.id)}
-            >
+            <button className={REMOVE_BTN} onClick={() => removeWeapon(w.id)}>
               ✕
             </button>
           </div>
@@ -168,10 +166,7 @@ export default function StepEquipment({ draft, onChange }: Props) {
                 {a.quality} {a.category} · +{a.av} AV · {a.cost}D
               </span>
             </div>
-            <button
-              className="text-gray-600 hover:text-red-400 text-xs"
-              onClick={() => removeArmor(a.id)}
-            >
+            <button className={REMOVE_BTN} onClick={() => removeArmor(a.id)}>
               ✕
             </button>
           </div>

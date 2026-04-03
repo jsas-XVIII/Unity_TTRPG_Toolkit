@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { Artifact } from '../../types/equipment'
 import type { Dispatch } from 'react'
+import { REMOVE_BTN } from '../../styles/classes'
 
 type Action =
   | { type: 'ADD_ARTIFACT'; artifact: Artifact }
@@ -54,7 +55,7 @@ export default function ArtifactList({ artifacts, artifactCapacity, dispatch }: 
             {a.name}
           </span>
           <button
-            className="text-gray-600 hover:text-red-400 text-xs"
+            className={REMOVE_BTN}
             onClick={() => dispatch({ type: 'REMOVE_ARTIFACT', id: a.id })}
           >
             ✕

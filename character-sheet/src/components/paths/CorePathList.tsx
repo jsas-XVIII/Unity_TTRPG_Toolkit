@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import type { CorePath } from '../../types/character'
 import type { Dispatch } from 'react'
 import CorePathEntry from './CorePathEntry'
+import { CARD } from '../../styles/classes'
 
 type Action =
   | { type: 'SET_CORE_PATH'; path: CorePath }
@@ -24,7 +25,7 @@ export default function CorePathList({ corePaths, dispatch }: Props) {
   }
 
   return (
-    <div className="bg-gray-900 rounded-lg p-4">
+    <div className={CARD}>
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Core Paths</h2>
         <span className="text-xs text-gray-500">{totalPoints} pts total</span>
