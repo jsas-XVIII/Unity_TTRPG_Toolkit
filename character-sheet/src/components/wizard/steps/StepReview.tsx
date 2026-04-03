@@ -70,9 +70,7 @@ export default function StepReview({ draft }: Props) {
             <span className="text-gray-500 w-24">Class</span>
             <span className="text-white">
               {draft.className ?? '—'}
-              {selectedPath && (
-                <span className="text-amber-400 ml-1">({selectedPath.name})</span>
-              )}
+              {selectedPath && <span className="text-amber-400 ml-1">({selectedPath.name})</span>}
             </span>
           </div>
           <div className="flex gap-2">

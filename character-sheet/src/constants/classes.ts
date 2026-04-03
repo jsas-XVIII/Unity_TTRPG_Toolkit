@@ -195,7 +195,7 @@ export const CLASSES: ClassDefinition[] = [
         id: 'chaplain',
         name: 'Chaplain',
         description:
-          'You are focused on the strict study of holy texts and understanding the divine song that flows from your god to you. The healing arts and accepting your god\'s grace come easily to you.',
+          "You are focused on the strict study of holy texts and understanding the divine song that flows from your god to you. The healing arts and accepting your god's grace come easily to you.",
         primaryResourceMax: 10,
         primaryResourceRechargeDie: '1d6',
         secondaryResourceMax: 4,
