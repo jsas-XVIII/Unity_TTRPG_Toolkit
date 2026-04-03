@@ -176,6 +176,7 @@ export const CLASSES: ClassDefinition[] = [
     primaryResourceRechargeDie: '1d6',
     secondaryResourceName: 'Healing Charges',
     secondaryResourceMax: 3,
+    secondaryResourceStarting: 1,
     weaponCompetencies: ['Light Melee', 'Medium Melee'],
     armorCompetencies: ['Light'],
     classPerks: [

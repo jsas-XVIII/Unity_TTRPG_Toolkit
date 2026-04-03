@@ -72,6 +72,18 @@ describe('buildCharacter — Priest War Priest path', () => {
   })
 })
 
+describe('buildCharacter — Priest secondary resource starting value', () => {
+  it('Chaplain starts with 1 Healing Charge (not 0)', () => {
+    const char = buildCharacter(makePriestDraft('chaplain'))
+    expect(char.secondaryResource?.current).toBe(1)
+  })
+
+  it('War Priest starts with 1 Healing Charge (not 0)', () => {
+    const char = buildCharacter(makePriestDraft('warpriest'))
+    expect(char.secondaryResource?.current).toBe(1)
+  })
+})
+
 describe('buildCharacter — Priest with no path selected', () => {
   it('falls back to the base class resource max', () => {
     const char = buildCharacter(makePriestDraft(null))
@@ -93,6 +105,30 @@ describe('buildCharacter — classPath is persisted on the character', () => {
 
   it('stores null when no class path was selected', () => {
     expect(buildCharacter(makePriestDraft(null)).classPath).toBeNull()
+  })
+})
+
+describe('buildCharacter — Primalist secondary resource (Ferocity)', () => {
+  const primalistDraft = {
+    ...INITIAL_DRAFT,
+    name: 'Gruk',
+    age: '22',
+    race: 'Human' as const,
+    attrAssignments: { might: 2, agility: 0, mind: 0, presence: -1 },
+    className: 'Primalist' as const,
+    selectedPerkId: 'primalist-perk-1',
+    startingDenerim: 150 as const,
+  }
+
+  it('has Ferocity as secondary resource with max 6', () => {
+    const char = buildCharacter(primalistDraft)
+    expect(char.secondaryResource?.name).toBe('Ferocity')
+    expect(char.secondaryResource?.max).toBe(6)
+  })
+
+  it('Ferocity starts at 0 (generated in combat, not granted at creation)', () => {
+    const char = buildCharacter(primalistDraft)
+    expect(char.secondaryResource?.current).toBe(0)
   })
 })
 
