@@ -16,7 +16,8 @@
       "Bash(python3:*)",
       "Bash(node:*)",
       "Bash(npm audit:*)",
-      "Bash(npm show:*)"
+      "Bash(npm show:*)",
+      "Bash(npx vite:*)"
     ]
   }
 }

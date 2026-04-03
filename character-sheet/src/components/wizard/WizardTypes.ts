@@ -1,4 +1,4 @@
-import type { Race, ClassName, CorePath, Power } from '../../types/character'
+import type { Race, ClassName, CorePath, CharacterPower } from '../../types/character'
 import type { Weapon, ArmorItem } from '../../types/equipment'
 import type { Attributes } from '../../types/character'
 
@@ -35,7 +35,7 @@ export interface WizardDraft {
   selectedPerkId: string | null
 
   // Step 6 — Powers
-  powers: Power[]
+  powers: CharacterPower[]
 
   // Step 7 — Equipment
   weapons: Weapon[]

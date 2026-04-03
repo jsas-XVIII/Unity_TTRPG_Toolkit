@@ -72,6 +72,13 @@ export interface Power {
   upgrades: PowerUpgrade[]
 }
 
+// Stored on the Character — references a power by ID and tracks only mutable state.
+// Full power data is resolved at render time from powers.json.
+export interface CharacterPower {
+  id: string
+  purchasedUpgradeIds: string[]
+}
+
 export type PerkSource = 'Class' | 'General'
 
 export interface Perk {
@@ -108,7 +115,7 @@ export interface Character {
   recuperationDie: string
 
   corePaths: CorePath[]
-  powers: Power[]
+  powers: CharacterPower[]
   perks: Perk[]
   weapons: Weapon[]
   armor: ArmorItem[]
