@@ -2,10 +2,15 @@ import { useState } from 'react'
 import type { CharacterPower, Power } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
 import type { Dispatch } from 'react'
-import { getPowersByClass, getPowerById } from '../../data/powersData'
+import { getPowersByClass, getPowerById, TIER_CONFIG } from '../../data/powersData'
 import PowerCard from './PowerCard'
 import PowerReferenceCard from './PowerReferenceCard'
 import { CARD, SECTION_HEADING } from '../../styles/classes'
+
+// TODO: Baseline powers and powers gained through leveling (lv3, lv8, lv10) should
+// eventually be derived automatically from the character's class + level, not stored
+// in character.powers. For now, baseline is derived from class data and filtered by
+// classPath; lv3/lv8/lv10 will be wired up the same way once level-up is implemented.
 
 type Action =
   | { type: 'ADD_POWER'; power: CharacterPower }
@@ -15,16 +20,23 @@ type Action =
 interface Props {
   powers: CharacterPower[]
   className: ClassName
+  classPath?: string | null
   dispatch: Dispatch<Action>
 }
 
-export default function PowerList({ powers, className, dispatch }: Props) {
+export default function PowerList({ powers, className, classPath, dispatch }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [preview, setPreview] = useState<Power | null>(null)
 
-  const { tier1, tier2 } = getPowersByClass(className)
-  const allClassPowers = [...tier1, ...tier2]
+  const { tier1, tier2, baseline } = getPowersByClass(className)
+  const allClassPowers = [...tier1, ...tier2] // baseline excluded from picker
   const addedIds = new Set(powers.map((p) => p.id))
+
+  // Baseline powers are derived from class data, never stored on the character.
+  // Filter to those matching the character's class path (or unrestricted ones).
+  const baselinePowers = baseline.filter(
+    (p) => !p.restrictToClassPath || p.restrictToClassPath === classPath
+  )
 
   function addPower(source: Power) {
     dispatch({ type: 'ADD_POWER', power: { id: source.id, purchasedUpgradeIds: [] } })
@@ -40,6 +52,20 @@ export default function PowerList({ powers, className, dispatch }: Props) {
   return (
     <div className={CARD}>
       <h2 className={SECTION_HEADING}>Powers</h2>
+
+      {/* Baseline — derived from class data, read-only */}
+      {baselinePowers.length > 0 && (
+        <div className="mb-4">
+          <p className={`text-xs ${TIER_CONFIG.baseline.headingColor} uppercase mb-2`}>
+            {TIER_CONFIG.baseline.sectionHeading}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {baselinePowers.map((p) => (
+              <PowerReferenceCard key={p.id} power={p} className={className} />
+            ))}
+          </div>
+        </div>
+      )}
 
       {sheetTier1.length > 0 && (
         <div className="mb-4">
@@ -114,11 +140,8 @@ export default function PowerList({ powers, className, dispatch }: Props) {
                       ${preview?.id === p.id ? 'bg-gray-700' : 'hover:bg-gray-750'}
                       ${already ? 'opacity-40 cursor-default' : 'cursor-pointer'}`}
                   >
-                    <span
-                      className={`shrink-0 text-[9px] font-bold px-1 py-0.5 rounded
-                      ${p.tier === 1 ? 'bg-gray-700 text-gray-400' : 'bg-amber-900 text-amber-300'}`}
-                    >
-                      T{p.tier}
+                    <span className="shrink-0 text-[9px] font-bold px-1 py-0.5 rounded bg-gray-700 text-gray-400">
+                      {TIER_CONFIG[p.tier].label}
                     </span>
                     <span className={already ? 'text-gray-500' : 'text-gray-200'}>{p.name}</span>
                   </button>

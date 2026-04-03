@@ -116,7 +116,9 @@ export default function StepReview({ draft }: Props) {
             <>
               <div className="flex gap-2">
                 <span className="text-gray-500">{classDef.primaryResourceName}</span>
-                <span className="text-white font-semibold">{classDef.primaryResourceMax}</span>
+                <span className="text-white font-semibold">
+                  {selectedPath?.primaryResourceMax ?? classDef.primaryResourceMax}
+                </span>
               </div>
               <div className="flex gap-2">
                 <span className="text-gray-500">Recup Die</span>

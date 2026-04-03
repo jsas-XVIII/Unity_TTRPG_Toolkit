@@ -9,6 +9,16 @@ export interface ClassPerkOption {
   description: string
 }
 
+export interface ClassPathBaselinePower {
+  name: string
+  actionType: string
+  cost: string
+  target: string
+  range: string
+  successEffect: string
+  failureEffect: string
+}
+
 export interface ClassPathOption {
   id: string
   name: string
@@ -18,6 +28,7 @@ export interface ClassPathOption {
   secondaryResourceMax?: number
   additionalArmorCompetencies?: ArmorCategory[]
   additionalWeaponCompetencies?: WeaponCategory[]
+  baselinePower?: ClassPathBaselinePower
 }
 
 export interface ClassDefinition {

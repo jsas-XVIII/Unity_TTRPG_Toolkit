@@ -41,6 +41,7 @@ export function buildCharacter(draft: WizardDraft): Character {
     name: draft.name,
     race: draft.race!,
     className: draft.className!,
+    classPath: draft.classPath,
     level: 1,
     xp: 0,
     age: draft.age,

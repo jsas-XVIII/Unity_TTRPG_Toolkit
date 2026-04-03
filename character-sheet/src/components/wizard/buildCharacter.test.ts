@@ -85,6 +85,17 @@ describe('buildCharacter — Priest with no path selected', () => {
   })
 })
 
+describe('buildCharacter — classPath is persisted on the character', () => {
+  it('stores the selected class path on the character', () => {
+    expect(buildCharacter(makePriestDraft('chaplain')).classPath).toBe('chaplain')
+    expect(buildCharacter(makePriestDraft('warpriest')).classPath).toBe('warpriest')
+  })
+
+  it('stores null when no class path was selected', () => {
+    expect(buildCharacter(makePriestDraft(null)).classPath).toBeNull()
+  })
+})
+
 describe('buildCharacter — non-Priest class is unaffected by classPath', () => {
   it('Dreadnought resource values are not changed by a stray classPath value', () => {
     const draft = {
