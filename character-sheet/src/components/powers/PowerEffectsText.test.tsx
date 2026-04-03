@@ -17,7 +17,7 @@ expect.extend(matchers)
 
 function renderText(text: string) {
   return render(
-    <PowerEffectsText text={text} accentClass="text-red-900" borderClass="border-red-900" />,
+    <PowerEffectsText text={text} accentClass="text-red-900" borderClass="border-red-900" />
   )
 }
 
