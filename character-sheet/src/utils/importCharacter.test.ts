@@ -81,3 +81,90 @@ describe('checkImport — error cases', () => {
     await expect(checkImport(badFile, mockApi())).rejects.toThrow()
   })
 })
+
+describe('checkImport — power format migration', () => {
+  // Old format: powers stored full Power objects with nested upgrades[]
+  const oldFormatCharacter = {
+    ...baseCharacter,
+    powers: [
+      {
+        id: 'power-abc',
+        name: 'Shield Slam',
+        tier: 1,
+        actionType: 'Standard',
+        cost: '1',
+        target: 'Single',
+        range: 'Adjacent',
+        effectsText: 'Deal damage.',
+        upgrades: [
+          { id: 'upg-1', name: 'Heavy Blow', description: 'Extra damage.', purchased: false },
+          { id: 'upg-2', name: 'Stagger', description: 'Slow the target.', purchased: true },
+        ],
+      },
+    ],
+  }
+
+  // New format: powers stored as { id, purchasedUpgradeIds }
+  const newFormatCharacter = {
+    ...baseCharacter,
+    powers: [{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }],
+  }
+
+  it('migrates old-format powers to CharacterPower on import', async () => {
+    const file = new File([JSON.stringify(oldFormatCharacter)], 'old.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.parsed.powers).toEqual([{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }])
+  })
+
+  it('preserves purchased upgrade IDs from old-format saves', async () => {
+    const file = new File([JSON.stringify(oldFormatCharacter)], 'old.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    const power = result.parsed.powers[0]
+    expect(power.purchasedUpgradeIds).toContain('upg-2')
+    expect(power.purchasedUpgradeIds).not.toContain('upg-1')
+  })
+
+  it('does not include unpurchased upgrades in purchasedUpgradeIds', async () => {
+    const file = new File([JSON.stringify(oldFormatCharacter)], 'old.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.parsed.powers[0].purchasedUpgradeIds).toHaveLength(1)
+  })
+
+  it('passes new-format powers through unchanged', async () => {
+    const file = new File([JSON.stringify(newFormatCharacter)], 'new.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.parsed.powers).toEqual([{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }])
+  })
+
+  it('handles a power with no upgrades in old format', async () => {
+    const character = {
+      ...baseCharacter,
+      powers: [
+        {
+          id: 'power-xyz',
+          name: 'Charge',
+          tier: 1,
+          actionType: 'Standard',
+          cost: '1',
+          target: 'Single',
+          range: 'Nearby',
+          effectsText: 'Rush forward.',
+          upgrades: [],
+        },
+      ],
+    }
+    const file = new File([JSON.stringify(character)], 'no-upgrades.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.parsed.powers).toEqual([{ id: 'power-xyz', purchasedUpgradeIds: [] }])
+  })
+})

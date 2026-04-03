@@ -118,9 +118,15 @@ export default function CharacterSheet({
         {/* Zone 4: Core Paths — up to 3 paths with point steppers (1–6 per path) */}
         <CorePathList corePaths={character.corePaths} dispatch={dispatch} />
 
-        {/* Zones 5 & 6: Powers and Perks — displayed side by side on wider screens */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <PowerList powers={character.powers} dispatch={dispatch} />
+        {/* Zones 5 & 6: Powers and Perks — powers get 2/3 width, perks 1/3 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-2">
+            <PowerList
+              powers={character.powers}
+              className={character.className}
+              dispatch={dispatch}
+            />
+          </div>
           <PerkList perks={character.perks} dispatch={dispatch} />
         </div>
 

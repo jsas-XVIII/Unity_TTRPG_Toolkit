@@ -10,7 +10,7 @@
 // in one place (the reducer below) rather than scattered across components.
 
 import { useReducer, useCallback } from 'react'
-import type { Character, Power, CorePath, Perk } from '../types/character'
+import type { Character, CharacterPower, CorePath, Perk } from '../types/character'
 import type { Weapon, ArmorItem, Artifact } from '../types/equipment'
 import { CLASS_MAP } from '../constants/classes'
 import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
@@ -34,7 +34,7 @@ type Action =
   | { type: 'ADD_ARTIFACT'; artifact: Artifact }
   | { type: 'REMOVE_ARTIFACT'; id: string }
   | { type: 'TOGGLE_ARTIFACT_EQUIPPED'; id: string }
-  | { type: 'ADD_POWER'; power: Power }
+  | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
   | { type: 'ADD_PERK'; perk: Perk }
@@ -113,20 +113,20 @@ function reducer(state: Character, action: Action): Character {
     case 'REMOVE_POWER':
       return { ...state, powers: state.powers.filter((p) => p.id !== action.id) }
 
-    // Flips the purchased boolean on a specific upgrade within a specific power
+    // Toggles an upgrade ID in/out of purchasedUpgradeIds for the matching power
     case 'TOGGLE_UPGRADE':
       return {
         ...state,
-        powers: state.powers.map((p) =>
-          p.id === action.powerId
-            ? {
-                ...p,
-                upgrades: p.upgrades.map((u) =>
-                  u.id === action.upgradeId ? { ...u, purchased: !u.purchased } : u
-                ),
-              }
-            : p
-        ),
+        powers: state.powers.map((p) => {
+          if (p.id !== action.powerId) return p
+          const already = p.purchasedUpgradeIds.includes(action.upgradeId)
+          return {
+            ...p,
+            purchasedUpgradeIds: already
+              ? p.purchasedUpgradeIds.filter((uid) => uid !== action.upgradeId)
+              : [...p.purchasedUpgradeIds, action.upgradeId],
+          }
+        }),
       }
 
     // --- Perks ---

@@ -8,8 +8,24 @@
 // Extracted as a standalone utility so it can be tested independently of the
 // React component tree.
 
-import type { Character } from '../types/character'
+import type { Character, CharacterPower } from '../types/character'
 import type { CharacterRepository } from '../services/api'
+
+// Migrates a character saved before the CharacterPower refactor.
+// Old format stored full Power objects; new format stores only { id, purchasedUpgradeIds }.
+function migratePowers(character: Character): Character {
+  const powers = character.powers as unknown as Array<
+    CharacterPower | { id: string; upgrades?: Array<{ id: string; purchased?: boolean }> }
+  >
+  const migrated: CharacterPower[] = powers.map((p) => {
+    // Already in new format
+    if ('purchasedUpgradeIds' in p) return p
+    // Old format — extract purchased upgrade IDs from the nested upgrades array
+    const purchasedUpgradeIds = (p.upgrades ?? []).filter((u) => u.purchased).map((u) => u.id)
+    return { id: p.id, purchasedUpgradeIds }
+  })
+  return { ...character, powers: migrated }
+}
 
 export type ImportCheckResult =
   | { status: 'new'; parsed: Character }
@@ -31,7 +47,7 @@ export async function checkImport(
   api: CharacterRepository
 ): Promise<ImportCheckResult> {
   const text = await readFileAsText(file)
-  const parsed = JSON.parse(text) as Character
+  const parsed = migratePowers(JSON.parse(text) as Character)
 
   try {
     await api.getById(parsed.id)

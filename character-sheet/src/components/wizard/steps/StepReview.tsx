@@ -1,6 +1,7 @@
 import { RACE_MAP } from '../../../constants/races'
 import { CLASS_MAP } from '../../../constants/classes'
 import { RACE_MAP as RACES_MAP } from '../../../constants/races'
+import { getPowerById } from '../../../data/powersData'
 import type { WizardDraft } from '../WizardTypes'
 import type { Attributes } from '../../../types/character'
 
@@ -154,14 +155,19 @@ export default function StepReview({ draft }: Props) {
       {draft.powers.length > 0 && (
         <Section title={`Powers (${draft.powers.length})`}>
           <div className="space-y-1">
-            {draft.powers.map((p) => (
-              <div key={p.id} className="bg-gray-800 rounded px-3 py-2 flex gap-3 text-sm">
-                <span className="text-xs text-gray-500 font-mono pt-0.5">{p.actionType}</span>
-                <span className="text-white">
-                  {p.name || <em className="text-gray-600">Unnamed</em>}
-                </span>
-              </div>
-            ))}
+            {draft.powers.map((p) => {
+              const resolved = getPowerById(p.id)?.power
+              return (
+                <div key={p.id} className="bg-gray-800 rounded px-3 py-2 flex gap-3 text-sm">
+                  <span className="text-xs text-gray-500 font-mono pt-0.5">
+                    {resolved?.actionType ?? '?'}
+                  </span>
+                  <span className="text-white">
+                    {resolved?.name ?? <em className="text-gray-600">Unknown power</em>}
+                  </span>
+                </div>
+              )
+            })}
           </div>
         </Section>
       )}
