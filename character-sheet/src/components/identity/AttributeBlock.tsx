@@ -1,5 +1,6 @@
 import type { Attributes } from '../../types/character'
 import type { Dispatch } from 'react'
+import { CARD, SECTION_HEADING } from '../../styles/classes'
 
 type AttrKey = keyof Attributes
 type AttrAction = { type: 'SET_ATTRIBUTE'; attr: AttrKey; value: number }
@@ -18,8 +19,8 @@ const ATTRS: { key: AttrKey; label: string; desc: string }[] = [
 
 export default function AttributeBlock({ attributes, dispatch }: Props) {
   return (
-    <div className="bg-gray-900 rounded-lg p-4">
-      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Attributes</h2>
+    <div className={CARD}>
+      <h2 className={SECTION_HEADING}>Attributes</h2>
       <div className="grid grid-cols-2 gap-3">
         {ATTRS.map(({ key, label, desc }) => {
           const val = attributes[key]

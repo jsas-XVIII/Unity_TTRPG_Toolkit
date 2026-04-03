@@ -1,4 +1,5 @@
 import type { Dispatch } from 'react'
+import { CARD, SECTION_HEADING } from '../../styles/classes'
 
 type Action = { type: 'SET_HP'; value: number } | { type: 'SET_FADING'; value: number }
 
@@ -14,8 +15,8 @@ export default function HPTracker({ currentHp, maxHp, fadingStacks, dispatch }: 
   const barColor = pct > 50 ? 'bg-green-600' : pct > 25 ? 'bg-yellow-500' : 'bg-red-600'
 
   return (
-    <div className="bg-gray-900 rounded-lg p-4">
-      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Hit Points</h2>
+    <div className={CARD}>
+      <h2 className={SECTION_HEADING}>Hit Points</h2>
 
       <div className="flex items-center gap-2 mb-2">
         <button

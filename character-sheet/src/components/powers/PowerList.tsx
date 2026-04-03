@@ -5,6 +5,7 @@ import type { Dispatch } from 'react'
 import { getPowersByClass, getPowerById } from '../../data/powersData'
 import PowerCard from './PowerCard'
 import PowerReferenceCard from './PowerReferenceCard'
+import { CARD, SECTION_HEADING } from '../../styles/classes'
 
 type Action =
   | { type: 'ADD_POWER'; power: CharacterPower }
@@ -37,8 +38,8 @@ export default function PowerList({ powers, className, dispatch }: Props) {
   const sheetUnresolved = powers.filter((p) => !getPowerById(p.id))
 
   return (
-    <div className="bg-gray-900 rounded-lg p-4">
-      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Powers</h2>
+    <div className={CARD}>
+      <h2 className={SECTION_HEADING}>Powers</h2>
 
       {sheetTier1.length > 0 && (
         <div className="mb-4">

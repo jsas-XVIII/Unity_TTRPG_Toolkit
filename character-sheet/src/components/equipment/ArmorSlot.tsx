@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import type { ArmorItem } from '../../types/equipment'
 import type { Dispatch } from 'react'
 import { ARMOR_TEMPLATES } from '../../constants/armor'
+import { REMOVE_BTN } from '../../styles/classes'
 
 type Action = { type: 'ADD_ARMOR'; armor: ArmorItem } | { type: 'REMOVE_ARMOR'; id: string }
 
@@ -43,7 +44,7 @@ export default function ArmorSlot({ armor, dispatch }: Props) {
             </span>
           </div>
           <button
-            className="text-gray-600 hover:text-red-400 text-xs"
+            className={REMOVE_BTN}
             onClick={() => dispatch({ type: 'REMOVE_ARMOR', id: a.id })}
           >
             ✕

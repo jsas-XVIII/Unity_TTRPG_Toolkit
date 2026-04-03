@@ -1,4 +1,5 @@
 import type { DerivedStats } from '../../utils/derivedStats'
+import { CARD, SECTION_HEADING } from '../../styles/classes'
 
 interface Props {
   derived: DerivedStats
@@ -21,10 +22,8 @@ const STATS: { key: keyof DerivedStats; label: string; tooltip: string }[] = [
 
 export default function DerivedStats({ derived }: Props) {
   return (
-    <div className="bg-gray-900 rounded-lg p-4">
-      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
-        Derived Stats
-      </h2>
+    <div className={CARD}>
+      <h2 className={SECTION_HEADING}>Derived Stats</h2>
       <div className="grid grid-cols-4 gap-2">
         {STATS.map(({ key, label, tooltip }) => (
           <div

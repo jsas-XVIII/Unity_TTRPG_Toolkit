@@ -1,5 +1,6 @@
 import type { ClassResource, SecondaryResource } from '../../types/character'
 import type { Dispatch } from 'react'
+import { CARD, SECTION_HEADING } from '../../styles/classes'
 
 type Action =
   | { type: 'SET_PRIMARY_RESOURCE'; current: number }
@@ -37,8 +38,8 @@ function Pips({
 
 export default function ResourceTracker({ primary, secondary, dispatch }: Props) {
   return (
-    <div className="bg-gray-900 rounded-lg p-4">
-      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Resources</h2>
+    <div className={CARD}>
+      <h2 className={SECTION_HEADING}>Resources</h2>
 
       <div className="mb-3">
         <div className="flex justify-between items-baseline">

@@ -6,6 +6,9 @@ interface Props {
   dispatch: Dispatch<{ type: 'SET_FIELD'; field: keyof Character; value: unknown }>
 }
 
+const INPUT_BASE =
+  'w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white focus:outline-none focus:border-amber-500'
+
 const FIELD_LABEL: Partial<Record<keyof Character, string>> = {
   name: 'Name',
   className: 'Class',
@@ -36,20 +39,12 @@ export default function SheetHeader({ character, dispatch }: Props) {
 
         <div>
           <label className="block text-xs text-gray-400 mb-1">{FIELD_LABEL.className}</label>
-          <input
-            className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white focus:outline-none focus:border-amber-500"
-            value={character.className}
-            readOnly
-          />
+          <input className={INPUT_BASE} value={character.className} readOnly />
         </div>
 
         <div>
           <label className="block text-xs text-gray-400 mb-1">{FIELD_LABEL.race}</label>
-          <input
-            className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white focus:outline-none focus:border-amber-500"
-            value={character.race}
-            readOnly
-          />
+          <input className={INPUT_BASE} value={character.race} readOnly />
         </div>
 
         <div>
@@ -58,7 +53,7 @@ export default function SheetHeader({ character, dispatch }: Props) {
             type="number"
             min={1}
             max={10}
-            className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white focus:outline-none focus:border-amber-500"
+            className={INPUT_BASE}
             value={character.level}
             onChange={(e) => handleChange('level', parseInt(e.target.value, 10) || 1)}
           />
@@ -69,7 +64,7 @@ export default function SheetHeader({ character, dispatch }: Props) {
           <input
             type="number"
             min={0}
-            className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white focus:outline-none focus:border-amber-500"
+            className={INPUT_BASE}
             value={character.xp}
             onChange={(e) => handleChange('xp', parseInt(e.target.value, 10) || 0)}
           />
