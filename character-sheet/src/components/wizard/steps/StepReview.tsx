@@ -124,6 +124,14 @@ export default function StepReview({ draft }: Props) {
                 <span className="text-gray-500">Recup Die</span>
                 <span className="text-white font-semibold">{classDef.recuperationDie}</span>
               </div>
+              {classDef.secondaryResourceName && classDef.secondaryResourceMax && (
+                <div className="flex gap-2">
+                  <span className="text-gray-500">{classDef.secondaryResourceName}</span>
+                  <span className="text-white font-semibold">
+                    {selectedPath?.secondaryResourceMax ?? classDef.secondaryResourceMax}
+                  </span>
+                </div>
+              )}
             </>
           )}
         </div>

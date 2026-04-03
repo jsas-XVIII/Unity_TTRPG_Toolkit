@@ -61,7 +61,7 @@ export function buildCharacter(draft: WizardDraft): Character {
       classDef.secondaryResourceName && classDef.secondaryResourceMax
         ? {
             name: classDef.secondaryResourceName,
-            current: 0,
+            current: classDef.secondaryResourceStarting ?? 0,
             max: selectedPath?.secondaryResourceMax ?? classDef.secondaryResourceMax,
           }
         : null,

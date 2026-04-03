@@ -42,6 +42,7 @@ export interface ClassDefinition {
   primaryResourceRechargeDie: string
   secondaryResourceName: string | null
   secondaryResourceMax: number | null
+  secondaryResourceStarting?: number // defaults to 0 if omitted
   weaponCompetencies: WeaponCategory[]
   armorCompetencies: ArmorCategory[]
   classPerks: ClassPerkOption[]
