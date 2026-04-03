@@ -110,10 +110,7 @@ export default function StepPerk({ draft, onChange }: Props) {
 
                   {/* Baseline power card — sits outside the button area to avoid nesting */}
                   {pathPower && (
-                    <div
-                      className="px-4 pb-4 ml-7"
-                      onClick={(e) => e.stopPropagation()}
-                    >
+                    <div className="px-4 pb-4 ml-7" onClick={(e) => e.stopPropagation()}>
                       <PowerReferenceCard power={pathPower} className={draft.className!} />
                     </div>
                   )}

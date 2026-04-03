@@ -26,11 +26,13 @@ export const TIER_CONFIG: Record<
   { label: string; sectionHeading: string; headingColor: string }
 > = {
   baseline: { label: 'Baseline', sectionHeading: 'Baseline', headingColor: 'text-sky-600' },
-  1:        { label: 'T1',       sectionHeading: 'Tier I',   headingColor: 'text-gray-500' },
-  2:        { label: 'T2',       sectionHeading: 'Tier II',  headingColor: 'text-amber-700' },
-  lv3:      { label: 'Lv3',     sectionHeading: 'Level 3',  headingColor: 'text-green-700' },
-  lv8:      { label: 'Lv8',     sectionHeading: 'Level 8',  headingColor: 'text-purple-700' },
-  lv10:     { label: 'Lv10',    sectionHeading: 'Level 10', headingColor: 'text-rose-700' },
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  1: { label: 'T1', sectionHeading: 'Tier I', headingColor: 'text-gray-500' },
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  2: { label: 'T2', sectionHeading: 'Tier II', headingColor: 'text-amber-700' },
+  lv3: { label: 'Lv3', sectionHeading: 'Level 3', headingColor: 'text-green-700' },
+  lv8: { label: 'Lv8', sectionHeading: 'Level 8', headingColor: 'text-purple-700' },
+  lv10: { label: 'Lv10', sectionHeading: 'Level 10', headingColor: 'text-rose-700' },
 }
 
 // Shape of each class entry in powers.json.
@@ -60,16 +62,21 @@ export function getPowersByClass(cls: ClassName): ResolvedPowerPool {
   const e = powersData[cls] ?? {}
   return {
     baseline: e.baseline ?? e.classpath ?? [],
-    tier1:    e.tier1 ?? [],
-    tier2:    e.tier2 ?? [],
-    lv3:      e.lv3 ?? [],
-    lv8:      e.lv8 ?? [],
-    lv10:     e.lv10 ?? [],
+    tier1: e.tier1 ?? [],
+    tier2: e.tier2 ?? [],
+    lv3: e.lv3 ?? [],
+    lv8: e.lv8 ?? [],
+    lv10: e.lv10 ?? [],
   }
 }
 
 const ALL_POOL_KEYS: (keyof ResolvedPowerPool)[] = [
-  'baseline', 'tier1', 'tier2', 'lv3', 'lv8', 'lv10',
+  'baseline',
+  'tier1',
+  'tier2',
+  'lv3',
+  'lv8',
+  'lv10',
 ]
 
 export function getPowerById(id: string): { power: Power; className: ClassName } | undefined {

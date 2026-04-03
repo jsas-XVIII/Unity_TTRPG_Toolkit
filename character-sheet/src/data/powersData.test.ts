@@ -32,9 +32,7 @@ describe('getPowersByClass — baseline filtering by classPath', () => {
   const { baseline } = getPowersByClass('Priest')
 
   function forPath(classPath: string) {
-    return baseline.filter(
-      (p) => !p.restrictToClassPath || p.restrictToClassPath === classPath
-    )
+    return baseline.filter((p) => !p.restrictToClassPath || p.restrictToClassPath === classPath)
   }
 
   it('Chaplain sees Sacred Bolt and Healing Charge, not Holy Strike', () => {

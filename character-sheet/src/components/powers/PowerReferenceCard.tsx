@@ -52,9 +52,7 @@ export default function PowerReferenceCard({ power, className, onRemove, onUpgra
             {power.name}
           </h3>
           <div className="flex items-center gap-1.5 shrink-0 mt-0.5">
-            <span className="text-white/60 text-xs font-bold">
-              {TIER_CONFIG[power.tier].label}
-            </span>
+            <span className="text-white/60 text-xs font-bold">{TIER_CONFIG[power.tier].label}</span>
             {onRemove && !confirmingRemove && (
               <button
                 onClick={() => setConfirmingRemove(true)}
