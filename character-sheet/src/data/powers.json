@@ -1082,7 +1082,7 @@
         "cost": "2 Mana",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Roll your Basic Attack to determine X: 2–11 = ×2, 12–19 = ×3, 20–23 = ×4, 24+ = ×5. Increase your DR by HL×X. Lasts until end of battle or 10 minutes, or until you take damage.",
+        "effectsText": "Roll your Basic Attack to determine X: 2–11 = 2, 12–19 = 3, 20–23 = 4, 24+ = 5. Increase your DR by HL×X. Lasts until end of battle or 10 minutes, or until you take damage.",
         "upgrades": [
           { "id": "mirage-hardy-illusion", "name": "Hardy Illusion", "description": "On taking damage, roll 1d10; on 6+ the illusion persists, on 5 or below it cancels.", "purchased": false },
           { "id": "mirage-indistinct", "name": "Indistinct", "description": "Gain Benefit on the determining roll; also gain HL bonus to stealth.", "purchased": false }
@@ -1506,7 +1506,7 @@
         "cost": "2 Faith",
         "target": "Single Ally",
         "range": "Very Far",
-        "effectsText": "Roll your Basic Attack to determine X: 2–8 = ×1, 9–15 = ×2, 16–21 = ×3, 22+ = ×4. The target (or yourself) gains +X AV for 1 round.",
+        "effectsText": "Roll your Basic Attack to determine X: 2–8 = 1, 9–15 = 2, 16–21 = 3, 22+ = 4. The target (or yourself) gains +X AV for 1 round.",
         "upgrades": [
           { "id": "tower-rebuke", "name": "Rebuke", "description": "Enemies that hit the shielded target take +MIND Divine damage.", "purchased": false },
           { "id": "tower-reinforce", "name": "Reinforce", "description": "Gain Benefit on the roll; duration increased to 2 rounds.", "purchased": false },
@@ -1752,7 +1752,7 @@
         "cost": "3 Spirit",
         "target": "Single Ally",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack to determine X: 2–11 = ×2, 12–18 = ×3, 19–22 = ×4, 23+ = ×6. Heal the target for 1d4+HL+MIND+X; generate 2 Ferocity.",
+        "effectsText": "Roll your Basic Attack to determine X: 2–11 = 2, 12–18 = 3, 19–22 = 4, 23+ = 6. Heal the target for 1d4+HL+MIND+X; generate 2 Ferocity.",
         "upgrades": [
           { "id": "waters-hard-water", "name": "Hard Water", "description": "The target also gains 1d4 AV against a single incoming attack for 1 round.", "purchased": false },
           { "id": "waters-overflow", "name": "Overflow", "description": "Splash half the healing to 2 Adjacent Allies.", "purchased": false },
