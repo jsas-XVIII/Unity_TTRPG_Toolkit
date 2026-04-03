@@ -31,7 +31,8 @@ export interface WizardDraft {
   // Step 4 — Core Paths
   corePaths: CorePath[]
 
-  // Step 5 — Perk
+  // Step 5 — Class Path + Perk
+  classPath: string | null
   selectedPerkId: string | null
 
   // Step 6 — Powers
@@ -51,6 +52,7 @@ export const INITIAL_DRAFT: WizardDraft = {
   attrAssignments: { might: null, agility: null, mind: null, presence: null },
   className: null,
   corePaths: [],
+  classPath: null,
   selectedPerkId: null,
   powers: [],
   weapons: [],

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Power } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
+import { TIER_CONFIG } from '../../data/powersData'
 import PowerEffectsText from './PowerEffectsText'
 
 interface Props {
@@ -51,7 +52,7 @@ export default function PowerReferenceCard({ power, className, onRemove, onUpgra
             {power.name}
           </h3>
           <div className="flex items-center gap-1.5 shrink-0 mt-0.5">
-            <span className="text-white/60 text-xs font-bold">T{power.tier}</span>
+            <span className="text-white/60 text-xs font-bold">{TIER_CONFIG[power.tier].label}</span>
             {onRemove && !confirmingRemove && (
               <button
                 onClick={() => setConfirmingRemove(true)}

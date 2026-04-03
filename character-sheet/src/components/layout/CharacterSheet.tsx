@@ -124,6 +124,7 @@ export default function CharacterSheet({
             <PowerList
               powers={character.powers}
               className={character.className}
+              classPath={character.classPath}
               dispatch={dispatch}
             />
           </div>

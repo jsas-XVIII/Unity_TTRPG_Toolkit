@@ -63,7 +63,8 @@ export interface PowerUpgrade {
 export interface Power {
   id: string
   name: string
-  tier: 1 | 2
+  tier: 1 | 2 | 'baseline' | 'lv3' | 'lv8' | 'lv10'
+  restrictToClassPath?: string
   actionType: ActionType
   cost: string
   target: string
@@ -93,6 +94,8 @@ export interface Character {
   name: string
   race: Race
   className: ClassName
+  // Optional — only set for classes that have class paths (e.g. Priest: 'chaplain' | 'warpriest')
+  classPath?: string | null
   level: number
   xp: number
   age: string

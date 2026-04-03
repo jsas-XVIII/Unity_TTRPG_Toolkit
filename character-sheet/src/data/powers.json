@@ -1415,6 +1415,43 @@
     ]
   },
   "Priest": {
+    "baseline": [
+      {
+        "id": "sacred-bolt",
+        "name": "Sacred Bolt",
+        "tier": "baseline",
+        "restrictToClassPath": "chaplain",
+        "actionType": "Standard",
+        "cost": "3 Faith",
+        "target": "Single",
+        "range": "Far",
+        "effectsText": "Roll your Basic Attack. Success: You deal 1d6+HL+MIND Divine damage and gain 1 Healing Charge. Failure: You deal half damage and gain 1 Healing Charge.",
+        "upgrades": []
+      },
+      {
+        "id": "holy-strike",
+        "name": "Holy Strike",
+        "tier": "baseline",
+        "restrictToClassPath": "warpriest",
+        "actionType": "Standard",
+        "cost": "2 Faith",
+        "target": "Single",
+        "range": "Adjacent",
+        "effectsText": "Roll your Basic Attack. Success: You deal your Basic Attack damage and gain 1 Healing Charge. Failure: You deal half Basic Attack damage and gain 1 Healing Charge.",
+        "upgrades": []
+      },
+      {
+        "id": "healing-charge",
+        "name": "Healing Charge",
+        "tier": "baseline",
+        "actionType": "Quick",
+        "cost": "1+ HC",
+        "target": "Single",
+        "range": "Far",
+        "effectsText": "Each Healing Charge heals for 1+HL+MIND. You may expend multiple charges at once on the same target. You start with 1 Healing Charge and every Full Rest grants you 1 Healing Charge.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "denounce",

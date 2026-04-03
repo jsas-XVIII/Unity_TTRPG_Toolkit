@@ -40,6 +40,7 @@ export default function StepReview({ draft }: Props) {
   const maxHp = classDef ? classDef.hpBase + might : '?'
   const maxRecup = 2 + Math.floor(might / 2)
 
+  const selectedPath = classDef?.classPaths?.find((p) => p.id === draft.classPath)
   const selectedPerk = classDef?.classPerks.find((p) => p.id === draft.selectedPerkId)
   const spentDenerim = [
     ...draft.weapons.map((w) => w.cost),
@@ -67,7 +68,10 @@ export default function StepReview({ draft }: Props) {
           </div>
           <div className="flex gap-2">
             <span className="text-gray-500 w-24">Class</span>
-            <span className="text-white">{draft.className ?? '—'}</span>
+            <span className="text-white">
+              {draft.className ?? '—'}
+              {selectedPath && <span className="text-amber-400 ml-1">({selectedPath.name})</span>}
+            </span>
           </div>
           <div className="flex gap-2">
             <span className="text-gray-500 w-24">Age</span>
@@ -112,7 +116,9 @@ export default function StepReview({ draft }: Props) {
             <>
               <div className="flex gap-2">
                 <span className="text-gray-500">{classDef.primaryResourceName}</span>
-                <span className="text-white font-semibold">{classDef.primaryResourceMax}</span>
+                <span className="text-white font-semibold">
+                  {selectedPath?.primaryResourceMax ?? classDef.primaryResourceMax}
+                </span>
               </div>
               <div className="flex gap-2">
                 <span className="text-gray-500">Recup Die</span>
