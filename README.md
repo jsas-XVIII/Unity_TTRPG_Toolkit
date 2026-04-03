@@ -3,14 +3,10 @@ Link - https://regal-pony-f39711.netlify.app/
 
 ## Opening Screen
 Allows the user to select one of the following:
-- New Character
- - Step-by-Step character creation wizard to build a new character from scratch
-- Existing Character
- - Load an existing character that the user has saved in their current browser
-- Import Character
- - Load a character from a JSON file that was exported from within the app
-- Gamemaster (Coming Soon)
- - Tracks Ruin, Spark Points, encounter management, and homebrew content tools
+- New Character: Step-by-Step character creation wizard to build a new character from scratch
+- Existing Character: Load an existing character that the user has saved in their current browser
+- Import Character: Load a character from a JSON file that was exported from within the app
+- Gamemaster (Coming Soon): Tracks Ruin, Spark Points, encounter management, and homebrew content tools
 
 ## Character Wizard
 
