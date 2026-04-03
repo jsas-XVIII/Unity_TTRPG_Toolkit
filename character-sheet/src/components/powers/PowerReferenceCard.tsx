@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Power } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
+import PowerEffectsText from './PowerEffectsText'
 
 interface Props {
   power: Power
@@ -118,8 +119,12 @@ export default function PowerReferenceCard({ power, className, onRemove, onUpgra
           >
             Effects
           </p>
-          <p className="text-gray-800 text-[11px] leading-snug whitespace-pre-wrap">
-            {power.effectsText}
+          <p className="text-gray-800 text-[11px] leading-snug">
+            <PowerEffectsText
+              text={power.effectsText}
+              accentClass={colors.accent}
+              borderClass={colors.border}
+            />
           </p>
         </div>
 
