@@ -1,3 +1,4 @@
+import { CLASS_MAP } from '../../constants/classes'
 import type { WizardDraft } from './WizardTypes'
 
 const TOTAL_CORE_PATH_POINTS = 5
@@ -35,6 +36,8 @@ export function validateStepCorePaths(draft: WizardDraft): string | null {
 }
 
 export function validateStepPerk(draft: WizardDraft): string | null {
+  const classDef = draft.className ? CLASS_MAP[draft.className] : null
+  if (classDef?.classPaths && !draft.classPath) return 'Please choose a Class Path.'
   if (!draft.selectedPerkId) return 'Please choose a Class Perk.'
   return null
 }

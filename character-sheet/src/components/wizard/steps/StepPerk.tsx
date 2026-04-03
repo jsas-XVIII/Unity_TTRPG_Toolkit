@@ -14,38 +14,76 @@ export default function StepPerk({ draft, onChange }: Props) {
   }
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-xl font-bold text-white mb-1">Class Perk</h2>
-        <p className="text-sm text-gray-400">
-          Choose <strong className="text-white">1</strong> of your {classDef.name}'s starting perks.
-          These are mostly non-combat bonuses that reinforce your class identity.
-        </p>
-      </div>
+    <div className="space-y-6">
+      {classDef.classPaths && (
+        <div className="space-y-3">
+          <div>
+            <h2 className="text-xl font-bold text-white mb-1">Class Path</h2>
+            <p className="text-sm text-gray-400">
+              Choose your {classDef.name}'s path. This shapes your resources and baseline power.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {classDef.classPaths.map((path) => {
+              const selected = draft.classPath === path.id
+              return (
+                <button
+                  key={path.id}
+                  onClick={() => onChange({ classPath: path.id })}
+                  className={`w-full text-left rounded-lg border-2 p-4 transition-colors ${
+                    selected
+                      ? 'border-amber-500 bg-amber-950'
+                      : 'border-gray-700 bg-gray-800 hover:border-gray-500'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-1">
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${selected ? 'border-amber-500 bg-amber-500' : 'border-gray-500'}`}
+                    />
+                    <span className="text-base font-bold text-white">{path.name}</span>
+                  </div>
+                  <p className="text-sm text-gray-400 ml-7">{path.description}</p>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="space-y-3">
-        {classDef.classPerks.map((perk) => {
-          const selected = draft.selectedPerkId === perk.id
-          return (
-            <button
-              key={perk.id}
-              onClick={() => onChange({ selectedPerkId: perk.id })}
-              className={`w-full text-left rounded-lg border-2 p-4 transition-colors ${
-                selected
-                  ? 'border-amber-500 bg-amber-950'
-                  : 'border-gray-700 bg-gray-800 hover:border-gray-500'
-              }`}
-            >
-              <div className="flex items-center gap-3 mb-1">
-                <div
-                  className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${selected ? 'border-amber-500 bg-amber-500' : 'border-gray-500'}`}
-                />
-                <span className="text-base font-bold text-white">{perk.name}</span>
-              </div>
-              <p className="text-sm text-gray-400 ml-7">{perk.description}</p>
-            </button>
-          )
-        })}
+        <div>
+          <h2 className="text-xl font-bold text-white mb-1">Class Perk</h2>
+          <p className="text-sm text-gray-400">
+            Choose <strong className="text-white">1</strong> of your {classDef.name}'s starting
+            perks. These are mostly non-combat bonuses that reinforce your class identity.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {classDef.classPerks.map((perk) => {
+            const selected = draft.selectedPerkId === perk.id
+            return (
+              <button
+                key={perk.id}
+                onClick={() => onChange({ selectedPerkId: perk.id })}
+                className={`w-full text-left rounded-lg border-2 p-4 transition-colors ${
+                  selected
+                    ? 'border-amber-500 bg-amber-950'
+                    : 'border-gray-700 bg-gray-800 hover:border-gray-500'
+                }`}
+              >
+                <div className="flex items-center gap-3 mb-1">
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${selected ? 'border-amber-500 bg-amber-500' : 'border-gray-500'}`}
+                  />
+                  <span className="text-base font-bold text-white">{perk.name}</span>
+                </div>
+                <p className="text-sm text-gray-400 ml-7">{perk.description}</p>
+              </button>
+            )
+          })}
+        </div>
       </div>
 
       <p className="text-xs text-gray-600">

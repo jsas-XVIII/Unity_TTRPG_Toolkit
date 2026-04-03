@@ -30,7 +30,13 @@ export default function StepClass({ draft, onChange }: Props) {
           return (
             <button
               key={cls.name}
-              onClick={() => onChange({ className: cls.name as ClassName, selectedPerkId: null })}
+              onClick={() =>
+                onChange({
+                  className: cls.name as ClassName,
+                  classPath: null,
+                  selectedPerkId: null,
+                })
+              }
               className={`text-left rounded-lg border-2 p-4 transition-colors ${
                 selected
                   ? 'border-amber-500 bg-amber-950'

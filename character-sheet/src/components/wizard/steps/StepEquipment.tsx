@@ -21,13 +21,21 @@ export default function StepEquipment({ draft, onChange }: Props) {
   const [armorIdx, setArmorIdx] = useState(0)
 
   const classDef = draft.className ? CLASS_MAP[draft.className] : null
+  const selectedPath = classDef?.classPaths?.find((p) => p.id === draft.classPath)
+  const effectiveWeaponComp = classDef
+    ? [...classDef.weaponCompetencies, ...(selectedPath?.additionalWeaponCompetencies ?? [])]
+    : []
+  const effectiveArmorComp = classDef
+    ? [...classDef.armorCompetencies, ...(selectedPath?.additionalArmorCompetencies ?? [])]
+    : []
+
   const total = draft.startingDenerim
   const used = spent(draft.weapons, draft.armor)
   const remaining = total - used
 
   // Filter weapon templates to class competencies for quick suggestion
   const competentWeapons = classDef
-    ? WEAPON_TEMPLATES.filter((t) => classDef.weaponCompetencies.includes(t.category))
+    ? WEAPON_TEMPLATES.filter((t) => effectiveWeaponComp.includes(t.category))
     : WEAPON_TEMPLATES
 
   function addWeapon() {
@@ -100,9 +108,11 @@ export default function StepEquipment({ draft, onChange }: Props) {
 
       {classDef && (
         <div className="bg-gray-800 rounded-lg px-4 py-2 text-xs text-gray-500">
-          <span className="text-gray-400 font-semibold">{classDef.name} competencies — </span>
-          Weapons: {classDef.weaponCompetencies.join(', ')} · Armor:{' '}
-          {classDef.armorCompetencies.join(', ')}
+          <span className="text-gray-400 font-semibold">
+            {classDef.name}
+            {selectedPath ? ` (${selectedPath.name})` : ''} competencies —{' '}
+          </span>
+          Weapons: {effectiveWeaponComp.join(', ')} · Armor: {effectiveArmorComp.join(', ')}
         </div>
       )}
 
@@ -136,7 +146,7 @@ export default function StepEquipment({ draft, onChange }: Props) {
             onChange={(e) => setWeaponCatIdx(Number(e.target.value))}
           >
             {WEAPON_TEMPLATES.map((t, i) => {
-              const isCompetent = classDef?.weaponCompetencies.includes(t.category)
+              const isCompetent = effectiveWeaponComp.includes(t.category)
               return (
                 <option key={i} value={i}>
                   {isCompetent ? '★ ' : ''}
@@ -179,7 +189,7 @@ export default function StepEquipment({ draft, onChange }: Props) {
             onChange={(e) => setArmorIdx(Number(e.target.value))}
           >
             {ARMOR_TEMPLATES.map((t, i) => {
-              const isCompetent = classDef?.armorCompetencies.includes(t.category)
+              const isCompetent = effectiveArmorComp.includes(t.category)
               return (
                 <option key={i} value={i}>
                   {isCompetent ? '★ ' : ''}

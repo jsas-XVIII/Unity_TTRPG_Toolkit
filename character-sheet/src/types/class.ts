@@ -9,6 +9,17 @@ export interface ClassPerkOption {
   description: string
 }
 
+export interface ClassPathOption {
+  id: string
+  name: string
+  description: string
+  primaryResourceMax?: number
+  primaryResourceRechargeDie?: string
+  secondaryResourceMax?: number
+  additionalArmorCompetencies?: ArmorCategory[]
+  additionalWeaponCompetencies?: WeaponCategory[]
+}
+
 export interface ClassDefinition {
   name: ClassName
   description: string
@@ -23,5 +34,6 @@ export interface ClassDefinition {
   weaponCompetencies: WeaponCategory[]
   armorCompetencies: ArmorCategory[]
   classPerks: ClassPerkOption[]
+  classPaths?: ClassPathOption[]
   startingArtifactCapacity: number
 }

@@ -171,13 +171,13 @@ export const CLASSES: ClassDefinition[] = [
     mainAttribute: 'mind',
     hpBase: 10,
     recuperationDie: 'd6',
-    primaryResourceName: 'Mana',
+    primaryResourceName: 'Faith',
     primaryResourceMax: 8,
     primaryResourceRechargeDie: '1d6',
     secondaryResourceName: 'Healing Charges',
     secondaryResourceMax: 3,
     weaponCompetencies: ['Light Melee', 'Medium Melee'],
-    armorCompetencies: ['Light', 'Heavy'],
+    armorCompetencies: ['Light'],
     classPerks: [
       {
         id: 'priest-perk-1',
@@ -188,6 +188,28 @@ export const CLASSES: ClassDefinition[] = [
         id: 'priest-perk-2',
         name: 'Purifying Light',
         description: 'Once per Full Rest, cure all Diseases and Status Effects from one ally.',
+      },
+    ],
+    classPaths: [
+      {
+        id: 'chaplain',
+        name: 'Chaplain',
+        description:
+          'You are focused on the strict study of holy texts and understanding the divine song that flows from your god to you. The healing arts and accepting your god\'s grace come easily to you.',
+        primaryResourceMax: 10,
+        primaryResourceRechargeDie: '1d6',
+        secondaryResourceMax: 4,
+      },
+      {
+        id: 'warpriest',
+        name: 'War Priest',
+        description:
+          'You are the physical embodiment of the fury of your god. You understand that in order to make your gospel heard by the heretic, you must get up close and personal. Your will is iron and your body is steel.',
+        primaryResourceMax: 6,
+        primaryResourceRechargeDie: '1d4',
+        secondaryResourceMax: 3,
+        additionalArmorCompetencies: ['Heavy', 'Shield'],
+        additionalWeaponCompetencies: ['Heavy Melee'],
       },
     ],
     startingArtifactCapacity: 1,
