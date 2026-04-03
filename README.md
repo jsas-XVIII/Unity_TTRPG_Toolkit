@@ -1,12 +1,20 @@
 # Unity_TTRPG_Toolkit
 Link - https://regal-pony-f39711.netlify.app/
 
+## Opening Screen
+Allows the user to select one of the following:
+- New Character
+ - Step-by-Step character creation wizard to build a new character from scratch
+- Existing Character
+ - Load an existing character that the user has saved in their current browser
+- Import Character
+ - Load a character from a JSON file that was exported from within the app
+- Gamemaster (Coming Soon)
+ - Tracks Ruin, Spark Points, encounter management, and homebrew content tools
 
-## Getting started
+## Character Wizard
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
 ## Add your files
 
