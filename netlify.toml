@@ -2,6 +2,10 @@
   base    = "character-sheet"
   command = "npm run build"
   publish = "dist"
+  ignore  = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- ../character-sheet/"
 
 [build.environment]
   NODE_VERSION = "22"
+
+[context.production]
+  branch = "main"
