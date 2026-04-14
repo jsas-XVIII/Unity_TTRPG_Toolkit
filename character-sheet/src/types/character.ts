@@ -78,6 +78,9 @@ export interface Power {
 export interface CharacterPower {
   id: string
   purchasedUpgradeIds: string[]
+  // 'free_lv5' marks a Tier II power granted for free at Level 5 (does not spend a token).
+  // Absent or 'purchased' means the power was bought with a token.
+  source?: 'purchased' | 'free_lv5'
 }
 
 export type PerkSource = 'Class' | 'General'

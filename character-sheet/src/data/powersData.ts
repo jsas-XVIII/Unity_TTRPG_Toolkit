@@ -96,3 +96,23 @@ export function getAllPowers(): Array<{ power: Power; className: ClassName }> {
     return ALL_POOL_KEYS.flatMap((key) => pools[key].map((power) => ({ power, className: cls })))
   })
 }
+
+// Cumulative token budgets by level (1–10). Index 0 is a safety fallback.
+const TOKEN_BUDGET_BY_LEVEL: ReadonlyArray<{ tier1: number; tier2: number }> = [
+  { tier1: 0, tier2: 0 }, // index 0 — unused
+  { tier1: 3, tier2: 0 }, // Level 1
+  { tier1: 4, tier2: 0 }, // Level 2
+  { tier1: 4, tier2: 0 }, // Level 3
+  { tier1: 5, tier2: 0 }, // Level 4
+  { tier1: 6, tier2: 0 }, // Level 5
+  { tier1: 6, tier2: 1 }, // Level 6
+  { tier1: 7, tier2: 2 }, // Level 7
+  { tier1: 8, tier2: 2 }, // Level 8
+  { tier1: 8, tier2: 3 }, // Level 9
+  { tier1: 9, tier2: 4 }, // Level 10
+]
+
+export function getTokenBudget(level: number): { tier1: number; tier2: number } {
+  const clamped = Math.max(1, Math.min(10, level))
+  return TOKEN_BUDGET_BY_LEVEL[clamped]
+}
