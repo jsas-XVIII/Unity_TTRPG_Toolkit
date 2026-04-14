@@ -217,9 +217,7 @@ describe('tier2Used — purchased upgrades on free_lv5 powers still cost tokens'
 describe('freeTier2Count — Free Tier II counter', () => {
   it('does not show Free Tier II counter below level 5', () => {
     renderList([], 4)
-    expect(
-      screen.queryByText(/^Free Tier II:/, { selector: 'span' })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText(/^Free Tier II:/, { selector: 'span' })).not.toBeInTheDocument()
   })
 
   it('shows Free Tier II counter at level 5', () => {
@@ -260,9 +258,7 @@ describe('freeTier2Count — Free Tier II counter', () => {
 describe('showTier2Warning — level 5+ warning message', () => {
   it('does not show warning below level 5', () => {
     renderList([], 4)
-    expect(
-      screen.queryByText(/Level 5 grants 2 free Tier II powers/i)
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText(/Level 5 grants 2 free Tier II powers/i)).not.toBeInTheDocument()
   })
 
   it('shows warning at level 5 with 0 free Tier II powers designated', () => {
@@ -277,9 +273,7 @@ describe('showTier2Warning — level 5+ warning message', () => {
 
   it('does not show warning at level 5 when both free Tier II slots are filled', () => {
     renderList([mkPower(T2_ID_1, 'free_lv5'), mkPower(T2_ID_2, 'free_lv5')], 5)
-    expect(
-      screen.queryByText(/Level 5 grants 2 free Tier II powers/i)
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText(/Level 5 grants 2 free Tier II powers/i)).not.toBeInTheDocument()
   })
 
   it('shows warning at level 10 if free Tier II slots are not yet filled', () => {
@@ -289,9 +283,7 @@ describe('showTier2Warning — level 5+ warning message', () => {
 
   it('does not show warning at level 10 when both free Tier II slots are filled', () => {
     renderList([mkPower(T2_ID_1, 'free_lv5'), mkPower(T2_ID_2, 'free_lv5')], 10)
-    expect(
-      screen.queryByText(/Level 5 grants 2 free Tier II powers/i)
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText(/Level 5 grants 2 free Tier II powers/i)).not.toBeInTheDocument()
   })
 })
 
