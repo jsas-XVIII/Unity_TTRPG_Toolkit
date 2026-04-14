@@ -1,97 +1,140 @@
-# Unity_TTRPG_Toolkit
-Link - https://regal-pony-f39711.netlify.app/
+# Unity TTRPG Toolkit
 
-## Opening Screen
-Allows the user to select one of the following:
-- New Character: Step-by-Step character creation wizard to build a new character from scratch
-- Existing Character: Load an existing character that the user has saved in their current browser
-- Import Character: Load a character from a JSON file that was exported from within the app
-- Gamemaster (Coming Soon): Tracks Ruin, Spark Points, encounter management, and homebrew content tools
+Digital tools for the **Unity Tabletop RPG** (Zensara Studios / Modiphius Entertainment).
 
-## Character Wizard
+**Live app:** https://regal-pony-f39711.netlify.app/
 
+---
 
+## Overview
 
-## Add your files
+A browser-based character sheet and GM toolkit for the Unity TTRPG system. Built with React + TypeScript, deployed via Netlify.
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+---
 
+## Features
+
+### Opening Screen
+
+- **New Character** — Step-by-step character creation wizard
+- **Existing Character** — Load a saved character from the current browser session
+- **Import Character** — Load a character from an exported JSON file
+- **Gamemaster** *(Coming Soon)* — Ruin tracking, Spark Points, encounter management, and homebrew content tools
+
+### Character Wizard
+
+Guides the user through the full 8-step character creation process:
+
+1. Choose a class (Dreadnought, Driftwalker, Fell Hunter, Judge, Mystic, Phantom, Priest, Primalist, Sentinel)
+2. Choose a class path where applicable (e.g. Chaplain / War Priest for Priest)
+3. Set attributes, select baseline powers, and pick Tier I / Tier II powers within the starting token budget
+
+### Character Sheet
+
+The main view after creation or loading. Organized into zones:
+
+| Zone | Contents |
+|------|----------|
+| Header | Name, class, race, level, XP, age |
+| Core Stats | 4 attributes + computed AR / DR / MR / Speed / AV / HP |
+| Resources | Current HP + Fading stacks, class resource pips, recuperation |
+| Core Paths | Up to 3 paths with point steppers (1–6 per path) |
+| Powers | All selected powers organized by tier, with token counter |
+| Perks | Class and general perks |
+| Equipment | Weapons, armor, artifacts (with capacity), inventory |
+| Notes | Free-text field for campaign notes and background |
+
+Characters can be saved to the browser, exported to JSON, or imported from a JSON file.
+
+---
+
+## Powers & Token System
+
+Powers are organized into tiers. The token counter at the top of the Powers window tracks spending against the level-based budget.
+
+### Token counter display
+
+- `Tier I Tokens: w/x` — used vs. available at current level
+- `Tier II Tokens: y/z` — used vs. available at current level
+- Color coding: green (under cap), yellow (1 token remaining or at cap), red (over cap)
+- At Level 5+: `Free Tier II: n/2` tracks the two free Tier II powers granted by the rules
+- A warning appears at Level 5+ until both free Tier II powers have been designated
+
+### Auto-detection of free Tier II powers
+
+When a Tier II power is added at Level 5+ and free slots remain, it is automatically tagged as a free grant and does not consume a token from the regular budget.
+
+### Token budget by level
+
+| Level | T1 Tokens | T2 Tokens |
+|-------|-----------|-----------|
+| 1     | 3         | 0         |
+| 2     | 4         | 0         |
+| 3     | 4         | 0         |
+| 4     | 5         | 0         |
+| 5     | 6         | 0         |
+| 6     | 6         | 1         |
+| 7     | 7         | 2         |
+| 8     | 8         | 2         |
+| 9     | 8         | 3         |
+| 10    | 9         | 4         |
+
+---
+
+## Tech Stack
+
+| | |
+|-|-|
+| Framework | React 19 + TypeScript |
+| Build | Vite |
+| Styling | Tailwind CSS v4 |
+| Forms | React Hook Form |
+| Unit tests | Vitest + Testing Library |
+| E2E tests | Cypress |
+| CI/CD | GitLab CI → Netlify |
+
+---
+
+## Local Development
+
+```bash
+cd character-sheet
+npm install
+npm run dev        # dev server at http://localhost:5173
+npm run build      # type-check + production build
+npm run test:unit  # run unit tests
+npm run cy:open    # open Cypress test runner
+npm run lint       # ESLint
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/jsas40k-group/Unity_TTRPG_Toolkit.git
-git branch -M main
-git push -uf origin main
-```
 
-## Integrate with your tools
+---
 
-* [Set up project integrations](https://gitlab.com/jsas40k-group/Unity_TTRPG_Toolkit/-/settings/integrations)
+## CI Pipeline
 
-## Collaborate with your team
+All merge requests and pushes to `main` / `develop` run:
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+1. **validate** — commit message linting, ESLint, TypeScript type-check, `npm audit`
+2. **test** — unit tests (Vitest), E2E tests (Cypress / Chrome)
+3. **build** — production build artifact (kept for 1 week)
 
-## Test and Deploy
+Commit messages must follow the format: `type(scope): description`
+Allowed types: `feat`, `fix`, `test`, `chore`, `docs`, `refactor`, `style`, `perf`, `ci`
 
-Use the built-in continuous integration in GitLab.
+---
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+## Game Reference
 
-***
+Rules are extracted from the Unity Core Rules PDF into `docs/rules/`:
 
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+| File | Contents |
+|------|----------|
+| `00_index.md` | Master index + key concepts |
+| `01_world_lore.md` | Setting, factions, races, locations |
+| `02_character_creation.md` | 8-step creation, races, attributes, perks, core paths |
+| `03_classes.md` | All 9 classes — traits, resources, features, token tables |
+| `04_core_rules.md` | Core roll, difficulty, Spark Points, Ruin, resting |
+| `05_combat_rules.md` | Combat sequence, actions, range, attacking, status effects |
+| `06_colossal_combat.md` | Titan Rigs, success ladder, piloting |
+| `07_equipment.md` | Weapons, armor, gear, artifacts |
+| `08_foes_fiends.md` | Monster creation, encounter design |
+| `09_gm_guide.md` | GM philosophy, Ruin usage, leveling, combat advice |

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { CharacterPower, Power } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
 import type { Dispatch } from 'react'
-import { getPowersByClass, getPowerById, TIER_CONFIG } from '../../data/powersData'
+import { getPowersByClass, getPowerById, TIER_CONFIG, getTokenBudget } from '../../data/powersData'
 import PowerCard from './PowerCard'
 import PowerReferenceCard from './PowerReferenceCard'
 import { CARD, SECTION_HEADING } from '../../styles/classes'
@@ -21,10 +21,17 @@ interface Props {
   powers: CharacterPower[]
   className: ClassName
   classPath?: string | null
+  level: number
   dispatch: Dispatch<Action>
 }
 
-export default function PowerList({ powers, className, classPath, dispatch }: Props) {
+function tokenColor(used: number, total: number): string {
+  if (used > total) return 'text-red-400'
+  if (used === total) return 'text-green-400'
+  return 'text-yellow-400'
+}
+
+export default function PowerList({ powers, className, classPath, level, dispatch }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [preview, setPreview] = useState<Power | null>(null)
 
@@ -38,20 +45,75 @@ export default function PowerList({ powers, className, classPath, dispatch }: Pr
     (p) => !p.restrictToClassPath || p.restrictToClassPath === classPath
   )
 
-  function addPower(source: Power) {
-    dispatch({ type: 'ADD_POWER', power: { id: source.id, purchasedUpgradeIds: [] } })
-    setPickerOpen(false)
-    setPreview(null)
-  }
-
   // Resolve tier for display grouping; unresolved powers render in their own fallback card
   const sheetTier1 = powers.filter((p) => getPowerById(p.id)?.power.tier === 1)
   const sheetTier2 = powers.filter((p) => getPowerById(p.id)?.power.tier === 2)
   const sheetUnresolved = powers.filter((p) => !getPowerById(p.id))
 
+  // Token budget for current level
+  const budget = getTokenBudget(level)
+
+  // Used tokens — each power costs 1 token (except free_lv5 grants), each purchased
+  // upgrade costs 1 additional token of the same tier regardless of power source.
+  const tier1Used = sheetTier1.reduce(
+    (sum, p) => sum + (p.source !== 'free_lv5' ? 1 : 0) + p.purchasedUpgradeIds.length,
+    0
+  )
+  const tier2Used = sheetTier2.reduce(
+    (sum, p) => sum + (p.source !== 'free_lv5' ? 1 : 0) + p.purchasedUpgradeIds.length,
+    0
+  )
+  const freeTier2Count = sheetTier2.filter((p) => p.source === 'free_lv5').length
+
+  // Level 5+ warning: character should have 2 free Tier II powers designated
+  const showTier2Warning = level >= 5 && freeTier2Count < 2
+
+  const canUseFreeSlot = level >= 5 && freeTier2Count < 2
+
+  function addPower(source: Power) {
+    const powerSource = source.tier === 2 && canUseFreeSlot ? 'free_lv5' : 'purchased'
+    dispatch({
+      type: 'ADD_POWER',
+      power: { id: source.id, purchasedUpgradeIds: [], source: powerSource },
+    })
+    setPickerOpen(false)
+    setPreview(null)
+  }
+
   return (
     <div className={CARD}>
       <h2 className={SECTION_HEADING}>Powers</h2>
+
+      {/* Token counters */}
+      <div className="flex flex-wrap gap-4 mb-4 px-1">
+        <span className="text-xs text-gray-500">
+          Tier I Tokens:{' '}
+          <span className={tokenColor(tier1Used, budget.tier1)}>
+            {tier1Used}/{budget.tier1}
+          </span>
+        </span>
+        <span className="text-xs text-gray-500">
+          Tier II Tokens:{' '}
+          <span className={tokenColor(tier2Used, budget.tier2)}>
+            {tier2Used}/{budget.tier2}
+          </span>
+        </span>
+        {level >= 5 && (
+          <span className="text-xs text-gray-500">
+            Free Tier II:{' '}
+            <span className={freeTier2Count >= 2 ? 'text-green-400' : 'text-yellow-400'}>
+              {freeTier2Count}/2
+            </span>
+          </span>
+        )}
+      </div>
+
+      {/* Level 5 warning */}
+      {showTier2Warning && (
+        <p className="text-xs text-yellow-500 mb-3">
+          Level 5 grants 2 free Tier II powers — designate them when adding via the picker.
+        </p>
+      )}
 
       {/* Baseline — derived from class data, read-only */}
       {baselinePowers.length > 0 && (
@@ -154,6 +216,7 @@ export default function PowerList({ powers, className, classPath, dispatch }: Pr
               {preview ? (
                 <>
                   <PowerReferenceCard power={preview} className={className} />
+
                   <button
                     className="px-4 py-1.5 rounded bg-amber-700 hover:bg-amber-600 text-white text-sm font-semibold"
                     onClick={() => addPower(preview)}

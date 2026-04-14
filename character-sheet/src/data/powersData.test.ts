@@ -1,7 +1,7 @@
 // powersData.test.ts — unit tests for power data lookup and class path filtering.
 
 import { describe, it, expect } from 'vitest'
-import { getPowersByClass, getPowerById } from './powersData'
+import { getPowersByClass, getPowerById, getTokenBudget } from './powersData'
 
 describe('getPowersByClass — Priest baseline powers', () => {
   const { baseline } = getPowersByClass('Priest')
@@ -74,5 +74,65 @@ describe('getPowerById — finds Priest baseline powers by id', () => {
 
   it('returns undefined for an unknown id', () => {
     expect(getPowerById('not-a-real-power')).toBeUndefined()
+  })
+})
+
+describe('getTokenBudget — correct values at each level', () => {
+  it('level 1 returns tier1=3, tier2=0', () => {
+    expect(getTokenBudget(1)).toEqual({ tier1: 3, tier2: 0 })
+  })
+
+  it('level 2 returns tier1=4, tier2=0', () => {
+    expect(getTokenBudget(2)).toEqual({ tier1: 4, tier2: 0 })
+  })
+
+  it('level 3 returns tier1=4, tier2=0', () => {
+    expect(getTokenBudget(3)).toEqual({ tier1: 4, tier2: 0 })
+  })
+
+  it('level 4 returns tier1=5, tier2=0', () => {
+    expect(getTokenBudget(4)).toEqual({ tier1: 5, tier2: 0 })
+  })
+
+  it('level 5 returns tier1=6, tier2=0', () => {
+    expect(getTokenBudget(5)).toEqual({ tier1: 6, tier2: 0 })
+  })
+
+  it('level 6 returns tier1=6, tier2=1', () => {
+    expect(getTokenBudget(6)).toEqual({ tier1: 6, tier2: 1 })
+  })
+
+  it('level 7 returns tier1=7, tier2=2', () => {
+    expect(getTokenBudget(7)).toEqual({ tier1: 7, tier2: 2 })
+  })
+
+  it('level 8 returns tier1=8, tier2=2', () => {
+    expect(getTokenBudget(8)).toEqual({ tier1: 8, tier2: 2 })
+  })
+
+  it('level 9 returns tier1=8, tier2=3', () => {
+    expect(getTokenBudget(9)).toEqual({ tier1: 8, tier2: 3 })
+  })
+
+  it('level 10 returns tier1=9, tier2=4', () => {
+    expect(getTokenBudget(10)).toEqual({ tier1: 9, tier2: 4 })
+  })
+})
+
+describe('getTokenBudget — clamping behavior', () => {
+  it('level 0 clamps to level 1 values (tier1=3, tier2=0)', () => {
+    expect(getTokenBudget(0)).toEqual({ tier1: 3, tier2: 0 })
+  })
+
+  it('negative level clamps to level 1 values', () => {
+    expect(getTokenBudget(-5)).toEqual({ tier1: 3, tier2: 0 })
+  })
+
+  it('level 11 clamps to level 10 values (tier1=9, tier2=4)', () => {
+    expect(getTokenBudget(11)).toEqual({ tier1: 9, tier2: 4 })
+  })
+
+  it('very large level clamps to level 10 values', () => {
+    expect(getTokenBudget(999)).toEqual({ tier1: 9, tier2: 4 })
   })
 })

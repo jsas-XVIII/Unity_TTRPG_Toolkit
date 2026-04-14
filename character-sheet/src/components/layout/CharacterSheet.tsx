@@ -125,6 +125,7 @@ export default function CharacterSheet({
               powers={character.powers}
               className={character.className}
               classPath={character.classPath}
+              level={character.level}
               dispatch={dispatch}
             />
           </div>
