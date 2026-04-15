@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import type { CharacterPower, Power } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
 import type { Dispatch } from 'react'
@@ -37,7 +37,7 @@ export default function PowerList({ powers, className, classPath, level, dispatc
 
   const { tier1, tier2, baseline } = getPowersByClass(className)
   const allClassPowers = [...tier1, ...tier2] // baseline excluded from picker
-  const addedIds = new Set(powers.map((p) => p.id))
+  const addedIds = useMemo(() => new Set(powers.map((p) => p.id)), [powers])
 
   // Baseline powers are derived from class data, never stored on the character.
   // Filter to those matching the character's class path (or unrestricted ones).
@@ -45,10 +45,17 @@ export default function PowerList({ powers, className, classPath, level, dispatc
     (p) => !p.restrictToClassPath || p.restrictToClassPath === classPath
   )
 
+  // Resolve each power once via getPowerById (O(classes × pools) per call) so we
+  // don't repeat the lookup across the three display-group filters below.
+  const resolvedPowerMap = useMemo(
+    () => new Map(powers.map((p) => [p.id, getPowerById(p.id)])),
+    [powers]
+  )
+
   // Resolve tier for display grouping; unresolved powers render in their own fallback card
-  const sheetTier1 = powers.filter((p) => getPowerById(p.id)?.power.tier === 1)
-  const sheetTier2 = powers.filter((p) => getPowerById(p.id)?.power.tier === 2)
-  const sheetUnresolved = powers.filter((p) => !getPowerById(p.id))
+  const sheetTier1 = powers.filter((p) => resolvedPowerMap.get(p.id)?.power.tier === 1)
+  const sheetTier2 = powers.filter((p) => resolvedPowerMap.get(p.id)?.power.tier === 2)
+  const sheetUnresolved = powers.filter((p) => !resolvedPowerMap.get(p.id))
 
   // Token budget for current level
   const budget = getTokenBudget(level)

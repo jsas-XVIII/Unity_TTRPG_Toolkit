@@ -21,6 +21,25 @@ function perkColor(used: number, max: number): string {
   return 'text-yellow-400'
 }
 
+interface PerkRowProps {
+  perk: Perk
+  dispatch: Dispatch<Action>
+}
+
+function PerkRow({ perk, dispatch }: PerkRowProps) {
+  return (
+    <div className="flex items-start gap-2 py-1.5 border-b border-gray-800 last:border-0">
+      <div className="flex-1">
+        <span className="text-sm font-semibold text-white">{perk.name}</span>
+        {perk.description && <p className="text-xs text-gray-400 mt-0.5">{perk.description}</p>}
+      </div>
+      <button className={REMOVE_BTN} onClick={() => dispatch({ type: 'REMOVE_PERK', id: perk.id })}>
+        ✕
+      </button>
+    </div>
+  )
+}
+
 export default function PerkList({ perks, level, dispatch }: Props) {
   const [showModal, setShowModal] = useState(false)
 
@@ -43,23 +62,6 @@ export default function PerkList({ perks, level, dispatch }: Props) {
     })
   }
 
-  function PerkRow({ perk }: { perk: Perk }) {
-    return (
-      <div className="flex items-start gap-2 py-1.5 border-b border-gray-800 last:border-0">
-        <div className="flex-1">
-          <span className="text-sm font-semibold text-white">{perk.name}</span>
-          {perk.description && <p className="text-xs text-gray-400 mt-0.5">{perk.description}</p>}
-        </div>
-        <button
-          className={REMOVE_BTN}
-          onClick={() => dispatch({ type: 'REMOVE_PERK', id: perk.id })}
-        >
-          ✕
-        </button>
-      </div>
-    )
-  }
-
   return (
     <>
       <div className={CARD}>
@@ -67,7 +69,7 @@ export default function PerkList({ perks, level, dispatch }: Props) {
         <h2 className={SECTION_HEADING}>Class Perks</h2>
         <div className="mb-1">
           {classPerks.length > 0 ? (
-            classPerks.map((p) => <PerkRow key={p.id} perk={p} />)
+            classPerks.map((p) => <PerkRow key={p.id} perk={p} dispatch={dispatch} />)
           ) : (
             <p className="text-xs text-gray-600 italic">No class perks added.</p>
           )}
@@ -90,7 +92,7 @@ export default function PerkList({ perks, level, dispatch }: Props) {
         </div>
         <div className="mb-2">
           {generalPerks.length > 0 ? (
-            generalPerks.map((p) => <PerkRow key={p.id} perk={p} />)
+            generalPerks.map((p) => <PerkRow key={p.id} perk={p} dispatch={dispatch} />)
           ) : (
             <p className="text-xs text-gray-600 italic">No general perks added.</p>
           )}

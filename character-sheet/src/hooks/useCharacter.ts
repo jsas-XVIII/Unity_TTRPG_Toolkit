@@ -9,7 +9,7 @@
 // The character has many independent sub-fields. useReducer keeps all update logic
 // in one place (the reducer below) rather than scattered across components.
 
-import { useReducer, useCallback } from 'react'
+import { useReducer, useCallback, useMemo } from 'react'
 import type { Character, CharacterPower, CorePath, Perk } from '../types/character'
 import type { Weapon, ArmorItem, Artifact } from '../types/equipment'
 import { CLASS_MAP } from '../constants/classes'
@@ -172,9 +172,11 @@ export function useCharacter(initial: Character) {
   // Look up the class definition so we can pass the main attribute to computeDerivedStats.
   // Falls back to safe zeros if the class name doesn't match any known class.
   const classDef = CLASS_MAP[character.className]
-  const derived: DerivedStats = classDef
-    ? computeDerivedStats(character, classDef)
-    : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
+  const derived: DerivedStats = useMemo(() => {
+    return classDef
+      ? computeDerivedStats(character, classDef)
+      : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
+  }, [character, classDef])
 
   // Convenience wrapper so callers can do setCharacter(c) instead of dispatch({ type: 'SET_CHARACTER', ... })
   const setCharacter = useCallback(
