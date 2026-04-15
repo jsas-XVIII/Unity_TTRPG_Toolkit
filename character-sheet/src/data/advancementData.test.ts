@@ -313,14 +313,11 @@ describe('applyLevelUp — class feature unlock hint at levels 8 and 10', () => 
 describe('applyLevelUp — non-feature levels have no class feature hint', () => {
   const classDef = CLASS_MAP['Dreadnought']
 
-  it.each([2, 4, 5, 6, 7, 9])(
-    'level %i checklist has no class feature hint',
-    (targetLevel) => {
-      const char = { ...baseCharacter, level: targetLevel - 1 }
-      const { checklist } = applyLevelUp(char, classDef)
-      expect(checklist.some((c) => c.toLowerCase().includes('class feature'))).toBe(false)
-    }
-  )
+  it.each([2, 4, 5, 6, 7, 9])('level %i checklist has no class feature hint', (targetLevel) => {
+    const char = { ...baseCharacter, level: targetLevel - 1 }
+    const { checklist } = applyLevelUp(char, classDef)
+    expect(checklist.some((c) => c.toLowerCase().includes('class feature'))).toBe(false)
+  })
 })
 
 // ---------------------------------------------------------------------------
