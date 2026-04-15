@@ -1,5 +1,29 @@
 {
   "Dreadnought": {
+    "baseline": [
+      {
+        "id": "dreadnought-shieldbreaker",
+        "name": "Shieldbreaker",
+        "tier": "baseline",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Your Melee attacks gain +1 Armour Penetration, allowing you to ignore 1 AV when calculating damage. Shieldbreaker does not provide additional physical damage if the target has no AV; it only ignores AV the target has. Bonus: +2 at level 5, +3 at level 9.",
+        "upgrades": []
+      },
+      {
+        "id": "dreadnought-cleave",
+        "name": "Cleave",
+        "tier": "baseline",
+        "actionType": "Standard",
+        "cost": "2 Fury",
+        "target": "Up to 1d4",
+        "range": "Adjacent",
+        "effectsText": "Roll your Basic Attack. Roll 1d4 to determine how many ADJACENT enemies are struck by your attack. Success: You deal 1d10+HL damage. Failure: You deal half damage.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "furious-charge",
@@ -11,8 +35,18 @@
         "range": "Nearby",
         "effectsText": "Charge a Nearby enemy and make a Basic Attack. AR and damage are increased by your Shieldbreaker bonus. Success: Fury cost refunded. Failure: Normal miss result.",
         "upgrades": [
-          { "id": "furious-charge-juggernaut", "name": "Juggernaut", "description": "Gain +MIGHT to AV against Provoked Attacks while charging.", "purchased": false },
-          { "id": "furious-charge-war-cry", "name": "War Cry", "description": "Gain 1 additional Fury on success.", "purchased": false }
+          {
+            "id": "furious-charge-juggernaut",
+            "name": "Juggernaut",
+            "description": "Gain +MIGHT to AV against Provoked Attacks while charging.",
+            "purchased": false
+          },
+          {
+            "id": "furious-charge-war-cry",
+            "name": "War Cry",
+            "description": "Gain 1 additional Fury on success.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -58,8 +92,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage + an additional 1d4+MIGHT+HL damage. Failure: Miss and immediately suffer a retaliation attack with 0 AV; refund 1 Fury.",
         "upgrades": [
-          { "id": "reckless-assault-channelled-fury", "name": "Channelled Fury", "description": "Can be combined with another power as a Quick action; non-single targets take half damage from the combo.", "purchased": false },
-          { "id": "reckless-assault-broadside", "name": "Broadside", "description": "Do not lose AV on the retaliation from a failed attack.", "purchased": false }
+          {
+            "id": "reckless-assault-channelled-fury",
+            "name": "Channelled Fury",
+            "description": "Can be combined with another power as a Quick action; non-single targets take half damage from the combo.",
+            "purchased": false
+          },
+          {
+            "id": "reckless-assault-broadside",
+            "name": "Broadside",
+            "description": "Do not lose AV on the retaliation from a failed attack.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -72,7 +116,12 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; target suffers Hindrance on movement for 1 round. Failure: Deal half Basic Attack damage.",
         "upgrades": [
-          { "id": "impale-pin", "name": "Pin", "description": "Spend 1 additional Fury to also lower the target's AR by +MIGHT for 1 round.", "purchased": false }
+          {
+            "id": "impale-pin",
+            "name": "Pin",
+            "description": "Spend 1 additional Fury to also lower the target's AR by +MIGHT for 1 round.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -96,7 +145,12 @@
         "range": "Self",
         "effectsText": "While below half your maximum HP, your AV counts as universal Damage Resistance. This does not apply to the blow that drops you below half.",
         "upgrades": [
-          { "id": "battle-hardened-no-pain", "name": "No Pain", "description": "While Battle-Hardened is active, AV is further increased by your Shieldbreaker bonus.", "purchased": false }
+          {
+            "id": "battle-hardened-no-pain",
+            "name": "No Pain",
+            "description": "While Battle-Hardened is active, AV is further increased by your Shieldbreaker bonus.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -109,7 +163,12 @@
         "range": "Adjacent",
         "effectsText": "Grab an Adjacent Ally and launch them to a Nearby enemy or location. If targeting an enemy, roll your Basic Attack. Success: The target takes no damage but is Staggered for 1 round. The launched Ally does not spend a Movement action.",
         "upgrades": [
-          { "id": "lets-roll-battering-ram", "name": "Battering Ram", "description": "The launched Ally also deals Basic Attack damage in addition to Staggering the target.", "purchased": false }
+          {
+            "id": "lets-roll-battering-ram",
+            "name": "Battering Ram",
+            "description": "The launched Ally also deals Basic Attack damage in addition to Staggering the target.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -122,9 +181,24 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage + an additional +1d4 damage that stacks each consecutive use. Failure: Deal half damage and lose 1 damage stack if applicable.",
         "upgrades": [
-          { "id": "rampage-cadence", "name": "Cadence", "description": "Cost reduced to 1 Fury.", "purchased": false },
-          { "id": "rampage-encore", "name": "Encore", "description": "Spend 1 Fury to reroll a failed attack roll once per round.", "purchased": false },
-          { "id": "rampage-maestro", "name": "Maestro", "description": "The stacking damage die increases to 1d8.", "purchased": false }
+          {
+            "id": "rampage-cadence",
+            "name": "Cadence",
+            "description": "Cost reduced to 1 Fury.",
+            "purchased": false
+          },
+          {
+            "id": "rampage-encore",
+            "name": "Encore",
+            "description": "Spend 1 Fury to reroll a failed attack roll once per round.",
+            "purchased": false
+          },
+          {
+            "id": "rampage-maestro",
+            "name": "Maestro",
+            "description": "The stacking damage die increases to 1d8.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -139,8 +213,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage ignoring all AV; Shieldbreaker bonus is converted to additional damage instead. Failure: Deal half Basic Attack damage ignoring AV, but no Shieldbreaker bonus.",
         "upgrades": [
-          { "id": "crushing-blow-overkill", "name": "Overkill", "description": "Double your Shieldbreaker bonus on success.", "purchased": false },
-          { "id": "crushing-blow-crumple-armour", "name": "Crumple Armour", "description": "Reduce the target's AV by HL for 1 round.", "purchased": false }
+          {
+            "id": "crushing-blow-overkill",
+            "name": "Overkill",
+            "description": "Double your Shieldbreaker bonus on success.",
+            "purchased": false
+          },
+          {
+            "id": "crushing-blow-crumple-armour",
+            "name": "Crumple Armour",
+            "description": "Reduce the target's AV by HL for 1 round.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -153,8 +237,18 @@
         "range": "Adjacent",
         "effectsText": "When you would be hit, grab an Adjacent enemy to intercept the attack (must be Medium or smaller, not the attacker, not immune to displacement, not an MR attack). Success: The grabbed enemy suffers the attack's damage. Failure: You suffer full damage. If the target is Elite, Contest MIGHT vs. MIGHT.",
         "upgrades": [
-          { "id": "living-shield-bloodthirsty", "name": "Bloodthirsty", "description": "Generate 5 Fury if the Living Shield target dies.", "purchased": false },
-          { "id": "living-shield-mighty-grip", "name": "Mighty Grip", "description": "Spend 1 additional Fury to gain Benefit on the grab attempt.", "purchased": false }
+          {
+            "id": "living-shield-bloodthirsty",
+            "name": "Bloodthirsty",
+            "description": "Generate 5 Fury if the Living Shield target dies.",
+            "purchased": false
+          },
+          {
+            "id": "living-shield-mighty-grip",
+            "name": "Mighty Grip",
+            "description": "Spend 1 additional Fury to gain Benefit on the grab attempt.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -167,8 +261,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack targeting MR against all Adjacent enemies. Success: They cannot perform Provoked Attacks for 1 round. Failure: They suffer Hindrance on Provoked Attacks.",
         "upgrades": [
-          { "id": "roar-shaken-to-the-core", "name": "Shaken to the Core", "description": "Affected targets are also Staggered; the power no longer requires a Movement action.", "purchased": false },
-          { "id": "roar-inspire-the-pride", "name": "Inspire the Pride", "description": "Adjacent Allies gain HL to AR and damage on their next attack.", "purchased": false }
+          {
+            "id": "roar-shaken-to-the-core",
+            "name": "Shaken to the Core",
+            "description": "Affected targets are also Staggered; the power no longer requires a Movement action.",
+            "purchased": false
+          },
+          {
+            "id": "roar-inspire-the-pride",
+            "name": "Inspire the Pride",
+            "description": "Adjacent Allies gain HL to AR and damage on their next attack.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -192,9 +296,24 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack against a Nearby target. Success: Deal Basic Attack damage and gain 1 Wrecking Ball stack. Failure: Deal half damage; stacks are maintained. Each stack increases your damage and DR by +2. Stacks fall off after 1 round if not refreshed.",
         "upgrades": [
-          { "id": "wrecking-ball-glory-ignores-pain", "name": "Glory Ignores Pain", "description": "Wrecking Ball stacks also increase AV by +2 each.", "purchased": false },
-          { "id": "wrecking-ball-overpower", "name": "Overpower", "description": "Each stack grants +3 instead of +2.", "purchased": false },
-          { "id": "wrecking-ball-bullheaded", "name": "Bullheaded", "description": "Refund 1 Fury on a failed attack.", "purchased": false }
+          {
+            "id": "wrecking-ball-glory-ignores-pain",
+            "name": "Glory Ignores Pain",
+            "description": "Wrecking Ball stacks also increase AV by +2 each.",
+            "purchased": false
+          },
+          {
+            "id": "wrecking-ball-overpower",
+            "name": "Overpower",
+            "description": "Each stack grants +3 instead of +2.",
+            "purchased": false
+          },
+          {
+            "id": "wrecking-ball-bullheaded",
+            "name": "Bullheaded",
+            "description": "Refund 1 Fury on a failed attack.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -207,8 +326,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: All Adjacent enemies take 2d8+MIGHT damage. Failure: All Adjacent enemies take +MIGHT damage.",
         "upgrades": [
-          { "id": "raging-storm-eye-of-the-storm", "name": "Eye of the Storm", "description": "Your DR and AV increase by +MIGHT until your next turn.", "purchased": false },
-          { "id": "raging-storm-eternal-tempest", "name": "Eternal Tempest", "description": "If you hit 4 or more enemies, reset the Overdrive tag.", "purchased": false }
+          {
+            "id": "raging-storm-eye-of-the-storm",
+            "name": "Eye of the Storm",
+            "description": "Your DR and AV increase by +MIGHT until your next turn.",
+            "purchased": false
+          },
+          {
+            "id": "raging-storm-eternal-tempest",
+            "name": "Eternal Tempest",
+            "description": "If you hit 4 or more enemies, reset the Overdrive tag.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -221,9 +350,24 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage and leave a Vicious Wound on the target (attacks against the target gain +1 damage, stacking up to your Level; lasts until end of next turn). Failure: Deal half damage; no Vicious Wound.",
         "upgrades": [
-          { "id": "vicious-wound-gash", "name": "Gash", "description": "Each attack against the wounded target deals +2 damage per stack instead of +1.", "purchased": false },
-          { "id": "vicious-wound-mortal-wounds", "name": "Mortal Wounds", "description": "Healing and regeneration on the wounded target are halved.", "purchased": false },
-          { "id": "vicious-wound-practiced", "name": "Practiced", "description": "Cost reduced to 1 Fury.", "purchased": false }
+          {
+            "id": "vicious-wound-gash",
+            "name": "Gash",
+            "description": "Each attack against the wounded target deals +2 damage per stack instead of +1.",
+            "purchased": false
+          },
+          {
+            "id": "vicious-wound-mortal-wounds",
+            "name": "Mortal Wounds",
+            "description": "Healing and regeneration on the wounded target are halved.",
+            "purchased": false
+          },
+          {
+            "id": "vicious-wound-practiced",
+            "name": "Practiced",
+            "description": "Cost reduced to 1 Fury.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -236,12 +380,80 @@
         "range": "Self",
         "effectsText": "When your HP is reduced to 0 or below, immediately make one Basic Attack against an Adjacent enemy and heal for half the damage inflicted. Once per Full Rest.",
         "upgrades": [
-          { "id": "relentless-composed", "name": "Composed", "description": "Use a power instead of a Basic Attack when Relentless triggers.", "purchased": false }
+          {
+            "id": "relentless-composed",
+            "name": "Composed",
+            "description": "Use a power instead of a Basic Attack when Relentless triggers.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "dreadnought-heart-of-the-mountain",
+        "name": "Heart of the Mountain",
+        "tier": "lv3",
+        "actionType": "Movement",
+        "cost": "None",
+        "target": "Special",
+        "range": "Nearby",
+        "effectsText": "You may pick up and move an Incapacitated Ally with you, spending your Quick and Movement actions. While doing so you shield your Ally from Provoked Attacks with your own body. If you have the power Let's Roll, its Fury cost is free for one use whenever an Ally falls on the battlefield.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "dreadnought-fearless",
+        "name": "Fearless",
+        "tier": "lv8",
+        "actionType": "Free",
+        "cost": "1 Fury",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "When a fear or intimidation effect is used, you may activate Fearless to become immune to it for 1 round.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "dreadnought-split-the-earth",
+        "name": "Split the Earth",
+        "tier": "lv10",
+        "actionType": "Ultimate",
+        "cost": "3 Fury",
+        "target": "Multiple",
+        "range": "Nearby",
+        "effectsText": "Roll your Basic Attack. Success: All enemies ADJACENT and up to a NEARBY distance away that are struck by Split the Earth suffer 2d20 damage. If your Attack beats the target's DR by 3 or more, the target is Stunned for 1 round. You receive +8 to your DR for 2 rounds. Failure: You deal half damage. Allies still receive +6 to AR and Damage for their next attack.",
+        "upgrades": []
       }
     ]
   },
   "Driftwalker": {
+    "baseline": [
+      {
+        "id": "driftwalker-dark-bargain",
+        "name": "Dark Bargain",
+        "tier": "baseline",
+        "actionType": "Quick",
+        "cost": "2+MIND Blood",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Recharge 1 Bile.",
+        "upgrades": []
+      },
+      {
+        "id": "driftwalker-siphoning-strike",
+        "name": "Siphoning Strike",
+        "tier": "baseline",
+        "actionType": "Standard",
+        "cost": "2 Bile",
+        "target": "Single",
+        "range": "Adjacent",
+        "effectsText": "Roll your Basic Attack. Success: You deal Basic Attack damage and heal yourself for HL+MIND. Failure: You deal half damage and heal for HL.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "black-blood",
@@ -253,9 +465,24 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d4+MIND Corrosive damage and spawn up to HL Festering Pustules on the target. Pustules explode for 1d4 Corrosive damage each to the target and Adjacent enemies when the target takes damage. Failure: Deal 1d4 Corrosive damage.",
         "upgrades": [
-          { "id": "black-blood-virulent", "name": "Virulent", "description": "Pustules deal 1d6 damage each instead of 1d4.", "purchased": false },
-          { "id": "black-blood-contagion", "name": "Contagion", "description": "Spawn 1 Pustule even on failure.", "purchased": false },
-          { "id": "black-blood-leeching-sores", "name": "Leeching Sores", "description": "Heal for half of the total Pustule damage dealt.", "purchased": false }
+          {
+            "id": "black-blood-virulent",
+            "name": "Virulent",
+            "description": "Pustules deal 1d6 damage each instead of 1d4.",
+            "purchased": false
+          },
+          {
+            "id": "black-blood-contagion",
+            "name": "Contagion",
+            "description": "Spawn 1 Pustule even on failure.",
+            "purchased": false
+          },
+          {
+            "id": "black-blood-leeching-sores",
+            "name": "Leeching Sores",
+            "description": "Heal for half of the total Pustule damage dealt.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -268,7 +495,12 @@
         "range": "Self",
         "effectsText": "Gain +10 maximum HP but lose 1 maximum Bile. Can be taken up to 2 times, once per level.",
         "upgrades": [
-          { "id": "demonic-constitution-might-of-the-void", "name": "Might of the Void", "description": "Your Basic Attack damage die becomes 1d12 or 2d6.", "purchased": false }
+          {
+            "id": "demonic-constitution-might-of-the-void",
+            "name": "Might of the Void",
+            "description": "Your Basic Attack damage die becomes 1d12 or 2d6.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -281,9 +513,24 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Pull the target to your location. Contest MIGHT vs. MIND if the target is larger than Medium or Elite. Failure: Mark the target — your next Chains of Morganus against them gains Benefit (lasts until end of your next turn).",
         "upgrades": [
-          { "id": "chains-searing-links", "name": "Searing Links", "description": "As a Quick action, spend 1d4 Blood to deal double damage + MIND Corrosive to the chained target.", "purchased": false },
-          { "id": "chains-draining-bondage", "name": "Draining Bondage", "description": "Spend 1 Bile to heal for MIND+HL.", "purchased": false },
-          { "id": "chains-splintering-grip", "name": "Splintering Grip", "description": "On a successful chain, shatter the chains to deal 1d4+HL+MIND Corrosive to enemies Adjacent to the target.", "purchased": false }
+          {
+            "id": "chains-searing-links",
+            "name": "Searing Links",
+            "description": "As a Quick action, spend 1d4 Blood to deal double damage + MIND Corrosive to the chained target.",
+            "purchased": false
+          },
+          {
+            "id": "chains-draining-bondage",
+            "name": "Draining Bondage",
+            "description": "Spend 1 Bile to heal for MIND+HL.",
+            "purchased": false
+          },
+          {
+            "id": "chains-splintering-grip",
+            "name": "Splintering Grip",
+            "description": "On a successful chain, shatter the chains to deal 1d4+HL+MIND Corrosive to enemies Adjacent to the target.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -296,7 +543,12 @@
         "range": "Self",
         "effectsText": "Permanently increase AGILITY by +1 but reduce maximum HP by 4. Can be taken up to 3 times, once per level.",
         "upgrades": [
-          { "id": "demonic-speed-shimmer", "name": "Shimmer", "description": "Spend 1 Bile as a Reaction to increase DR by +MIND against an incoming attack. Declare before rolling.", "purchased": false }
+          {
+            "id": "demonic-speed-shimmer",
+            "name": "Shimmer",
+            "description": "Spend 1 Bile as a Reaction to increase DR by +MIND against an incoming attack. Declare before rolling.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -309,8 +561,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack to determine X. Imprison the target — they cannot move but can still attack. The prison absorbs damage up to LEVEL+MIND+X before shattering. Only one prison can be active at a time.",
         "upgrades": [
-          { "id": "bone-prison-roll-the-bones", "name": "Roll the Bones", "description": "You can maintain multiple prisons simultaneously.", "purchased": false },
-          { "id": "bone-prison-bone-spurs", "name": "Bone Spurs", "description": "Melee attackers who strike the prison take +MIND Physical damage.", "purchased": false }
+          {
+            "id": "bone-prison-roll-the-bones",
+            "name": "Roll the Bones",
+            "description": "You can maintain multiple prisons simultaneously.",
+            "purchased": false
+          },
+          {
+            "id": "bone-prison-bone-spurs",
+            "name": "Bone Spurs",
+            "description": "Melee attackers who strike the prison take +MIND Physical damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -323,7 +585,12 @@
         "range": "Self",
         "effectsText": "Gain +2 AV permanently but lose 1 PRESENCE.",
         "upgrades": [
-          { "id": "fell-carapace-thick-skin", "name": "Thick Skin", "description": "Spend 2 Bile as a Reaction to gain additional AV equal to +MIND against a single incoming attack.", "purchased": false }
+          {
+            "id": "fell-carapace-thick-skin",
+            "name": "Thick Skin",
+            "description": "Spend 2 Bile as a Reaction to gain additional AV equal to +MIND against a single incoming attack.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -336,7 +603,12 @@
         "range": "Self",
         "effectsText": "Siphoning Strike leaves a mark on its target. Your next Siphoning Strike against that target gains Benefit. The mark lasts until end of your next turn.",
         "upgrades": [
-          { "id": "second-serving-reaping-swing", "name": "Reaping Swing", "description": "Spend 1 Bile to heal for an additional +MIND HP on a successful Siphoning Strike hit.", "purchased": false }
+          {
+            "id": "second-serving-reaping-swing",
+            "name": "Reaping Swing",
+            "description": "Spend 1 Bile to heal for an additional +MIND HP on a successful Siphoning Strike hit.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -349,9 +621,24 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack targeting MR. Success: Deal 1d8+MIND True damage; target is unable to attack you for 2 rounds. Failure: Deal half damage; target is unable to attack you for 1 round.",
         "upgrades": [
-          { "id": "nightmare-terror-strikes-twice", "name": "Terror Strikes Twice", "description": "One Ally of your choice also gains immunity from the target's attacks.", "purchased": false },
-          { "id": "nightmare-surrender-to-fear", "name": "Surrender to Fear", "description": "Nightmare is always cast with Benefit and costs no Bile.", "purchased": false },
-          { "id": "nightmare-psychic-scarring", "name": "Psychic Scarring", "description": "Damage increased to 1d12+MIND+LEVEL.", "purchased": false }
+          {
+            "id": "nightmare-terror-strikes-twice",
+            "name": "Terror Strikes Twice",
+            "description": "One Ally of your choice also gains immunity from the target's attacks.",
+            "purchased": false
+          },
+          {
+            "id": "nightmare-surrender-to-fear",
+            "name": "Surrender to Fear",
+            "description": "Nightmare is always cast with Benefit and costs no Bile.",
+            "purchased": false
+          },
+          {
+            "id": "nightmare-psychic-scarring",
+            "name": "Psychic Scarring",
+            "description": "Damage increased to 1d12+MIND+LEVEL.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -366,8 +653,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: A parasite burrows into the target, dealing +MIND damage and healing you for the damage dealt. While Maintained, the parasite repeats at the start of your next turn. Only 1 parasite can be active at a time.",
         "upgrades": [
-          { "id": "blood-parasite-proliferation", "name": "Proliferation", "description": "You can maintain multiple parasites simultaneously.", "purchased": false },
-          { "id": "blood-parasite-blood-feast", "name": "Blood Feast", "description": "Allies striking a parasitized target heal for 1d4.", "purchased": false }
+          {
+            "id": "blood-parasite-proliferation",
+            "name": "Proliferation",
+            "description": "You can maintain multiple parasites simultaneously.",
+            "purchased": false
+          },
+          {
+            "id": "blood-parasite-blood-feast",
+            "name": "Blood Feast",
+            "description": "Allies striking a parasitized target heal for 1d4.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -380,7 +677,12 @@
         "range": "Self",
         "effectsText": "When any enemy dies, heal for HL.",
         "upgrades": [
-          { "id": "soul-reaper-empower", "name": "Empower", "description": "When an enemy dies, your next attack gains HL to AR. This does not stack from multiple deaths.", "purchased": false }
+          {
+            "id": "soul-reaper-empower",
+            "name": "Empower",
+            "description": "When an enemy dies, your next attack gains HL to AR. This does not stack from multiple deaths.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -393,8 +695,18 @@
         "range": "Far",
         "effectsText": "Target an organic corpse up to Far distance. Roll your Basic Attack to hit all creatures Adjacent to the corpse. Success: Deal 2d4+HL+MIND Corrosive damage. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "explode-corpse-lingering-miasma", "name": "Lingering Miasma", "description": "A cloud of gas remains, dealing +MIND Corrosive damage to anyone in the area for 2 rounds.", "purchased": false },
-          { "id": "explode-corpse-choking-fumes", "name": "Choking Fumes", "description": "Targets hit are also Staggered.", "purchased": false }
+          {
+            "id": "explode-corpse-lingering-miasma",
+            "name": "Lingering Miasma",
+            "description": "A cloud of gas remains, dealing +MIND Corrosive damage to anyone in the area for 2 rounds.",
+            "purchased": false
+          },
+          {
+            "id": "explode-corpse-choking-fumes",
+            "name": "Choking Fumes",
+            "description": "Targets hit are also Staggered.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -407,8 +719,18 @@
         "range": "Far",
         "effectsText": "Choose how much Blood to expend (up to your current Level). Roll your Basic Attack. Success: Deal 1d6+X Fire damage. If the target is killed, the Bile cost is refunded. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "sunder-soul-grim-gift", "name": "Grim Gift", "description": "Share your Soul Reaper healing bonuses with Allies on each trigger.", "purchased": false },
-          { "id": "sunder-soul-dancing-with-death", "name": "Dancing with Death", "description": "Double the Blood expenditure for doubled bonus damage.", "purchased": false }
+          {
+            "id": "sunder-soul-grim-gift",
+            "name": "Grim Gift",
+            "description": "Share your Soul Reaper healing bonuses with Allies on each trigger.",
+            "purchased": false
+          },
+          {
+            "id": "sunder-soul-dancing-with-death",
+            "name": "Dancing with Death",
+            "description": "Double the Blood expenditure for doubled bonus damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -421,8 +743,18 @@
         "range": "Far",
         "effectsText": "Tether yourself to a willing Ally. All damage is split in half (rounded down) between both of you. All healing heals both of you for the full amount. Lasts until end of battle, 10 minutes, or either of you becomes Incapacitated or moves out of range.",
         "upgrades": [
-          { "id": "soul-link-blood-ritual", "name": "Blood Ritual", "description": "As a Quick action, you and your linked Ally can transfer life force between each other.", "purchased": false },
-          { "id": "soul-link-uplift", "name": "Uplift", "description": "Both linked characters regenerate 1 Class Resource per round.", "purchased": false }
+          {
+            "id": "soul-link-blood-ritual",
+            "name": "Blood Ritual",
+            "description": "As a Quick action, you and your linked Ally can transfer life force between each other.",
+            "purchased": false
+          },
+          {
+            "id": "soul-link-uplift",
+            "name": "Uplift",
+            "description": "Both linked characters regenerate 1 Class Resource per round.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -446,8 +778,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Disable the target from casting or using powers for 1 round (interrupts if mid-cast); deal +MIND damage. Contest MIGHT vs. MIND if larger than Medium or Elite. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "grasp-crushing-grasp", "name": "Crushing Grasp", "description": "Spend 1d4+HL Blood to deal double damage.", "purchased": false },
-          { "id": "grasp-infernal-reach", "name": "Infernal Reach", "description": "Range increased to Far.", "purchased": false }
+          {
+            "id": "grasp-crushing-grasp",
+            "name": "Crushing Grasp",
+            "description": "Spend 1d4+HL Blood to deal double damage.",
+            "purchased": false
+          },
+          {
+            "id": "grasp-infernal-reach",
+            "name": "Infernal Reach",
+            "description": "Range increased to Far.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -460,14 +802,92 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack to determine X. Lower the target's MR based on X: 2–8 = −2, 9–15 = −3, 16–21 = −4, 22+ = −5. Effect lasts 1 round.",
         "upgrades": [
-          { "id": "melt-mind-psychic-backlash", "name": "Psychic Backlash", "description": "The afflicted target suffers the MR penalty as True damage whenever they attack or move.", "purchased": false },
-          { "id": "melt-mind-lingering-madness", "name": "Lingering Madness", "description": "Duration increased to 2 rounds.", "purchased": false },
-          { "id": "melt-mind-break-resistance", "name": "Break Resistance", "description": "Also lower one elemental resistance by the same amount as the MR penalty.", "purchased": false }
+          {
+            "id": "melt-mind-psychic-backlash",
+            "name": "Psychic Backlash",
+            "description": "The afflicted target suffers the MR penalty as True damage whenever they attack or move.",
+            "purchased": false
+          },
+          {
+            "id": "melt-mind-lingering-madness",
+            "name": "Lingering Madness",
+            "description": "Duration increased to 2 rounds.",
+            "purchased": false
+          },
+          {
+            "id": "melt-mind-break-resistance",
+            "name": "Break Resistance",
+            "description": "Also lower one elemental resistance by the same amount as the MR penalty.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "driftwalker-whispers-of-the-drift",
+        "name": "Whispers of the Drift",
+        "tier": "lv3",
+        "actionType": "Overdrive",
+        "cost": "None",
+        "target": "Single",
+        "range": "Nearby",
+        "effectsText": "You are able to affect the mind of a thinking creature momentarily, lowering the TN by HL for whatever coercion or haggling an Ally might wish to apply to the target as you channel this power.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "driftwalker-dark-thoughts",
+        "name": "Dark Thoughts",
+        "tier": "lv8",
+        "actionType": "Quick",
+        "cost": "2 Bile",
+        "target": "Single",
+        "range": "Far",
+        "effectsText": "You may telepathically communicate with an intelligent creature that understands the language you are using. Lasts 1 minute.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "driftwalker-possession",
+        "name": "Possession",
+        "tier": "lv10",
+        "actionType": "Ultimate",
+        "cost": "3 Bile/Special",
+        "target": "Single",
+        "range": "Far",
+        "effectsText": "Roll your Basic Attack; Targets Mental Resistance (MR). Maintaining this power costs 1d4 Blood per round. Success: You take control of the target each round, beginning at the start of your turn. The GM may reveal the target's stats and abilities. You use the possessed target's Attack and Defense rolls to determine hits. Rolling doubles while possessing a target recharges 1 Bile per standard Driftwalker rules. If the target is Elite, you must Contest MIND vs. MIND initially and each round after to continue. Failure: Your target is greatly shaken by the mental assault and suffers Hindrance on all actions for 2 rounds.",
+        "upgrades": []
       }
     ]
   },
   "Fell Hunter": {
+    "baseline": [
+      {
+        "id": "fell-hunter-point-blank-shot",
+        "name": "Point Blank Shot",
+        "tier": "baseline",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "You do not suffer the usual Hindrance penalty for attacking with a ranged weapon while ADJACENT to an enemy.",
+        "upgrades": []
+      },
+      {
+        "id": "fell-hunter-vault",
+        "name": "Vault",
+        "tier": "baseline",
+        "actionType": "Movement",
+        "cost": "1 Focus",
+        "target": "Special",
+        "range": "Nearby",
+        "effectsText": "Use your Movement action to Vault up to a NEARBY distance into or away from danger. While Vaulting you receive Benefit against all Provoked Attacks.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "alpha-strike",
@@ -479,8 +899,18 @@
         "range": "Self",
         "effectsText": "Your first attack of battle gains +AGILITY to AR and damage.",
         "upgrades": [
-          { "id": "alpha-strike-patient-hunter", "name": "Patient Hunter", "description": "Alpha Strike reactivates if you haven't used a Standard action yet this battle.", "purchased": false },
-          { "id": "alpha-strike-drawing-a-bead", "name": "Drawing a Bead", "description": "Gain Benefit on the Alpha Strike attack roll.", "purchased": false }
+          {
+            "id": "alpha-strike-patient-hunter",
+            "name": "Patient Hunter",
+            "description": "Alpha Strike reactivates if you haven't used a Standard action yet this battle.",
+            "purchased": false
+          },
+          {
+            "id": "alpha-strike-drawing-a-bead",
+            "name": "Drawing a Bead",
+            "description": "Gain Benefit on the Alpha Strike attack roll.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -493,8 +923,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack against a group of Adjacent enemies. Success: Deal Basic Attack damage and targets cannot perform Provoked Attacks. Failure: Targets still cannot perform Provoked Attacks.",
         "upgrades": [
-          { "id": "covering-fire-unending-salvo", "name": "Unending Salvo", "description": "Cast with Benefit; cost reduced to 1 Focus.", "purchased": false },
-          { "id": "covering-fire-pinning-fire", "name": "Pinning Fire", "description": "Targets are also Rooted for 1 round.", "purchased": false }
+          {
+            "id": "covering-fire-unending-salvo",
+            "name": "Unending Salvo",
+            "description": "Cast with Benefit; cost reduced to 1 Focus.",
+            "purchased": false
+          },
+          {
+            "id": "covering-fire-pinning-fire",
+            "name": "Pinning Fire",
+            "description": "Targets are also Rooted for 1 round.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -540,8 +980,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Fire an explosive bola; declare a timer of 1–3 rounds. When it explodes, deal 1d4+AGILITY Fire damage to the target and all creatures Adjacent to it. Failure: Deal 1d6 damage as the bola bounces off.",
         "upgrades": [
-          { "id": "explosive-bola-remote-detonation", "name": "Remote Detonation", "description": "Detonate the bola early as a Quick action.", "purchased": false },
-          { "id": "explosive-bola-incendiary-powder", "name": "Incendiary Powder", "description": "The explosion damage die increases to 1d10.", "purchased": false }
+          {
+            "id": "explosive-bola-remote-detonation",
+            "name": "Remote Detonation",
+            "description": "Detonate the bola early as a Quick action.",
+            "purchased": false
+          },
+          {
+            "id": "explosive-bola-incendiary-powder",
+            "name": "Incendiary Powder",
+            "description": "The explosion damage die increases to 1d10.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -554,7 +1004,12 @@
         "range": "Adjacent",
         "effectsText": "Target 2 Adjacent creatures (a primary and secondary). Roll your Basic Attack against the primary. Success: Deal full damage to the primary and half damage to the secondary. Failure: Deal half damage to the primary only.",
         "upgrades": [
-          { "id": "twin-fang-swiftstriker", "name": "Swiftstriker", "description": "Refund 1 Focus on success.", "purchased": false }
+          {
+            "id": "twin-fang-swiftstriker",
+            "name": "Swiftstriker",
+            "description": "Refund 1 Focus on success.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -578,8 +1033,18 @@
         "range": "Far",
         "effectsText": "Make multiple ranged Basic Attacks in one action. Each successive shot after the first suffers −2 to AR and damage (cumulative). Limited only by your resource pool.",
         "upgrades": [
-          { "id": "zen-marksmanship-stillness", "name": "Stillness", "description": "Refund 1 Focus for each successful shot after the first.", "purchased": false },
-          { "id": "zen-marksmanship-acuity", "name": "Acuity", "description": "The stacking penalty is reduced to −1 per shot.", "purchased": false }
+          {
+            "id": "zen-marksmanship-stillness",
+            "name": "Stillness",
+            "description": "Refund 1 Focus for each successful shot after the first.",
+            "purchased": false
+          },
+          {
+            "id": "zen-marksmanship-acuity",
+            "name": "Acuity",
+            "description": "The stacking penalty is reduced to −1 per shot.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -594,7 +1059,12 @@
         "range": "Self",
         "effectsText": "Your Basic Ranged Attack range is extended to Very Far. Targets at Far or Very Far distance take an additional +1d6 Physical damage on a successful hit.",
         "upgrades": [
-          { "id": "sniper-demonsbane", "name": "Demonsbane", "description": "The bonus damage applies at ALL ranges when attacking Demons.", "purchased": false }
+          {
+            "id": "sniper-demonsbane",
+            "name": "Demonsbane",
+            "description": "The bonus damage applies at ALL ranges when attacking Demons.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -607,7 +1077,12 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack targeting MR. Success: The next attack against the target gains a HL bonus to AR; enables powers requiring a distracted target. Lasts 1 round. Failure: The next attack gains +1 AR. Lasts 1 round.",
         "upgrades": [
-          { "id": "distract-true-nuisance", "name": "True Nuisance", "description": "Distract uses a Quick action instead of Standard.", "purchased": false }
+          {
+            "id": "distract-true-nuisance",
+            "name": "True Nuisance",
+            "description": "Distract uses a Quick action instead of Standard.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -631,8 +1106,18 @@
         "range": "Self",
         "effectsText": "Your DR increases by HL against the next single incoming attack. If not triggered before the start of your next turn, the effect expires.",
         "upgrades": [
-          { "id": "camouflage-mass-camouflage", "name": "Mass Camouflage", "description": "Spend 1 additional Focus to extend the DR bonus to Adjacent Allies.", "purchased": false },
-          { "id": "camouflage-blend", "name": "Blend", "description": "DR bonus is doubled against ranged attacks; +2 to stealth checks.", "purchased": false }
+          {
+            "id": "camouflage-mass-camouflage",
+            "name": "Mass Camouflage",
+            "description": "Spend 1 additional Focus to extend the DR bonus to Adjacent Allies.",
+            "purchased": false
+          },
+          {
+            "id": "camouflage-blend",
+            "name": "Blend",
+            "description": "DR bonus is doubled against ranged attacks; +2 to stealth checks.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -645,8 +1130,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage as Electric and embed a lightning rod (only 1 at a time). While maintained, enemies starting their turn Adjacent to the rod take +AGILITY Electric damage, and Electric attacks against the rod's target splash half damage to Adjacent enemies. Failure: Deal half damage; rod doesn't stick.",
         "upgrades": [
-          { "id": "lightning-rod-amperage", "name": "Amperage", "description": "Area damage increased to 1d8+AGILITY.", "purchased": false },
-          { "id": "lightning-rod-conduction", "name": "Conduction", "description": "No maintain cost; rod lasts until end of combat.", "purchased": false }
+          {
+            "id": "lightning-rod-amperage",
+            "name": "Amperage",
+            "description": "Area damage increased to 1d8+AGILITY.",
+            "purchased": false
+          },
+          {
+            "id": "lightning-rod-conduction",
+            "name": "Conduction",
+            "description": "No maintain cost; rod lasts until end of combat.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -659,8 +1154,18 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 2d8+AGILITY+HL damage; target is Marked for Death (attacks trigger Massive Hit or Adrenaline Rush on rolls of 17–20 instead of 20 only, for 1 round). Failure: Deal half damage; target Staggered for 1 round.",
         "upgrades": [
-          { "id": "heartseeker-magnify-weakness", "name": "Magnify Weakness", "description": "Marked for Death triggers on rolls of 16–20.", "purchased": false },
-          { "id": "heartseeker-lingering-doom", "name": "Lingering Doom", "description": "The Marked for Death effect lasts an additional round.", "purchased": false }
+          {
+            "id": "heartseeker-magnify-weakness",
+            "name": "Magnify Weakness",
+            "description": "Marked for Death triggers on rolls of 16–20.",
+            "purchased": false
+          },
+          {
+            "id": "heartseeker-lingering-doom",
+            "name": "Lingering Doom",
+            "description": "The Marked for Death effect lasts an additional round.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -673,8 +1178,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; target Staggered for 1 round. Failure: Deal half Basic Attack damage.",
         "upgrades": [
-          { "id": "staggering-shot-forceful-impact", "name": "Forceful Impact", "description": "Spend 1 additional Focus to push the target Nearby away. Contest MIGHT vs. AGILITY if Elite or larger.", "purchased": false },
-          { "id": "staggering-shot-weighted-ammo", "name": "Weighted Ammo", "description": "Target is Staggered even on failure; gain Benefit on the Contest if you have Forceful Impact.", "purchased": false }
+          {
+            "id": "staggering-shot-forceful-impact",
+            "name": "Forceful Impact",
+            "description": "Spend 1 additional Focus to push the target Nearby away. Contest MIGHT vs. AGILITY if Elite or larger.",
+            "purchased": false
+          },
+          {
+            "id": "staggering-shot-weighted-ammo",
+            "name": "Weighted Ammo",
+            "description": "Target is Staggered even on failure; gain Benefit on the Contest if you have Forceful Impact.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -687,12 +1202,80 @@
         "range": "Very Far",
         "effectsText": "Trade up to HL in AR for an equal damage bonus (e.g., −5 AR for +5 damage).",
         "upgrades": [
-          { "id": "power-shot-steady-hands", "name": "Steady Hands", "description": "The damage bonus is doubled.", "purchased": false }
+          {
+            "id": "power-shot-steady-hands",
+            "name": "Steady Hands",
+            "description": "The damage bonus is doubled.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "fell-hunter-trailblazer",
+        "name": "Trailblazer",
+        "tier": "lv3",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "When travelling by land, any journey that takes 3 days or longer can be reduced by 1 day (e.g. a trek taking 4 days can be reduced to 3 days). When taking a Full Rest in the wilderness or other unsafe areas, the chance of an Intrusion occurring is reduced by 1. Instead of 2 Intrusion numbers, GMs pick only 1.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "fell-hunter-sixth-sense",
+        "name": "Sixth Sense",
+        "tier": "lv8",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "You receive Benefit on any roll that involves detecting creatures that are sneaking or hiding in your near vicinity. You also no longer suffer Hindrance against attacking targets that are protecting themselves using some sort of visual impairment such as illusions, stealth, or invisibility.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "fell-hunter-crackshot",
+        "name": "Crackshot",
+        "tier": "lv10",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Every time you miss an attack in combat you gain +1 to your AR until you successfully strike a target. Stacks indefinitely until you have a successful hit or combat ends, then it resets to 0.",
+        "upgrades": []
       }
     ]
   },
   "Judge": {
+    "baseline": [
+      {
+        "id": "judge-zealot",
+        "name": "Zealot",
+        "tier": "baseline",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "When not wielding a shield: You can choose to re-roll any weapon damage dice that come up as a 1 or 2. You must accept the next roll even if it is a 1 or 2. When wielding a shield: You can choose to re-roll a Defense roll if the 2d10 portion of the roll comes up in the range of 2-5. You must accept the next roll no matter what it is.",
+        "upgrades": []
+      },
+      {
+        "id": "judge-holy-smite",
+        "name": "Holy Smite",
+        "tier": "baseline",
+        "actionType": "Quick",
+        "cost": "1 Fervor",
+        "target": "Single",
+        "range": "Adjacent",
+        "effectsText": "Upon dealing Melee damage, you may add an additional Divine damage bonus: +1d4 at levels 1-4, +1d6 at levels 5-9, +1d8 at level 10.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "radiant-strike",
@@ -704,8 +1287,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; target's AR is lowered by HL for 1 round. Failure: Deal half Basic Attack damage.",
         "upgrades": [
-          { "id": "radiant-strike-burst-of-light", "name": "Burst of Light", "description": "An enemy Adjacent to the target also has their AR lowered.", "purchased": false },
-          { "id": "radiant-strike-dutiful", "name": "Dutiful", "description": "Refund 1 Fervor on success.", "purchased": false }
+          {
+            "id": "radiant-strike-burst-of-light",
+            "name": "Burst of Light",
+            "description": "An enemy Adjacent to the target also has their AR lowered.",
+            "purchased": false
+          },
+          {
+            "id": "radiant-strike-dutiful",
+            "name": "Dutiful",
+            "description": "Refund 1 Fervor on success.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -740,8 +1333,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; choose a Nearby Ally to inspire, granting them 2 Class Resource points. Failure: Deal half damage; the Ally still recharges 1 Class Resource.",
         "upgrades": [
-          { "id": "rallying-strike-hearten", "name": "Hearten", "description": "Gain 1 Fervor on success.", "purchased": false },
-          { "id": "rallying-strike-favoured", "name": "Favoured", "description": "Rolling 16–20 on the base 2d10 makes this power cost 0 Fervor.", "purchased": false }
+          {
+            "id": "rallying-strike-hearten",
+            "name": "Hearten",
+            "description": "Gain 1 Fervor on success.",
+            "purchased": false
+          },
+          {
+            "id": "rallying-strike-favoured",
+            "name": "Favoured",
+            "description": "Rolling 16–20 on the base 2d10 makes this power cost 0 Fervor.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -765,7 +1368,12 @@
         "range": "Very Far",
         "effectsText": "Designate a single enemy. All single-target offensive abilities (including Overdrives) against that enemy cost 2 Fervor less for 10 minutes or until you attack a different enemy, the chosen enemy dies, or they become Incapacitated or Stunned.",
         "upgrades": [
-          { "id": "ends-of-earth-resolute", "name": "Resolute", "description": "Gain Benefit on all rolls involving the selected target.", "purchased": false }
+          {
+            "id": "ends-of-earth-resolute",
+            "name": "Resolute",
+            "description": "Gain Benefit on all rolls involving the selected target.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -778,8 +1386,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage. Failure: Deal half Basic Attack damage.",
         "upgrades": [
-          { "id": "heavens-reach-justice-is-dealt", "name": "Justice is Dealt", "description": "Refund the Fervor cost on success.", "purchased": false },
-          { "id": "heavens-reach-marked-for-punishment", "name": "Marked for Punishment", "description": "Brand the target; the next successful attack against them adds +MIGHT Divine damage. Expires on activation or at end of your next turn.", "purchased": false }
+          {
+            "id": "heavens-reach-justice-is-dealt",
+            "name": "Justice is Dealt",
+            "description": "Refund the Fervor cost on success.",
+            "purchased": false
+          },
+          {
+            "id": "heavens-reach-marked-for-punishment",
+            "name": "Marked for Punishment",
+            "description": "Brand the target; the next successful attack against them adds +MIGHT Divine damage. Expires on activation or at end of your next turn.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -792,8 +1410,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack to determine X. Bolt to a Nearby area, avoiding Provoked Attacks. Deal automatic Divine damage to all Adjacent enemies based on X: 2–8 = 1d6, 9–15 = 2d4, 16–21 = 2d6, 22+ = 2d8.",
         "upgrades": [
-          { "id": "speed-of-light-posthaste", "name": "Posthaste", "description": "Range increased to Far; the power costs no Fervor.", "purchased": false },
-          { "id": "speed-of-light-radiance", "name": "Radiance", "description": "Damage increased by +MIGHT and +PRESENCE.", "purchased": false }
+          {
+            "id": "speed-of-light-posthaste",
+            "name": "Posthaste",
+            "description": "Range increased to Far; the power costs no Fervor.",
+            "purchased": false
+          },
+          {
+            "id": "speed-of-light-radiance",
+            "name": "Radiance",
+            "description": "Damage increased by +MIGHT and +PRESENCE.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -806,7 +1434,12 @@
         "range": "Self",
         "effectsText": "Each Ally Adjacent to you grants +1 to your DR (maximum bonus of HL).",
         "upgrades": [
-          { "id": "commander-to-me", "name": "To Me, Brothers and Sisters!", "description": "Spend 3 Fervor as a Quick action to grant Adjacent Allies the Commander DR bonus for 1 round.", "purchased": false }
+          {
+            "id": "commander-to-me",
+            "name": "To Me, Brothers and Sisters!",
+            "description": "Spend 3 Fervor as a Quick action to grant Adjacent Allies the Commander DR bonus for 1 round.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -821,7 +1454,12 @@
         "range": "Self",
         "effectsText": "Every time you take a Standard action, grant a Nearby Ally of your choice +2 to AR on their next single attack. This bonus expires after 1 round.",
         "upgrades": [
-          { "id": "inspiring-presence-flexible-leadership", "name": "Flexible Leadership", "description": "Grant a +DR bonus instead of +AR.", "purchased": false }
+          {
+            "id": "inspiring-presence-flexible-leadership",
+            "name": "Flexible Leadership",
+            "description": "Grant a +DR bonus instead of +AR.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -834,8 +1472,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; spend 1 Fervor to attempt another strike (+MIGHT damage). Continue chaining while hits land and resources allow. Failure: Deal half damage; Zeal ends.",
         "upgrades": [
-          { "id": "zeal-deliberation", "name": "Deliberation", "description": "The initial attack gains Benefit.", "purchased": false },
-          { "id": "zeal-golden-blade", "name": "Golden Blade", "description": "Subsequent chain strikes deal Divine damage.", "purchased": false }
+          {
+            "id": "zeal-deliberation",
+            "name": "Deliberation",
+            "description": "The initial attack gains Benefit.",
+            "purchased": false
+          },
+          {
+            "id": "zeal-golden-blade",
+            "name": "Golden Blade",
+            "description": "Subsequent chain strikes deal Divine damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -848,9 +1496,24 @@
         "range": "Adjacent",
         "effectsText": "When an Adjacent Ally is struck by a melee attack, immediately retaliate against the attacker with a Basic Attack.",
         "upgrades": [
-          { "id": "punish-guided-by-justice", "name": "Guided by Justice", "description": "Your retaliation always hits.", "purchased": false },
-          { "id": "punish-retributive-pains", "name": "Retributive Pains", "description": "Inflict an additional +1d8 damage on the retaliation.", "purchased": false },
-          { "id": "punish-justified", "name": "Justified", "description": "Refund 1 Fervor on success (guaranteed if you have Guided by Justice).", "purchased": false }
+          {
+            "id": "punish-guided-by-justice",
+            "name": "Guided by Justice",
+            "description": "Your retaliation always hits.",
+            "purchased": false
+          },
+          {
+            "id": "punish-retributive-pains",
+            "name": "Retributive Pains",
+            "description": "Inflict an additional +1d8 damage on the retaliation.",
+            "purchased": false
+          },
+          {
+            "id": "punish-justified",
+            "name": "Justified",
+            "description": "Refund 1 Fervor on success (guaranteed if you have Guided by Justice).",
+            "purchased": false
+          }
         ]
       },
       {
@@ -874,8 +1537,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack against all Adjacent enemies. Success: Deal 1d6+MIGHT+HL Divine damage. Failure: Deal half damage. Lingering effect for 2 rounds: enemies suffer HL AR/DR penalty; Allies gain HL AR/DR bonus.",
         "upgrades": [
-          { "id": "hallowed-ground-light-of-aluvane", "name": "Light of Aluvane", "description": "All creatures on the hallowed ground also heal for LEVEL+PRESENCE at the start of each round.", "purchased": false },
-          { "id": "hallowed-ground-walk-in-the-light", "name": "Walk in the Light", "description": "Hallowed Ground follows you as you move.", "purchased": false }
+          {
+            "id": "hallowed-ground-light-of-aluvane",
+            "name": "Light of Aluvane",
+            "description": "All creatures on the hallowed ground also heal for LEVEL+PRESENCE at the start of each round.",
+            "purchased": false
+          },
+          {
+            "id": "hallowed-ground-walk-in-the-light",
+            "name": "Walk in the Light",
+            "description": "Hallowed Ground follows you as you move.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -888,8 +1561,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal 2d8+MIGHT+HL Electric damage; target Stunned for 1 round. Failure: Deal half damage; target Staggered.",
         "upgrades": [
-          { "id": "gavel-thunderclap", "name": "Thunderclap", "description": "Adjacent targets also suffer half damage as Electric.", "purchased": false },
-          { "id": "gavel-electricity-in-the-air", "name": "Electricity in the Air", "description": "Nearby Allies' Physical attacks become Electric for 1 round.", "purchased": false }
+          {
+            "id": "gavel-thunderclap",
+            "name": "Thunderclap",
+            "description": "Adjacent targets also suffer half damage as Electric.",
+            "purchased": false
+          },
+          {
+            "id": "gavel-electricity-in-the-air",
+            "name": "Electricity in the Air",
+            "description": "Nearby Allies' Physical attacks become Electric for 1 round.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -902,8 +1585,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack targeting MR. Success: Deal 1d6+MIGHT Divine damage; target Rooted for 1 round. Failure: Deal half damage; target Staggered.",
         "upgrades": [
-          { "id": "gaze-practiced-glare", "name": "Practiced Glare", "description": "Cost reduced to 2 Fervor.", "purchased": false },
-          { "id": "gaze-penetrating-glare", "name": "Penetrating Glare", "description": "Range increased to Far; deals +PRESENCE additional damage.", "purchased": false }
+          {
+            "id": "gaze-practiced-glare",
+            "name": "Practiced Glare",
+            "description": "Cost reduced to 2 Fervor.",
+            "purchased": false
+          },
+          {
+            "id": "gaze-penetrating-glare",
+            "name": "Penetrating Glare",
+            "description": "Range increased to Far; deals +PRESENCE additional damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -916,8 +1609,18 @@
         "range": "Self",
         "effectsText": "While Maintained, any enemy that lands a melee strike on you suffers +MIGHT Divine damage.",
         "upgrades": [
-          { "id": "retribution-circle", "name": "Circle of Retribution", "description": "All Adjacent Allies gain the Retribution effect for 1 round.", "purchased": false },
-          { "id": "retribution-slow-burn", "name": "Slow Burn", "description": "Activation and maintain costs are each reduced to 1 Fervor.", "purchased": false }
+          {
+            "id": "retribution-circle",
+            "name": "Circle of Retribution",
+            "description": "All Adjacent Allies gain the Retribution effect for 1 round.",
+            "purchased": false
+          },
+          {
+            "id": "retribution-slow-burn",
+            "name": "Slow Burn",
+            "description": "Activation and maintain costs are each reduced to 1 Fervor.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -930,12 +1633,80 @@
         "range": "Self",
         "effectsText": "While Maintained, all your Physical attacks deal Fire damage instead. Powers with a different elemental type override this while they are active.",
         "upgrades": [
-          { "id": "heavenly-flames-share", "name": "Share the Righteousness", "description": "Spend 1 additional Fervor to grant an Adjacent Ally the same effect. New maintain cost becomes 4 Fervor.", "purchased": false }
+          {
+            "id": "heavenly-flames-share",
+            "name": "Share the Righteousness",
+            "description": "Spend 1 additional Fervor to grant an Adjacent Ally the same effect. New maintain cost becomes 4 Fervor.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "judge-peoples-champion",
+        "name": "People's Champion",
+        "tier": "lv3",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Your Presence is permanently increased by +1.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "judge-purify",
+        "name": "Purify",
+        "tier": "lv8",
+        "actionType": "Overdrive",
+        "cost": "None",
+        "target": "Single",
+        "range": "Adjacent",
+        "effectsText": "You clear an ADJACENT target of 1 Status Effect from this list: Hindered, Poisoned, Diseased, Staggered, Rooted, Confused, Stunned. On top of the Purify effect, your target is also healed by your Level multiplied by 5. You are able to use Purify on yourself.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "judge-falling-star",
+        "name": "Falling Star",
+        "tier": "lv10",
+        "actionType": "Ultimate",
+        "cost": "3 Fervor",
+        "target": "Multiple",
+        "range": "See Effects",
+        "effectsText": "You are removed from the battlefield as soon as you activate this power. At the start of your next turn you may land anywhere on the battlefield and roll your dice. Success: You deal 1d20+2d6 Divine damage to all enemies ADJACENT and up to a NEARBY distance. All allies on the battlefield are inspired — they receive +6 to AR and Damage for their next attack. Failure: You deal half damage. Allies still receive +6 to AR and Damage for their next attack.",
+        "upgrades": []
       }
     ]
   },
   "Mystic": {
+    "baseline": [
+      {
+        "id": "mystic-force-bolt",
+        "name": "Force Bolt",
+        "tier": "baseline",
+        "actionType": "Standard",
+        "cost": "Free",
+        "target": "Single",
+        "range": "Very Far",
+        "effectsText": "Roll your Basic Attack. Success: You deal 1d8+MIND damage. Failure: You miss.",
+        "upgrades": []
+      },
+      {
+        "id": "mystic-amplify-magick",
+        "name": "Amplify Magick",
+        "tier": "baseline",
+        "actionType": "Standard",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Roll your Basic Attack to determine X. Your next damaging spell deals an extra X damage in the elemental form of that spell. Amplify Magick does not stack; declare which spell you are Amplifying when you activate it. When you use Amplify Magick, roll 1d10 — 1-5: Cauterize (heal +MIND); 6-10: Arcane Field (gain +MIND to AV for 1 round). Basic Attack result: 2-8 = 1d6, 9-19 = 2d4, 20-24 = 2d6, 25+ = 2d8.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "spark-lance",
@@ -947,7 +1718,12 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d12+HL+MIND Electric damage; afflict the target with Static Residue (any Electric attack against them auto-hits; expires on trigger). Failure: Deal half damage; Static Residue still applied.",
         "upgrades": [
-          { "id": "spark-lance-relay", "name": "Relay", "description": "Range increased to Very Far.", "purchased": false }
+          {
+            "id": "spark-lance-relay",
+            "name": "Relay",
+            "description": "Range increased to Very Far.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -960,8 +1736,18 @@
         "range": "Far",
         "effectsText": "Choose a Far location. Roll your Basic Attack against Nearby enemies. Success: Pull them onto that point, placing them all Adjacent to each other. Failure: Targets are Staggered instead.",
         "upgrades": [
-          { "id": "gravity-well-singularity", "name": "Singularity", "description": "Pulled enemies are also Rooted.", "purchased": false },
-          { "id": "gravity-well-implosion", "name": "Implosion", "description": "Spend 1 Mana to deal 1d12+MIND+HL damage to all pulled enemies.", "purchased": false }
+          {
+            "id": "gravity-well-singularity",
+            "name": "Singularity",
+            "description": "Pulled enemies are also Rooted.",
+            "purchased": false
+          },
+          {
+            "id": "gravity-well-implosion",
+            "name": "Implosion",
+            "description": "Spend 1 Mana to deal 1d12+MIND+HL damage to all pulled enemies.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -974,8 +1760,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d8+HL+MIND Frost damage; reduce the target's AV by +MIND against the next Physical attack for 1 round (can go negative). Failure: Deal half damage.",
         "upgrades": [
-          { "id": "frost-blast-subzero", "name": "Subzero", "description": "Refund 1 Mana on success.", "purchased": false },
-          { "id": "frost-blast-permafrost", "name": "Permafrost", "description": "The AV penalty applies even on failure.", "purchased": false }
+          {
+            "id": "frost-blast-subzero",
+            "name": "Subzero",
+            "description": "Refund 1 Mana on success.",
+            "purchased": false
+          },
+          {
+            "id": "frost-blast-permafrost",
+            "name": "Permafrost",
+            "description": "The AV penalty applies even on failure.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -988,7 +1784,12 @@
         "range": "Self",
         "effectsText": "Once per Full Rest, when damage would reduce you to 0 HP in combat, negate that damage and teleport to a Nearby location instead.",
         "upgrades": [
-          { "id": "battle-blink-feedback", "name": "Feedback", "description": "Deal 1d12+MIND Arcane damage to the source of the negated attack.", "purchased": false }
+          {
+            "id": "battle-blink-feedback",
+            "name": "Feedback",
+            "description": "Deal 1d12+MIND Arcane damage to the source of the negated attack.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1001,7 +1802,12 @@
         "range": "Nearby",
         "effectsText": "Jump up to 10 meters vertically within Nearby distance. Avoid Provoked Attacks unless the enemy can fly or levitate.",
         "upgrades": [
-          { "id": "bounce-rubberfoot", "name": "Rubberfoot", "description": "Jump again immediately after landing; costs 1 additional Mana.", "purchased": false }
+          {
+            "id": "bounce-rubberfoot",
+            "name": "Rubberfoot",
+            "description": "Jump again immediately after landing; costs 1 additional Mana.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1014,7 +1820,12 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d6+MIND Corrosive damage; the target suffers +MIND Corrosive damage at the start of their turn for 2 rounds (refreshed by new hits). Failure: Deal half damage.",
         "upgrades": [
-          { "id": "acid-bolt-fizzle", "name": "Fizzle", "description": "Refund 1 Mana on failure.", "purchased": false }
+          {
+            "id": "acid-bolt-fizzle",
+            "name": "Fizzle",
+            "description": "Refund 1 Mana on failure.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1027,7 +1838,12 @@
         "range": "Self",
         "effectsText": "Add +2 to all Mana Recharge rolls.",
         "upgrades": [
-          { "id": "mana-weaver-fumes-to-flames", "name": "Fumes to Flames", "description": "When at 2 or less Mana, your Force Bolt class feature gains Benefit.", "purchased": false }
+          {
+            "id": "mana-weaver-fumes-to-flames",
+            "name": "Fumes to Flames",
+            "description": "When at 2 or less Mana, your Force Bolt class feature gains Benefit.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1040,8 +1856,18 @@
         "range": "Self",
         "effectsText": "Roll your Basic Attack to determine X. Conjure a shield that absorbs X+MIND damage (all types except True). When the shield is destroyed, it explodes for half its absorption value as Arcane damage to Adjacent enemies. Lasts while Maintained or until shattered.",
         "upgrades": [
-          { "id": "volatile-bulwark-controlled-explosion", "name": "Controlled Explosion", "description": "The explosion only damages enemies.", "purchased": false },
-          { "id": "volatile-bulwark-reinforce", "name": "Reinforce", "description": "Absorption value also includes LEVEL.", "purchased": false }
+          {
+            "id": "volatile-bulwark-controlled-explosion",
+            "name": "Controlled Explosion",
+            "description": "The explosion only damages enemies.",
+            "purchased": false
+          },
+          {
+            "id": "volatile-bulwark-reinforce",
+            "name": "Reinforce",
+            "description": "Absorption value also includes LEVEL.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1054,8 +1880,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack against 1d4+1 Adjacent enemies. Success: Deal 1d8+HL+MIND Fire damage. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "breath-of-fire-blinding-flames", "name": "Blinding Flames", "description": "Targets suffer Hindrance on Provoked Attacks for 1 round.", "purchased": false },
-          { "id": "breath-of-fire-unending-breath", "name": "Unending Breath", "description": "Hit all Adjacent enemies instead of 1d4+1.", "purchased": false }
+          {
+            "id": "breath-of-fire-blinding-flames",
+            "name": "Blinding Flames",
+            "description": "Targets suffer Hindrance on Provoked Attacks for 1 round.",
+            "purchased": false
+          },
+          {
+            "id": "breath-of-fire-unending-breath",
+            "name": "Unending Breath",
+            "description": "Hit all Adjacent enemies instead of 1d4+1.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -1070,8 +1906,18 @@
         "range": "Self",
         "effectsText": "Conjure a magical melee weapon (1d8+MIND Arcane damage). Basic Melee Attack rules apply. Each enemy you strike recharges 2 Mana. Lasts while Maintained.",
         "upgrades": [
-          { "id": "mana-blade-lingering-hunger", "name": "Lingering Hunger", "description": "Charge an enemy; Allies striking that enemy recharge 1 Class Resource. Only 1 charge per enemy.", "purchased": false },
-          { "id": "mana-blade-ethereal-heft", "name": "Ethereal Heft", "description": "Damage increased to 2d6+MIND.", "purchased": false }
+          {
+            "id": "mana-blade-lingering-hunger",
+            "name": "Lingering Hunger",
+            "description": "Charge an enemy; Allies striking that enemy recharge 1 Class Resource. Only 1 charge per enemy.",
+            "purchased": false
+          },
+          {
+            "id": "mana-blade-ethereal-heft",
+            "name": "Ethereal Heft",
+            "description": "Damage increased to 2d6+MIND.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1084,8 +1930,18 @@
         "range": "Self",
         "effectsText": "Roll your Basic Attack to determine X: 2–11 = 2, 12–19 = 3, 20–23 = 4, 24+ = 5. Increase your DR by HL×X. Lasts until end of battle or 10 minutes, or until you take damage.",
         "upgrades": [
-          { "id": "mirage-hardy-illusion", "name": "Hardy Illusion", "description": "On taking damage, roll 1d10; on 6+ the illusion persists, on 5 or below it cancels.", "purchased": false },
-          { "id": "mirage-indistinct", "name": "Indistinct", "description": "Gain Benefit on the determining roll; also gain HL bonus to stealth.", "purchased": false }
+          {
+            "id": "mirage-hardy-illusion",
+            "name": "Hardy Illusion",
+            "description": "On taking damage, roll 1d10; on 6+ the illusion persists, on 5 or below it cancels.",
+            "purchased": false
+          },
+          {
+            "id": "mirage-indistinct",
+            "name": "Indistinct",
+            "description": "Gain Benefit on the determining roll; also gain HL bonus to stealth.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1098,7 +1954,12 @@
         "range": "Far",
         "effectsText": "Choose a primary target. Roll your Basic Attack. Success: Deal 2d8+MIND Fire damage to the primary target and 1d8+MIND to all Adjacent targets. Failure: Deal half damage to the primary and 1d6 damage to Adjacent targets.",
         "upgrades": [
-          { "id": "fireball-scorched-earth", "name": "Scorched Earth", "description": "The area burns for 2 rounds; anyone starting their turn there suffers +MIND Fire damage.", "purchased": false }
+          {
+            "id": "fireball-scorched-earth",
+            "name": "Scorched Earth",
+            "description": "The area burns for 2 rounds; anyone starting their turn there suffers +MIND Fire damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1111,7 +1972,12 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Deal 2d6+HL+MIND Corrosive damage; target's DR is reduced by HL for 1 round. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "caustic-whip-messy-impact", "name": "Messy Impact", "description": "On success, automatically deal +MIND Corrosive damage to all enemies Adjacent to the target.", "purchased": false }
+          {
+            "id": "caustic-whip-messy-impact",
+            "name": "Messy Impact",
+            "description": "On success, automatically deal +MIND Corrosive damage to all enemies Adjacent to the target.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1124,9 +1990,24 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d10+HL+MIND Frost damage; target Rooted for 1 round. Failure: Deal +MIND Frost damage.",
         "upgrades": [
-          { "id": "deep-freeze-shatter", "name": "Shatter", "description": "The next attack on a Rooted target explodes ice, dealing 1d4+MIND to Adjacent enemies.", "purchased": false },
-          { "id": "deep-freeze-chilled-to-the-bone", "name": "Chilled to the Bone", "description": "Spend 2 additional Mana to Stun the target for 1 round instead. Contest if Elite.", "purchased": false },
-          { "id": "deep-freeze-winter-winds", "name": "Winter Winds", "description": "Gain Benefit on Deep Freeze; this also applies to any Contest.", "purchased": false }
+          {
+            "id": "deep-freeze-shatter",
+            "name": "Shatter",
+            "description": "The next attack on a Rooted target explodes ice, dealing 1d4+MIND to Adjacent enemies.",
+            "purchased": false
+          },
+          {
+            "id": "deep-freeze-chilled-to-the-bone",
+            "name": "Chilled to the Bone",
+            "description": "Spend 2 additional Mana to Stun the target for 1 round instead. Contest if Elite.",
+            "purchased": false
+          },
+          {
+            "id": "deep-freeze-winter-winds",
+            "name": "Winter Winds",
+            "description": "Gain Benefit on Deep Freeze; this also applies to any Contest.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1139,8 +2020,18 @@
         "range": "Self",
         "effectsText": "Levitate 2 meters off the ground for the battle or 10 minutes. Gain Benefit against Provoked Attacks. Cancelled when you take damage.",
         "upgrades": [
-          { "id": "levitate-high-ground", "name": "High Ground", "description": "+2 to DR while levitating.", "purchased": false },
-          { "id": "levitate-concentrate", "name": "Concentrate", "description": "Spend 1 Mana when taking damage to prevent levitation from being cancelled.", "purchased": false }
+          {
+            "id": "levitate-high-ground",
+            "name": "High Ground",
+            "description": "+2 to DR while levitating.",
+            "purchased": false
+          },
+          {
+            "id": "levitate-concentrate",
+            "name": "Concentrate",
+            "description": "Spend 1 Mana when taking damage to prevent levitation from being cancelled.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1153,7 +2044,12 @@
         "range": "Very Far",
         "effectsText": "Set a Set Point as a Quick action (2 Mana; lasts battle or 10 minutes). Teleport back to your Set Point as a Quick action (1 Mana; can be used multiple times). Immune to Provoked Attacks during teleport.",
         "upgrades": [
-          { "id": "teleport-swap", "name": "Swap", "description": "Without a Set Point, swap positions with a willing Ally up to Far away (1 Mana; uses the Overdrive tag).", "purchased": false }
+          {
+            "id": "teleport-swap",
+            "name": "Swap",
+            "description": "Without a Set Point, swap positions with a willing Ally up to Far away (1 Mana; uses the Overdrive tag).",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1166,7 +2062,12 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d12+MIND damage and displace all Adjacent targets Nearby away. Failure: Deal +MIND damage. Does not work on creatures larger than Medium.",
         "upgrades": [
-          { "id": "force-push-unstoppable-force", "name": "Unstoppable Force", "description": "Targets are displaced even on failure.", "purchased": false }
+          {
+            "id": "force-push-unstoppable-force",
+            "name": "Unstoppable Force",
+            "description": "Targets are displaced even on failure.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1179,8 +2080,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d8+MIND Arcane damage; gain 1 Focused Mind stack. Failure: Deal no damage; gain 1 stack. Each stack increases damage by 1d8 and reduces cost by 1. Moving or taking damage loses all stacks.",
         "upgrades": [
-          { "id": "bright-beam-multitasker", "name": "Multitasker", "description": "Moving does not cause you to lose Focused Mind stacks.", "purchased": false },
-          { "id": "bright-beam-amplitude", "name": "Amplitude", "description": "Baseline damage increased to 1d12.", "purchased": false }
+          {
+            "id": "bright-beam-multitasker",
+            "name": "Multitasker",
+            "description": "Moving does not cause you to lose Focused Mind stacks.",
+            "purchased": false
+          },
+          {
+            "id": "bright-beam-amplitude",
+            "name": "Amplitude",
+            "description": "Baseline damage increased to 1d12.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1193,13 +2104,86 @@
         "range": "Far",
         "effectsText": "Choose a primary target. Roll your Basic Attack. Success: Deal 1d6+MIND damage (bounce 1) and chain to a Nearby or Adjacent target for 1d8+MIND (bounce 2). Continue up to 4 more bounces with increasing damage (1d10, 1d12, 1d20) while hits land. Failure: Deal half damage; chaining ends.",
         "upgrades": [
-          { "id": "arc-lightning-undying-currents", "name": "Undying Currents", "description": "Spend 2 Mana to reroll a failed bounce attempt; can chain this.", "purchased": false },
-          { "id": "arc-lightning-supercharged", "name": "Supercharged", "description": "Start at 1d10 and reach 1d20 in only 2 bounces.", "purchased": false }
+          {
+            "id": "arc-lightning-undying-currents",
+            "name": "Undying Currents",
+            "description": "Spend 2 Mana to reroll a failed bounce attempt; can chain this.",
+            "purchased": false
+          },
+          {
+            "id": "arc-lightning-supercharged",
+            "name": "Supercharged",
+            "description": "Start at 1d10 and reach 1d20 in only 2 bounces.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "mystic-orb-of-attunement",
+        "name": "Orb of Attunement",
+        "tier": "lv3",
+        "actionType": "Maintain",
+        "cost": "1 Mana",
+        "target": "Special",
+        "range": "Special",
+        "effectsText": "After a Full Rest, expend and reserve 1 Mana to attune yourself to a single elemental type you know (e.g. Frost). Attunement grants HL as bonus elemental damage when using a single-target power matching the attuned element. As a Reaction to being attacked or observing an Ally being attacked, you may expend 1 Mana and sacrifice the Orb to teleport yourself or the targeted Ally up to FAR distance away, or grant yourself HL+MIND to a single attack. The Orb is gone until your next Full Rest. A small glowing orb of the element's colour orbits you while active, illuminating up to 5 metres around you. This light can be turned on and off at will.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "mystic-portal",
+        "name": "Portal",
+        "tier": "lv8",
+        "actionType": "Overdrive",
+        "cost": "4 Mana",
+        "target": "Special",
+        "range": "Very Far",
+        "effectsText": "You may open up a portal that exits somewhere in your field of view up to a VERY FAR distance (24m). The portal remains open until the end of combat or 10 minutes outside of combat. Anyone can use the portal by walking through it, even enemies.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "mystic-haste",
+        "name": "Haste",
+        "tier": "lv10",
+        "actionType": "Ultimate",
+        "cost": "4 Mana",
+        "target": "Special",
+        "range": "Very Far",
+        "effectsText": "Roll your Basic Attack to determine X. You speed up time for yourself and X allies. You and your chosen target(s) have their Standard, Movement, Reaction, and Quick Actions available again. 2-14: X=1 | 15-23: X=2 | 24-27: X=3 | 28+: X=4.",
+        "upgrades": []
       }
     ]
   },
   "Phantom": {
+    "baseline": [
+      {
+        "id": "phantom-backstab",
+        "name": "Backstab",
+        "tier": "baseline",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Anytime you attack an enemy who is ADJACENT to an Ally, add 1d4 damage on a successful attack. Attacking from stealth or surprise grants this bonus as well. Bonus increases to: +2d4 at level 5, +3d4 at level 10.",
+        "upgrades": []
+      },
+      {
+        "id": "phantom-tumble",
+        "name": "Tumble",
+        "tier": "baseline",
+        "actionType": "Reaction",
+        "cost": "Special",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Activate immediately after taking Physical damage. Expend 1 Guile to reduce the incoming Physical damage by +AGILITY. You can expend multiple Guile for further damage reduction.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "blade-twisting",
@@ -1211,8 +2195,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage + additional +AGILITY True damage. Failure: Deal half Basic Attack damage.",
         "upgrades": [
-          { "id": "blade-twisting-excruciating-pain", "name": "Excruciating Pain", "description": "Target's Provoked Attacks are disabled for 1 round.", "purchased": false },
-          { "id": "blade-twisting-deft-hands", "name": "Deft Hands", "description": "Refund 1 Guile.", "purchased": false }
+          {
+            "id": "blade-twisting-excruciating-pain",
+            "name": "Excruciating Pain",
+            "description": "Target's Provoked Attacks are disabled for 1 round.",
+            "purchased": false
+          },
+          {
+            "id": "blade-twisting-deft-hands",
+            "name": "Deft Hands",
+            "description": "Refund 1 Guile.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1247,8 +2241,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Roll 1d4+1 to determine how many Adjacent enemies are hit. Increase your DR by that same number until end of your next turn. Cannot benefit from Backstab with this power.",
         "upgrades": [
-          { "id": "dancing-blade-crescendo", "name": "Crescendo", "description": "The DR bonus is increased by +2 per enemy hit.", "purchased": false },
-          { "id": "dancing-blade-easy-rhythm", "name": "Easy Rhythm", "description": "Refresh the DR bonus duration by spending 1 Guile as a Quick action.", "purchased": false }
+          {
+            "id": "dancing-blade-crescendo",
+            "name": "Crescendo",
+            "description": "The DR bonus is increased by +2 per enemy hit.",
+            "purchased": false
+          },
+          {
+            "id": "dancing-blade-easy-rhythm",
+            "name": "Easy Rhythm",
+            "description": "Refresh the DR bonus duration by spending 1 Guile as a Quick action.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1261,8 +2265,18 @@
         "range": "Self",
         "effectsText": "Your first successful attack in combat inflicts an extra 1d6+HL damage. Once per battle.",
         "upgrades": [
-          { "id": "stalker-cruelty", "name": "Cruelty", "description": "Gain 2 Guile when Stalker triggers.", "purchased": false },
-          { "id": "stalker-shadows-embrace", "name": "Shadow's Embrace", "description": "Stalker reactivates if you haven't used a Standard action yet this battle.", "purchased": false }
+          {
+            "id": "stalker-cruelty",
+            "name": "Cruelty",
+            "description": "Gain 2 Guile when Stalker triggers.",
+            "purchased": false
+          },
+          {
+            "id": "stalker-shadows-embrace",
+            "name": "Shadow's Embrace",
+            "description": "Stalker reactivates if you haven't used a Standard action yet this battle.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1275,7 +2289,12 @@
         "range": "Nearby",
         "effectsText": "Step through shadows to reappear Adjacent to any animate target (Ally or enemy) within Nearby distance, avoiding all Provoked Attacks.",
         "upgrades": [
-          { "id": "ghost-step-from-the-shadows", "name": "From the Shadows", "description": "Stepping to an enemy surprises them — you can apply Backstab damage without needing an Adjacent Ally.", "purchased": false }
+          {
+            "id": "ghost-step-from-the-shadows",
+            "name": "From the Shadows",
+            "description": "Stepping to an enemy surprises them — you can apply Backstab damage without needing an Adjacent Ally.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1288,8 +2307,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack twice. Success on either roll: Deal Basic Attack damage (successful rolls can trigger Backstab). Failure: Deal half damage for failed rolls.",
         "upgrades": [
-          { "id": "shadow-flurry-efficient-striking", "name": "Efficient Striking", "description": "Refund 1 Guile per miss.", "purchased": false },
-          { "id": "shadow-flurry-a-thousand-blades", "name": "A Thousand Blades", "description": "Make 3 Basic Attacks instead of 2.", "purchased": false }
+          {
+            "id": "shadow-flurry-efficient-striking",
+            "name": "Efficient Striking",
+            "description": "Refund 1 Guile per miss.",
+            "purchased": false
+          },
+          {
+            "id": "shadow-flurry-a-thousand-blades",
+            "name": "A Thousand Blades",
+            "description": "Make 3 Basic Attacks instead of 2.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1302,7 +2331,12 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d4 damage; gain 1 Vicious Momentum stack. Failure: Deal no damage; still gain 1 stack. Each stack adds +1d4 damage and persists indefinitely while refreshed. Stacks are lost if you take any non-Vicious Momentum action or go 1 round idle. Backstab always applies regardless.",
         "upgrades": [
-          { "id": "vicious-momentum-deep-cuts", "name": "Deep Cuts", "description": "Each stack adds +1d8 instead; base damage becomes 1d8.", "purchased": false }
+          {
+            "id": "vicious-momentum-deep-cuts",
+            "name": "Deep Cuts",
+            "description": "Each stack adds +1d8 instead; base damage becomes 1d8.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -1317,7 +2351,12 @@
         "range": "Adjacent",
         "effectsText": "Target must be distracted (an Ally is Adjacent to them) or surprised. Roll your Basic Attack. Success: Deal Basic Attack damage; target Rooted for 1 round. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "hamstring-flourish", "name": "Flourish", "description": "No longer requires a distracted or surprised target.", "purchased": false }
+          {
+            "id": "hamstring-flourish",
+            "name": "Flourish",
+            "description": "No longer requires a distracted or surprised target.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1330,8 +2369,18 @@
         "range": "Self",
         "effectsText": "After using Tumble, roll 1d10. On a 9 or 10, Tumble costs no Guile.",
         "upgrades": [
-          { "id": "muscle-memory-honed-reflexes", "name": "Honed Reflexes", "description": "A roll of 8 also makes Tumble free.", "purchased": false },
-          { "id": "muscle-memory-maves-blessing", "name": "Mave's Blessing", "description": "When your HP would drop to 0, reduce it to 1 instead. Once per Full Rest. Bypassed by damage exceeding 50% of your maximum HP.", "purchased": false }
+          {
+            "id": "muscle-memory-honed-reflexes",
+            "name": "Honed Reflexes",
+            "description": "A roll of 8 also makes Tumble free.",
+            "purchased": false
+          },
+          {
+            "id": "muscle-memory-maves-blessing",
+            "name": "Mave's Blessing",
+            "description": "When your HP would drop to 0, reduce it to 1 instead. Once per Full Rest. Bypassed by damage exceeding 50% of your maximum HP.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1344,8 +2393,18 @@
         "range": "Adjacent",
         "effectsText": "A clone of you appears. The clone can attack a Far target while you attack an Adjacent one, or both attack the same Adjacent target (both can apply Backstab). The clone copies your offensive actions up to Overdrive. Lasts 1 round. Clone attacks do not trigger Recharge and cannot benefit from the 9–10 Tumble effect.",
         "upgrades": [
-          { "id": "shadow-clone-separation-anxiety", "name": "Separation Anxiety", "description": "Clone lasts an additional round and mimics your next attack.", "purchased": false },
-          { "id": "shadow-clone-invigorating-shadows", "name": "Invigorating Shadows", "description": "Heal for the total damage the clone inflicts.", "purchased": false }
+          {
+            "id": "shadow-clone-separation-anxiety",
+            "name": "Separation Anxiety",
+            "description": "Clone lasts an additional round and mimics your next attack.",
+            "purchased": false
+          },
+          {
+            "id": "shadow-clone-invigorating-shadows",
+            "name": "Invigorating Shadows",
+            "description": "Heal for the total damage the clone inflicts.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1358,8 +2417,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack targeting MR. Does not work on Elite targets. Success: Target falls asleep until the start of your next turn; they cannot act (waking on damage). Failure: Target Staggered for 1 round.",
         "upgrades": [
-          { "id": "sleeping-powder-extra-dose", "name": "Extra Dose", "description": "Gain Benefit on the roll.", "purchased": false },
-          { "id": "sleeping-powder-denser-mix", "name": "Denser Mix", "description": "Range increased to Nearby.", "purchased": false }
+          {
+            "id": "sleeping-powder-extra-dose",
+            "name": "Extra Dose",
+            "description": "Gain Benefit on the roll.",
+            "purchased": false
+          },
+          {
+            "id": "sleeping-powder-denser-mix",
+            "name": "Denser Mix",
+            "description": "Range increased to Nearby.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1372,8 +2441,18 @@
         "range": "Self",
         "effectsText": "When you completely negate an Adjacent melee attack using Tumble, roll your Basic Attack. Success: Deal their attack's damage back to them. Failure: Deal half their attack damage back.",
         "upgrades": [
-          { "id": "reversal-overextend", "name": "Overextend", "description": "Spend 1 extra Guile to gain Benefit on the counter-attack roll.", "purchased": false },
-          { "id": "reversal-fortune-favours-the-bold", "name": "Fortune Favours the Bold", "description": "Gain half the Guile spent on success.", "purchased": false }
+          {
+            "id": "reversal-overextend",
+            "name": "Overextend",
+            "description": "Spend 1 extra Guile to gain Benefit on the counter-attack roll.",
+            "purchased": false
+          },
+          {
+            "id": "reversal-fortune-favours-the-bold",
+            "name": "Fortune Favours the Bold",
+            "description": "Gain half the Guile spent on success.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1408,9 +2487,58 @@
         "range": "Nearby",
         "effectsText": "Dash to a Nearby target, avoiding Provoked Attacks. Roll your Basic Attack. Success: Deal Basic Attack damage; you may immediately use Shadowless Strike again as a Free action (2 Guile) on a different Nearby target. Continue while hitting and resources allow. Failure: Normal miss result.",
         "upgrades": [
-          { "id": "shadowless-strike-follow-through", "name": "Follow Through", "description": "Subsequent chain strikes cost only 1 Guile.", "purchased": false },
-          { "id": "shadowless-strike-force-the-attack", "name": "Force the Attack", "description": "Spend 1 additional Guile to reroll a failed attack once.", "purchased": false }
+          {
+            "id": "shadowless-strike-follow-through",
+            "name": "Follow Through",
+            "description": "Subsequent chain strikes cost only 1 Guile.",
+            "purchased": false
+          },
+          {
+            "id": "shadowless-strike-force-the-attack",
+            "name": "Force the Attack",
+            "description": "Spend 1 additional Guile to reroll a failed attack once.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "phantom-perks-of-the-job",
+        "name": "Perks of the Job",
+        "tier": "lv3",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "When entering a town or major city, roll 1d6. 1-3: A 20% discount on anything purchased and 20% more payment on anything sold (always round in your favour). 4-6: All lodgings, food, and recreational activities are free. Perks last for a week before you can re-roll. The GM may also reveal useful information about the town — interesting NPCs, locales, or background knowledge your character possesses as a Phantom.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "phantom-light-as-a-feather",
+        "name": "Light as a Feather",
+        "tier": "lv8",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Whenever you are about to take impact damage from falling, you automatically gain a free Tumble effect (that works against falling damage) as strong as spending X Guile, where X is half your current Level.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "phantom-shadow-arts",
+        "name": "Shadow Arts",
+        "tier": "lv10",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Your Backstab damage is now considered True damage and pierces through all armour, resistances, and shields. It will always deal unmitigated damage in the face of any form of protection. This effect only applies when you are the one dealing the Backstab damage.",
+        "upgrades": []
       }
     ]
   },
@@ -1463,7 +2591,12 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack with Benefit (even if Hindered). Success: Refund 1 Faith; choose a Nearby Ally and grant them +2 AR on their next attack (lasts 1 round).",
         "upgrades": [
-          { "id": "denounce-ease", "name": "Ease", "description": "Refund 1 additional Faith on success.", "purchased": false }
+          {
+            "id": "denounce-ease",
+            "name": "Ease",
+            "description": "Refund 1 additional Faith on success.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1476,9 +2609,24 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack to determine X: 2–8 = −1, 9–15 = −2, 16–21 = −3, 22+ = −4. Lower the target's DR by X for 1 round.",
         "upgrades": [
-          { "id": "guided-strike-shame", "name": "Shame", "description": "Also lower the target's MR by the same amount.", "purchased": false },
-          { "id": "guided-strike-shirk", "name": "Shirk", "description": "Gain Benefit on Defense rolls against the affected target.", "purchased": false },
-          { "id": "guided-strike-chastise", "name": "Chastise", "description": "Duration increased to 2 rounds.", "purchased": false }
+          {
+            "id": "guided-strike-shame",
+            "name": "Shame",
+            "description": "Also lower the target's MR by the same amount.",
+            "purchased": false
+          },
+          {
+            "id": "guided-strike-shirk",
+            "name": "Shirk",
+            "description": "Gain Benefit on Defense rolls against the affected target.",
+            "purchased": false
+          },
+          {
+            "id": "guided-strike-chastise",
+            "name": "Chastise",
+            "description": "Duration increased to 2 rounds.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1491,7 +2639,12 @@
         "range": "Self",
         "effectsText": "Upon dealing melee attack damage, spend 1 Faith to reroll the damage dice and choose the preferred result.",
         "upgrades": [
-          { "id": "fanaticism-committed", "name": "Committed", "description": "The rerolled damage deals additional +HL damage.", "purchased": false }
+          {
+            "id": "fanaticism-committed",
+            "name": "Committed",
+            "description": "The rerolled damage deals additional +HL damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1504,7 +2657,12 @@
         "range": "Self",
         "effectsText": "Add +2 to all Faith Recharge rolls.",
         "upgrades": [
-          { "id": "man-of-the-cloth-unbending-faith", "name": "Unbending Faith", "description": "Roll the Faith Recharge die twice and keep the highest result.", "purchased": false }
+          {
+            "id": "man-of-the-cloth-unbending-faith",
+            "name": "Unbending Faith",
+            "description": "Roll the Faith Recharge die twice and keep the highest result.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1517,9 +2675,24 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage as Fire and brand the target (only 1 active brand per Priest). The next hit on the branded target triggers an explosion for HL+MIND Fire damage to the target and all Adjacent enemies. Failure: Deal half +MIND Fire damage.",
         "upgrades": [
-          { "id": "mark-guide-my-hand", "name": "Guide My Hand", "description": "Spend 1 additional Faith to gain Benefit on the attack roll.", "purchased": false },
-          { "id": "mark-determined", "name": "Determined", "description": "Refund 2 Faith on failure.", "purchased": false },
-          { "id": "mark-purifying-flames", "name": "Purifying Flames", "description": "Adjacent Allies heal for +MIND when the brand explodes.", "purchased": false }
+          {
+            "id": "mark-guide-my-hand",
+            "name": "Guide My Hand",
+            "description": "Spend 1 additional Faith to gain Benefit on the attack roll.",
+            "purchased": false
+          },
+          {
+            "id": "mark-determined",
+            "name": "Determined",
+            "description": "Refund 2 Faith on failure.",
+            "purchased": false
+          },
+          {
+            "id": "mark-purifying-flames",
+            "name": "Purifying Flames",
+            "description": "Adjacent Allies heal for +MIND when the brand explodes.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1532,7 +2705,12 @@
         "range": "Self",
         "effectsText": "Instantly gain 6 bonus Faith (can exceed your maximum). Bonus Faith is spent before your normal pool. Lasts for the battle or 10 minutes outside of combat.",
         "upgrades": [
-          { "id": "revelation-i-will-make-them-see", "name": "I Will Make Them See", "description": "Distribute the 6 bonus Faith among Allies' Class Resources instead.", "purchased": false }
+          {
+            "id": "revelation-i-will-make-them-see",
+            "name": "I Will Make Them See",
+            "description": "Distribute the 6 bonus Faith among Allies' Class Resources instead.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1545,9 +2723,24 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack to determine X: 2–8 = 1, 9–15 = 2, 16–21 = 3, 22+ = 4. The target (or yourself) gains +X AV for 1 round.",
         "upgrades": [
-          { "id": "tower-rebuke", "name": "Rebuke", "description": "Enemies that hit the shielded target take +MIND Divine damage.", "purchased": false },
-          { "id": "tower-reinforce", "name": "Reinforce", "description": "Gain Benefit on the roll; duration increased to 2 rounds.", "purchased": false },
-          { "id": "tower-share-the-faith", "name": "Share the Faith", "description": "You always receive the AV bonus in addition to the target.", "purchased": false }
+          {
+            "id": "tower-rebuke",
+            "name": "Rebuke",
+            "description": "Enemies that hit the shielded target take +MIND Divine damage.",
+            "purchased": false
+          },
+          {
+            "id": "tower-reinforce",
+            "name": "Reinforce",
+            "description": "Gain Benefit on the roll; duration increased to 2 rounds.",
+            "purchased": false
+          },
+          {
+            "id": "tower-share-the-faith",
+            "name": "Share the Faith",
+            "description": "You always receive the AV bonus in addition to the target.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1560,8 +2753,18 @@
         "range": "Far",
         "effectsText": "Swap your current HP with an Ally within Far distance (the Ally's HP must be lower than yours). Roll your Basic Attack to create an absorption shield on yourself that lasts until end of your next turn.",
         "upgrades": [
-          { "id": "martyr-guardian-angel", "name": "Guardian Angel", "description": "A burst of light also heals Adjacent Allies for HL+MIND.", "purchased": false },
-          { "id": "martyr-not-in-vain", "name": "Not in Vain", "description": "If you become Incapacitated within 10 minutes, your body explodes for 1d8+HL+MIND Divine damage to Adjacent enemies.", "purchased": false }
+          {
+            "id": "martyr-guardian-angel",
+            "name": "Guardian Angel",
+            "description": "A burst of light also heals Adjacent Allies for HL+MIND.",
+            "purchased": false
+          },
+          {
+            "id": "martyr-not-in-vain",
+            "name": "Not in Vain",
+            "description": "If you become Incapacitated within 10 minutes, your body explodes for 1d8+HL+MIND Divine damage to Adjacent enemies.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1574,8 +2777,18 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d6+HL+MIND Electric damage. You may convert up to 1 Healing Charge for an additional 1d6+HL Electric damage. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "wrath-furious-grace", "name": "Furious Grace", "description": "On a successful conversion, roll 1d10; on 6+ the Healing Charge is refunded.", "purchased": false },
-          { "id": "wrath-undeterred", "name": "Undeterred", "description": "Refund 1 Faith on failure.", "purchased": false }
+          {
+            "id": "wrath-furious-grace",
+            "name": "Furious Grace",
+            "description": "On a successful conversion, roll 1d10; on 6+ the Healing Charge is refunded.",
+            "purchased": false
+          },
+          {
+            "id": "wrath-undeterred",
+            "name": "Undeterred",
+            "description": "Refund 1 Faith on failure.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -1590,8 +2803,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d6+HL+MIND Divine damage; blind the target and reduce their AR by +MIND for 1 round. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "blinding-light-explosive-light", "name": "Explosive Light", "description": "An explosion at the target also hits an Adjacent enemy with the same effects.", "purchased": false },
-          { "id": "blinding-light-brilliance", "name": "Brilliance", "description": "Damage increased to 2d6+HL+MIND.", "purchased": false }
+          {
+            "id": "blinding-light-explosive-light",
+            "name": "Explosive Light",
+            "description": "An explosion at the target also hits an Adjacent enemy with the same effects.",
+            "purchased": false
+          },
+          {
+            "id": "blinding-light-brilliance",
+            "name": "Brilliance",
+            "description": "Damage increased to 2d6+HL+MIND.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1604,7 +2827,12 @@
         "range": "Self",
         "effectsText": "Instead of healing a target, you may place an absorption shield of the same value on them (lasts for the battle or 10 minutes outside combat).",
         "upgrades": [
-          { "id": "faith-protects-karmic-feedback", "name": "Karmic Feedback", "description": "Half of the damage absorbed by the shield is dealt back to the attacker as Divine damage.", "purchased": false }
+          {
+            "id": "faith-protects-karmic-feedback",
+            "name": "Karmic Feedback",
+            "description": "Half of the damage absorbed by the shield is dealt back to the attacker as Divine damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1617,8 +2845,18 @@
         "range": "Adjacent",
         "effectsText": "Expend Healing Charges to remove status effects from a target. 1 Charge: removes Staggered. 2 Charges: removes Poison, Confused, or Rooted. 3 Charges: removes Disease, Hindered, or Stunned.",
         "upgrades": [
-          { "id": "cleanse-soothing-light", "name": "Soothing Light", "description": "Heal the target for 1d4 per Charge used.", "purchased": false },
-          { "id": "cleanse-blessed-are-the-kind", "name": "Blessed are the Kind", "description": "After Cleansing, roll 1d10; on 8+ refund the Charge cost.", "purchased": false }
+          {
+            "id": "cleanse-soothing-light",
+            "name": "Soothing Light",
+            "description": "Heal the target for 1d4 per Charge used.",
+            "purchased": false
+          },
+          {
+            "id": "cleanse-blessed-are-the-kind",
+            "name": "Blessed are the Kind",
+            "description": "After Cleansing, roll 1d10; on 8+ refund the Charge cost.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1631,8 +2869,18 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack targeting MR. Success: Target loses will to strike (suffers +MIND penalty to damage for 1 round); if they have a Movement action, they automatically move toward you. Contest MIGHT vs. MIND if Elite. Failure: Target still suffers the damage penalty for 1 round.",
         "upgrades": [
-          { "id": "rapture-abundant-grace", "name": "Abundant Grace", "description": "Cost reduced to 3 Faith.", "purchased": false },
-          { "id": "rapture-beauty-is-everywhere", "name": "Beauty is Everywhere", "description": "No forced movement; you direct their movement if their action is available.", "purchased": false }
+          {
+            "id": "rapture-abundant-grace",
+            "name": "Abundant Grace",
+            "description": "Cost reduced to 3 Faith.",
+            "purchased": false
+          },
+          {
+            "id": "rapture-beauty-is-everywhere",
+            "name": "Beauty is Everywhere",
+            "description": "No forced movement; you direct their movement if their action is available.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1645,7 +2893,12 @@
         "range": "Self",
         "effectsText": "Gain HL to AR, DR, MR, and damage until end of battle or 10 minutes.",
         "upgrades": [
-          { "id": "crusader-divine-purpose", "name": "Divine Purpose", "description": "Also heal for half your maximum HP on activation.", "purchased": false }
+          {
+            "id": "crusader-divine-purpose",
+            "name": "Divine Purpose",
+            "description": "Also heal for half your maximum HP on activation.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1658,9 +2911,24 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack to determine X: 2–10 = 1d4, 11–15 = 2d4, 16–20 = 2d6, 21+ = 2d8. Heal yourself and all Allies on the battlefield for X+HL+MIND. Lingering: all Nearby characters also heal +MIND at the start of their next turn.",
         "upgrades": [
-          { "id": "song-of-mercy-unending-melody", "name": "Unending Melody", "description": "The lingering healing lasts an additional 2 rounds for a total of 3.", "purchased": false },
-          { "id": "song-of-mercy-cacophony", "name": "Cacophony", "description": "The initial cast also damages Adjacent and Nearby enemies for 1d8+MIND.", "purchased": false },
-          { "id": "song-of-mercy-you-lift-me-up", "name": "You Lift Me Up", "description": "You and all Nearby Allies generate 2 Class Resource (3 if you rolled 20+).", "purchased": false }
+          {
+            "id": "song-of-mercy-unending-melody",
+            "name": "Unending Melody",
+            "description": "The lingering healing lasts an additional 2 rounds for a total of 3.",
+            "purchased": false
+          },
+          {
+            "id": "song-of-mercy-cacophony",
+            "name": "Cacophony",
+            "description": "The initial cast also damages Adjacent and Nearby enemies for 1d8+MIND.",
+            "purchased": false
+          },
+          {
+            "id": "song-of-mercy-you-lift-me-up",
+            "name": "You Lift Me Up",
+            "description": "You and all Nearby Allies generate 2 Class Resource (3 if you rolled 20+).",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1684,7 +2952,12 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage and push the target Nearby away (enemies do not suffer Provoked Attacks from the displacement). Contest MIGHT vs. MIND if Elite or larger. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "smite-warning-cry", "name": "Warning Cry", "description": "Allies may make Provoked Attacks on the displaced target.", "purchased": false }
+          {
+            "id": "smite-warning-cry",
+            "name": "Warning Cry",
+            "description": "Allies may make Provoked Attacks on the displaced target.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1698,9 +2971,72 @@
         "effectsText": "Without a shield: your AR is increased by +2. With a shield: your AV is increased by +2.",
         "upgrades": []
       }
+    ],
+    "lv3": [
+      {
+        "id": "priest-guidance",
+        "name": "Guidance",
+        "tier": "lv3",
+        "actionType": "Overdrive",
+        "cost": "2 Faith",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Ask a single question. Objective questions are answered truthfully to varying degrees. Subjective questions or questions pertaining to creatures with free will are murky and will have haphazard results. Gods are mighty, but they do not have domain over free will — if a creature wishes to mask its intent or actions, the gods are not privy to observe them in that moment.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "priest-resurrection",
+        "name": "Resurrection",
+        "tier": "lv8",
+        "actionType": "Overdrive",
+        "cost": "6 Faith + Special",
+        "target": "Single",
+        "range": "Adjacent",
+        "effectsText": "You are able to bring a corpse that has been dead no longer than 5 days back to life. Resurrection is greatly taxing and can only be invoked once a week. On top of costing 6 Faith, you must sacrifice 2,000 Denerim (or an item of equal or greater value) for each day the corpse has been dead.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "priest-unending-grace",
+        "name": "Unending Grace",
+        "tier": "lv10",
+        "actionType": "Ultimate",
+        "cost": "1 Faith",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "On activation and each round afterwards you generate 1 Healing Charge for free. Lasts until the end of battle. Outside of combat, using Unending Grace will automatically heal your entire party to full HP.",
+        "upgrades": []
+      }
     ]
   },
   "Primalist": {
+    "baseline": [
+      {
+        "id": "primalist-aspect-of-the-boar",
+        "name": "Aspect of the Boar",
+        "tier": "baseline",
+        "actionType": "Quick",
+        "cost": "2 Ferocity",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Increase your MIGHT by +HL. Increase your Max HP and current HP by +MIND. The Max HP increase is lost when you leave this Aspect. Gives you access to the Brace for Impact power (costs 2 Ferocity to use).",
+        "upgrades": []
+      },
+      {
+        "id": "primalist-aspect-of-the-tiger",
+        "name": "Aspect of the Tiger",
+        "tier": "baseline",
+        "actionType": "Quick",
+        "cost": "2 Ferocity",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "Increase your AGILITY by +HL. Increase your damage die for your Basic Attack to 1d12. Gives you access to the Tumble power (spend Ferocity in place of Guile to achieve Tumble's effects).",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "aspect-of-the-rhino",
@@ -1712,8 +3048,18 @@
         "range": "Self",
         "effectsText": "Each range band you cover before making a melee attack increases that attack's damage by +MIND.",
         "upgrades": [
-          { "id": "rhino-stampede", "name": "Stampede", "description": "Enemies making Provoked Attacks against you while charging suffer +MIND damage.", "purchased": false },
-          { "id": "rhino-thick-hide", "name": "Thick Hide", "description": "Your AV is increased by +MIND against Provoked Attacks while charging.", "purchased": false }
+          {
+            "id": "rhino-stampede",
+            "name": "Stampede",
+            "description": "Enemies making Provoked Attacks against you while charging suffer +MIND damage.",
+            "purchased": false
+          },
+          {
+            "id": "rhino-thick-hide",
+            "name": "Thick Hide",
+            "description": "Your AV is increased by +MIND against Provoked Attacks while charging.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1726,7 +3072,12 @@
         "range": "Self",
         "effectsText": "Your DR is increased by +MIND and you gain Benefit on Defense rolls against melee attacks.",
         "upgrades": [
-          { "id": "mongoose-counterstrike", "name": "Counterstrike", "description": "When an enemy misses you with a melee attack, immediately retaliate with a Basic Attack.", "purchased": false }
+          {
+            "id": "mongoose-counterstrike",
+            "name": "Counterstrike",
+            "description": "When an enemy misses you with a melee attack, immediately retaliate with a Basic Attack.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1750,7 +3101,12 @@
         "range": "Far",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d8+HL+MIND Frost damage; generate 3 Ferocity. Failure: Deal half damage; generate 2 Ferocity.",
         "upgrades": [
-          { "id": "icicle-splinter", "name": "Splinter", "description": "Spend 1 additional Spirit to split the icicle at an Adjacent target; generates 1 additional Ferocity.", "purchased": false }
+          {
+            "id": "icicle-splinter",
+            "name": "Splinter",
+            "description": "Spend 1 additional Spirit to split the icicle at an Adjacent target; generates 1 additional Ferocity.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1763,8 +3119,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage, then make a second attack (half damage). Generate 1 Ferocity per hit. If the first attack kills the target, gain additional Ferocity. Failure: Generate 1 Ferocity.",
         "upgrades": [
-          { "id": "flurry-relentless-gust", "name": "Relentless Gust", "description": "Attempt the second strike even if the first attack missed.", "purchased": false },
-          { "id": "flurry-angry-winds", "name": "Angry Winds", "description": "Generate 2 Ferocity from the first attack even on failure.", "purchased": false }
+          {
+            "id": "flurry-relentless-gust",
+            "name": "Relentless Gust",
+            "description": "Attempt the second strike even if the first attack missed.",
+            "purchased": false
+          },
+          {
+            "id": "flurry-angry-winds",
+            "name": "Angry Winds",
+            "description": "Generate 2 Ferocity from the first attack even on failure.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1777,8 +3143,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d8+HL+MIND damage; generate 1d4 Ferocity. Failure: Generate 1d4 Ferocity.",
         "upgrades": [
-          { "id": "lashing-vines-entangled", "name": "Entangled", "description": "A base roll of 15–20 also causes the target to be Staggered for 1 round.", "purchased": false },
-          { "id": "lashing-vines-furious-fauna", "name": "Furious Fauna", "description": "Roll the 1d4 for Ferocity twice and take the highest result.", "purchased": false }
+          {
+            "id": "lashing-vines-entangled",
+            "name": "Entangled",
+            "description": "A base roll of 15–20 also causes the target to be Staggered for 1 round.",
+            "purchased": false
+          },
+          {
+            "id": "lashing-vines-furious-fauna",
+            "name": "Furious Fauna",
+            "description": "Roll the 1d4 for Ferocity twice and take the highest result.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1791,9 +3167,24 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack to determine X: 2–11 = 2, 12–18 = 3, 19–22 = 4, 23+ = 6. Heal the target for 1d4+HL+MIND+X; generate 2 Ferocity.",
         "upgrades": [
-          { "id": "waters-hard-water", "name": "Hard Water", "description": "The target also gains 1d4 AV against a single incoming attack for 1 round.", "purchased": false },
-          { "id": "waters-overflow", "name": "Overflow", "description": "Splash half the healing to 2 Adjacent Allies.", "purchased": false },
-          { "id": "waters-abundance", "name": "Abundance", "description": "Cost reduced to 2 Spirit.", "purchased": false }
+          {
+            "id": "waters-hard-water",
+            "name": "Hard Water",
+            "description": "The target also gains 1d4 AV against a single incoming attack for 1 round.",
+            "purchased": false
+          },
+          {
+            "id": "waters-overflow",
+            "name": "Overflow",
+            "description": "Splash half the healing to 2 Adjacent Allies.",
+            "purchased": false
+          },
+          {
+            "id": "waters-abundance",
+            "name": "Abundance",
+            "description": "Cost reduced to 2 Spirit.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1806,8 +3197,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack with Benefit. Success: Deal Basic Attack damage; maximize your Ferocity. Failure: Deal half damage; maximize your Ferocity.",
         "upgrades": [
-          { "id": "ravage-savage-talons", "name": "Savage Talons", "description": "Double the damage dice.", "purchased": false },
-          { "id": "ravage-crushing-leap", "name": "Crushing Leap", "description": "Range increased to Far; target is Rooted on success.", "purchased": false }
+          {
+            "id": "ravage-savage-talons",
+            "name": "Savage Talons",
+            "description": "Double the damage dice.",
+            "purchased": false
+          },
+          {
+            "id": "ravage-crushing-leap",
+            "name": "Crushing Leap",
+            "description": "Range increased to Far; target is Rooted on success.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1820,8 +3221,18 @@
         "range": "Far",
         "effectsText": "Choose an element (Arcane, Corrosive, Divine, Electric, Fire, or Frost). Roll your Basic Attack. Success: Deal 1d8+HL+MIND elemental damage; generate 3 Ferocity; target is weakened to that element (next matching element attack gains +1d6 bonus). Failure: Deal half damage; generate 3 Ferocity.",
         "upgrades": [
-          { "id": "crystal-shard-prismatic-assault", "name": "Prismatic Assault", "description": "The weakness bonus increases to +1d10.", "purchased": false },
-          { "id": "crystal-shard-pressurized", "name": "Pressurized", "description": "Damage increased to 2d8+HL+MIND.", "purchased": false }
+          {
+            "id": "crystal-shard-prismatic-assault",
+            "name": "Prismatic Assault",
+            "description": "The weakness bonus increases to +1d10.",
+            "purchased": false
+          },
+          {
+            "id": "crystal-shard-pressurized",
+            "name": "Pressurized",
+            "description": "Damage increased to 2d8+HL+MIND.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -1836,7 +3247,12 @@
         "range": "Adjacent",
         "effectsText": "You and all Adjacent Allies gain +2 AR and DR.",
         "upgrades": [
-          { "id": "wolf-wolf-pack-tactics", "name": "Wolf Pack Tactics", "description": "On initial activation, you or an Adjacent Ally may move away from Adjacent enemies without triggering Provoked Attacks, provided another Ally is Adjacent to that enemy.", "purchased": false }
+          {
+            "id": "wolf-wolf-pack-tactics",
+            "name": "Wolf Pack Tactics",
+            "description": "On initial activation, you or an Adjacent Ally may move away from Adjacent enemies without triggering Provoked Attacks, provided another Ally is Adjacent to that enemy.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1849,7 +3265,12 @@
         "range": "Self",
         "effectsText": "Your melee attacks deal Corrosive damage instead of Physical.",
         "upgrades": [
-          { "id": "viper-leeching-bite", "name": "Leeching Bite", "description": "On initial activation, generate 1 Spirit per successful enemy strike until the end of your next turn.", "purchased": false }
+          {
+            "id": "viper-leeching-bite",
+            "name": "Leeching Bite",
+            "description": "On initial activation, generate 1 Spirit per successful enemy strike until the end of your next turn.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1862,8 +3283,18 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack to determine X: 2–12 = 3 targets, 13–19 = 4 targets, 20–23 = all enemies, 24+ = all enemies (repeats at start of your next turn). Automatically deal 1d8+MIND Electric damage to X enemies. Generate 3 Ferocity.",
         "upgrades": [
-          { "id": "thunderstorm-a-storm-is-coming", "name": "A Storm is Coming", "description": "Gain Benefit on the determining roll.", "purchased": false },
-          { "id": "thunderstorm-dancing-in-the-rain", "name": "Dancing in the Rain", "description": "Additionally heal the same number of Allies for 2d6+MIND (also repeats on 24+).", "purchased": false }
+          {
+            "id": "thunderstorm-a-storm-is-coming",
+            "name": "A Storm is Coming",
+            "description": "Gain Benefit on the determining roll.",
+            "purchased": false
+          },
+          {
+            "id": "thunderstorm-dancing-in-the-rain",
+            "name": "Dancing in the Rain",
+            "description": "Additionally heal the same number of Allies for 2d6+MIND (also repeats on 24+).",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1876,8 +3307,18 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack to determine X: 2–18 = 1 round, 19–22 = 2 rounds, 23+ = 3 rounds. Target gains Benefit on Defense rolls against ranged attacks for X rounds. Generate 2 Ferocity.",
         "upgrades": [
-          { "id": "zephyr-turbulence", "name": "Turbulence", "description": "Melee attackers targeting the protected character take 1d4+MIND damage.", "purchased": false },
-          { "id": "zephyr-lashing-wind", "name": "Lashing Wind", "description": "Missed ranged attacks against the target bounce back to the attacker for half damage.", "purchased": false }
+          {
+            "id": "zephyr-turbulence",
+            "name": "Turbulence",
+            "description": "Melee attackers targeting the protected character take 1d4+MIND damage.",
+            "purchased": false
+          },
+          {
+            "id": "zephyr-lashing-wind",
+            "name": "Lashing Wind",
+            "description": "Missed ranged attacks against the target bounce back to the attacker for half damage.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1890,8 +3331,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack targeting MR. Success: Deal +MIND damage; disable the target from using spells or powers for 1 round; generate 3 Ferocity. Contest MIGHT vs. MIND if larger than Medium or Elite. Failure: Target Staggered; generate 2 Ferocity.",
         "upgrades": [
-          { "id": "insect-swarm-deadly-stings", "name": "Deadly Stings", "description": "Damage increased to 2d6+MIND.", "purchased": false },
-          { "id": "insect-swarm-lasting-buzz", "name": "Lasting Buzz", "description": "The target's AR is also lowered by HL on success.", "purchased": false }
+          {
+            "id": "insect-swarm-deadly-stings",
+            "name": "Deadly Stings",
+            "description": "Damage increased to 2d6+MIND.",
+            "purchased": false
+          },
+          {
+            "id": "insect-swarm-lasting-buzz",
+            "name": "Lasting Buzz",
+            "description": "The target's AR is also lowered by HL on success.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1904,7 +3355,12 @@
         "range": "Very Far",
         "effectsText": "Roll your Basic Attack to determine X: 2–12 = 1 Ally, 13–19 = 2 Allies, 20–23 = 3 Allies, 24+ = 4 Allies. You and X Allies recharge their Class Resource. Generate X Ferocity.",
         "upgrades": [
-          { "id": "exhilaration-tide-of-battle", "name": "Tide of Battle", "description": "Affected characters gain +2 to their next Recharge roll and Benefit on their next action for 1 round.", "purchased": false }
+          {
+            "id": "exhilaration-tide-of-battle",
+            "name": "Tide of Battle",
+            "description": "Affected characters gain +2 to their next Recharge roll and Benefit on their next action for 1 round.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1928,13 +3384,86 @@
         "range": "Very Far",
         "effectsText": "A volcano erupts somewhere on the battlefield. Roll 1d4 to determine how many gobs of magma are launched. Roll your Basic Attack once. Success: Each gob deals +MIND Fire damage to a random target. Failure: No damage. Maintain to repeat at the start of your next turn.",
         "upgrades": [
-          { "id": "magma-geyser-ferocious-fire", "name": "Ferocious Fire", "description": "Generate 1 Ferocity per 2 successful hits.", "purchased": false },
-          { "id": "magma-geyser-high-pressure", "name": "High Pressure", "description": "The number of potential targets increases to 1d4+1.", "purchased": false }
+          {
+            "id": "magma-geyser-ferocious-fire",
+            "name": "Ferocious Fire",
+            "description": "Generate 1 Ferocity per 2 successful hits.",
+            "purchased": false
+          },
+          {
+            "id": "magma-geyser-high-pressure",
+            "name": "High Pressure",
+            "description": "The number of potential targets increases to 1d4+1.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "primalist-beastwalker",
+        "name": "Beastwalker",
+        "tier": "lv3",
+        "actionType": "Overdrive",
+        "cost": "1 Spirit",
+        "target": "Single",
+        "range": "Adjacent",
+        "effectsText": "You can inhabit the body of a willing animal and may control it and see everything it sees. Lasts 10 minutes. Any damage to the host animal cancels the effect. Your own body is rendered prone and vulnerable while Beastwalking. Docile and calm animals have a baseline TN of 10. The GM may ramp the TN up per the Difficulty Table based on other factors (e.g. the animal is wounded, scared, or aggressive).",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "primalist-call-the-elements",
+        "name": "Call the Elements",
+        "tier": "lv8",
+        "actionType": "Overdrive",
+        "cost": "1 Spirit",
+        "target": "Special",
+        "range": "Special",
+        "effectsText": "You may cause the weather to change around you within a radius of up to 50 metres. Choose from: rainfall, strong winds, or a hot sun and clear blue skies. Outside of combat, Call the Elements lasts up to half an hour. During combat, the weather can only be maintained for 1 round.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "primalist-avatar",
+        "name": "Avatar",
+        "tier": "lv10",
+        "actionType": "Ultimate",
+        "cost": "Free",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "You are instantly healed for half of your Max HP. All Spirit and Ferocity costs are removed for 3 rounds. When Avatar ends, Spirit and Ferocity are maxed.",
+        "upgrades": []
       }
     ]
   },
   "Sentinel": {
+    "baseline": [
+      {
+        "id": "sentinel-bastion",
+        "name": "Bastion",
+        "tier": "baseline",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "When wielding your shield, add the shield's AV to your DR.",
+        "upgrades": []
+      },
+      {
+        "id": "sentinel-vigilance",
+        "name": "Vigilance",
+        "tier": "baseline",
+        "actionType": "Quick",
+        "cost": "1 Discipline",
+        "target": "Single",
+        "range": "Special",
+        "effectsText": "Select a single enemy anywhere on the battlefield to become your point of focus. Any time that enemy attacks a target that is not you, you may instead make a Basic Attack against that enemy as a Free action at the time they made the attack. Vigilance lasts until the end of battle or if you use it again to change to a different target.",
+        "upgrades": []
+      }
+    ],
     "tier1": [
       {
         "id": "defensive-strike",
@@ -1946,7 +3475,12 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; gain +MIGHT AV against the next single incoming attack. Failure: Miss but still gain the +MIGHT AV bonus (does not stack).",
         "upgrades": [
-          { "id": "defensive-strike-spellward", "name": "Spellward", "description": "The AV bonus applies against all damage types except True.", "purchased": false }
+          {
+            "id": "defensive-strike-spellward",
+            "name": "Spellward",
+            "description": "The AV bonus applies against all damage types except True.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1981,8 +3515,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage + your shield's AV bonus as additional damage. Failure: Deal half Basic Attack damage.",
         "upgrades": [
-          { "id": "shield-slam-reverberation", "name": "Reverberation", "description": "Target is Staggered on success.", "purchased": false },
-          { "id": "shield-slam-shield-arm", "name": "Shield Arm", "description": "Cost reduced to 1 Discipline.", "purchased": false }
+          {
+            "id": "shield-slam-reverberation",
+            "name": "Reverberation",
+            "description": "Target is Staggered on success.",
+            "purchased": false
+          },
+          {
+            "id": "shield-slam-shield-arm",
+            "name": "Shield Arm",
+            "description": "Cost reduced to 1 Discipline.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -1995,8 +3539,18 @@
         "range": "Nearby",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage. Failure: Deal half. Shield Return: Roll 2d10; on 11+ the shield returns, on 10 or below retrieve it from the target. Allies can throw it back as a Quick action.",
         "upgrades": [
-          { "id": "shield-toss-topspin", "name": "Topspin", "description": "Shield returns on 6+; range increased to Far.", "purchased": false },
-          { "id": "shield-toss-cannon-arm", "name": "Cannon Arm", "description": "Add your shield's AV as bonus damage; a Massive Hit instantly kills non-Elite targets.", "purchased": false }
+          {
+            "id": "shield-toss-topspin",
+            "name": "Topspin",
+            "description": "Shield returns on 6+; range increased to Far.",
+            "purchased": false
+          },
+          {
+            "id": "shield-toss-cannon-arm",
+            "name": "Cannon Arm",
+            "description": "Add your shield's AV as bonus damage; a Massive Hit instantly kills non-Elite targets.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2009,8 +3563,18 @@
         "range": "Adjacent",
         "effectsText": "Choose an Adjacent Ally. While both of you remain Adjacent, both of you roll for all offensive and defensive actions of either; take the highest result. Lasts 2 rounds or until separated.",
         "upgrades": [
-          { "id": "back-to-back-strike-as-one", "name": "Strike as One", "description": "Also roll damage dice twice and take the highest.", "purchased": false },
-          { "id": "back-to-back-semper-fi", "name": "Semper Fi", "description": "Effect lasts the entire battle as long as you remain Adjacent.", "purchased": false }
+          {
+            "id": "back-to-back-strike-as-one",
+            "name": "Strike as One",
+            "description": "Also roll damage dice twice and take the highest.",
+            "purchased": false
+          },
+          {
+            "id": "back-to-back-semper-fi",
+            "name": "Semper Fi",
+            "description": "Effect lasts the entire battle as long as you remain Adjacent.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2023,7 +3587,12 @@
         "range": "Self",
         "effectsText": "When you are the target of a ranged attack, gain Benefit on your Defense roll.",
         "upgrades": [
-          { "id": "deflect-redirection", "name": "Redirection", "description": "Redirect an Ally's incoming projectile; can extend its range by 1 band or redirect to impossible angles. Costs 1 additional Discipline.", "purchased": false }
+          {
+            "id": "deflect-redirection",
+            "name": "Redirection",
+            "description": "Redirect an Ally's incoming projectile; can extend its range by 1 band or redirect to impossible angles. Costs 1 additional Discipline.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2036,8 +3605,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack to determine X: 2–17 = X+3, 18–22 = X+5, 23–26 = X+7, 27+ = X+10. You and all Adjacent Allies gain that AV bonus. Allies who move away lose the bonus. Lasts up to 2 rounds (you must spend Standard and Movement actions; you cannot move).",
         "upgrades": [
-          { "id": "barrier-impenetrable", "name": "Impenetrable", "description": "The AV bonus applies against all damage types.", "purchased": false },
-          { "id": "barrier-born-defender", "name": "Born Defender", "description": "Barrier costs no Discipline to activate.", "purchased": false }
+          {
+            "id": "barrier-impenetrable",
+            "name": "Impenetrable",
+            "description": "The AV bonus applies against all damage types.",
+            "purchased": false
+          },
+          {
+            "id": "barrier-born-defender",
+            "name": "Born Defender",
+            "description": "Barrier costs no Discipline to activate.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2050,7 +3629,12 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack to determine X: 2–11 = +2, 12–19 = +3, 20–23 = +4, 24+ = +6. An Adjacent Ally springs to a Nearby location and adds X to their AR and damage on their next attack.",
         "upgrades": [
-          { "id": "springboard-launch-pad", "name": "Launch Pad", "description": "Launch the Ally to Far distance instead of Nearby.", "purchased": false }
+          {
+            "id": "springboard-launch-pad",
+            "name": "Launch Pad",
+            "description": "Launch the Ally to Far distance instead of Nearby.",
+            "purchased": false
+          }
         ]
       }
     ],
@@ -2065,8 +3649,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack targeting MR. Success: Force the target to attack only you for 1 round. Failure: Target Staggered.",
         "upgrades": [
-          { "id": "challenge-blinded-by-rage", "name": "Blinded by Rage", "description": "Gain Benefit on Defense against one of the challenged target's attacks.", "purchased": false },
-          { "id": "challenge-invigoration", "name": "Invigoration", "description": "If you completely evade one of their attacks, gain 4 Discipline.", "purchased": false }
+          {
+            "id": "challenge-blinded-by-rage",
+            "name": "Blinded by Rage",
+            "description": "Gain Benefit on Defense against one of the challenged target's attacks.",
+            "purchased": false
+          },
+          {
+            "id": "challenge-invigoration",
+            "name": "Invigoration",
+            "description": "If you completely evade one of their attacks, gain 4 Discipline.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2079,8 +3673,18 @@
         "range": "Nearby",
         "effectsText": "Your Vigilance class feature extends to all enemies within Nearby distance for 2 rounds. You may make a Free Basic Attack against any Adjacent enemy who strikes an Ally.",
         "upgrades": [
-          { "id": "guardian-serve-and-protect", "name": "Serve and Protect", "description": "Spend 1 Discipline to sprint Nearby to an aggressor; this is not a Movement action but you are still susceptible to Provoked Attacks.", "purchased": false },
-          { "id": "guardian-enduring-watch", "name": "Enduring Watch", "description": "Guardian lasts an additional round and costs no Discipline.", "purchased": false }
+          {
+            "id": "guardian-serve-and-protect",
+            "name": "Serve and Protect",
+            "description": "Spend 1 Discipline to sprint Nearby to an aggressor; this is not a Movement action but you are still susceptible to Provoked Attacks.",
+            "purchased": false
+          },
+          {
+            "id": "guardian-enduring-watch",
+            "name": "Enduring Watch",
+            "description": "Guardian lasts an additional round and costs no Discipline.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2093,8 +3697,18 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal 1d4+MIGHT damage to 1d4 Adjacent enemies. Failure: Deal half. While Maintained, any enemy who melee attacks you suffers your AV value as Physical damage.",
         "upgrades": [
-          { "id": "iron-maiden-adept", "name": "Adept", "description": "Cost reduced to 2 Discipline for both activation and maintenance.", "purchased": false },
-          { "id": "iron-maiden-steel-maiden", "name": "Steel Maiden", "description": "Initial strikes hit 1d4+1 enemies; retaliation damage increases by +1d4.", "purchased": false }
+          {
+            "id": "iron-maiden-adept",
+            "name": "Adept",
+            "description": "Cost reduced to 2 Discipline for both activation and maintenance.",
+            "purchased": false
+          },
+          {
+            "id": "iron-maiden-steel-maiden",
+            "name": "Steel Maiden",
+            "description": "Initial strikes hit 1d4+1 enemies; retaliation damage increases by +1d4.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2107,8 +3721,18 @@
         "range": "Adjacent",
         "effectsText": "When an Adjacent Ally is targeted by an attack, jump between them and the attacker and make the Defense roll in their stead.",
         "upgrades": [
-          { "id": "intercept-sprint", "name": "Sprint", "description": "Spend 1 additional Discipline to extend the range to Nearby.", "purchased": false },
-          { "id": "intercept-prepared", "name": "Prepared", "description": "Add HL to your DR against the intercepted attack.", "purchased": false }
+          {
+            "id": "intercept-sprint",
+            "name": "Sprint",
+            "description": "Spend 1 additional Discipline to extend the range to Nearby.",
+            "purchased": false
+          },
+          {
+            "id": "intercept-prepared",
+            "name": "Prepared",
+            "description": "Add HL to your DR against the intercepted attack.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2121,8 +3745,18 @@
         "range": "Self",
         "effectsText": "Gain (LEVEL−2)+MIGHT temporary HP; your maximum HP increases by this amount. Lasts for the battle or 10 minutes. After the effect ends, the temporary HP is lost.",
         "upgrades": [
-          { "id": "last-stand-iron-focus", "name": "Iron Focus", "description": "Your AR is also increased by half your AV while Last Stand is active.", "purchased": false },
-          { "id": "last-stand-heroic-inspiration", "name": "Heroic Inspiration", "description": "Adjacent Allies generate 2 Class Resource on activation.", "purchased": false }
+          {
+            "id": "last-stand-iron-focus",
+            "name": "Iron Focus",
+            "description": "Your AR is also increased by half your AV while Last Stand is active.",
+            "purchased": false
+          },
+          {
+            "id": "last-stand-heroic-inspiration",
+            "name": "Heroic Inspiration",
+            "description": "Adjacent Allies generate 2 Class Resource on activation.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2135,8 +3769,18 @@
         "range": "Adjacent",
         "effectsText": "When you have an opportunity for a Provoked Attack against a moving target, roll your Basic Attack. Success: Deal damage and cancel the target's movement. Contest MIGHT vs. MIGHT if Elite or larger. Failure: Deal half damage.",
         "upgrades": [
-          { "id": "warden-you-shall-not-pass", "name": "You Shall Not Pass", "description": "Gain Benefit on the attack roll.", "purchased": false },
-          { "id": "warden-effortless", "name": "Effortless", "description": "Cost reduced to 1 Discipline.", "purchased": false }
+          {
+            "id": "warden-you-shall-not-pass",
+            "name": "You Shall Not Pass",
+            "description": "Gain Benefit on the attack roll.",
+            "purchased": false
+          },
+          {
+            "id": "warden-effortless",
+            "name": "Effortless",
+            "description": "Cost reduced to 1 Discipline.",
+            "purchased": false
+          }
         ]
       },
       {
@@ -2160,9 +3804,58 @@
         "range": "Adjacent",
         "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage + your shield's AV bonus; displace both yourself and the target Nearby away in opposite directions (neither suffers Provoked Attacks). Contest MIGHT vs. MIGHT if Elite. Failure: Deal half damage; refund 1 Discipline and your unused Movement action.",
         "upgrades": [
-          { "id": "shield-push-heads-up", "name": "Heads Up!", "description": "Allies may make Provoked Attacks against the displaced target.", "purchased": false },
-          { "id": "shield-push-freight-train", "name": "Freight Train", "description": "Displace the target Nearby away while you remain; then charge at them.", "purchased": false }
+          {
+            "id": "shield-push-heads-up",
+            "name": "Heads Up!",
+            "description": "Allies may make Provoked Attacks against the displaced target.",
+            "purchased": false
+          },
+          {
+            "id": "shield-push-freight-train",
+            "name": "Freight Train",
+            "description": "Displace the target Nearby away while you remain; then charge at them.",
+            "purchased": false
+          }
         ]
+      }
+    ],
+    "lv3": [
+      {
+        "id": "sentinel-forced-march",
+        "name": "Forced March",
+        "tier": "lv3",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "You receive an additional HL as bonus Recuperations per day. You now have the ability to also give away your Recuperations to your Allies.",
+        "upgrades": []
+      }
+    ],
+    "lv8": [
+      {
+        "id": "sentinel-rocksteady",
+        "name": "Rocksteady",
+        "tier": "lv8",
+        "actionType": "Overdrive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "In combat, any attack that attempts to displace you is resisted completely. Outside of combat, events or actions that would send a lesser warrior sprawling or sailing across the room are stopped cold when inflicted upon you.",
+        "upgrades": []
+      }
+    ],
+    "lv10": [
+      {
+        "id": "sentinel-desperate-defense",
+        "name": "Desperate Defense",
+        "tier": "lv10",
+        "actionType": "Passive",
+        "cost": "None",
+        "target": "Self",
+        "range": "Self",
+        "effectsText": "For every 20 HP you are missing, you receive +1 to your DR.",
+        "upgrades": []
       }
     ]
   }

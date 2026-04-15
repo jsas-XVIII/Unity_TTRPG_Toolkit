@@ -16,9 +16,11 @@ type Action =
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_FEATURE_UPGRADE'; powerId: string; upgradeId: string }
 
 interface Props {
   powers: CharacterPower[]
+  featureUpgrades?: Record<string, string[]>
   className: ClassName
   classPath?: string | null
   level: number
@@ -31,11 +33,11 @@ function tokenColor(used: number, total: number): string {
   return 'text-yellow-400'
 }
 
-export default function PowerList({ powers, className, classPath, level, dispatch }: Props) {
+export default function PowerList({ powers, featureUpgrades = {}, className, classPath, level, dispatch }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [preview, setPreview] = useState<Power | null>(null)
 
-  const { tier1, tier2, baseline } = getPowersByClass(className)
+  const { tier1, tier2, baseline, lv3, lv8, lv10 } = getPowersByClass(className)
   const allClassPowers = [...tier1, ...tier2] // baseline excluded from picker
   const addedIds = useMemo(() => new Set(powers.map((p) => p.id)), [powers])
 
@@ -44,6 +46,25 @@ export default function PowerList({ powers, className, classPath, level, dispatc
   const baselinePowers = baseline.filter(
     (p) => !p.restrictToClassPath || p.restrictToClassPath === classPath
   )
+
+  // lv3/lv8/lv10 feature powers — derived, never stored in character.powers.
+  // Same path filtering as baseline. Upgrade purchased state comes from featureUpgrades.
+  function withFeatureUpgradeState(pool: typeof lv3) {
+    return pool
+      .filter((p) => !p.restrictToClassPath || p.restrictToClassPath === classPath)
+      .map((p) => {
+        const purchasedIds = featureUpgrades[p.id] ?? []
+        if (purchasedIds.length === 0) return p
+        return {
+          ...p,
+          upgrades: p.upgrades.map((u) => ({ ...u, purchased: purchasedIds.includes(u.id) })),
+        }
+      })
+  }
+
+  const lv3Powers = level >= 3 ? withFeatureUpgradeState(lv3) : []
+  const lv8Powers = level >= 8 ? withFeatureUpgradeState(lv8) : []
+  const lv10Powers = level >= 10 ? withFeatureUpgradeState(lv10) : []
 
   // Resolve each power once via getPowerById (O(classes × pools) per call) so we
   // don't repeat the lookup across the three display-group filters below.
@@ -134,6 +155,36 @@ export default function PowerList({ powers, className, classPath, level, dispatc
             ))}
           </div>
         </div>
+      )}
+
+      {/* Level feature sections — derived, read-only except for upgrade toggles */}
+      {([
+        { key: 'lv3', pool: lv3Powers },
+        { key: 'lv8', pool: lv8Powers },
+        { key: 'lv10', pool: lv10Powers },
+      ] as const).map(({ key, pool }) =>
+        pool.length > 0 ? (
+          <div key={key} className="mb-4">
+            <p className={`text-xs ${TIER_CONFIG[key].headingColor} uppercase mb-2`}>
+              {TIER_CONFIG[key].sectionHeading}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {pool.map((p) => (
+                <PowerReferenceCard
+                  key={p.id}
+                  power={p}
+                  className={className}
+                  onUpgradeToggle={
+                    p.upgrades.length > 0
+                      ? (upgradeId) =>
+                          dispatch({ type: 'TOGGLE_FEATURE_UPGRADE', powerId: p.id, upgradeId })
+                      : undefined
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        ) : null
       )}
 
       {sheetTier1.length > 0 && (

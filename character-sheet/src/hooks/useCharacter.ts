@@ -39,6 +39,7 @@ type Action =
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_FEATURE_UPGRADE'; powerId: string; upgradeId: string }
   | { type: 'ADD_PERK'; perk: Perk }
   | { type: 'REMOVE_PERK'; id: string }
   | { type: 'SET_CORE_PATH'; path: CorePath }
@@ -139,6 +140,23 @@ function reducer(state: Character, action: Action): Character {
           }
         }),
       }
+
+    // Toggles an upgrade ID in/out of featureUpgrades for a derived feature power
+    // (baseline / lv3 / lv8 / lv10). These are never stored in character.powers.
+    case 'TOGGLE_FEATURE_UPGRADE': {
+      const current = state.featureUpgrades ?? {}
+      const existing = current[action.powerId] ?? []
+      const already = existing.includes(action.upgradeId)
+      return {
+        ...state,
+        featureUpgrades: {
+          ...current,
+          [action.powerId]: already
+            ? existing.filter((uid) => uid !== action.upgradeId)
+            : [...existing, action.upgradeId],
+        },
+      }
+    }
 
     // --- Perks ---
     case 'ADD_PERK':
