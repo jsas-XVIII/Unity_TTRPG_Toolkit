@@ -14,6 +14,7 @@ import type { Character, CharacterPower, CorePath, Perk } from '../types/charact
 import type { Weapon, ArmorItem, Artifact } from '../types/equipment'
 import { CLASS_MAP } from '../constants/classes'
 import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
+import { applyLevelUp } from '../data/advancementData'
 
 // ---------------------------------------------------------------------------
 // Action union type
@@ -22,6 +23,7 @@ import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
 type Action =
   | { type: 'SET_CHARACTER'; payload: Character }
   | { type: 'SET_FIELD'; field: keyof Character; value: unknown }
+  | { type: 'LEVEL_UP' }
   | { type: 'SET_ATTRIBUTE'; attr: 'might' | 'agility' | 'mind' | 'presence'; value: number }
   | { type: 'SET_HP'; value: number }
   | { type: 'SET_FADING'; value: number }
@@ -56,6 +58,15 @@ function reducer(state: Character, action: Action): Character {
     // Generic single top-level field update (e.g. name, notes, level)
     case 'SET_FIELD':
       return { ...state, [action.field]: action.value }
+
+    // Apply all automatic level-up bonuses (AR/DR, HP boost, recuperation, artifact capacity).
+    // Choice-based bonuses (attr boost, perk, token) are returned as a checklist by applyLevelUp()
+    // and surfaced in the AdvancementTable UI — the reducer only handles the automatic portion.
+    case 'LEVEL_UP': {
+      const classDef = CLASS_MAP[state.className]
+      if (!classDef || state.level >= 10) return state
+      return applyLevelUp(state, classDef).updated
+    }
 
     // Update one of the four core attributes; preserves the other three
     case 'SET_ATTRIBUTE':

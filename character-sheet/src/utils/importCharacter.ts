@@ -27,6 +27,17 @@ function migratePowers(character: Character): Character {
   return { ...character, powers: migrated }
 }
 
+// Applies all field migrations in sequence. Called whenever a character is loaded
+// from localStorage or imported from a JSON file, so old saves stay compatible.
+export function migrateCharacter(character: Character): Character {
+  let c = migratePowers(character)
+  // hpBonus added in the Advancement Table feature — default 0 for pre-existing characters
+  if ((c as { hpBonus?: number }).hpBonus === undefined) {
+    c = { ...c, hpBonus: 0 }
+  }
+  return c
+}
+
 export type ImportCheckResult =
   | { status: 'new'; parsed: Character }
   | { status: 'duplicate'; parsed: Character }
@@ -47,7 +58,7 @@ export async function checkImport(
   api: CharacterRepository
 ): Promise<ImportCheckResult> {
   const text = await readFileAsText(file)
-  const parsed = migratePowers(JSON.parse(text) as Character)
+  const parsed = migrateCharacter(JSON.parse(text) as Character)
 
   try {
     await api.getById(parsed.id)

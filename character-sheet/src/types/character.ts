@@ -110,6 +110,9 @@ export interface Character {
   arBonus: number
   drBonus: number
 
+  // Cumulative Max HP bonus from HP Boosts gained at even levels (die max + MIGHT at time of level-up)
+  hpBonus: number
+
   currentHp: number
   fadingStacks: number
 

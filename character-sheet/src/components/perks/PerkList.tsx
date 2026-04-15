@@ -1,26 +1,37 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import type { Perk, PerkSource } from '../../types/character'
+import type { Perk } from '../../types/character'
 import type { Dispatch } from 'react'
 import { GENERAL_PERKS } from '../../constants/perks'
 import { CARD, SECTION_HEADING, REMOVE_BTN } from '../../styles/classes'
+import { ADVANCEMENT_ROWS } from '../../data/advancementData'
+import GeneralPerkModal from './GeneralPerkModal'
 
 type Action = { type: 'ADD_PERK'; perk: Perk } | { type: 'REMOVE_PERK'; id: string }
 
 interface Props {
   perks: Perk[]
+  level: number
   dispatch: Dispatch<Action>
 }
 
-export default function PerkList({ perks, dispatch }: Props) {
-  const source: PerkSource = 'General'
-  const [selectedPerkName, setSelectedPerkName] = useState(GENERAL_PERKS[0].name)
+function perkColor(used: number, max: number): string {
+  if (used > max) return 'text-red-400'
+  if (used === max) return 'text-green-400'
+  return 'text-yellow-400'
+}
+
+export default function PerkList({ perks, level, dispatch }: Props) {
+  const [showModal, setShowModal] = useState(false)
 
   const classPerks = perks.filter((p) => p.source === 'Class')
   const generalPerks = perks.filter((p) => p.source === 'General')
+  const maxGeneralPerks = ADVANCEMENT_ROWS.filter(
+    (row) => row.level <= level && row.generalPerk
+  ).length
 
-  function addGeneralPerk() {
-    const template = GENERAL_PERKS.find((p) => p.name === selectedPerkName)
+  function addGeneralPerk(perkName: string) {
+    const template = GENERAL_PERKS.find((p) => p.name === perkName)
     if (!template) return
     dispatch({ type: 'ADD_PERK', perk: { ...template, id: uuidv4() } })
   }
@@ -28,7 +39,7 @@ export default function PerkList({ perks, dispatch }: Props) {
   function addCustomPerk() {
     dispatch({
       type: 'ADD_PERK',
-      perk: { id: uuidv4(), name: 'New Perk', description: '', source },
+      perk: { id: uuidv4(), name: 'New Perk', description: '', source: 'Class' },
     })
   }
 
@@ -50,54 +61,49 @@ export default function PerkList({ perks, dispatch }: Props) {
   }
 
   return (
-    <div className={CARD}>
-      <h2 className={SECTION_HEADING}>Perks</h2>
-
-      {classPerks.length > 0 && (
-        <div className="mb-3">
-          <p className="text-xs text-gray-500 uppercase mb-1">Class Perks</p>
-          {classPerks.map((p) => (
-            <PerkRow key={p.id} perk={p} />
-          ))}
-        </div>
-      )}
-
-      {generalPerks.length > 0 && (
-        <div className="mb-3">
-          <p className="text-xs text-gray-500 uppercase mb-1">General Perks</p>
-          {generalPerks.map((p) => (
-            <PerkRow key={p.id} perk={p} />
-          ))}
-        </div>
-      )}
-
-      <div className="border-t border-gray-800 pt-3 space-y-2">
-        <div className="flex gap-2">
-          <select
-            className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-300 flex-1"
-            value={selectedPerkName}
-            onChange={(e) => setSelectedPerkName(e.target.value)}
-          >
-            {GENERAL_PERKS.map((p) => (
-              <option key={p.name} value={p.name}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-          <button
-            className="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm text-gray-300"
-            onClick={addGeneralPerk}
-          >
-            Add General
-          </button>
+    <>
+      <div className={CARD}>
+        {/* Class Perks */}
+        <h2 className={SECTION_HEADING}>Class Perks</h2>
+        <div className="mb-1">
+          {classPerks.length > 0 ? (
+            classPerks.map((p) => <PerkRow key={p.id} perk={p} />)
+          ) : (
+            <p className="text-xs text-gray-600 italic">No class perks added.</p>
+          )}
         </div>
         <button
-          className="w-full py-1.5 rounded border border-dashed border-gray-600 text-gray-500 hover:text-gray-300 hover:border-gray-400 text-sm"
+          className="mt-2 w-full py-1.5 rounded border border-dashed border-gray-600 text-gray-500 hover:text-gray-300 hover:border-gray-400 text-sm transition-colors"
           onClick={addCustomPerk}
         >
-          + Add Custom Class Perk
+          + Add Class Perk
+        </button>
+
+        {/* General Perks */}
+        <div className="flex justify-between items-center mt-4">
+          <h2 className={SECTION_HEADING}>General Perks</h2>
+          <span className="text-xs text-gray-500">
+            <span className={perkColor(generalPerks.length, maxGeneralPerks)}>
+              {generalPerks.length}/{maxGeneralPerks}
+            </span>
+          </span>
+        </div>
+        <div className="mb-2">
+          {generalPerks.length > 0 ? (
+            generalPerks.map((p) => <PerkRow key={p.id} perk={p} />)
+          ) : (
+            <p className="text-xs text-gray-600 italic">No general perks added.</p>
+          )}
+        </div>
+        <button
+          className="w-full py-1.5 rounded border border-dashed border-gray-600 text-gray-500 hover:text-gray-300 hover:border-gray-400 text-sm transition-colors"
+          onClick={() => setShowModal(true)}
+        >
+          + Add General Perk
         </button>
       </div>
-    </div>
+
+      {showModal && <GeneralPerkModal onAdd={addGeneralPerk} onClose={() => setShowModal(false)} />}
+    </>
   )
 }

@@ -48,8 +48,8 @@ export function computeDerivedStats(char: Character, classDef: ClassDefinition):
   // AV: sum the av value of every piece of equipped armor
   const av = char.armor.reduce((sum, a) => sum + a.av, 0)
 
-  // Max HP: class-specific base + MIGHT modifier
-  const maxHp = classDef.hpBase + attributes.might
+  // Max HP: class-specific base + MIGHT modifier + cumulative HP boosts from leveling
+  const maxHp = classDef.hpBase + attributes.might + char.hpBonus
 
   // Recuperations: base 2 + every 2 points of MIGHT adds 1 + any class/feat bonuses
   const maxRecuperations = 2 + Math.floor(attributes.might / 2) + recuperationBonus

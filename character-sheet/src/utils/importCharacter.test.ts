@@ -5,7 +5,7 @@
 //   { status: 'duplicate', parsed } — id already exists, ask the user
 
 import { describe, it, expect, vi } from 'vitest'
-import { checkImport } from './importCharacter'
+import { checkImport, migrateCharacter } from './importCharacter'
 import type { CharacterRepository } from '../services/api'
 import { baseCharacter } from '../test/fixtures'
 
@@ -144,6 +144,16 @@ describe('checkImport — power format migration', () => {
     expect(result.parsed.powers).toEqual([{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }])
   })
 
+  it('adds hpBonus: 0 to characters that do not have it (via checkImport)', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { hpBonus, ...withoutHpBonus } = baseCharacter
+    const file = new File([JSON.stringify(withoutHpBonus)], 'old.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.parsed.hpBonus).toBe(0)
+  })
+
   it('handles a power with no upgrades in old format', async () => {
     const character = {
       ...baseCharacter,
@@ -166,5 +176,23 @@ describe('checkImport — power format migration', () => {
     })
     const result = await checkImport(file, mockApi())
     expect(result.parsed.powers).toEqual([{ id: 'power-xyz', purchasedUpgradeIds: [] }])
+  })
+})
+
+describe('migrateCharacter — hpBonus field', () => {
+  it('adds hpBonus: 0 when the field is missing', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { hpBonus, ...withoutHpBonus } = baseCharacter
+    const result = migrateCharacter(withoutHpBonus as typeof baseCharacter)
+    expect(result.hpBonus).toBe(0)
+  })
+
+  it('preserves an existing hpBonus value', () => {
+    const char = { ...baseCharacter, hpBonus: 15 }
+    expect(migrateCharacter(char).hpBonus).toBe(15)
+  })
+
+  it('leaves hpBonus: 0 unchanged', () => {
+    expect(migrateCharacter(baseCharacter).hpBonus).toBe(0)
   })
 })
