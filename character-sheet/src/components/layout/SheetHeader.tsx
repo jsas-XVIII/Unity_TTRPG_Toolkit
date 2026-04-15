@@ -51,11 +51,10 @@ export default function SheetHeader({ character, dispatch }: Props) {
           <label className="block text-xs text-gray-400 mb-1">{FIELD_LABEL.level}</label>
           <input
             type="number"
-            min={1}
-            max={10}
-            className={INPUT_BASE}
+            className={`${INPUT_BASE} cursor-default`}
             value={character.level}
-            onChange={(e) => handleChange('level', parseInt(e.target.value, 10) || 1)}
+            readOnly
+            title="Level is managed via the Advancement tab"
           />
         </div>
 

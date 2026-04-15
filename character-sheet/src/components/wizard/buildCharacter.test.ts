@@ -132,6 +132,12 @@ describe('buildCharacter — Primalist secondary resource (Ferocity)', () => {
   })
 })
 
+describe('buildCharacter — hpBonus initialization', () => {
+  it('initializes hpBonus to 0 for a new character', () => {
+    expect(buildCharacter(makePriestDraft('chaplain')).hpBonus).toBe(0)
+  })
+})
+
 describe('buildCharacter — non-Priest class is unaffected by classPath', () => {
   it('Dreadnought resource values are not changed by a stray classPath value', () => {
     const draft = {
