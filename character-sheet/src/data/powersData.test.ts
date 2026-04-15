@@ -52,6 +52,68 @@ describe('getPowersByClass — baseline filtering by classPath', () => {
   })
 })
 
+describe('getPowersByClass — all non-Priest classes have baseline powers', () => {
+  const classes = [
+    'Dreadnought',
+    'Driftwalker',
+    'Fell Hunter',
+    'Judge',
+    'Mystic',
+    'Phantom',
+    'Primalist',
+    'Sentinel',
+  ] as const
+
+  it.each(classes)('%s has at least 2 baseline powers', (cls) => {
+    const { baseline } = getPowersByClass(cls)
+    expect(baseline.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it.each(classes)('%s baseline powers all have tier "baseline"', (cls) => {
+    const { baseline } = getPowersByClass(cls)
+    expect(baseline.every((p) => p.tier === 'baseline')).toBe(true)
+  })
+})
+
+describe('getPowersByClass — lv3/lv8/lv10 pools (Dreadnought)', () => {
+  it('lv3 pool contains Heart of the Mountain', () => {
+    const { lv3 } = getPowersByClass('Dreadnought')
+    expect(lv3.some((p) => p.id === 'dreadnought-heart-of-the-mountain')).toBe(true)
+  })
+
+  it('lv8 pool contains Fearless', () => {
+    const { lv8 } = getPowersByClass('Dreadnought')
+    expect(lv8.some((p) => p.id === 'dreadnought-fearless')).toBe(true)
+  })
+
+  it('lv10 pool contains Split the Earth', () => {
+    const { lv10 } = getPowersByClass('Dreadnought')
+    expect(lv10.some((p) => p.id === 'dreadnought-split-the-earth')).toBe(true)
+  })
+
+  it('lv3 powers have tier "lv3"', () => {
+    const { lv3 } = getPowersByClass('Dreadnought')
+    expect(lv3.every((p) => p.tier === 'lv3')).toBe(true)
+  })
+})
+
+describe('getPowerById — finds new baseline and feature powers', () => {
+  it('finds dreadnought-shieldbreaker in baseline', () => {
+    const result = getPowerById('dreadnought-shieldbreaker')
+    expect(result).toBeDefined()
+    expect(result?.power.name).toBe('Shieldbreaker')
+    expect(result?.className).toBe('Dreadnought')
+    expect(result?.power.tier).toBe('baseline')
+  })
+
+  it('finds dreadnought-heart-of-the-mountain in lv3', () => {
+    const result = getPowerById('dreadnought-heart-of-the-mountain')
+    expect(result).toBeDefined()
+    expect(result?.power.tier).toBe('lv3')
+    expect(result?.className).toBe('Dreadnought')
+  })
+})
+
 describe('getPowerById — finds Priest baseline powers by id', () => {
   it('finds sacred-bolt', () => {
     const result = getPowerById('sacred-bolt')

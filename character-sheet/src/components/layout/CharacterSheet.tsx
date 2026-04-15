@@ -157,6 +157,7 @@ export default function CharacterSheet({
               <div className="md:col-span-2">
                 <PowerList
                   powers={character.powers}
+                  featureUpgrades={character.featureUpgrades}
                   className={character.className}
                   classPath={character.classPath}
                   level={character.level}

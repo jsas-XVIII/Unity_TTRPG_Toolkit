@@ -284,6 +284,40 @@ describe('applyLevelUp — leveling to 3', () => {
     expect(checklist.some((c) => c.includes('Attribute'))).toBe(true)
     expect(checklist.some((c) => c.includes('General Perk'))).toBe(true)
   })
+
+  it('checklist includes class feature unlock hint for level 3', () => {
+    const { checklist } = applyLevelUp(level2Char, classDef)
+    expect(checklist.some((c) => c.includes('Level 3'))).toBe(true)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// applyLevelUp — class feature unlock checklist items (levels 3, 8, 10)
+// ---------------------------------------------------------------------------
+describe('applyLevelUp — class feature unlock hint at levels 8 and 10', () => {
+  const classDef = CLASS_MAP['Dreadnought']
+
+  it('checklist includes class feature unlock hint at level 8', () => {
+    const level7Char = { ...baseCharacter, level: 7 }
+    const { checklist } = applyLevelUp(level7Char, classDef)
+    expect(checklist.some((c) => c.includes('Level 8'))).toBe(true)
+  })
+
+  it('checklist includes class feature unlock hint at level 10', () => {
+    const level9Char = { ...baseCharacter, level: 9 }
+    const { checklist } = applyLevelUp(level9Char, classDef)
+    expect(checklist.some((c) => c.includes('Level 10'))).toBe(true)
+  })
+})
+
+describe('applyLevelUp — non-feature levels have no class feature hint', () => {
+  const classDef = CLASS_MAP['Dreadnought']
+
+  it.each([2, 4, 5, 6, 7, 9])('level %i checklist has no class feature hint', (targetLevel) => {
+    const char = { ...baseCharacter, level: targetLevel - 1 }
+    const { checklist } = applyLevelUp(char, classDef)
+    expect(checklist.some((c) => c.toLowerCase().includes('class feature'))).toBe(false)
+  })
 })
 
 // ---------------------------------------------------------------------------

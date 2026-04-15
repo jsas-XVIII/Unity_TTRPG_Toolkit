@@ -9,7 +9,7 @@
 // The character has many independent sub-fields. useReducer keeps all update logic
 // in one place (the reducer below) rather than scattered across components.
 
-import { useReducer, useCallback } from 'react'
+import { useReducer, useCallback, useMemo } from 'react'
 import type { Character, CharacterPower, CorePath, Perk } from '../types/character'
 import type { Weapon, ArmorItem, Artifact } from '../types/equipment'
 import { CLASS_MAP } from '../constants/classes'
@@ -39,6 +39,7 @@ type Action =
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_FEATURE_UPGRADE'; powerId: string; upgradeId: string }
   | { type: 'ADD_PERK'; perk: Perk }
   | { type: 'REMOVE_PERK'; id: string }
   | { type: 'SET_CORE_PATH'; path: CorePath }
@@ -140,6 +141,23 @@ function reducer(state: Character, action: Action): Character {
         }),
       }
 
+    // Toggles an upgrade ID in/out of featureUpgrades for a derived feature power
+    // (baseline / lv3 / lv8 / lv10). These are never stored in character.powers.
+    case 'TOGGLE_FEATURE_UPGRADE': {
+      const current = state.featureUpgrades ?? {}
+      const existing = current[action.powerId] ?? []
+      const already = existing.includes(action.upgradeId)
+      return {
+        ...state,
+        featureUpgrades: {
+          ...current,
+          [action.powerId]: already
+            ? existing.filter((uid) => uid !== action.upgradeId)
+            : [...existing, action.upgradeId],
+        },
+      }
+    }
+
     // --- Perks ---
     case 'ADD_PERK':
       return { ...state, perks: [...state.perks, action.perk] }
@@ -172,9 +190,11 @@ export function useCharacter(initial: Character) {
   // Look up the class definition so we can pass the main attribute to computeDerivedStats.
   // Falls back to safe zeros if the class name doesn't match any known class.
   const classDef = CLASS_MAP[character.className]
-  const derived: DerivedStats = classDef
-    ? computeDerivedStats(character, classDef)
-    : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
+  const derived: DerivedStats = useMemo(() => {
+    return classDef
+      ? computeDerivedStats(character, classDef)
+      : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
+  }, [character, classDef])
 
   // Convenience wrapper so callers can do setCharacter(c) instead of dispatch({ type: 'SET_CHARACTER', ... })
   const setCharacter = useCallback(

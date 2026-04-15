@@ -125,6 +125,10 @@ export interface Character {
 
   corePaths: CorePath[]
   powers: CharacterPower[]
+  // Upgrade selections for derived feature powers (lv3/lv8/lv10/baseline).
+  // Keyed by power id; value is array of purchased upgrade ids.
+  // Optional so existing saves deserialize cleanly without migration.
+  featureUpgrades?: Record<string, string[]>
   perks: Perk[]
   weapons: Weapon[]
   armor: ArmorItem[]

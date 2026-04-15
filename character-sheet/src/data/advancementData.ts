@@ -267,6 +267,10 @@ export function applyLevelUp(character: Character, classDef: ClassDefinition): L
   if (row.generalPerk) checklist.push('Select a General Perk in the Perks section.')
   if (row.t1Token) checklist.push('Choose a Tier I Power or Upgrade in the Powers section.')
   if (row.t2Token) checklist.push('Choose a Tier II Power or Upgrade in the Powers section.')
+  if (newLevel === 3 || newLevel === 8 || newLevel === 10)
+    checklist.push(
+      `New class feature unlocked — check the Powers section for your Level ${newLevel} ability.`
+    )
 
   return { updated, checklist }
 }
