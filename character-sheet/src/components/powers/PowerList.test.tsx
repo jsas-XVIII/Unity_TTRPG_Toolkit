@@ -32,11 +32,16 @@ function mkPower(
   return { id, purchasedUpgradeIds, source }
 }
 
-function renderList(powers: CharacterPower[], level: number) {
+function renderList(
+  powers: CharacterPower[],
+  level: number,
+  featureUpgrades: Record<string, string[]> = {}
+) {
   const dispatch = vi.fn()
   render(
     <PowerList
       powers={powers}
+      featureUpgrades={featureUpgrades}
       className="Dreadnought"
       classPath={null}
       level={level}
@@ -64,6 +69,75 @@ function getCounterSpan(labelPrefix: string): HTMLElement {
   if (!child) throw new Error(`No child <span> found inside "${labelPrefix}" counter`)
   return child as HTMLElement
 }
+
+// ---------------------------------------------------------------------------
+// Baseline section — derived from class data, always visible
+// ---------------------------------------------------------------------------
+
+describe('baseline section — renders Dreadnought starting features', () => {
+  it('shows Shieldbreaker at level 1', () => {
+    renderList([], 1)
+    expect(screen.getByText('Shieldbreaker')).toBeInTheDocument()
+  })
+
+  it('shows Cleave at level 1', () => {
+    renderList([], 1)
+    expect(screen.getByText('Cleave')).toBeInTheDocument()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// lv3 section — gated at level 3
+// ---------------------------------------------------------------------------
+
+describe('lv3 feature section — level gating', () => {
+  it('does not render lv3 section below level 3', () => {
+    renderList([], 2)
+    expect(screen.queryByText('Heart of the Mountain')).not.toBeInTheDocument()
+  })
+
+  it('renders lv3 section at exactly level 3', () => {
+    renderList([], 3)
+    expect(screen.getByText('Heart of the Mountain')).toBeInTheDocument()
+  })
+
+  it('still renders lv3 section at level 10', () => {
+    renderList([], 10)
+    expect(screen.getByText('Heart of the Mountain')).toBeInTheDocument()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// lv8 section — gated at level 8
+// ---------------------------------------------------------------------------
+
+describe('lv8 feature section — level gating', () => {
+  it('does not render lv8 section below level 8', () => {
+    renderList([], 7)
+    expect(screen.queryByText('Fearless')).not.toBeInTheDocument()
+  })
+
+  it('renders lv8 section at exactly level 8', () => {
+    renderList([], 8)
+    expect(screen.getByText('Fearless')).toBeInTheDocument()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// lv10 section — gated at level 10
+// ---------------------------------------------------------------------------
+
+describe('lv10 feature section — level gating', () => {
+  it('does not render lv10 section below level 10', () => {
+    renderList([], 9)
+    expect(screen.queryByText('Split the Earth')).not.toBeInTheDocument()
+  })
+
+  it('renders lv10 section at level 10', () => {
+    renderList([], 10)
+    expect(screen.getByText('Split the Earth')).toBeInTheDocument()
+  })
+})
 
 // ---------------------------------------------------------------------------
 // tokenColor via rendered Tier I counter
