@@ -33,7 +33,14 @@ function tokenColor(used: number, total: number): string {
   return 'text-yellow-400'
 }
 
-export default function PowerList({ powers, featureUpgrades = {}, className, classPath, level, dispatch }: Props) {
+export default function PowerList({
+  powers,
+  featureUpgrades = {},
+  className,
+  classPath,
+  level,
+  dispatch,
+}: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [preview, setPreview] = useState<Power | null>(null)
 
@@ -158,11 +165,13 @@ export default function PowerList({ powers, featureUpgrades = {}, className, cla
       )}
 
       {/* Level feature sections — derived, read-only except for upgrade toggles */}
-      {([
-        { key: 'lv3', pool: lv3Powers },
-        { key: 'lv8', pool: lv8Powers },
-        { key: 'lv10', pool: lv10Powers },
-      ] as const).map(({ key, pool }) =>
+      {(
+        [
+          { key: 'lv3', pool: lv3Powers },
+          { key: 'lv8', pool: lv8Powers },
+          { key: 'lv10', pool: lv10Powers },
+        ] as const
+      ).map(({ key, pool }) =>
         pool.length > 0 ? (
           <div key={key} className="mb-4">
             <p className={`text-xs ${TIER_CONFIG[key].headingColor} uppercase mb-2`}>
