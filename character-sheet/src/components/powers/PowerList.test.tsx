@@ -18,13 +18,13 @@ import PowerList from './PowerList'
 expect.extend(matchers)
 
 // Known Dreadnought power IDs from powers.json
-const T1_ID_1 = 'furious-charge'    // actionType: Standard
+const T1_ID_1 = 'furious-charge' // actionType: Standard
 const T1_ID_2 = 'brace-for-impact'
 const T1_ID_3 = 'bring-it-on'
-const T1_OVERDRIVE = 'thrive-on-chaos'  // actionType: Overdrive
+const T1_OVERDRIVE = 'thrive-on-chaos' // actionType: Overdrive
 const T2_ID_1 = 'crushing-blow'
 const T2_ID_2 = 'living-shield'
-const T2_OVERDRIVE = 'raging-storm'     // actionType: Overdrive
+const T2_OVERDRIVE = 'raging-storm' // actionType: Overdrive
 
 function mkPower(
   id: string,
