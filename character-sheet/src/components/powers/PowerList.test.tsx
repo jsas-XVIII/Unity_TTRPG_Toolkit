@@ -9,7 +9,7 @@
 //   6. Token display reflects the correct budget for the character's level
 
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
 import type { CharacterPower } from '../../types/character'
@@ -18,11 +18,13 @@ import PowerList from './PowerList'
 expect.extend(matchers)
 
 // Known Dreadnought power IDs from powers.json
-const T1_ID_1 = 'furious-charge'
+const T1_ID_1 = 'furious-charge'    // actionType: Standard
 const T1_ID_2 = 'brace-for-impact'
 const T1_ID_3 = 'bring-it-on'
+const T1_OVERDRIVE = 'thrive-on-chaos'  // actionType: Overdrive
 const T2_ID_1 = 'crushing-blow'
 const T2_ID_2 = 'living-shield'
+const T2_OVERDRIVE = 'raging-storm'     // actionType: Overdrive
 
 function mkPower(
   id: string,
@@ -35,13 +37,17 @@ function mkPower(
 function renderList(
   powers: CharacterPower[],
   level: number,
-  featureUpgrades: Record<string, string[]> = {}
+  {
+    featureUpgrades = {},
+    usedPowerIds = [],
+  }: { featureUpgrades?: Record<string, string[]>; usedPowerIds?: string[] } = {}
 ) {
   const dispatch = vi.fn()
   render(
     <PowerList
       powers={powers}
       featureUpgrades={featureUpgrades}
+      usedPowerIds={usedPowerIds}
       className="Dreadnought"
       classPath={null}
       level={level}
@@ -384,5 +390,79 @@ describe('token counter display — budget reflects character level', () => {
   it('shows Tier II budget of 4 at level 10 with 0 used', () => {
     renderList([], 10)
     expect(getCounterSpan('Tier II Tokens').textContent).toBe('0/4')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Full Rest button — only shown when at least one power is marked used
+// ---------------------------------------------------------------------------
+
+describe('Full Rest button — visibility', () => {
+  it('does not render Full Rest button when usedPowerIds is empty', () => {
+    renderList([mkPower(T1_OVERDRIVE)], 1)
+    expect(screen.queryByRole('button', { name: /full rest/i })).not.toBeInTheDocument()
+  })
+
+  it('does not render Full Rest button when usedPowerIds is undefined', () => {
+    renderList([mkPower(T1_OVERDRIVE)], 1)
+    expect(screen.queryByRole('button', { name: /full rest/i })).not.toBeInTheDocument()
+  })
+
+  it('renders Full Rest button when at least one power is marked used', () => {
+    renderList([mkPower(T1_OVERDRIVE)], 1, { usedPowerIds: [T1_OVERDRIVE] })
+    expect(screen.getByRole('button', { name: /full rest/i })).toBeInTheDocument()
+  })
+})
+
+describe('Full Rest button — dispatch', () => {
+  it('dispatches FULL_REST when Full Rest button is clicked', () => {
+    const { dispatch } = renderList([mkPower(T1_OVERDRIVE)], 1, {
+      usedPowerIds: [T1_OVERDRIVE],
+    })
+    fireEvent.click(screen.getByRole('button', { name: /full rest/i }))
+    expect(dispatch).toHaveBeenCalledWith({ type: 'FULL_REST' })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Overdrive/Ultimate used-state toggle — shown only on eligible powers
+// ---------------------------------------------------------------------------
+
+describe('used-state toggle — Overdrive T1 power', () => {
+  it('shows Available toggle when power is not in usedPowerIds', () => {
+    renderList([mkPower(T1_OVERDRIVE)], 1)
+    expect(screen.getByText(/available/i, { selector: 'button' })).toBeInTheDocument()
+  })
+
+  it('shows Used toggle when power is in usedPowerIds', () => {
+    renderList([mkPower(T1_OVERDRIVE)], 1, { usedPowerIds: [T1_OVERDRIVE] })
+    expect(screen.getByText(/used/i, { selector: 'button' })).toBeInTheDocument()
+  })
+
+  it('dispatches TOGGLE_POWER_USED with the correct id when toggle is clicked', () => {
+    const { dispatch } = renderList([mkPower(T1_OVERDRIVE)], 1)
+    fireEvent.click(screen.getByText(/available/i, { selector: 'button' }))
+    expect(dispatch).toHaveBeenCalledWith({ type: 'TOGGLE_POWER_USED', id: T1_OVERDRIVE })
+  })
+})
+
+describe('used-state toggle — Overdrive T2 power', () => {
+  it('shows Available toggle for an unused T2 Overdrive power', () => {
+    renderList([mkPower(T2_OVERDRIVE)], 5)
+    expect(screen.getByText(/available/i, { selector: 'button' })).toBeInTheDocument()
+  })
+
+  it('shows Used toggle for a used T2 Overdrive power', () => {
+    renderList([mkPower(T2_OVERDRIVE)], 5, { usedPowerIds: [T2_OVERDRIVE] })
+    expect(screen.getByText(/used/i, { selector: 'button' })).toBeInTheDocument()
+  })
+})
+
+describe('used-state toggle — non-Overdrive powers do not show the toggle', () => {
+  it('does not show Available/Used toggle for a Standard action power', () => {
+    // furious-charge is actionType: Standard — no toggle should appear
+    renderList([mkPower(T1_ID_1)], 1)
+    expect(screen.queryByText(/available/i, { selector: 'button' })).not.toBeInTheDocument()
+    expect(screen.queryByText(/used/i, { selector: 'button' })).not.toBeInTheDocument()
   })
 })

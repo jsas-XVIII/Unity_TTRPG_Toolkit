@@ -158,6 +158,7 @@ export default function CharacterSheet({
                 <PowerList
                   powers={character.powers}
                   featureUpgrades={character.featureUpgrades}
+                  usedPowerIds={character.usedPowerIds}
                   className={character.className}
                   classPath={character.classPath}
                   level={character.level}
