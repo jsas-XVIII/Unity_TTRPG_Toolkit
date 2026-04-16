@@ -7,14 +7,16 @@ import PowerReferenceCard from './PowerReferenceCard'
 type Action =
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_POWER_USED'; id: string }
 
 interface Props {
   power: CharacterPower
   className: ClassName
+  usedPowerIds?: Set<string>
   dispatch: Dispatch<Action>
 }
 
-export default function PowerCard({ power, className, dispatch }: Props) {
+export default function PowerCard({ power, className, usedPowerIds, dispatch }: Props) {
   const resolved = getPowerById(power.id)
 
   if (!resolved) {
@@ -41,6 +43,9 @@ export default function PowerCard({ power, className, dispatch }: Props) {
     })),
   }
 
+  const isLimitedUse =
+    resolvedPower.actionType === 'Overdrive' || resolvedPower.actionType === 'Ultimate'
+
   return (
     <PowerReferenceCard
       power={resolvedPower}
@@ -48,6 +53,10 @@ export default function PowerCard({ power, className, dispatch }: Props) {
       onRemove={() => dispatch({ type: 'REMOVE_POWER', id: power.id })}
       onUpgradeToggle={(upgradeId) =>
         dispatch({ type: 'TOGGLE_UPGRADE', powerId: power.id, upgradeId })
+      }
+      isUsed={isLimitedUse ? (usedPowerIds?.has(power.id) ?? false) : undefined}
+      onToggleUsed={
+        isLimitedUse ? () => dispatch({ type: 'TOGGLE_POWER_USED', id: power.id }) : undefined
       }
     />
   )

@@ -45,6 +45,8 @@ type Action =
   | { type: 'SET_CORE_PATH'; path: CorePath }
   | { type: 'ADD_CORE_PATH'; path: CorePath }
   | { type: 'REMOVE_CORE_PATH'; id: string }
+  | { type: 'TOGGLE_POWER_USED'; id: string }
+  | { type: 'FULL_REST' }
 
 // ---------------------------------------------------------------------------
 // Reducer — pure function: (currentState, action) => nextState
@@ -175,6 +177,20 @@ function reducer(state: Character, action: Action): Character {
       return { ...state, corePaths: [...state.corePaths, action.path] }
     case 'REMOVE_CORE_PATH':
       return { ...state, corePaths: state.corePaths.filter((cp) => cp.id !== action.id) }
+
+    // Toggles a power ID in/out of usedPowerIds (Overdrive/Ultimate per-rest tracking)
+    case 'TOGGLE_POWER_USED': {
+      const used = state.usedPowerIds ?? []
+      const already = used.includes(action.id)
+      return {
+        ...state,
+        usedPowerIds: already ? used.filter((id) => id !== action.id) : [...used, action.id],
+      }
+    }
+
+    // Clears all used Overdrive/Ultimate powers (Full Rest)
+    case 'FULL_REST':
+      return { ...state, usedPowerIds: [] }
 
     default:
       return state

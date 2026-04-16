@@ -17,10 +17,13 @@ type Action =
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
   | { type: 'TOGGLE_FEATURE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_POWER_USED'; id: string }
+  | { type: 'FULL_REST' }
 
 interface Props {
   powers: CharacterPower[]
   featureUpgrades?: Record<string, string[]>
+  usedPowerIds?: string[]
   className: ClassName
   classPath?: string | null
   level: number
@@ -36,6 +39,7 @@ function tokenColor(used: number, total: number): string {
 export default function PowerList({
   powers,
   featureUpgrades = {},
+  usedPowerIds = [],
   className,
   classPath,
   level,
@@ -72,6 +76,8 @@ export default function PowerList({
   const lv3Powers = level >= 3 ? withFeatureUpgradeState(lv3) : []
   const lv8Powers = level >= 8 ? withFeatureUpgradeState(lv8) : []
   const lv10Powers = level >= 10 ? withFeatureUpgradeState(lv10) : []
+
+  const usedSet = useMemo(() => new Set(usedPowerIds), [usedPowerIds])
 
   // Resolve each power once via getPowerById (O(classes × pools) per call) so we
   // don't repeat the lookup across the three display-group filters below.
@@ -119,8 +125,8 @@ export default function PowerList({
     <div className={CARD}>
       <h2 className={SECTION_HEADING}>Powers</h2>
 
-      {/* Token counters */}
-      <div className="flex flex-wrap gap-4 mb-4 px-1">
+      {/* Token counters + Full Rest */}
+      <div className="flex flex-wrap gap-4 mb-4 px-1 items-center">
         <span className="text-xs text-gray-500">
           Tier I Tokens:{' '}
           <span className={tokenColor(tier1Used, budget.tier1)}>
@@ -141,6 +147,14 @@ export default function PowerList({
             </span>
           </span>
         )}
+        {usedPowerIds.length > 0 && (
+          <button
+            className="ml-auto text-xs px-2 py-0.5 rounded border border-gray-600 text-gray-400 hover:text-gray-200 hover:border-gray-400 transition-colors"
+            onClick={() => dispatch({ type: 'FULL_REST' })}
+          >
+            Full Rest
+          </button>
+        )}
       </div>
 
       {/* Level 5 warning */}
@@ -158,7 +172,21 @@ export default function PowerList({
           </p>
           <div className="flex flex-wrap gap-3">
             {baselinePowers.map((p) => (
-              <PowerReferenceCard key={p.id} power={p} className={className} />
+              <PowerReferenceCard
+                key={p.id}
+                power={p}
+                className={className}
+                isUsed={
+                  p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                    ? usedSet.has(p.id)
+                    : undefined
+                }
+                onToggleUsed={
+                  p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                    ? () => dispatch({ type: 'TOGGLE_POWER_USED', id: p.id })
+                    : undefined
+                }
+              />
             ))}
           </div>
         </div>
@@ -189,6 +217,16 @@ export default function PowerList({
                           dispatch({ type: 'TOGGLE_FEATURE_UPGRADE', powerId: p.id, upgradeId })
                       : undefined
                   }
+                  isUsed={
+                    p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                      ? usedSet.has(p.id)
+                      : undefined
+                  }
+                  onToggleUsed={
+                    p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                      ? () => dispatch({ type: 'TOGGLE_POWER_USED', id: p.id })
+                      : undefined
+                  }
                 />
               ))}
             </div>
@@ -201,7 +239,13 @@ export default function PowerList({
           <p className="text-xs text-gray-500 uppercase mb-2">Tier I</p>
           <div className="flex flex-wrap gap-3">
             {sheetTier1.map((p) => (
-              <PowerCard key={p.id} power={p} className={className} dispatch={dispatch} />
+              <PowerCard
+                key={p.id}
+                power={p}
+                className={className}
+                usedPowerIds={usedSet}
+                dispatch={dispatch}
+              />
             ))}
           </div>
         </div>
@@ -212,7 +256,13 @@ export default function PowerList({
           <p className="text-xs text-amber-700 uppercase mb-2">Tier II</p>
           <div className="flex flex-wrap gap-3">
             {sheetTier2.map((p) => (
-              <PowerCard key={p.id} power={p} className={className} dispatch={dispatch} />
+              <PowerCard
+                key={p.id}
+                power={p}
+                className={className}
+                usedPowerIds={usedSet}
+                dispatch={dispatch}
+              />
             ))}
           </div>
         </div>
