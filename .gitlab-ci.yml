@@ -111,8 +111,8 @@ test:e2e:
     - cd character-sheet
     - npm ci
     - npm run build
-    - npm run preview &
-    - npx wait-on http://localhost:4173 --timeout 30000
+    - npm run preview -- --host &
+    - npx wait-on http://127.0.0.1:4173 --timeout 30000
     - npm run cy:run -- --browser chrome
   artifacts:
     when: always

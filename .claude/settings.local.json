@@ -20,7 +20,19 @@
       "Bash(npx vite:*)",
       "Bash(python:*)",
       "Bash(npm test:*)",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "Bash(gitlab-runner status *)",
+      "Bash(echo \"---exit: $?\")",
+      "Bash(gitlab-runner list *)",
+      "Read(//c/Users/jsas4/**)",
+      "Bash(find /c -maxdepth 3 -name \"config.toml\")",
+      "Bash(sc query *)",
+      "Bash(gitlab-runner --version)",
+      "Bash(powershell.exe *)",
+      "PowerShell(sc.exe query \"gitlab-runner\")",
+      "PowerShell(sc.exe qc \"gitlab-runner\")",
+      "PowerShell(sc.exe stop \"gitlab-runner\"; Start-Sleep -Seconds 3; sc.exe start \"gitlab-runner\"; Start-Sleep -Seconds 5; sc.exe query \"gitlab-runner\")",
+      "PowerShell(Get-EventLog *)"
     ]
   }
 }
