@@ -63,6 +63,24 @@ describe('localStorageRepository.getById()', () => {
   })
 })
 
+describe('localStorageRepository — character migration on load', () => {
+  it('adds hpBonus: 0 to characters loaded without that field', async () => {
+    // Simulate a character saved before hpBonus was added
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { hpBonus, ...withoutHpBonus } = baseCharacter
+    localStorage.setItem('unity_ttrpg_characters', JSON.stringify([withoutHpBonus]))
+    const fetched = await repo.getById(baseCharacter.id)
+    expect(fetched.hpBonus).toBe(0)
+  })
+
+  it('preserves existing hpBonus when loading a current-format character', async () => {
+    const char = { ...baseCharacter, hpBonus: 12 }
+    localStorage.setItem('unity_ttrpg_characters', JSON.stringify([char]))
+    const fetched = await repo.getById(baseCharacter.id)
+    expect(fetched.hpBonus).toBe(12)
+  })
+})
+
 describe('localStorageRepository.update()', () => {
   it('throws when the character has not been created first', async () => {
     await expect(repo.update(baseCharacter.id, { name: 'Should Not Work' })).rejects.toThrow()

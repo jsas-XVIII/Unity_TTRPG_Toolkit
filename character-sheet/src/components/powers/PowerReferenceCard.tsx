@@ -9,6 +9,8 @@ interface Props {
   className: ClassName
   onRemove?: () => void
   onUpgradeToggle?: (upgradeId: string) => void
+  isUsed?: boolean
+  onToggleUsed?: () => void
 }
 
 const CLASS_COLORS: Record<ClassName, { header: string; accent: string; border: string }> = {
@@ -35,15 +37,23 @@ const ACTION_LABEL: Record<string, string> = {
   Passive: 'PASSIVE',
 }
 
-export default function PowerReferenceCard({ power, className, onRemove, onUpgradeToggle }: Props) {
+export default function PowerReferenceCard({
+  power,
+  className,
+  onRemove,
+  onUpgradeToggle,
+  isUsed,
+  onToggleUsed,
+}: Props) {
   const [confirmingRemove, setConfirmingRemove] = useState(false)
   const colors = CLASS_COLORS[className]
   const isPassive = power.actionType === 'Passive'
   const showStats = !isPassive && power.cost !== 'None'
+  const isLimitedUse = power.actionType === 'Overdrive' || power.actionType === 'Ultimate'
 
   return (
     <div
-      className={`w-64 rounded overflow-hidden shadow-xl border-2 ${colors.border} flex flex-col`}
+      className={`w-64 rounded overflow-hidden shadow-xl border-2 ${colors.border} flex flex-col ${isUsed ? 'opacity-50' : ''}`}
     >
       {/* Header band */}
       <div className={`${colors.header} px-3 pt-3 pb-2`}>
@@ -164,11 +174,20 @@ export default function PowerReferenceCard({ power, className, onRemove, onUpgra
         )}
       </div>
 
-      {/* Footer: class label */}
+      {/* Footer: used toggle for Overdrive/Ultimate, otherwise class label */}
       <div className={`${colors.header} px-3 py-1`}>
-        <p className="text-white/50 text-[9px] uppercase tracking-widest text-center">
-          {className}
-        </p>
+        {isLimitedUse && onToggleUsed ? (
+          <button
+            onClick={onToggleUsed}
+            className="w-full text-[9px] uppercase tracking-widest text-center transition-colors hover:text-white text-white/70"
+          >
+            {isUsed ? '✓ Used — Click to Reset' : '○ Available — Click to Mark Used'}
+          </button>
+        ) : (
+          <p className="text-white/50 text-[9px] uppercase tracking-widest text-center">
+            {className}
+          </p>
+        )}
       </div>
     </div>
   )

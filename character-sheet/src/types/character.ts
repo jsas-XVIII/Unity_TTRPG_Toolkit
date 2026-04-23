@@ -110,6 +110,9 @@ export interface Character {
   arBonus: number
   drBonus: number
 
+  // Cumulative Max HP bonus from HP Boosts gained at even levels (die max + MIGHT at time of level-up)
+  hpBonus: number
+
   currentHp: number
   fadingStacks: number
 
@@ -122,6 +125,13 @@ export interface Character {
 
   corePaths: CorePath[]
   powers: CharacterPower[]
+  // Upgrade selections for derived feature powers (lv3/lv8/lv10/baseline).
+  // Keyed by power id; value is array of purchased upgrade ids.
+  // Optional so existing saves deserialize cleanly without migration.
+  featureUpgrades?: Record<string, string[]>
+  // IDs of Overdrive/Ultimate powers that have been used this Full Rest.
+  // Optional so existing saves deserialize cleanly without migration.
+  usedPowerIds?: string[]
   perks: Perk[]
   weapons: Weapon[]
   armor: ArmorItem[]

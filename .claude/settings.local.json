@@ -18,7 +18,27 @@
       "Bash(npm audit:*)",
       "Bash(npm show:*)",
       "Bash(npx vite:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(npm test:*)",
+      "Skill(update-config)",
+      "Bash(gitlab-runner status *)",
+      "Bash(echo \"---exit: $?\")",
+      "Bash(gitlab-runner list *)",
+      "Read(//c/Users/jsas4/**)",
+      "Bash(find /c -maxdepth 3 -name \"config.toml\")",
+      "Bash(sc query *)",
+      "Bash(gitlab-runner --version)",
+      "Bash(powershell.exe *)",
+      "PowerShell(sc.exe query \"gitlab-runner\")",
+      "PowerShell(sc.exe qc \"gitlab-runner\")",
+      "PowerShell(sc.exe stop \"gitlab-runner\"; Start-Sleep -Seconds 3; sc.exe start \"gitlab-runner\"; Start-Sleep -Seconds 5; sc.exe query \"gitlab-runner\")",
+      "PowerShell(Get-EventLog *)",
+      "PowerShell(gitlab-runner *)",
+      "Bash(mkdir -p \"/c/Users/jsas4/Gitlab Projects/Unity_TTRPG_Toolkit/.claude/skills/test-gate\")",
+      "Bash(cat)",
+      "Bash(claude mcp *)",
+      "Bash(curl -s --header \"PRIVATE-TOKEN: glpat-Aimt03_sEzyR7ZJ1HIkGT2M6MQpvOjEKdTpsYmlnMA8.01.171u54u0e\" \"https://gitlab.com/api/v4/projects/jsas40k-group%2FUnity_TTRPG_Toolkit/merge_requests?state=opened&per_page=5\")",
+      "Bash(curl -s --header \"PRIVATE-TOKEN: glpat-Aimt03_sEzyR7ZJ1HIkGT2M6MQpvOjEKdTpsYmlnMA8.01.171u54u0e\" \"https://gitlab.com/api/v4/projects/jsas40k-group%2FUnity_TTRPG_Toolkit/pipelines?per_page=5\")"
     ]
   }
 }
