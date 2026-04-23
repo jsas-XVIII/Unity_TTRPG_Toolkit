@@ -8,14 +8,14 @@ import HomeScreen from './components/layout/HomeScreen'
 import CharacterRoster from './components/layout/CharacterRoster'
 import CharacterSheet from './components/layout/CharacterSheet'
 import CharacterWizard from './components/wizard/CharacterWizard'
+import GMDashboard from './components/gm/GMDashboard'
 import ImportConfirmModal from './components/layout/ImportConfirmModal'
 import DuplicateCharacterModal from './components/layout/DuplicateCharacterModal'
 import type { Character } from './types/character'
 import { useApi } from './hooks/useApi'
 import { checkImport } from './utils/importCharacter'
 
-// The four screens the app can show
-type View = 'home' | 'roster' | 'wizard' | 'sheet'
+type View = 'home' | 'roster' | 'wizard' | 'sheet' | 'gm'
 
 export default function App() {
   // useApi returns localStorageRepository or restApiRepository depending on VITE_USE_API env var
@@ -177,12 +177,15 @@ export default function App() {
           onNewCharacter={() => setView('wizard')}
           onExistingCharacter={() => setView('roster')}
           onImport={handleImportDirect}
+          onGM={() => setView('gm')}
         />
       )}
 
       {view === 'roster' && (
         <CharacterRoster api={api} onSelect={handleRosterSelect} onBack={() => setView('home')} />
       )}
+
+      {view === 'gm' && <GMDashboard onBack={() => setView('home')} />}
 
       {view === 'wizard' && (
         <CharacterWizard onComplete={handleWizardComplete} onCancel={() => setView('home')} />

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MonsterAbility",
+  "type": "object",
+  "required": ["id", "name", "kind", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "kind": { "type": "string", "enum": ["trait", "power"] },
+    "ruinCost": { "type": ["integer", "null"], "minimum": 0 },
+    "recharge": { "type": ["integer", "null"], "minimum": 0 },
+    "description": { "type": "string" }
+  }
+}

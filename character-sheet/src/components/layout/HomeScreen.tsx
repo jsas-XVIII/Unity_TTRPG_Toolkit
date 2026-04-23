@@ -9,6 +9,7 @@ interface Props {
   onNewCharacter: () => void
   onExistingCharacter: () => void
   onImport: (file: File) => void
+  onGM: () => void
 }
 
 interface OptionCardProps {
@@ -44,7 +45,7 @@ function OptionCard({ title, description, onClick, disabled, badge }: OptionCard
   )
 }
 
-export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImport }: Props) {
+export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImport, onGM }: Props) {
   // Ref for the hidden file input — triggered programmatically by the Import Character card
   const importInputRef = useRef<HTMLInputElement>(null)
 
@@ -89,9 +90,8 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
         />
         <OptionCard
           title="Gamemaster"
-          description="Ruin tracker, Spark Points, encounter management, and homebrew content tools."
-          disabled
-          badge="Coming Soon"
+          description="Monster compendium, encounter management, and homebrew content tools."
+          onClick={onGM}
         />
       </div>
     </div>

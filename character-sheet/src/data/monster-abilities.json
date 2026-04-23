@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ma-0001",
+    "name": "Sneak Attack",
+    "kind": "power",
+    "ruinCost": 1,
+    "recharge": null,
+    "description": "If the Goblin attacks a target that has already been attacked this round, it deals an additional 1d6 damage."
+  },
+  {
+    "id": "ma-0002",
+    "name": "Infectious Bite",
+    "kind": "trait",
+    "description": "A target bitten by this creature must succeed on a MIND check (TN 14) at the start of their next turn or become Infected. Infected targets lose 2 HP at the start of each subsequent turn until cured."
+  },
+  {
+    "id": "ma-0003",
+    "name": "Incorporeal",
+    "kind": "trait",
+    "description": "Physical damage dealt to this creature is reduced by half (rounded down). This trait increases the creature's effective DL by 2."
+  },
+  {
+    "id": "ma-0004",
+    "name": "Shadow Grasp",
+    "kind": "power",
+    "ruinCost": 1,
+    "recharge": 1,
+    "description": "The creature reaches into a target's shadow. The target is Immobilized until the end of their next turn."
+  },
+  {
+    "id": "ma-0005",
+    "name": "Undying",
+    "kind": "trait",
+    "description": "When this creature would be reduced to 0 HP, it instead drops to 1 HP once per encounter. This ability does not trigger if the killing blow was dealt with radiant or holy damage."
+  },
+  {
+    "id": "ma-0006",
+    "name": "Gaze of the Night",
+    "kind": "power",
+    "ruinCost": 2,
+    "recharge": 2,
+    "description": "The creature locks eyes with a target within 10 squares. The target must succeed on a MIND check (TN 20) or be Charmed until the end of their next turn. A Charmed target cannot attack this creature and must move toward it on their turn."
+  },
+  {
+    "id": "ma-0007",
+    "name": "Blood Drain",
+    "kind": "power",
+    "ruinCost": 1,
+    "recharge": null,
+    "description": "Melee attack against a grabbed target. On hit, deals damage as normal and this creature heals HP equal to half the damage dealt."
+  }
+]
