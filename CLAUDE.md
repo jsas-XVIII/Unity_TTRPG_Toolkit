@@ -4,6 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## Workflow Conventions
+
+### Testing & Linting Gate
+After making code changes, always run tests AND lint together as a single gate before declaring work complete. Don't wait to be asked — treat lint as part of the test cycle to save tokens.
+
+### Before Implementing Options
+When presenting multiple options (A/B/C), wait for explicit user selection and echo back which option you're implementing before writing code.
+
+### Custom Commands
+When creating new slash commands or modifying `.claude/` config, remind the user that Claude Code must be restarted for changes to take effect.
+
+---
+
+## Shell Environment
+
+This is a Windows/PowerShell environment. Do NOT use `&&` to chain commands — use `;` or separate commands. Prefer PowerShell-native syntax over bash-isms.
+
+---
+
 ## Commands
 
 All commands run from the `character-sheet/` directory.
@@ -22,6 +41,9 @@ Run a single unit test file:
 ```bash
 npx vitest run src/data/advancementData.test.ts
 ```
+
+### Cypress Test Conventions
+For form inputs bound to state, use `data-testid` selectors with `.should('have.value', ...)` rather than `cy.contains()`, which only matches rendered text nodes.
 
 ---
 
