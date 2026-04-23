@@ -49,6 +49,7 @@ export function buildCharacter(draft: WizardDraft): Character {
     attributes,
     arBonus: 0,
     drBonus: 0,
+    hpBonus: 0,
     currentHp: maxHp,
     fadingStacks: 0,
     primaryResource: {

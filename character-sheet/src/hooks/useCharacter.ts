@@ -9,11 +9,12 @@
 // The character has many independent sub-fields. useReducer keeps all update logic
 // in one place (the reducer below) rather than scattered across components.
 
-import { useReducer, useCallback } from 'react'
+import { useReducer, useCallback, useMemo } from 'react'
 import type { Character, CharacterPower, CorePath, Perk } from '../types/character'
 import type { Weapon, ArmorItem, Artifact } from '../types/equipment'
 import { CLASS_MAP } from '../constants/classes'
 import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
+import { applyLevelUp } from '../data/advancementData'
 
 // ---------------------------------------------------------------------------
 // Action union type
@@ -22,6 +23,7 @@ import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
 type Action =
   | { type: 'SET_CHARACTER'; payload: Character }
   | { type: 'SET_FIELD'; field: keyof Character; value: unknown }
+  | { type: 'LEVEL_UP' }
   | { type: 'SET_ATTRIBUTE'; attr: 'might' | 'agility' | 'mind' | 'presence'; value: number }
   | { type: 'SET_HP'; value: number }
   | { type: 'SET_FADING'; value: number }
@@ -37,11 +39,14 @@ type Action =
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_FEATURE_UPGRADE'; powerId: string; upgradeId: string }
   | { type: 'ADD_PERK'; perk: Perk }
   | { type: 'REMOVE_PERK'; id: string }
   | { type: 'SET_CORE_PATH'; path: CorePath }
   | { type: 'ADD_CORE_PATH'; path: CorePath }
   | { type: 'REMOVE_CORE_PATH'; id: string }
+  | { type: 'TOGGLE_POWER_USED'; id: string }
+  | { type: 'FULL_REST' }
 
 // ---------------------------------------------------------------------------
 // Reducer — pure function: (currentState, action) => nextState
@@ -56,6 +61,15 @@ function reducer(state: Character, action: Action): Character {
     // Generic single top-level field update (e.g. name, notes, level)
     case 'SET_FIELD':
       return { ...state, [action.field]: action.value }
+
+    // Apply all automatic level-up bonuses (AR/DR, HP boost, recuperation, artifact capacity).
+    // Choice-based bonuses (attr boost, perk, token) are returned as a checklist by applyLevelUp()
+    // and surfaced in the AdvancementTable UI — the reducer only handles the automatic portion.
+    case 'LEVEL_UP': {
+      const classDef = CLASS_MAP[state.className]
+      if (!classDef || state.level >= 10) return state
+      return applyLevelUp(state, classDef).updated
+    }
 
     // Update one of the four core attributes; preserves the other three
     case 'SET_ATTRIBUTE':
@@ -129,6 +143,23 @@ function reducer(state: Character, action: Action): Character {
         }),
       }
 
+    // Toggles an upgrade ID in/out of featureUpgrades for a derived feature power
+    // (baseline / lv3 / lv8 / lv10). These are never stored in character.powers.
+    case 'TOGGLE_FEATURE_UPGRADE': {
+      const current = state.featureUpgrades ?? {}
+      const existing = current[action.powerId] ?? []
+      const already = existing.includes(action.upgradeId)
+      return {
+        ...state,
+        featureUpgrades: {
+          ...current,
+          [action.powerId]: already
+            ? existing.filter((uid) => uid !== action.upgradeId)
+            : [...existing, action.upgradeId],
+        },
+      }
+    }
+
     // --- Perks ---
     case 'ADD_PERK':
       return { ...state, perks: [...state.perks, action.perk] }
@@ -147,6 +178,20 @@ function reducer(state: Character, action: Action): Character {
     case 'REMOVE_CORE_PATH':
       return { ...state, corePaths: state.corePaths.filter((cp) => cp.id !== action.id) }
 
+    // Toggles a power ID in/out of usedPowerIds (Overdrive/Ultimate per-rest tracking)
+    case 'TOGGLE_POWER_USED': {
+      const used = state.usedPowerIds ?? []
+      const already = used.includes(action.id)
+      return {
+        ...state,
+        usedPowerIds: already ? used.filter((id) => id !== action.id) : [...used, action.id],
+      }
+    }
+
+    // Clears all used Overdrive/Ultimate powers (Full Rest)
+    case 'FULL_REST':
+      return { ...state, usedPowerIds: [] }
+
     default:
       return state
   }
@@ -161,9 +206,11 @@ export function useCharacter(initial: Character) {
   // Look up the class definition so we can pass the main attribute to computeDerivedStats.
   // Falls back to safe zeros if the class name doesn't match any known class.
   const classDef = CLASS_MAP[character.className]
-  const derived: DerivedStats = classDef
-    ? computeDerivedStats(character, classDef)
-    : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
+  const derived: DerivedStats = useMemo(() => {
+    return classDef
+      ? computeDerivedStats(character, classDef)
+      : { ar: 0, dr: 0, mr: 0, speed: 0, av: 0, maxHp: 0, maxRecuperations: 2, hl: 1 }
+  }, [character, classDef])
 
   // Convenience wrapper so callers can do setCharacter(c) instead of dispatch({ type: 'SET_CHARACTER', ... })
   const setCharacter = useCallback(

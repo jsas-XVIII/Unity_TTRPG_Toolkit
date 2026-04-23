@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import type { CharacterPower, Power } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
 import type { Dispatch } from 'react'
@@ -16,9 +16,14 @@ type Action =
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_FEATURE_UPGRADE'; powerId: string; upgradeId: string }
+  | { type: 'TOGGLE_POWER_USED'; id: string }
+  | { type: 'FULL_REST' }
 
 interface Props {
   powers: CharacterPower[]
+  featureUpgrades?: Record<string, string[]>
+  usedPowerIds?: string[]
   className: ClassName
   classPath?: string | null
   level: number
@@ -31,13 +36,21 @@ function tokenColor(used: number, total: number): string {
   return 'text-yellow-400'
 }
 
-export default function PowerList({ powers, className, classPath, level, dispatch }: Props) {
+export default function PowerList({
+  powers,
+  featureUpgrades = {},
+  usedPowerIds = [],
+  className,
+  classPath,
+  level,
+  dispatch,
+}: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [preview, setPreview] = useState<Power | null>(null)
 
-  const { tier1, tier2, baseline } = getPowersByClass(className)
+  const { tier1, tier2, baseline, lv3, lv8, lv10 } = getPowersByClass(className)
   const allClassPowers = [...tier1, ...tier2] // baseline excluded from picker
-  const addedIds = new Set(powers.map((p) => p.id))
+  const addedIds = useMemo(() => new Set(powers.map((p) => p.id)), [powers])
 
   // Baseline powers are derived from class data, never stored on the character.
   // Filter to those matching the character's class path (or unrestricted ones).
@@ -45,10 +58,38 @@ export default function PowerList({ powers, className, classPath, level, dispatc
     (p) => !p.restrictToClassPath || p.restrictToClassPath === classPath
   )
 
+  // lv3/lv8/lv10 feature powers — derived, never stored in character.powers.
+  // Same path filtering as baseline. Upgrade purchased state comes from featureUpgrades.
+  function withFeatureUpgradeState(pool: typeof lv3) {
+    return pool
+      .filter((p) => !p.restrictToClassPath || p.restrictToClassPath === classPath)
+      .map((p) => {
+        const purchasedIds = featureUpgrades[p.id] ?? []
+        if (purchasedIds.length === 0) return p
+        return {
+          ...p,
+          upgrades: p.upgrades.map((u) => ({ ...u, purchased: purchasedIds.includes(u.id) })),
+        }
+      })
+  }
+
+  const lv3Powers = level >= 3 ? withFeatureUpgradeState(lv3) : []
+  const lv8Powers = level >= 8 ? withFeatureUpgradeState(lv8) : []
+  const lv10Powers = level >= 10 ? withFeatureUpgradeState(lv10) : []
+
+  const usedSet = useMemo(() => new Set(usedPowerIds), [usedPowerIds])
+
+  // Resolve each power once via getPowerById (O(classes × pools) per call) so we
+  // don't repeat the lookup across the three display-group filters below.
+  const resolvedPowerMap = useMemo(
+    () => new Map(powers.map((p) => [p.id, getPowerById(p.id)])),
+    [powers]
+  )
+
   // Resolve tier for display grouping; unresolved powers render in their own fallback card
-  const sheetTier1 = powers.filter((p) => getPowerById(p.id)?.power.tier === 1)
-  const sheetTier2 = powers.filter((p) => getPowerById(p.id)?.power.tier === 2)
-  const sheetUnresolved = powers.filter((p) => !getPowerById(p.id))
+  const sheetTier1 = powers.filter((p) => resolvedPowerMap.get(p.id)?.power.tier === 1)
+  const sheetTier2 = powers.filter((p) => resolvedPowerMap.get(p.id)?.power.tier === 2)
+  const sheetUnresolved = powers.filter((p) => !resolvedPowerMap.get(p.id))
 
   // Token budget for current level
   const budget = getTokenBudget(level)
@@ -84,8 +125,8 @@ export default function PowerList({ powers, className, classPath, level, dispatc
     <div className={CARD}>
       <h2 className={SECTION_HEADING}>Powers</h2>
 
-      {/* Token counters */}
-      <div className="flex flex-wrap gap-4 mb-4 px-1">
+      {/* Token counters + Full Rest */}
+      <div className="flex flex-wrap gap-4 mb-4 px-1 items-center">
         <span className="text-xs text-gray-500">
           Tier I Tokens:{' '}
           <span className={tokenColor(tier1Used, budget.tier1)}>
@@ -106,6 +147,14 @@ export default function PowerList({ powers, className, classPath, level, dispatc
             </span>
           </span>
         )}
+        {usedPowerIds.length > 0 && (
+          <button
+            className="ml-auto text-xs px-2 py-0.5 rounded border border-gray-600 text-gray-400 hover:text-gray-200 hover:border-gray-400 transition-colors"
+            onClick={() => dispatch({ type: 'FULL_REST' })}
+          >
+            Full Rest
+          </button>
+        )}
       </div>
 
       {/* Level 5 warning */}
@@ -123,10 +172,66 @@ export default function PowerList({ powers, className, classPath, level, dispatc
           </p>
           <div className="flex flex-wrap gap-3">
             {baselinePowers.map((p) => (
-              <PowerReferenceCard key={p.id} power={p} className={className} />
+              <PowerReferenceCard
+                key={p.id}
+                power={p}
+                className={className}
+                isUsed={
+                  p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                    ? usedSet.has(p.id)
+                    : undefined
+                }
+                onToggleUsed={
+                  p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                    ? () => dispatch({ type: 'TOGGLE_POWER_USED', id: p.id })
+                    : undefined
+                }
+              />
             ))}
           </div>
         </div>
+      )}
+
+      {/* Level feature sections — derived, read-only except for upgrade toggles */}
+      {(
+        [
+          { key: 'lv3', pool: lv3Powers },
+          { key: 'lv8', pool: lv8Powers },
+          { key: 'lv10', pool: lv10Powers },
+        ] as const
+      ).map(({ key, pool }) =>
+        pool.length > 0 ? (
+          <div key={key} className="mb-4">
+            <p className={`text-xs ${TIER_CONFIG[key].headingColor} uppercase mb-2`}>
+              {TIER_CONFIG[key].sectionHeading}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {pool.map((p) => (
+                <PowerReferenceCard
+                  key={p.id}
+                  power={p}
+                  className={className}
+                  onUpgradeToggle={
+                    p.upgrades.length > 0
+                      ? (upgradeId) =>
+                          dispatch({ type: 'TOGGLE_FEATURE_UPGRADE', powerId: p.id, upgradeId })
+                      : undefined
+                  }
+                  isUsed={
+                    p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                      ? usedSet.has(p.id)
+                      : undefined
+                  }
+                  onToggleUsed={
+                    p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
+                      ? () => dispatch({ type: 'TOGGLE_POWER_USED', id: p.id })
+                      : undefined
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        ) : null
       )}
 
       {sheetTier1.length > 0 && (
@@ -134,7 +239,13 @@ export default function PowerList({ powers, className, classPath, level, dispatc
           <p className="text-xs text-gray-500 uppercase mb-2">Tier I</p>
           <div className="flex flex-wrap gap-3">
             {sheetTier1.map((p) => (
-              <PowerCard key={p.id} power={p} className={className} dispatch={dispatch} />
+              <PowerCard
+                key={p.id}
+                power={p}
+                className={className}
+                usedPowerIds={usedSet}
+                dispatch={dispatch}
+              />
             ))}
           </div>
         </div>
@@ -145,7 +256,13 @@ export default function PowerList({ powers, className, classPath, level, dispatc
           <p className="text-xs text-amber-700 uppercase mb-2">Tier II</p>
           <div className="flex flex-wrap gap-3">
             {sheetTier2.map((p) => (
-              <PowerCard key={p.id} power={p} className={className} dispatch={dispatch} />
+              <PowerCard
+                key={p.id}
+                power={p}
+                className={className}
+                usedPowerIds={usedSet}
+                dispatch={dispatch}
+              />
             ))}
           </div>
         </div>

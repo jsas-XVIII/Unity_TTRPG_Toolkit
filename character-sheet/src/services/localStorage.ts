@@ -12,6 +12,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import type { CharacterRepository } from './api'
 import type { Character, CharacterSummary, CreateCharacterDto } from '../types/character'
+import { migrateCharacter } from '../utils/importCharacter'
 
 const STORAGE_KEY = 'unity_ttrpg_characters'
 
@@ -24,7 +25,8 @@ const STORAGE_KEY = 'unity_ttrpg_characters'
 function loadAll(): Character[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as Character[]) : []
+    const characters: Character[] = raw ? (JSON.parse(raw) as Character[]) : []
+    return characters.map(migrateCharacter)
   } catch {
     return []
   }

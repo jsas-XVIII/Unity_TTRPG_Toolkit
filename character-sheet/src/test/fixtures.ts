@@ -19,6 +19,7 @@ export const baseCharacter: Character = {
 
   arBonus: 0,
   drBonus: 0,
+  hpBonus: 0,
 
   currentHp: 17,
   fadingStacks: 0,

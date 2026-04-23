@@ -3,6 +3,17 @@ stages:
   - test
   - build
 
+# Reusable rule sets
+.rules_all_mr: &rules_all_mr
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "Development"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+.rules_gate_mr: &rules_gate_mr
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "Development"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "Development")'
+
 default:
   image: node:22-alpine
   cache:
@@ -40,8 +51,8 @@ validate-commits:
         fi
       done < /tmp/commits.txt
       exit $FAILED
-  only:
-    - merge_requests
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 # Install dependencies — shared across all jobs via cache
 install:
@@ -53,10 +64,7 @@ install:
     paths:
       - character-sheet/node_modules/
     expire_in: 1 hour
-  only:
-    - main
-    - develop
-    - merge_requests
+  <<: *rules_all_mr
 
 lint:
   stage: validate
@@ -64,10 +72,7 @@ lint:
   script:
     - cd character-sheet
     - npm run lint
-  only:
-    - main
-    - develop
-    - merge_requests
+  <<: *rules_all_mr
 
 typecheck:
   stage: validate
@@ -75,10 +80,7 @@ typecheck:
   script:
     - cd character-sheet
     - npm run typecheck
-  only:
-    - main
-    - develop
-    - merge_requests
+  <<: *rules_all_mr
 
 audit:
   stage: validate
@@ -86,11 +88,10 @@ audit:
   script:
     - cd character-sheet
     - npm audit --audit-level=high
-  only:
-    - main
-    - develop
-    - merge_requests
+  <<: *rules_all_mr
 
+# E2e only runs on MRs targeting main/Development, and on direct pushes to those branches.
+# Feature branch MRs skip this job — lint + typecheck + unit tests are sufficient there.
 test:e2e:
   stage: test
   image: cypress/browsers:node-22.12.0-chrome-131.0.6778.139-1-ff-133.0.3-edge-131.0.2903.99-1
@@ -110,18 +111,15 @@ test:e2e:
     - cd character-sheet
     - npm ci
     - npm run build
-    - npm run preview &
-    - npx wait-on http://localhost:4173 --timeout 30000
+    - npm run preview -- --host &
+    - npx wait-on http://127.0.0.1:4173 --timeout 30000
     - npm run cy:run -- --browser chrome
   artifacts:
     when: always
     paths:
       - character-sheet/cypress/screenshots/
     expire_in: 3 days
-  only:
-    - main
-    - develop
-    - merge_requests
+  <<: *rules_gate_mr
 
 test:unit:
   stage: test
@@ -129,11 +127,9 @@ test:unit:
   script:
     - cd character-sheet
     - npm run test:unit
-  only:
-    - main
-    - develop
-    - merge_requests
+  <<: *rules_all_mr
 
+# Build only runs on MRs targeting main/Development, and on direct pushes to those branches.
 build:
   stage: build
   needs: [install, lint, typecheck, test:e2e, test:unit]
@@ -144,7 +140,4 @@ build:
     paths:
       - character-sheet/dist/
     expire_in: 1 week
-  only:
-    - main
-    - develop
-    - merge_requests
+  <<: *rules_gate_mr
