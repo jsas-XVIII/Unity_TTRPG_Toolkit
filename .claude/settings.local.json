@@ -32,7 +32,8 @@
       "PowerShell(sc.exe query \"gitlab-runner\")",
       "PowerShell(sc.exe qc \"gitlab-runner\")",
       "PowerShell(sc.exe stop \"gitlab-runner\"; Start-Sleep -Seconds 3; sc.exe start \"gitlab-runner\"; Start-Sleep -Seconds 5; sc.exe query \"gitlab-runner\")",
-      "PowerShell(Get-EventLog *)"
+      "PowerShell(Get-EventLog *)",
+      "PowerShell(gitlab-runner *)"
     ]
   }
 }
