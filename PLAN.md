@@ -15,9 +15,8 @@ A toolkit for the Unity Tabletop RPG (Zensara Studios / Modiphius Entertainment)
 | Frontend | React + Vite + TypeScript | Component model maps cleanly to character sheet zones |
 | Styling | Tailwind CSS | Fast iteration, no CSS file management |
 | Form state | React Hook Form | Handles many editable fields efficiently |
-| Phase 1 persistence | `localStorage` | Zero backend dependency to start |
-| Phase 2 persistence | SQLite via C# REST API | `Microsoft.Data.Sqlite` on the backend; `fetch()` on the frontend |
-| Backend (future) | C# ASP.NET Core Minimal API | RestSharp is a client library — used if the backend calls external services |
+| Persistence | `localStorage` + JSON files | Characters in localStorage; game content (powers, classes, etc.) in repo JSON files |
+| Backend (deferred) | C# ASP.NET Core + SQLite | Only if multi-device sync or multi-tenancy becomes a real requirement |
 
 ---
 
@@ -173,28 +172,6 @@ JSON: camelCase, ISO-8601 dates. C# uses `System.Text.Json` with `JsonNamingPoli
 
 ---
 
-## SQLite Schema (Phase 2)
-
-```sql
-CREATE TABLE characters (
-  id          TEXT    PRIMARY KEY,   -- UUID
-  name        TEXT    NOT NULL,
-  class_name  TEXT    NOT NULL,
-  race        TEXT    NOT NULL,
-  level       INTEGER NOT NULL DEFAULT 1,
-  xp          INTEGER NOT NULL DEFAULT 0,
-  version     INTEGER NOT NULL DEFAULT 1,
-  data        TEXT    NOT NULL,      -- full Character JSON blob
-  created_at  TEXT    NOT NULL,      -- ISO-8601
-  updated_at  TEXT    NOT NULL
-);
-
-CREATE INDEX idx_characters_class ON characters(class_name);
-CREATE INDEX idx_characters_level ON characters(level);
-```
-
-JSON blob keeps schema stable as rules evolve. Scalar columns support listing/filtering without deserialising.
-
 ---
 
 ## Architecture Decisions
@@ -234,20 +211,22 @@ Order of work:
 10. Build New Character wizard (step-by-step: race → attributes → class → paths → perks → powers → equipment)
 11. Add JSON export/import
 
-### Phase 2 — C# REST API + SQLite
-**Goal:** Move persistence to SQLite via a local C# API.
+### Phase 2 — GM Tools
+**Goal:** In-app authoring tools for GMs to create and edit game content. Output is JSON files committed to the repo — no backend required.
 
-1. Create `api/UnityTtrpg.Api/` ASP.NET Core minimal API project
-2. Add `Microsoft.Data.Sqlite`
-3. Implement DB initialisation (create table on startup)
-4. Implement `CharacterRepository` (C#) with CRUD methods
-5. Wire up 5 API routes with CORS headers
-6. Set `VITE_API_BASE_URL` and `VITE_USE_API=true` in frontend `.env.local`
-7. Verify JSON round-trip (TypeScript ↔ C# camelCase)
-
-### Phase 3 — GM Tools & Polish (Future)
-- Character roster / list page
-- GM tools: Ruin tracker, Spark Points tracker, encounter builder
+- Finish character sheet: Gear, Necessities, Denerim fields, Artifacts
+- Monster creation tool
+- Power / ability authoring tool
+- Class and perk authoring tool
+- Ruin tracker, Spark Points tracker, encounter builder
 - Dice roller built into the sheet (click AR → rolls 2d10+AR)
 - Print / PDF export
-- Multiple campaign support
+
+### Phase 3 — Backend (Deferred)
+**Goal:** Revisit only if a real need emerges (multi-device sync, multi-group hosting).
+
+localStorage + JSON files is the long-term persistence story unless one of these becomes a requirement:
+- Multiple devices sharing a character
+- A hosted multi-group / multi-tenancy scenario
+
+If needed, the `CharacterRepository` interface in `services/api.ts` already provides a clean swap point — implement a REST backend there without touching any component code.

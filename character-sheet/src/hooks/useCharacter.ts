@@ -36,6 +36,7 @@ type Action =
   | { type: 'ADD_ARTIFACT'; artifact: Artifact }
   | { type: 'REMOVE_ARTIFACT'; id: string }
   | { type: 'TOGGLE_ARTIFACT_EQUIPPED'; id: string }
+  | { type: 'UPDATE_ARTIFACT_DESCRIPTION'; id: string; description: string }
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
@@ -118,6 +119,13 @@ function reducer(state: Character, action: Action): Character {
         ...state,
         artifacts: state.artifacts.map((a) =>
           a.id === action.id ? { ...a, equipped: !a.equipped } : a
+        ),
+      }
+    case 'UPDATE_ARTIFACT_DESCRIPTION':
+      return {
+        ...state,
+        artifacts: state.artifacts.map((a) =>
+          a.id === action.id ? { ...a, description: action.description } : a
         ),
       }
 

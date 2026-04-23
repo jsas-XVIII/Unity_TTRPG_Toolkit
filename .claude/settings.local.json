@@ -38,7 +38,8 @@
       "Bash(cat)",
       "Bash(claude mcp *)",
       "Bash(curl -s --header \"PRIVATE-TOKEN: glpat-Aimt03_sEzyR7ZJ1HIkGT2M6MQpvOjEKdTpsYmlnMA8.01.171u54u0e\" \"https://gitlab.com/api/v4/projects/jsas40k-group%2FUnity_TTRPG_Toolkit/merge_requests?state=opened&per_page=5\")",
-      "Bash(curl -s --header \"PRIVATE-TOKEN: glpat-Aimt03_sEzyR7ZJ1HIkGT2M6MQpvOjEKdTpsYmlnMA8.01.171u54u0e\" \"https://gitlab.com/api/v4/projects/jsas40k-group%2FUnity_TTRPG_Toolkit/pipelines?per_page=5\")"
+      "Bash(curl -s --header \"PRIVATE-TOKEN: glpat-Aimt03_sEzyR7ZJ1HIkGT2M6MQpvOjEKdTpsYmlnMA8.01.171u54u0e\" \"https://gitlab.com/api/v4/projects/jsas40k-group%2FUnity_TTRPG_Toolkit/pipelines?per_page=5\")",
+      "Bash(glab *)"
     ]
   }
 }

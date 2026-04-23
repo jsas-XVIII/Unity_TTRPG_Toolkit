@@ -8,6 +8,7 @@ type Action =
   | { type: 'ADD_ARTIFACT'; artifact: Artifact }
   | { type: 'REMOVE_ARTIFACT'; id: string }
   | { type: 'TOGGLE_ARTIFACT_EQUIPPED'; id: string }
+  | { type: 'UPDATE_ARTIFACT_DESCRIPTION'; id: string; description: string }
 
 interface Props {
   artifacts: Artifact[]
@@ -41,25 +42,40 @@ export default function ArtifactList({ artifacts, artifactCapacity, dispatch }: 
       </div>
 
       {artifacts.map((a) => (
-        <div key={a.id} className="flex items-center gap-2 bg-gray-800 rounded px-3 py-2 mb-1">
+        <div key={a.id} className="bg-gray-800 rounded px-3 py-2 mb-1">
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={a.equipped}
+              onChange={() => dispatch({ type: 'TOGGLE_ARTIFACT_EQUIPPED', id: a.id })}
+              className="accent-amber-500"
+              title="Equipped"
+            />
+            <span
+              className={`flex-1 text-sm ${a.equipped ? 'text-amber-300 font-semibold' : 'text-gray-400'}`}
+            >
+              {a.name}
+            </span>
+            <button
+              className={REMOVE_BTN}
+              onClick={() => dispatch({ type: 'REMOVE_ARTIFACT', id: a.id })}
+            >
+              ✕
+            </button>
+          </div>
           <input
-            type="checkbox"
-            checked={a.equipped}
-            onChange={() => dispatch({ type: 'TOGGLE_ARTIFACT_EQUIPPED', id: a.id })}
-            className="accent-amber-500"
-            title="Equipped"
+            type="text"
+            className="mt-1 w-full bg-transparent text-xs text-gray-500 placeholder-gray-700 focus:outline-none focus:text-gray-300"
+            value={a.description}
+            onChange={(e) =>
+              dispatch({
+                type: 'UPDATE_ARTIFACT_DESCRIPTION',
+                id: a.id,
+                description: e.target.value,
+              })
+            }
+            placeholder="Description…"
           />
-          <span
-            className={`flex-1 text-sm ${a.equipped ? 'text-amber-300 font-semibold' : 'text-gray-400'}`}
-          >
-            {a.name}
-          </span>
-          <button
-            className={REMOVE_BTN}
-            onClick={() => dispatch({ type: 'REMOVE_ARTIFACT', id: a.id })}
-          >
-            ✕
-          </button>
         </div>
       ))}
 
