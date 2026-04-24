@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Workflow Conventions
 
 ### Testing & Linting Gate
-After making code changes, always run tests AND lint together as a single gate before declaring work complete. Don't wait to be asked — treat lint as part of the test cycle to save tokens.
+After making code changes, always run tests AND lint together as a single gate before declaring work complete. Don't wait to be asked — treat lint as part of the test cycle.
 
 ### Before Implementing Options
 When presenting multiple options (A/B/C), wait for explicit user selection and echo back which option you're implementing before writing code.
@@ -19,7 +19,7 @@ When creating new slash commands or modifying `.claude/` config, remind the user
 
 ## Shell Environment
 
-This is a Windows/PowerShell environment. Do NOT use `&&` to chain commands — use `;` or separate commands. Prefer PowerShell-native syntax over bash-isms.
+Windows/PowerShell environment. Do NOT use `&&` to chain commands — use `;` or separate commands.
 
 ---
 
@@ -61,12 +61,12 @@ Allowed types: `feat`, `fix`, `test`, `chore`, `docs`, `refactor`, `style`, `per
 
 ```
 character-sheet/src/
-  App.tsx           — root: owns view state ('home'|'roster'|'wizard'|'sheet') + import flow
-  types/            — shared TypeScript interfaces (character.ts is the primary source of truth)
+  App.tsx           — root: owns view state ('home'|'roster'|'wizard'|'sheet'|'gm') + import flow
+  types/            — shared TypeScript interfaces (character.ts primary; monster.ts for GM tools)
   constants/        — static class/race/armor/weapon/perk definitions (ClassDefinition, etc.)
-  data/             — powers.json + powersData.ts, advancementData.ts (XP tables, level-up logic)
+  data/             — powers.json + powersData.ts, advancementData.ts, monsters.json, monster-abilities.json, monstersData.ts
   hooks/            — useCharacter (reducer + derived stats), useApi (persistence abstraction)
-  services/         — localStorage.ts implements CharacterRepository; api.ts defines the interface
+  services/         — localStorage.ts (CharacterRepository), monsterStorage.ts (homebrew abilities)
   utils/            — derivedStats.ts (pure formulas), importCharacter.ts (migration + dedup)
   components/
     layout/         — HomeScreen, CharacterRoster, CharacterSheet (top-level sheet container)
@@ -79,6 +79,7 @@ character-sheet/src/
     perks/          — perk picker
     resources/      — HP, class resource pips
     ui/             — reusable primitives (buttons, modals, etc.)
+    gm/             — GMDashboard; monsters/ (MonsterRoster, MonsterCard, MonsterForm)
 ```
 
 ### State management
@@ -112,9 +113,31 @@ All nine classes are defined in `constants/classes.ts` as `ClassDefinition[]`, e
 - `CLASS_AR_DR_PATTERN` — maps each class to `balanced | aggressive | glass-cannon`
 - `applyLevelUp(character, classDef)` — applies all automatic bonuses and returns a `checklist` of manual choices to surface in the UI
 
+### GM Tools — Monster System
+
+**Data layer:**
+- `types/monster.ts` — `Monster`, `MonsterAbility`, `MonsterAbilityKind` types
+- `data/monsters.json` — built-in/official compendium monsters (currently 4 entries; more to be added)
+- `data/monster-abilities.json` — flat ability library; monsters reference by `traitIds`/`powerIds` arrays
+- `data/monstersData.ts` — `getAllMonsters`, `getMonsterById`, `getAllAbilities`, `resolveTraits`, `resolvePowers`, filter helpers
+- `services/monsterStorage.ts` — homebrew ability persistence under `localStorage["unity_ttrpg_monsters_abilities"]`
+
+**Components (`components/gm/monsters/`):**
+- `MonsterRoster` — list with faction/type filters, sorted by DL; merges static compendium + homebrew
+- `MonsterCard` — full stat block (header, stats grid, traits, powers, optional image)
+- `MonsterForm` — create/edit form with DL-range validation
+
+**DL range validation in MonsterForm:**
+`DL_RANGES` (indexed by DL 1–10, sourced from Chapter VIII Monster Creation Table) stores `[min, max]` tuples per stat. Out-of-range fields get amber styling + a "suggested: X–Y" hint. Saving with out-of-range stats shows a confirmation step. "Apply baseline" fills all stats with DL minimums. The `dlColor()` helper uses if/else ranges (not numeric Record keys — ESLint naming-convention violation).
+
+**Next up — Monster Creator:**
+1. Add remaining monsters and abilities to `monsters.json` / `monster-abilities.json` (correct stats from PDF)
+2. Monster **template** system: a template is a named set of stat deltas and ability additions/removals that the GM applies to any monster on the fly during a combat encounter (e.g. "Enraged +5 HP, +1 DMG" or "Blessed +2 AR"). Templates are not persisted to a monster — they are a transient overlay.
+
 ### Game reference docs
 
-Rules extracted from the Unity Core Rules PDF live in `docs/rules/`. The key files for implementation work are:
+Rules extracted from the Unity Core Rules PDF live in `docs/rules/`. Key files:
 - `02_character_creation.md` — attributes, creation steps, perks, core paths
 - `03_classes.md` — all 9 classes, token tables, class features
 - `04_core_rules.md` — core mechanics
+- `08_foes_fiends.md` — monster stat table by DL, encounter guidelines, ability rules
