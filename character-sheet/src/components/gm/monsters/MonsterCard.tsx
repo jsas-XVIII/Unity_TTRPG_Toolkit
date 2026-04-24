@@ -5,6 +5,7 @@ interface Props {
   monster: Monster
   onBack: () => void
   onEdit?: () => void
+  onClone?: () => void
 }
 
 function dlColor(dl: number): string {
@@ -14,7 +15,7 @@ function dlColor(dl: number): string {
   return 'bg-red-900 text-red-300'
 }
 
-export default function MonsterCard({ monster, onBack, onEdit }: Props) {
+export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props) {
   const traits = resolveTraits(monster)
   const powers = resolvePowers(monster)
   const isElite = monster.type === 'Elite'
@@ -28,14 +29,24 @@ export default function MonsterCard({ monster, onBack, onEdit }: Props) {
         >
           ← Back to Compendium
         </button>
-        {onEdit && (
-          <button
-            onClick={onEdit}
-            className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-amber-600 hover:text-amber-400 transition-colors"
-          >
-            Edit
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {onClone && (
+            <button
+              onClick={onClone}
+              className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors"
+            >
+              Clone as Homebrew
+            </button>
+          )}
+          {onEdit && (
+            <button
+              onClick={onEdit}
+              className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-amber-600 hover:text-amber-400 transition-colors"
+            >
+              Edit
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Header */}

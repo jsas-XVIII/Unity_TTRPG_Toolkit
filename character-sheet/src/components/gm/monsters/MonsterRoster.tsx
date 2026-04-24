@@ -16,6 +16,10 @@ interface Props {
 
 type RosterView = 'list' | 'card' | 'form'
 
+function uid(): string {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+}
+
 function dlColor(dl: number): string {
   if (dl <= 3) return 'bg-green-900 text-green-300'
   if (dl <= 6) return 'bg-yellow-900 text-yellow-300'
@@ -54,6 +58,19 @@ export default function MonsterRoster({ onBack }: Props) {
     setView('list')
   }
 
+  function handleClone(monster: Monster) {
+    const cloned: Monster = {
+      ...monster,
+      id: `hb-${uid()}`,
+      name: `${monster.name} (Copy)`,
+    }
+    addHomebrewMonster(cloned)
+    refresh()
+    setSelectedId(cloned.id)
+    setEditingMonster(cloned)
+    setView('form')
+  }
+
   function handleDelete(id: string) {
     deleteHomebrewMonster(id)
     refresh()
@@ -83,6 +100,7 @@ export default function MonsterRoster({ onBack }: Props) {
         <MonsterCard
           monster={monster}
           onBack={() => setView('list')}
+          onClone={() => handleClone(monster)}
           onEdit={
             isHomebrew(monster.id)
               ? () => {
