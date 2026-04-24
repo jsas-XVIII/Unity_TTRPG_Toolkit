@@ -31,9 +31,9 @@ describe('monsters.json — data integrity', () => {
 
   it('every monster has all four attributes defined as numbers', () => {
     for (const m of monsters) {
-      expect(typeof m.might,    `${m.name} might`).toBe('number')
-      expect(typeof m.agility,  `${m.name} agility`).toBe('number')
-      expect(typeof m.mind,     `${m.name} mind`).toBe('number')
+      expect(typeof m.might, `${m.name} might`).toBe('number')
+      expect(typeof m.agility, `${m.name} agility`).toBe('number')
+      expect(typeof m.mind, `${m.name} mind`).toBe('number')
       expect(typeof m.presence, `${m.name} presence`).toBe('number')
     }
   })
@@ -128,8 +128,8 @@ describe('getAllAbilities', () => {
 
   it('every ability has a non-empty id, name, and description', () => {
     for (const a of getAllAbilities()) {
-      expect(a.id.length,          `ability ${a.id} id`).toBeGreaterThan(0)
-      expect(a.name.length,        `ability ${a.id} name`).toBeGreaterThan(0)
+      expect(a.id.length, `ability ${a.id} id`).toBeGreaterThan(0)
+      expect(a.name.length, `ability ${a.id} name`).toBeGreaterThan(0)
       expect(a.description.length, `ability ${a.id} description`).toBeGreaterThan(0)
     }
   })
@@ -220,9 +220,7 @@ describe('applyTemplates', () => {
   })
 
   it('stacks multiple templates additively', () => {
-    const templates = getAllTemplates().filter((t) =>
-      ['Enraged', 'Slowed'].includes(t.name)
-    )
+    const templates = getAllTemplates().filter((t) => ['Enraged', 'Slowed'].includes(t.name))
     const result = applyTemplates(base, templates)
     const totalAvDelta = templates.reduce((s, t) => s + t.avDelta, 0)
     const totalSpdDelta = templates.reduce((s, t) => s + t.spdDelta, 0)
