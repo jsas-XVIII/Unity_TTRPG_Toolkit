@@ -1,78 +1,1309 @@
 [
   {
-    "id": "a1b2c3d4-0001-0001-0001-000000000001",
-    "name": "Goblin",
-    "dangerLevel": 1,
+    "id": "m-001",
+    "name": "Aquillian Cleric",
+    "dangerLevel": 5,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 100,
+    "hp": 28,
+    "ar": 17,
+    "dr": 16,
+    "mr": 16,
+    "av": 0,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d10+3"
+      },
+      {
+        "name": "Bolt of Faith",
+        "range": "Ranged. Very Far",
+        "damage": "1d6+5 Divine"
+      }
+    ],
+    "traitIds": [],
+    "powerIds": [
+      "ma-066",
+      "ma-067",
+      "ma-068"
+    ],
+    "might": 3,
+    "agility": 3,
+    "mind": 5,
+    "presence": 2
+  },
+  {
+    "id": "m-002",
+    "name": "Aquillian Sky Striker",
+    "dangerLevel": 5,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 100,
+    "hp": 34,
+    "ar": 17,
+    "dr": 17,
+    "mr": 15,
+    "av": 3,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d12+5"
+      }
+    ],
+    "traitIds": [
+      "ma-070"
+    ],
+    "powerIds": [
+      "ma-069"
+    ],
+    "might": 5,
+    "agility": 4,
+    "mind": 2,
+    "presence": 2
+  },
+  {
+    "id": "m-003",
+    "name": "Carapid Beetle",
+    "dangerLevel": 6,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 180,
+    "hp": 42,
+    "ar": 16,
+    "dr": 16,
+    "mr": 12,
+    "av": 3,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Bite",
+        "range": "Melee",
+        "damage": "2d6+7"
+      },
+      {
+        "name": "Spit",
+        "range": "Ranged. Far",
+        "damage": "1d20 Fire or Corrosive"
+      }
+    ],
+    "traitIds": [],
+    "powerIds": [
+      "ma-036",
+      "ma-037"
+    ],
+    "might": 6,
+    "agility": 4,
+    "mind": 4,
+    "presence": 1
+  },
+  {
+    "id": "m-004",
+    "name": "Carapid Swarm Master",
+    "dangerLevel": 7,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 250,
+    "hp": 60,
+    "ar": 17,
+    "dr": 16,
+    "mr": 14,
+    "av": 3,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Slash",
+        "range": "Melee",
+        "damage": "2d6+13"
+      },
+      {
+        "name": "Sting Shot",
+        "range": "Ranged. Far",
+        "damage": "1d12+6"
+      }
+    ],
+    "traitIds": [
+      "ma-040"
+    ],
+    "powerIds": [
+      "ma-038",
+      "ma-039"
+    ],
+    "might": 7,
+    "agility": 4,
+    "mind": 5,
+    "presence": 2
+  },
+  {
+    "id": "m-005",
+    "name": "Carnivex",
+    "dangerLevel": 3,
+    "type": "Elite",
+    "size": "Large",
+    "faction": "Crimson Horde",
+    "xp": 400,
+    "hp": 160,
+    "ar": 16,
+    "dr": 15,
+    "mr": 14,
+    "av": 2,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Razor Appendages (2)",
+        "range": "Melee",
+        "damage": "1d8+5"
+      },
+      {
+        "name": "Caustic Spit",
+        "range": "Ranged. Far",
+        "damage": "2d6+3 Corrosive"
+      }
+    ],
+    "traitIds": [
+      "ma-051"
+    ],
+    "powerIds": [
+      "ma-052",
+      "ma-053"
+    ],
+    "might": 7,
+    "agility": 4,
+    "mind": 5,
+    "presence": 3
+  },
+  {
+    "id": "m-006",
+    "name": "Cultist",
+    "dangerLevel": 3,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 50,
+    "hp": 24,
+    "ar": 15,
+    "dr": 13,
+    "mr": 11,
+    "av": 0,
+    "spd": 14,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d8+3"
+      }
+    ],
+    "traitIds": [
+      "ma-076",
+      "ma-077",
+      "ma-078"
+    ],
+    "powerIds": [],
+    "might": 2,
+    "agility": 2,
+    "mind": 2,
+    "presence": 1
+  },
+  {
+    "id": "m-007",
+    "name": "Cyclops",
+    "dangerLevel": 8,
+    "type": "Standard",
+    "size": "Large",
+    "faction": "Crimson Horde",
+    "xp": 300,
+    "hp": 75,
+    "ar": 18,
+    "dr": 19,
+    "mr": 15,
+    "av": 4,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee. Adjacent",
+        "damage": "2d6+13"
+      },
+      {
+        "name": "Axe Toss",
+        "range": "Ranged. Nearby",
+        "damage": "1d8+8"
+      }
+    ],
+    "traitIds": [
+      "ma-079",
+      "ma-080"
+    ],
+    "powerIds": [
+      "ma-081",
+      "ma-082",
+      "ma-083",
+      "ma-084"
+    ],
+    "might": 8,
+    "agility": 6,
+    "mind": 4,
+    "presence": 4
+  },
+  {
+    "id": "m-008",
+    "name": "Formic Carapid",
+    "dangerLevel": 6,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 180,
+    "hp": 48,
+    "ar": 17,
+    "dr": 15,
+    "mr": 12,
+    "av": 4,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Double Strike (2)",
+        "range": "Melee",
+        "damage": "1d8+5"
+      }
+    ],
+    "traitIds": [],
+    "powerIds": [
+      "ma-041",
+      "ma-042"
+    ],
+    "might": 7,
+    "agility": 4,
+    "mind": 5,
+    "presence": 2
+  },
+  {
+    "id": "m-009",
+    "name": "Goblin Fighter",
+    "dangerLevel": 2,
     "type": "Standard",
     "size": "Small",
     "faction": "Crimson Horde",
-    "xp": 15,
-    "hp": 12,
-    "ar": 12,
+    "xp": 40,
+    "hp": 22,
+    "ar": 13,
+    "dr": 13,
+    "mr": 10,
+    "av": 2,
+    "spd": 13,
+    "attacks": [
+      {
+        "name": "Sword",
+        "range": "Melee",
+        "damage": "1d8+4"
+      },
+      {
+        "name": "Shortbow",
+        "range": "Ranged. Far",
+        "damage": "1d6+3"
+      }
+    ],
+    "traitIds": [
+      "ma-027"
+    ],
+    "powerIds": [
+      "ma-028"
+    ],
+    "might": 2,
+    "agility": 3,
+    "mind": 1,
+    "presence": 1
+  },
+  {
+    "id": "m-010",
+    "name": "Goblin Mage",
+    "dangerLevel": 3,
+    "type": "Standard",
+    "size": "Small",
+    "faction": "Crimson Horde",
+    "xp": 60,
+    "hp": 27,
+    "ar": 15,
     "dr": 14,
     "mr": 12,
     "av": 0,
-    "spd": 12,
-    "dmg": 2,
-    "damageDie": "1d6",
+    "spd": 13,
+    "attacks": [
+      {
+        "name": "Firebolt",
+        "range": "Ranged. Very Far",
+        "damage": "1d6+3 Fire"
+      },
+      {
+        "name": "Staff",
+        "range": "Melee",
+        "damage": "1d6+2"
+      }
+    ],
     "traitIds": [],
-    "powerIds": ["ma-0001"]
+    "powerIds": [
+      "ma-029",
+      "ma-030"
+    ],
+    "might": 1,
+    "agility": 2,
+    "mind": 3,
+    "presence": 1
   },
   {
-    "id": "a1b2c3d4-0002-0002-0002-000000000002",
-    "name": "Zombie",
+    "id": "m-011",
+    "name": "Goblin Sapper",
+    "dangerLevel": 2,
+    "type": "Standard",
+    "size": "Small",
+    "faction": "Crimson Horde",
+    "xp": 30,
+    "hp": 19,
+    "ar": 13,
+    "dr": 13,
+    "mr": 10,
+    "av": 0,
+    "spd": 13,
+    "attacks": [
+      {
+        "name": "Throw Bomb",
+        "range": "Ranged. Far",
+        "damage": "1d8+3 Fire"
+      },
+      {
+        "name": "Dagger",
+        "range": "Melee",
+        "damage": "1d6+3"
+      }
+    ],
+    "traitIds": [
+      "ma-032"
+    ],
+    "powerIds": [
+      "ma-031"
+    ],
+    "might": 2,
+    "agility": 3,
+    "mind": 1,
+    "presence": 1
+  },
+  {
+    "id": "m-012",
+    "name": "Green Warden",
+    "dangerLevel": 5,
+    "type": "Standard",
+    "size": "Massive",
+    "faction": "Crimson Horde",
+    "xp": 150,
+    "hp": 50,
+    "ar": 16,
+    "dr": 13,
+    "mr": 12,
+    "av": 4,
+    "spd": 11,
+    "attacks": [
+      {
+        "name": "Oaken Fists",
+        "range": "Melee",
+        "damage": "1d12+7"
+      }
+    ],
+    "traitIds": [
+      "ma-085",
+      "ma-086"
+    ],
+    "powerIds": [
+      "ma-087",
+      "ma-088"
+    ],
+    "might": 6,
+    "agility": 1,
+    "mind": 4,
+    "presence": 3
+  },
+  {
+    "id": "m-013",
+    "name": "Mk I Scrapbot",
+    "dangerLevel": 3,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 40,
+    "hp": 21,
+    "ar": 14,
+    "dr": 15,
+    "mr": 13,
+    "av": 1,
+    "spd": 13,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d6+4"
+      }
+    ],
+    "traitIds": [
+      "ma-072"
+    ],
+    "powerIds": [
+      "ma-071",
+      "ma-073"
+    ],
+    "might": 3,
+    "agility": 2,
+    "mind": 2,
+    "presence": 1
+  },
+  {
+    "id": "m-014",
+    "name": "Mk II Gideon",
+    "dangerLevel": 3,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 50,
+    "hp": 25,
+    "ar": 15,
+    "dr": 16,
+    "mr": 14,
+    "av": 3,
+    "spd": 13,
+    "attacks": [
+      {
+        "name": "Spear",
+        "range": "Melee",
+        "damage": "1d10+5"
+      }
+    ],
+    "traitIds": [
+      "ma-074"
+    ],
+    "powerIds": [
+      "ma-075"
+    ],
+    "might": 3,
+    "agility": 2,
+    "mind": 2,
+    "presence": 1
+  },
+  {
+    "id": "m-015",
+    "name": "Murkwalker",
+    "dangerLevel": 8,
+    "type": "Standard",
+    "size": "Large",
+    "faction": "Crimson Horde",
+    "xp": 300,
+    "hp": 75,
+    "ar": 18,
+    "dr": 21,
+    "mr": 19,
+    "av": 4,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Claws (2)",
+        "range": "Melee. Adjacent",
+        "damage": "1d12+8"
+      },
+      {
+        "name": "Spines",
+        "range": "Ranged. Nearby",
+        "damage": "2d8+8"
+      }
+    ],
+    "traitIds": [
+      "ma-092"
+    ],
+    "powerIds": [
+      "ma-089",
+      "ma-090",
+      "ma-091"
+    ],
+    "might": 8,
+    "agility": 6,
+    "mind": 4,
+    "presence": 2
+  },
+  {
+    "id": "m-016",
+    "name": "Orc Berserker",
+    "dangerLevel": 4,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 70,
+    "hp": 30,
+    "ar": 15,
+    "dr": 16,
+    "mr": 14,
+    "av": 2,
+    "spd": 15,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d10+4"
+      }
+    ],
+    "traitIds": [],
+    "powerIds": [
+      "ma-033"
+    ],
+    "might": 4,
+    "agility": 3,
+    "mind": 2,
+    "presence": 2
+  },
+  {
+    "id": "m-017",
+    "name": "Orc Chieftain",
+    "dangerLevel": 6,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 170,
+    "hp": 60,
+    "ar": 17,
+    "dr": 17,
+    "mr": 17,
+    "av": 3,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Greataxe",
+        "range": "Melee",
+        "damage": "2d6+8"
+      }
+    ],
+    "traitIds": [
+      "ma-035"
+    ],
+    "powerIds": [
+      "ma-033",
+      "ma-034"
+    ],
+    "might": 6,
+    "agility": 4,
+    "mind": 3,
+    "presence": 4
+  },
+  {
+    "id": "m-018",
+    "name": "Ragehound",
+    "dangerLevel": 6,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 150,
+    "hp": 60,
+    "ar": 17,
+    "dr": 17,
+    "mr": 13,
+    "av": 3,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Claws (2)",
+        "range": "Melee. Adjacent",
+        "damage": "1d6+9"
+      },
+      {
+        "name": "Bite",
+        "range": "Melee. Adjacent",
+        "damage": "1d12+7 Fire"
+      }
+    ],
+    "traitIds": [
+      "ma-094",
+      "ma-095",
+      "ma-096",
+      "ma-097",
+      "ma-098"
+    ],
+    "powerIds": [
+      "ma-093"
+    ],
+    "might": 6,
+    "agility": 5,
+    "mind": 1,
+    "presence": 2
+  },
+  {
+    "id": "m-019",
+    "name": "Rikkisi",
+    "dangerLevel": 4,
+    "type": "Standard",
+    "size": "Small",
+    "faction": "Crimson Horde",
+    "xp": 60,
+    "hp": 28,
+    "ar": 16,
+    "dr": 18,
+    "mr": 15,
+    "av": 1,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d8+4"
+      },
+      {
+        "name": "Blow Dart",
+        "range": "Ranged. Far",
+        "damage": "1d6+5 Corrosive"
+      }
+    ],
+    "traitIds": [],
+    "powerIds": [],
+    "might": 1,
+    "agility": 4,
+    "mind": 3,
+    "presence": 4
+  },
+  {
+    "id": "m-020",
+    "name": "Shrike Maiden",
+    "dangerLevel": 6,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Crimson Horde",
+    "xp": 150,
+    "hp": 48,
+    "ar": 17,
+    "dr": 17,
+    "mr": 14,
+    "av": 2,
+    "spd": 17,
+    "attacks": [
+      {
+        "name": "Talons/Claws",
+        "range": "Melee",
+        "damage": "1d12+8"
+      }
+    ],
+    "traitIds": [
+      "ma-099"
+    ],
+    "powerIds": [
+      "ma-100",
+      "ma-101"
+    ],
+    "might": 4,
+    "agility": 6,
+    "mind": 2,
+    "presence": 1
+  },
+  {
+    "id": "m-021",
+    "name": "Skulker Skirmisher",
     "dangerLevel": 2,
     "type": "Standard",
     "size": "Medium",
-    "faction": "The Risen",
-    "xp": 30,
-    "hp": 18,
-    "ar": 12,
-    "dr": 15,
-    "mr": 13,
-    "av": 0,
-    "spd": 11,
-    "dmg": 2,
-    "damageDie": "1d6",
-    "traitIds": ["ma-0002"],
-    "powerIds": []
+    "faction": "Crimson Horde",
+    "xp": 25,
+    "hp": 23,
+    "ar": 13,
+    "dr": 14,
+    "mr": 11,
+    "av": 1,
+    "spd": 15,
+    "attacks": [
+      {
+        "name": "Axe",
+        "range": "Melee",
+        "damage": "1d6+4"
+      },
+      {
+        "name": "Pocket Crossbow",
+        "range": "Ranged. Far",
+        "damage": "1d4+3"
+      }
+    ],
+    "traitIds": [
+      "ma-103"
+    ],
+    "powerIds": [
+      "ma-102",
+      "ma-104"
+    ],
+    "might": 2,
+    "agility": 3,
+    "mind": 0,
+    "presence": 1
   },
   {
-    "id": "a1b2c3d4-0003-0003-0003-000000000003",
+    "id": "m-022",
+    "name": "Zoog",
+    "dangerLevel": 5,
+    "type": "Standard",
+    "size": "Large",
+    "faction": "Crimson Horde",
+    "xp": 100,
+    "hp": 50,
+    "ar": 16,
+    "dr": 15,
+    "mr": 11,
+    "av": 0,
+    "spd": 14,
+    "attacks": [
+      {
+        "name": "Fists",
+        "range": "Melee",
+        "damage": "1d10+9"
+      }
+    ],
+    "traitIds": [
+      "ma-109"
+    ],
+    "powerIds": [],
+    "might": 6,
+    "agility": 2,
+    "mind": 1,
+    "presence": 1
+  },
+  {
+    "id": "m-023",
+    "name": "Fellspawn",
+    "dangerLevel": 4,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "The Fell",
+    "xp": 70,
+    "hp": 32,
+    "ar": 16,
+    "dr": 15,
+    "mr": 13,
+    "av": 2,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d8+4"
+      },
+      {
+        "name": "Demon's Bite",
+        "range": "Melee. Adjacent",
+        "damage": "See Consume Essence"
+      }
+    ],
+    "traitIds": [
+      "ma-043"
+    ],
+    "powerIds": [
+      "ma-044",
+      "ma-045"
+    ],
+    "might": 5,
+    "agility": 4,
+    "mind": 2,
+    "presence": 0
+  },
+  {
+    "id": "m-024",
+    "name": "Fellmancer",
+    "dangerLevel": 5,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "The Fell",
+    "xp": 110,
+    "hp": 37,
+    "ar": 16,
+    "dr": 16,
+    "mr": 14,
+    "av": 1,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d6+4"
+      },
+      {
+        "name": "Fell Bolt",
+        "range": "Ranged. Very Far",
+        "damage": "1d10+6 Electric"
+      }
+    ],
+    "traitIds": [
+      "ma-043",
+      "ma-046"
+    ],
+    "powerIds": [
+      "ma-047",
+      "ma-048",
+      "ma-049",
+      "ma-050"
+    ],
+    "might": 3,
+    "agility": 3,
+    "mind": 5,
+    "presence": 1
+  },
+  {
+    "id": "m-025",
+    "name": "Glutton",
+    "dangerLevel": 7,
+    "type": "Elite",
+    "size": "Massive",
+    "faction": "The Fell",
+    "xp": 2000,
+    "hp": 300,
+    "ar": 18,
+    "dr": 18,
+    "mr": 15,
+    "av": 0,
+    "spd": 14,
+    "attacks": [
+      {
+        "name": "Tentacle Strike (4)",
+        "range": "Melee. Nearby",
+        "damage": "1d6+8"
+      },
+      {
+        "name": "Tentacle Strike (3)",
+        "range": "Melee. Nearby",
+        "damage": "1d8+8"
+      },
+      {
+        "name": "Tentacle Strike (2)",
+        "range": "Melee. Nearby",
+        "damage": "2d8+9"
+      },
+      {
+        "name": "Tentacle Strike (1)",
+        "range": "Melee. Nearby",
+        "damage": "3d8+10"
+      }
+    ],
+    "traitIds": [
+      "ma-054",
+      "ma-057",
+      "ma-058"
+    ],
+    "powerIds": [
+      "ma-055",
+      "ma-056",
+      "ma-059"
+    ],
+    "might": 9,
+    "agility": 7,
+    "mind": 6,
+    "presence": 3
+  },
+  {
+    "id": "m-026",
+    "name": "Tainted Neophyte",
+    "dangerLevel": 6,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "The Fell",
+    "xp": 180,
+    "hp": 50,
+    "ar": 17,
+    "dr": 15,
+    "mr": 16,
+    "av": 1,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d10+10"
+      }
+    ],
+    "traitIds": [
+      "ma-060",
+      "ma-061"
+    ],
+    "powerIds": [],
+    "might": 6,
+    "agility": 4,
+    "mind": 3,
+    "presence": 0
+  },
+  {
+    "id": "m-027",
+    "name": "Tainted Protomorph",
+    "dangerLevel": 7,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "The Fell",
+    "xp": 200,
+    "hp": 70,
+    "ar": 17,
+    "dr": 15,
+    "mr": 17,
+    "av": 1,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Melee Attack",
+        "range": "Melee",
+        "damage": "1d10+13"
+      }
+    ],
+    "traitIds": [
+      "ma-062",
+      "ma-065"
+    ],
+    "powerIds": [
+      "ma-063",
+      "ma-064"
+    ],
+    "might": 7,
+    "agility": 4,
+    "mind": 3,
+    "presence": 0
+  },
+  {
+    "id": "m-028",
+    "name": "Zombie",
+    "dangerLevel": 1,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "The Risen",
+    "xp": 20,
+    "hp": 18,
+    "ar": 13,
+    "dr": 11,
+    "mr": 8,
+    "av": 0,
+    "spd": 11,
+    "attacks": [
+      {
+        "name": "Swipe",
+        "range": "Melee",
+        "damage": "1d4+3"
+      },
+      {
+        "name": "Bite",
+        "range": "Melee",
+        "damage": "4"
+      }
+    ],
+    "traitIds": [
+      "ma-001",
+      "ma-002"
+    ],
+    "powerIds": [],
+    "might": 2,
+    "agility": 0,
+    "mind": 0,
+    "presence": 0
+  },
+  {
+    "id": "m-029",
+    "name": "Zombie Burster",
+    "dangerLevel": 3,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "The Risen",
+    "xp": 60,
+    "hp": 30,
+    "ar": 14,
+    "dr": 12,
+    "mr": 8,
+    "av": 0,
+    "spd": 11,
+    "attacks": [
+      {
+        "name": "Fists",
+        "range": "Melee",
+        "damage": "1d8+5"
+      },
+      {
+        "name": "Bite",
+        "range": "Melee",
+        "damage": "8"
+      }
+    ],
+    "traitIds": [
+      "ma-001",
+      "ma-002",
+      "ma-003"
+    ],
+    "powerIds": [],
+    "might": 5,
+    "agility": 0,
+    "mind": 0,
+    "presence": 0
+  },
+  {
+    "id": "m-030",
     "name": "Shade",
+    "dangerLevel": 5,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "The Risen",
+    "xp": 150,
+    "hp": 37,
+    "ar": 16,
+    "dr": 16,
+    "mr": 14,
+    "av": 0,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Icy Touch",
+        "range": "Melee",
+        "damage": "1d12+8 Frost"
+      }
+    ],
+    "traitIds": [
+      "ma-004",
+      "ma-005",
+      "ma-006",
+      "ma-007"
+    ],
+    "powerIds": [
+      "ma-008",
+      "ma-009",
+      "ma-010"
+    ],
+    "might": 4,
+    "agility": 4,
+    "mind": 5,
+    "presence": 3
+  },
+  {
+    "id": "m-031",
+    "name": "Silencer",
     "dangerLevel": 3,
     "type": "Standard",
     "size": "Medium",
     "faction": "The Risen",
     "xp": 50,
-    "hp": 20,
-    "ar": 13,
-    "dr": 16,
-    "mr": 14,
-    "av": 0,
-    "spd": 14,
-    "dmg": 3,
-    "damageDie": "1d8",
-    "traitIds": ["ma-0003"],
-    "powerIds": ["ma-0004"]
+    "hp": 24,
+    "ar": 15,
+    "dr": 15,
+    "mr": 12,
+    "av": 2,
+    "spd": 16,
+    "attacks": [
+      {
+        "name": "Throwing Knives",
+        "range": "Ranged. Nearby",
+        "damage": "1d4+5"
+      },
+      {
+        "name": "Shortblade",
+        "range": "Melee",
+        "damage": "1d6+5"
+      }
+    ],
+    "traitIds": [
+      "ma-024"
+    ],
+    "powerIds": [
+      "ma-025",
+      "ma-026"
+    ],
+    "might": 3,
+    "agility": 4,
+    "mind": 2,
+    "presence": 1
   },
   {
-    "id": "a1b2c3d4-0004-0004-0004-000000000004",
+    "id": "m-032",
     "name": "Vampire Lord",
-    "dangerLevel": 8,
+    "dangerLevel": 10,
     "type": "Elite",
     "size": "Medium",
     "faction": "The Risen",
-    "xp": 275,
-    "hp": 70,
+    "xp": 8000,
+    "hp": 400,
+    "ar": 19,
+    "dr": 22,
+    "mr": 18,
+    "av": 5,
+    "spd": 19,
+    "attacks": [
+      {
+        "name": "Claws (2)",
+        "range": "Melee",
+        "damage": "2d6+14"
+      },
+      {
+        "name": "Bite",
+        "range": "Melee",
+        "damage": "1d20+12 True"
+      }
+    ],
+    "traitIds": [
+      "ma-011",
+      "ma-017",
+      "ma-018",
+      "ma-019",
+      "ma-020",
+      "ma-021",
+      "ma-022",
+      "ma-023"
+    ],
+    "powerIds": [
+      "ma-012",
+      "ma-013",
+      "ma-014",
+      "ma-015",
+      "ma-016"
+    ],
+    "might": 14,
+    "agility": 12,
+    "mind": 11,
+    "presence": 10
+  },
+  {
+    "id": "m-033",
+    "name": "Vorathian Imp",
+    "dangerLevel": 2,
+    "type": "Standard",
+    "size": "Small",
+    "faction": "Vorathian",
+    "xp": 30,
+    "hp": 19,
+    "ar": 13,
+    "dr": 15,
+    "mr": 10,
+    "av": 0,
+    "spd": 13,
+    "attacks": [
+      {
+        "name": "Claw",
+        "range": "Melee",
+        "damage": "1d8+3"
+      }
+    ],
+    "traitIds": [
+      "ma-111"
+    ],
+    "powerIds": [
+      "ma-110",
+      "ma-112"
+    ],
+    "might": 2,
+    "agility": 2,
+    "mind": 0,
+    "presence": 0
+  },
+  {
+    "id": "m-034",
+    "name": "Vorathian Overseer",
+    "dangerLevel": 5,
+    "type": "Standard",
+    "size": "Large",
+    "faction": "Vorathian",
+    "xp": 120,
+    "hp": 50,
     "ar": 16,
-    "dr": 21,
-    "mr": 19,
+    "dr": 18,
+    "mr": 15,
     "av": 3,
-    "spd": 16,
-    "dmg": 8,
-    "damageDie": "2d6",
-    "traitIds": ["ma-0005"],
-    "powerIds": ["ma-0006", "ma-0007"]
+    "spd": 15,
+    "attacks": [
+      {
+        "name": "Fell Whip",
+        "range": "Ranged. Nearby",
+        "damage": "1d8+6"
+      },
+      {
+        "name": "Punch",
+        "range": "Melee",
+        "damage": "1d10+6"
+      }
+    ],
+    "traitIds": [],
+    "powerIds": [
+      "ma-113",
+      "ma-114",
+      "ma-115",
+      "ma-116"
+    ],
+    "might": 5,
+    "agility": 4,
+    "mind": 3,
+    "presence": 3
+  },
+  {
+    "id": "m-035",
+    "name": "Vermisidon",
+    "dangerLevel": 6,
+    "type": "Elite",
+    "size": "Massive",
+    "faction": "Wilderness",
+    "xp": 1000,
+    "hp": 220,
+    "ar": 18,
+    "dr": 17,
+    "mr": 17,
+    "av": 5,
+    "spd": 17,
+    "attacks": [
+      {
+        "name": "Mandible Crush",
+        "range": "Melee. Adjacent",
+        "damage": "2d8+11"
+      }
+    ],
+    "traitIds": [
+      "ma-120",
+      "ma-121"
+    ],
+    "powerIds": [
+      "ma-117",
+      "ma-118",
+      "ma-119"
+    ],
+    "might": 10,
+    "agility": 5,
+    "mind": 5,
+    "presence": 0
+  },
+  {
+    "id": "m-036",
+    "name": "Zakari Marksman",
+    "dangerLevel": 3,
+    "type": "Standard",
+    "size": "Medium",
+    "faction": "Zakari",
+    "xp": 60,
+    "hp": 25,
+    "ar": 16,
+    "dr": 16,
+    "mr": 12,
+    "av": 1,
+    "spd": 15,
+    "attacks": [
+      {
+        "name": "Longbow",
+        "range": "Ranged. Very Far",
+        "damage": "1d8+3"
+      },
+      {
+        "name": "Spear",
+        "range": "Melee",
+        "damage": "1d6+3"
+      }
+    ],
+    "traitIds": [
+      "ma-105"
+    ],
+    "powerIds": [
+      "ma-106",
+      "ma-107",
+      "ma-108"
+    ],
+    "might": 2,
+    "agility": 4,
+    "mind": 2,
+    "presence": 1
   }
 ]

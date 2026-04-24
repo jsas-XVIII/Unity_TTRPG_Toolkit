@@ -131,8 +131,8 @@ All nine classes are defined in `constants/classes.ts` as `ClassDefinition[]`, e
 `DL_RANGES` (indexed by DL 1–10, sourced from Chapter VIII Monster Creation Table) stores `[min, max]` tuples per stat. Out-of-range fields get amber styling + a "suggested: X–Y" hint. Saving with out-of-range stats shows a confirmation step. "Apply baseline" fills all stats with DL minimums. The `dlColor()` helper uses if/else ranges (not numeric Record keys — ESLint naming-convention violation).
 
 **Next up — Monster Creator:**
-1. Add remaining monsters and abilities to `monsters.json` / `monster-abilities.json` (correct stats from PDF)
-2. Monster **template** system: a template is a named set of stat deltas and ability additions/removals that the GM applies to any monster on the fly during a combat encounter (e.g. "Enraged +5 HP, +1 DMG" or "Blessed +2 AR"). Templates are not persisted to a monster — they are a transient overlay.
+--Resume here--
+1. Monster **template** system: a template is a named set of stat deltas and ability additions/removals that the GM applies to any monster on the fly during a combat encounter (e.g. "Enraged +5 HP, +1 DMG" or "Blessed +2 AR"). Templates are not persisted to a monster — they are a transient overlay.
 
 ### Game reference docs
 

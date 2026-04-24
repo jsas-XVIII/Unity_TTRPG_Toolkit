@@ -1,5 +1,15 @@
-import type { Monster } from '../../../types/monster'
-import { resolveTraits, resolvePowers } from '../../../data/monstersData'
+import { useState } from 'react'
+import type { Monster, MonsterTemplate } from '../../../types/monster'
+import {
+  resolveTraits,
+  resolvePowers,
+  getAllTemplates,
+  applyTemplates,
+} from '../../../data/monstersData'
+
+function resolveName(text: string, name: string): string {
+  return text.replace(/\[NAME\]/g, name)
+}
 
 interface Props {
   monster: Monster
@@ -15,10 +25,64 @@ function dlColor(dl: number): string {
   return 'bg-red-900 text-red-300'
 }
 
+function deltaLabel(delta: number): string {
+  return delta > 0 ? `+${delta}` : `${delta}`
+}
+
+function StatBox({
+  label,
+  value,
+  delta,
+  color = 'text-white',
+}: {
+  label: string
+  value: number
+  delta?: number
+  color?: string
+}) {
+  const hasDelta = delta !== undefined && delta !== 0
+  return (
+    <div className="bg-gray-900 rounded p-2">
+      <p className="text-xs text-gray-500 uppercase">{label}</p>
+      <p className={`text-lg font-bold ${color}`}>
+        {value}
+        {hasDelta && (
+          <span className={`text-xs ml-1 ${delta! > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            ({deltaLabel(delta!)})
+          </span>
+        )}
+      </p>
+    </div>
+  )
+}
+
 export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props) {
-  const traits = resolveTraits(monster)
-  const powers = resolvePowers(monster)
+  const allTemplates = getAllTemplates()
+  const [activeTemplateIds, setActiveTemplateIds] = useState<string[]>([])
+
+  const activeTemplates: MonsterTemplate[] = activeTemplateIds
+    .map((id) => allTemplates.find((t) => t.id === id))
+    .filter((t): t is MonsterTemplate => t !== undefined)
+
+  const displayed = applyTemplates(monster, activeTemplates)
+
+  const traits = resolveTraits(displayed)
+  const powers = resolvePowers(displayed)
   const isElite = monster.type === 'Elite'
+
+  function toggleTemplate(id: string) {
+    setActiveTemplateIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    )
+  }
+
+  function statDelta(key: keyof Monster): number {
+    return activeTemplates.reduce((sum, t) => {
+      const deltaKey = `${key}Delta` as keyof MonsterTemplate
+      const v = t[deltaKey]
+      return sum + (typeof v === 'number' ? v : 0)
+    }, 0)
+  }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
@@ -47,6 +111,38 @@ export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props)
             </button>
           )}
         </div>
+      </div>
+
+      {/* Template selector */}
+      <div className="mb-3">
+        <p className="text-xs text-gray-500 uppercase tracking-widest mb-1.5">Templates</p>
+        <div className="flex flex-wrap gap-1.5">
+          {allTemplates.map((t) => {
+            const active = activeTemplateIds.includes(t.id)
+            return (
+              <button
+                key={t.id}
+                onClick={() => toggleTemplate(t.id)}
+                title={t.description}
+                className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                  active
+                    ? 'bg-amber-700 border-amber-500 text-amber-100'
+                    : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200'
+                }`}
+              >
+                {t.name}
+              </button>
+            )
+          })}
+        </div>
+        {activeTemplates.length > 0 && (
+          <button
+            onClick={() => setActiveTemplateIds([])}
+            className="mt-1.5 text-xs text-gray-600 hover:text-gray-400 transition-colors"
+          >
+            Clear all
+          </button>
+        )}
       </div>
 
       {/* Header */}
@@ -87,23 +183,63 @@ export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props)
       )}
 
       {/* Core Stats */}
-      <div className="bg-gray-800 px-5 py-4 grid grid-cols-4 gap-3 text-center">
-        {[
-          { label: 'HP', value: monster.hp },
-          { label: 'AR', value: monster.ar },
-          { label: 'DR', value: monster.dr },
-          { label: 'MR', value: monster.mr },
-          { label: 'AV', value: monster.av },
-          { label: 'SPD', value: monster.spd },
-          { label: 'DMG', value: `+${monster.dmg}` },
-          { label: 'Die', value: monster.damageDie },
-        ].map(({ label, value }) => (
-          <div key={label} className="bg-gray-900 rounded p-2">
-            <p className="text-xs text-gray-500 uppercase">{label}</p>
-            <p className="text-lg font-bold text-white">{value}</p>
-          </div>
+      <div className="bg-gray-800 px-5 py-4 grid grid-cols-3 gap-3 text-center">
+        {(
+          [
+            { label: 'HP', key: 'hp' },
+            { label: 'AR', key: 'ar' },
+            { label: 'DR', key: 'dr' },
+            { label: 'MR', key: 'mr' },
+            { label: 'AV', key: 'av' },
+            { label: 'SPD', key: 'spd' },
+          ] as { label: string; key: keyof Monster }[]
+        ).map(({ label, key }) => (
+          <StatBox
+            key={label}
+            label={label}
+            value={displayed[key] as number}
+            delta={statDelta(key)}
+          />
         ))}
       </div>
+
+      {/* Attributes */}
+      <div className="bg-gray-800 px-5 py-3 grid grid-cols-4 gap-3 text-center mt-0.5">
+        {(
+          [
+            { label: 'Might', key: 'might' },
+            { label: 'Agility', key: 'agility' },
+            { label: 'Mind', key: 'mind' },
+            { label: 'Presence', key: 'presence' },
+          ] as { label: string; key: keyof Monster }[]
+        ).map(({ label, key }) => (
+          <StatBox
+            key={label}
+            label={label}
+            value={displayed[key] as number}
+            delta={statDelta(key)}
+            color="text-amber-400"
+          />
+        ))}
+      </div>
+
+      {/* Attacks */}
+      {monster.attacks.length > 0 && (
+        <div className="bg-gray-900 px-5 py-4 mt-1">
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
+            Attacks
+          </h2>
+          <div className="space-y-1.5">
+            {monster.attacks.map((a, i) => (
+              <div key={i} className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                <p className="text-sm font-semibold text-white">{a.name}</p>
+                <p className="text-xs text-gray-500">{a.range}</p>
+                <p className="text-sm text-gray-300">{a.damage}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Traits */}
       {traits.length > 0 && (
@@ -113,7 +249,9 @@ export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props)
             {traits.map((t) => (
               <div key={t.id}>
                 <p className="text-sm font-semibold text-amber-300">{t.name}</p>
-                <p className="text-sm text-gray-400 mt-0.5">{t.description}</p>
+                <p className="text-sm text-gray-400 mt-0.5">
+                  {resolveName(t.description, monster.name)}
+                </p>
               </div>
             ))}
           </div>
@@ -140,7 +278,9 @@ export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props)
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-400 mt-0.5">{p.description}</p>
+                <p className="text-sm text-gray-400 mt-0.5">
+                  {resolveName(p.description, monster.name)}
+                </p>
               </div>
             ))}
           </div>

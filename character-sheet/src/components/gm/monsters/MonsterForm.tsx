@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import type { Monster, MonsterAbility, MonsterAbilityKind } from '../../../types/monster'
+import type {
+  Monster,
+  MonsterAbility,
+  MonsterAbilityKind,
+  MonsterAttack,
+} from '../../../types/monster'
 import { getAllAbilities } from '../../../data/monstersData'
 import { addHomebrewAbility } from '../../../services/monsterStorage'
 
@@ -30,7 +35,6 @@ interface DLRange {
   ar: StatRange
   dr: StatRange
   mr: StatRange
-  dmg: StatRange
   av: StatRange
   spd: StatRange
   xp: StatRange
@@ -46,7 +50,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [11, 13],
     dr: [13, 16],
     mr: [11, 14],
-    dmg: [1, 3],
     av: [0, 1],
     spd: [11, 13],
     xp: [10, 20],
@@ -56,7 +59,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [11, 13],
     dr: [14, 16],
     mr: [12, 14],
-    dmg: [2, 3],
     av: [0, 2],
     spd: [11, 13],
     xp: [20, 40],
@@ -66,7 +68,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [12, 15],
     dr: [15, 17],
     mr: [13, 15],
-    dmg: [2, 4],
     av: [0, 2],
     spd: [12, 15],
     xp: [40, 60],
@@ -76,7 +77,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [12, 16],
     dr: [16, 18],
     mr: [14, 16],
-    dmg: [3, 4],
     av: [0, 3],
     spd: [12, 16],
     xp: [60, 100],
@@ -86,7 +86,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [13, 16],
     dr: [17, 20],
     mr: [15, 18],
-    dmg: [4, 5],
     av: [0, 3],
     spd: [13, 16],
     xp: [100, 150],
@@ -96,7 +95,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [13, 16],
     dr: [18, 21],
     mr: [16, 19],
-    dmg: [5, 7],
     av: [0, 4],
     spd: [13, 16],
     xp: [150, 200],
@@ -106,7 +104,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [14, 17],
     dr: [19, 22],
     mr: [17, 20],
-    dmg: [6, 7],
     av: [0, 4],
     spd: [14, 17],
     xp: [200, 250],
@@ -116,7 +113,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [14, 18],
     dr: [19, 22],
     mr: [17, 20],
-    dmg: [8, 9],
     av: [0, 5],
     spd: [14, 18],
     xp: [250, 300],
@@ -126,7 +122,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [15, 18],
     dr: [21, 23],
     mr: [19, 21],
-    dmg: [8, 10],
     av: [0, 5],
     spd: [15, 18],
     xp: [300, 350],
@@ -136,7 +131,6 @@ const DL_RANGES: (DLRange | null)[] = [
     ar: [15, 20],
     dr: [22, 25],
     mr: [20, 23],
-    dmg: [9, 10],
     av: [0, 6],
     spd: [15, 20],
     xp: [350, 400],
@@ -336,8 +330,11 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
   const [mr, setMr] = useState(String(initial?.mr ?? 0))
   const [av, setAv] = useState(String(initial?.av ?? 0))
   const [spd, setSpd] = useState(String(initial?.spd ?? 0))
-  const [dmg, setDmg] = useState(String(initial?.dmg ?? 0))
-  const [damageDie, setDamageDie] = useState(initial?.damageDie ?? '1d6')
+  const [might, setMight] = useState(String(initial?.might ?? 0))
+  const [agility, setAgility] = useState(String(initial?.agility ?? 0))
+  const [mind, setMind] = useState(String(initial?.mind ?? 0))
+  const [presence, setPresence] = useState(String(initial?.presence ?? 0))
+  const [attacks, setAttacks] = useState<MonsterAttack[]>(initial?.attacks ?? [])
   const [traitIds, setTraitIds] = useState<string[]>(initial?.traitIds ?? [])
   const [powerIds, setPowerIds] = useState<string[]>(initial?.powerIds ?? [])
   const [imageUrl, setImageUrl] = useState(initial?.imageUrl ?? '')
@@ -356,7 +353,6 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
     ar: Number(ar) || 0,
     dr: Number(dr) || 0,
     mr: Number(mr) || 0,
-    dmg: Number(dmg) || 0,
     av: Number(av) || 0,
     spd: Number(spd) || 0,
     xp: Number(xp) || 0,
@@ -370,7 +366,6 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
     setAr(String(range.ar[0]))
     setDr(String(range.dr[0]))
     setMr(String(range.mr[0]))
-    setDmg(String(range.dmg[0]))
     setAv(String(range.av[0]))
     setSpd(String(range.spd[0]))
     setXp(String(range.xp[0]))
@@ -424,8 +419,11 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
       mr: Number(mr) || 0,
       av: Number(av) || 0,
       spd: Number(spd) || 0,
-      dmg: Number(dmg) || 0,
-      damageDie: damageDie.trim() || '1d6',
+      might: Number(might) || 0,
+      agility: Number(agility) || 0,
+      mind: Number(mind) || 0,
+      presence: Number(presence) || 0,
+      attacks,
       traitIds,
       powerIds,
       imageUrl: imageUrl.trim() || undefined,
@@ -455,8 +453,19 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
     { label: 'MR', value: mr, set: setMr, rangeKey: 'mr' },
     { label: 'AV', value: av, set: setAv, rangeKey: 'av' },
     { label: 'SPD', value: spd, set: setSpd, rangeKey: 'spd' },
-    { label: 'DMG +', value: dmg, set: setDmg, rangeKey: 'dmg' },
   ]
+
+  function addAttack() {
+    setAttacks((prev) => [...prev, { name: '', range: 'Melee', damage: '' }])
+  }
+
+  function updateAttack(i: number, field: keyof MonsterAttack, value: string) {
+    setAttacks((prev) => prev.map((a, idx) => (idx === i ? { ...a, [field]: value } : a)))
+  }
+
+  function removeAttack(i: number) {
+    setAttacks((prev) => prev.filter((_, idx) => idx !== i))
+  }
 
   const xpOutOfRange = outOfRange.has('xp')
 
@@ -542,7 +551,7 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
                 onChange={(e) => setSize(e.target.value as Monster['size'])}
                 className={inputCls}
               >
-                {(['Small', 'Medium', 'Large', 'Colossal'] as const).map((s) => (
+                {(['Small', 'Medium', 'Large', 'Massive', 'Colossal'] as const).map((s) => (
                   <option key={s} value={s}>
                     {s}
                   </option>
@@ -589,7 +598,7 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
         <section className="bg-gray-900 rounded-lg p-4 space-y-3">
           <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Stats</h2>
 
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             {statFields.map(({ label, value, set, rangeKey }) => {
               const isOut = outOfRange.has(rangeKey)
               return (
@@ -616,16 +625,92 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
                 </div>
               )
             })}
-            <div>
-              <label className={labelCls}>Damage Die</label>
-              <input
-                type="text"
-                value={damageDie}
-                onChange={(e) => setDamageDie(e.target.value)}
-                className={inputCls}
-                placeholder="1d6"
-              />
-            </div>
+          </div>
+        </section>
+
+        {/* Attributes */}
+        <section className="bg-gray-900 rounded-lg p-4 space-y-3">
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Attributes</h2>
+          <div className="grid grid-cols-4 gap-3">
+            {(
+              [
+                { label: 'Might', value: might, set: setMight },
+                { label: 'Agility', value: agility, set: setAgility },
+                { label: 'Mind', value: mind, set: setMind },
+                { label: 'Presence', value: presence, set: setPresence },
+              ] as { label: string; value: string; set: (v: string) => void }[]
+            ).map(({ label, value, set }) => (
+              <div key={label}>
+                <label className={labelCls}>{label}</label>
+                <input
+                  type="number"
+                  value={value}
+                  onChange={(e) => set(e.target.value)}
+                  className={inputCls}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Attacks */}
+        <section className="bg-gray-900 rounded-lg p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Attacks</h2>
+            <button
+              type="button"
+              onClick={addAttack}
+              className="text-xs text-amber-400 hover:text-amber-300 transition-colors"
+            >
+              + Add Attack
+            </button>
+          </div>
+
+          {attacks.length === 0 && <p className="text-xs text-gray-600 italic">No attacks yet.</p>}
+
+          <div className="space-y-2">
+            {attacks.map((atk, i) => (
+              <div key={i} className="flex gap-2 items-end">
+                <div className="flex-1">
+                  {i === 0 && <label className={labelCls}>Name</label>}
+                  <input
+                    type="text"
+                    value={atk.name}
+                    onChange={(e) => updateAttack(i, 'name', e.target.value)}
+                    className={inputCls}
+                    placeholder="e.g. Melee Attack"
+                  />
+                </div>
+                <div className="flex-1">
+                  {i === 0 && <label className={labelCls}>Range</label>}
+                  <input
+                    type="text"
+                    value={atk.range}
+                    onChange={(e) => updateAttack(i, 'range', e.target.value)}
+                    className={inputCls}
+                    placeholder="e.g. Melee"
+                  />
+                </div>
+                <div className="flex-1">
+                  {i === 0 && <label className={labelCls}>Damage</label>}
+                  <input
+                    type="text"
+                    value={atk.damage}
+                    onChange={(e) => updateAttack(i, 'damage', e.target.value)}
+                    className={inputCls}
+                    placeholder="e.g. 1d8+4"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeAttack(i)}
+                  className={`text-gray-600 hover:text-red-400 transition-colors text-sm shrink-0 ${i === 0 ? 'mb-0' : ''}`}
+                  style={{ paddingBottom: '6px' }}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
           </div>
         </section>
 

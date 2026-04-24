@@ -1,6 +1,12 @@
 export type MonsterType = 'Standard' | 'Elite'
-export type MonsterSize = 'Small' | 'Medium' | 'Large' | 'Colossal'
+export type MonsterSize = 'Small' | 'Medium' | 'Large' | 'Massive' | 'Colossal'
 export type MonsterAbilityKind = 'trait' | 'power'
+
+export interface MonsterAttack {
+  name: string
+  range: string
+  damage: string
+}
 
 export interface MonsterAbility {
   id: string
@@ -9,6 +15,26 @@ export interface MonsterAbility {
   ruinCost?: number | null
   recharge?: number | null
   description: string
+}
+
+export interface MonsterTemplate {
+  id: string
+  name: string
+  description?: string
+  hpDelta: number
+  arDelta: number
+  drDelta: number
+  mrDelta: number
+  avDelta: number
+  spdDelta: number
+  mightDelta: number
+  agilityDelta: number
+  mindDelta: number
+  presenceDelta: number
+  addTraitIds: string[]
+  removeTraitIds: string[]
+  addPowerIds: string[]
+  removePowerIds: string[]
 }
 
 export interface Monster {
@@ -25,8 +51,11 @@ export interface Monster {
   mr: number
   av: number
   spd: number
-  dmg: number
-  damageDie: string
+  might: number
+  agility: number
+  mind: number
+  presence: number
+  attacks: MonsterAttack[]
   traitIds: string[]
   powerIds: string[]
   imageUrl?: string
