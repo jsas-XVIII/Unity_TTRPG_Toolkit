@@ -1,36 +1,43 @@
 import type { Monster, MonsterAbility } from '../types/monster'
 import monstersJson from './monsters.json'
 import abilitiesJson from './monster-abilities.json'
+import { getHomebrewMonsters, getHomebrewAbilities } from '../services/monsterStorage'
 
-const monstersData = monstersJson as Monster[]
-const abilitiesData = abilitiesJson as MonsterAbility[]
+const staticMonsters = monstersJson as Monster[]
+const staticAbilities = abilitiesJson as MonsterAbility[]
 
 export function getAllMonsters(): Monster[] {
-  return monstersData
+  return [...staticMonsters, ...getHomebrewMonsters()]
 }
 
 export function getMonsterById(id: string): Monster | undefined {
-  return monstersData.find((m) => m.id === id)
+  return getAllMonsters().find((m) => m.id === id)
 }
 
 export function getMonstersByFaction(faction: string): Monster[] {
-  return monstersData.filter((m) => m.faction === faction)
+  return getAllMonsters().filter((m) => m.faction === faction)
 }
 
 export function getMonstersByDangerLevel(dl: number): Monster[] {
-  return monstersData.filter((m) => m.dangerLevel === dl)
+  return getAllMonsters().filter((m) => m.dangerLevel === dl)
 }
 
 export function getFactions(): string[] {
-  return [...new Set(monstersData.map((m) => m.faction).filter((f): f is string => f !== null))]
+  return [
+    ...new Set(
+      getAllMonsters()
+        .map((m) => m.faction)
+        .filter((f): f is string => f !== null)
+    ),
+  ]
 }
 
 export function getAllAbilities(): MonsterAbility[] {
-  return abilitiesData
+  return [...staticAbilities, ...getHomebrewAbilities()]
 }
 
 export function getAbilityById(id: string): MonsterAbility | undefined {
-  return abilitiesData.find((a) => a.id === id)
+  return getAllAbilities().find((a) => a.id === id)
 }
 
 export function resolveTraits(monster: Monster): MonsterAbility[] {

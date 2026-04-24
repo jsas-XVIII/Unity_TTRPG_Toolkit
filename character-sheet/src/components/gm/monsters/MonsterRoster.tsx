@@ -1,11 +1,20 @@
 import { useState } from 'react'
 import type { Monster } from '../../../types/monster'
 import { getAllMonsters, getFactions } from '../../../data/monstersData'
+import {
+  addHomebrewMonster,
+  updateHomebrewMonster,
+  deleteHomebrewMonster,
+  isHomebrew,
+} from '../../../services/monsterStorage'
 import MonsterCard from './MonsterCard'
+import MonsterForm from './MonsterForm'
 
 interface Props {
   onBack: () => void
 }
+
+type RosterView = 'list' | 'card' | 'form'
 
 function dlColor(dl: number): string {
   if (dl <= 3) return 'bg-green-900 text-green-300'
@@ -15,9 +24,13 @@ function dlColor(dl: number): string {
 }
 
 export default function MonsterRoster({ onBack }: Props) {
+  const [view, setView] = useState<RosterView>('list')
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [editingMonster, setEditingMonster] = useState<Monster | undefined>()
   const [factionFilter, setFactionFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'Standard' | 'Elite'>('all')
+  const [, forceUpdate] = useState(0)
+  const refresh = () => forceUpdate((n) => n + 1)
 
   const allMonsters = getAllMonsters()
   const factions = getFactions()
@@ -30,9 +43,57 @@ export default function MonsterRoster({ onBack }: Props) {
 
   const sorted = [...filtered].sort((a, b) => a.dangerLevel - b.dangerLevel)
 
-  if (selectedId) {
+  function handleSave(monster: Monster) {
+    if (editingMonster) {
+      updateHomebrewMonster(monster)
+    } else {
+      addHomebrewMonster(monster)
+    }
+    refresh()
+    setEditingMonster(undefined)
+    setView('list')
+  }
+
+  function handleDelete(id: string) {
+    deleteHomebrewMonster(id)
+    refresh()
+    setEditingMonster(undefined)
+    setSelectedId(null)
+    setView('list')
+  }
+
+  if (view === 'form') {
+    return (
+      <MonsterForm
+        initial={editingMonster}
+        onSave={handleSave}
+        onCancel={() => {
+          setView(editingMonster && selectedId ? 'card' : 'list')
+          setEditingMonster(undefined)
+        }}
+        onDelete={editingMonster ? () => handleDelete(editingMonster.id) : undefined}
+      />
+    )
+  }
+
+  if (view === 'card' && selectedId) {
     const monster = allMonsters.find((m) => m.id === selectedId)
-    if (monster) return <MonsterCard monster={monster} onBack={() => setSelectedId(null)} />
+    if (monster) {
+      return (
+        <MonsterCard
+          monster={monster}
+          onBack={() => setView('list')}
+          onEdit={
+            isHomebrew(monster.id)
+              ? () => {
+                  setEditingMonster(monster)
+                  setView('form')
+                }
+              : undefined
+          }
+        />
+      )
+    }
   }
 
   return (
@@ -46,6 +107,17 @@ export default function MonsterRoster({ onBack }: Props) {
         </button>
         <h1 className="text-xl font-bold text-gray-100">Monster Compendium</h1>
         <span className="text-xs text-gray-500">{filtered.length} entries</span>
+        <div className="ml-auto">
+          <button
+            onClick={() => {
+              setEditingMonster(undefined)
+              setView('form')
+            }}
+            className="text-xs px-3 py-1.5 rounded bg-amber-700 hover:bg-amber-600 text-white transition-colors"
+          >
+            + New Monster
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -85,35 +157,60 @@ export default function MonsterRoster({ onBack }: Props) {
         <p className="text-sm text-gray-500 italic">No monsters match the current filters.</p>
       ) : (
         <div className="space-y-2">
-          {sorted.map((m: Monster) => (
-            <button
-              key={m.id}
-              onClick={() => setSelectedId(m.id)}
-              className="w-full text-left bg-gray-900 hover:bg-gray-800 border border-gray-800 hover:border-gray-600 rounded-lg px-4 py-3 transition-all"
-            >
-              <div className="flex items-center gap-3">
-                <span
-                  className={`text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${dlColor(m.dangerLevel)}`}
+          {sorted.map((m: Monster) => {
+            const homebrew = isHomebrew(m.id)
+            return (
+              <div key={m.id} className="relative group">
+                <button
+                  onClick={() => {
+                    setSelectedId(m.id)
+                    setView('card')
+                  }}
+                  className="w-full text-left bg-gray-900 hover:bg-gray-800 border border-gray-800 hover:border-gray-600 rounded-lg px-4 py-3 transition-all"
                 >
-                  DL {m.dangerLevel}
-                </span>
-                <span
-                  className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${m.type === 'Elite' ? 'bg-purple-900 text-purple-300' : 'bg-red-950 text-red-400'}`}
-                >
-                  {m.type}
-                </span>
-                <span className="font-semibold text-gray-100 flex-1">{m.name}</span>
-                <span className="text-xs text-gray-500 shrink-0">{m.faction ?? '—'}</span>
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${dlColor(m.dangerLevel)}`}
+                    >
+                      DL {m.dangerLevel}
+                    </span>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${m.type === 'Elite' ? 'bg-purple-900 text-purple-300' : 'bg-red-950 text-red-400'}`}
+                    >
+                      {m.type}
+                    </span>
+                    <span className="font-semibold text-gray-100 flex-1">{m.name}</span>
+                    {homebrew && (
+                      <span className="text-xs px-1.5 py-0.5 rounded bg-gray-700 text-gray-400 shrink-0">
+                        Homebrew
+                      </span>
+                    )}
+                    <span className="text-xs text-gray-500 shrink-0">{m.faction ?? '—'}</span>
+                  </div>
+                  <div className="flex gap-4 mt-1.5 ml-1 text-xs text-gray-500">
+                    <span>HP {m.hp}</span>
+                    <span>AR {m.ar}</span>
+                    <span>DR {m.dr}</span>
+                    <span>MR {m.mr}</span>
+                    <span>{m.xp} XP</span>
+                  </div>
+                </button>
+                {homebrew && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedId(m.id)
+                      setEditingMonster(m)
+                      setView('form')
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 text-xs text-amber-400 hover:text-amber-300 px-2 py-1 transition-all"
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
-              <div className="flex gap-4 mt-1.5 ml-1 text-xs text-gray-500">
-                <span>HP {m.hp}</span>
-                <span>AR {m.ar}</span>
-                <span>DR {m.dr}</span>
-                <span>MR {m.mr}</span>
-                <span>{m.xp} XP</span>
-              </div>
-            </button>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>

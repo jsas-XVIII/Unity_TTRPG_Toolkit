@@ -4,6 +4,7 @@ import { resolveTraits, resolvePowers } from '../../../data/monstersData'
 interface Props {
   monster: Monster
   onBack: () => void
+  onEdit?: () => void
 }
 
 function dlColor(dl: number): string {
@@ -13,19 +14,29 @@ function dlColor(dl: number): string {
   return 'bg-red-900 text-red-300'
 }
 
-export default function MonsterCard({ monster, onBack }: Props) {
+export default function MonsterCard({ monster, onBack, onEdit }: Props) {
   const traits = resolveTraits(monster)
   const powers = resolvePowers(monster)
   const isElite = monster.type === 'Elite'
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
-      <button
-        onClick={onBack}
-        className="mb-4 text-xs text-gray-400 hover:text-gray-200 transition-colors"
-      >
-        ← Back to Compendium
-      </button>
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={onBack}
+          className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+        >
+          ← Back to Compendium
+        </button>
+        {onEdit && (
+          <button
+            onClick={onEdit}
+            className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-amber-600 hover:text-amber-400 transition-colors"
+          >
+            Edit
+          </button>
+        )}
+      </div>
 
       {/* Header */}
       <div
