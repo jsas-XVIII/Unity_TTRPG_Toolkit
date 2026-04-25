@@ -146,21 +146,24 @@ All GM-managed game content (powers, perks, monsters) follows a two-layer model:
 
 ### GM Tools — Powers & Perks (branch: GM_Powers_Perks_Tool)
 
---Resume here--
+**Done:**
+- `data/perks.json` + `data/perksData.ts` — static perks (gp-001…gp-012), `getAllPerks`/`getPerkById`/`isOfficialPerk` with homebrew merge
+- `services/powersStorage.ts` + `services/perksStorage.ts` — CRUD for both homebrew stores
+- `data/powersData.ts` — homebrew merged into `getPowersByClass` / `getPowerById`
+- `components/gm/powers/PowersPanel` + `PowerEditorForm` — class tabs, tier filter, search; View/Edit per row; all fields; inline upgrade CRUD; multi-action types; Range select
+- `components/gm/perks/PerksPanel` + `PerkEditorForm` — flat list; same View/Edit/readOnly pattern
+- `types/character.ts` — `Power.additionalActionTypes?: ActionType[]`
+- Tests: `PowerEditorForm.test.tsx`, `PowersPanel.test.tsx`, `PerkEditorForm.test.tsx`, `PerksPanel.test.tsx`
 
-**Plan:**
-- Migrate `constants/perks.ts` → `data/perks.json` (add stable IDs `gp-001`…`gp-012`)
-- `data/perksData.ts` — `getAllPerks()`, `getPerkById()` with homebrew merge
-- `services/powersStorage.ts` — CRUD for `unity_ttrpg_homebrew_powers`
-- `services/perksStorage.ts` — CRUD for `unity_ttrpg_homebrew_perks`
-- Update `data/powersData.ts` — merge homebrew layer into `getPowersByClass` / `getPowerById`
-- `components/gm/powers/PowersPanel` — class tabs + tier filter + search; edit/delete per entry; "New Power" button
-- `components/gm/powers/PowerEditorForm` — all fields + inline upgrade CRUD; class/tier locked for official, picker for new homebrew
-- `components/gm/perks/PerksPanel` — flat list + "New Perk" button
-- `components/gm/perks/PerkEditorForm` — name + description; reset for official, delete for homebrew
+**UI conventions (all GM editor panels):**
+- List rows: static div + **View** (gray border) + **Edit** (amber border) — no clickable row
+- View mode: "View: {name}" title, "← Back" button, all inputs readOnly/disabled, action bar hidden
+- Edit mode: "Edit: {name}" title, "← Cancel" button, Save/Reset/Delete visible
+- Cancel/Back button style: `border border-gray-700 text-gray-400 hover:border-gray-500`
+
+**--Resume here-- (remaining):**
 - Export Content Pack button (GM side) — downloads `unity-content-pack.json`
 - Import Content Pack card on HomeScreen (player side) — merges into localStorage
-- GMDashboard — add Powers and Perks cards
 
 ### Game reference docs
 

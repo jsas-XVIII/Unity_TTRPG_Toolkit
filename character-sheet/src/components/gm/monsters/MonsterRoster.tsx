@@ -9,16 +9,13 @@ import {
 } from '../../../services/monsterStorage'
 import MonsterCard from './MonsterCard'
 import MonsterForm from './MonsterForm'
+import { uid } from '../../../utils/idGenerator'
 
 interface Props {
   onBack: () => void
 }
 
 type RosterView = 'list' | 'card' | 'form'
-
-function uid(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
-}
 
 function dlColor(dl: number): string {
   if (dl <= 3) return 'bg-green-900 text-green-300'

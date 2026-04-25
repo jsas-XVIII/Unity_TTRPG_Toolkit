@@ -7,13 +7,10 @@ import {
   getHomebrewPerks,
 } from '../../../services/perksStorage'
 import PerkEditorForm from './PerkEditorForm'
+import { uid } from '../../../utils/idGenerator'
 
 interface Props {
   onBack: () => void
-}
-
-function uid(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
 }
 
 export default function PerksPanel({ onBack }: Props) {

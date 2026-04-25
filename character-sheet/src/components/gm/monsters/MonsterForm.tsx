@@ -7,6 +7,7 @@ import type {
 } from '../../../types/monster'
 import { getAllAbilities } from '../../../data/monstersData'
 import { addHomebrewAbility } from '../../../services/monsterStorage'
+import { uid } from '../../../utils/idGenerator'
 
 interface Props {
   initial?: Monster
@@ -23,10 +24,6 @@ interface AbilityDraft {
 }
 
 const emptyDraft: AbilityDraft = { name: '', description: '', ruinCost: '', recharge: '' }
-
-function uid(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
-}
 
 type StatRange = [number, number]
 

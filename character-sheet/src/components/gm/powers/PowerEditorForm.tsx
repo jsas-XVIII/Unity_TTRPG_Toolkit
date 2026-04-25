@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Power, PowerUpgrade, ActionType, ClassName } from '../../../types/character'
 import type { HomebrewPower } from '../../../services/powersStorage'
 import { CLASS_NAMES } from '../../../data/powersData'
+import { uid } from '../../../utils/idGenerator'
 
 interface Props {
   initial: HomebrewPower
@@ -40,10 +41,6 @@ const RANGES = ['Self', 'Adjacent', 'Nearby', 'Far', 'Very Far', 'See Effects', 
 const inputCls =
   'w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-500'
 const labelCls = 'block text-xs text-gray-400 mb-1'
-
-function uid(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
-}
 
 export default function PowerEditorForm({
   initial,
