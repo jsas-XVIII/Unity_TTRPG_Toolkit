@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Power, PowerUpgrade, ActionType, ClassName } from '../../../types/character'
 import type { HomebrewPower } from '../../../services/powersStorage'
 import { CLASS_NAMES } from '../../../data/powersData'
-import { uid } from '../../../utils/idGenerator'
+import PowerUpgradeEditor from './PowerUpgradeEditor'
 
 interface Props {
   initial: HomebrewPower
@@ -84,21 +84,6 @@ export default function PowerEditorForm({
       effectsText: effectsText.trim(),
       upgrades,
     })
-  }
-
-  function addUpgrade() {
-    setUpgrades((prev) => [
-      ...prev,
-      { id: `upg-${uid()}`, name: '', description: '', purchased: false },
-    ])
-  }
-
-  function updateUpgrade(idx: number, field: 'name' | 'description', value: string) {
-    setUpgrades((prev) => prev.map((u, i) => (i === idx ? { ...u, [field]: value } : u)))
-  }
-
-  function removeUpgrade(idx: number) {
-    setUpgrades((prev) => prev.filter((_, i) => i !== idx))
   }
 
   const tierLabel = TIERS.find((t) => t.value === initial.tier)?.label ?? String(initial.tier)
@@ -306,57 +291,7 @@ export default function PowerEditorForm({
           </div>
         </section>
 
-        {/* Upgrades */}
-        <section className="bg-gray-900 rounded-lg p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Upgrades</h2>
-            {!readOnly && (
-              <button
-                type="button"
-                onClick={addUpgrade}
-                className="text-xs text-amber-400 hover:text-amber-300 transition-colors"
-              >
-                + Add Upgrade
-              </button>
-            )}
-          </div>
-
-          {upgrades.length === 0 && <p className="text-xs text-gray-600 italic">No upgrades.</p>}
-
-          <div className="space-y-3">
-            {upgrades.map((u, i) => (
-              <div key={u.id} className="border border-gray-800 rounded p-3 space-y-2">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={u.name}
-                    onChange={(e) => updateUpgrade(i, 'name', e.target.value)}
-                    readOnly={readOnly}
-                    className={`${inputCls} flex-1`}
-                    placeholder="Upgrade name"
-                  />
-                  {!readOnly && (
-                    <button
-                      type="button"
-                      onClick={() => removeUpgrade(i)}
-                      className="text-xs text-gray-500 hover:text-red-400 px-2 py-1 transition-colors shrink-0"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-                <textarea
-                  value={u.description}
-                  onChange={(e) => updateUpgrade(i, 'description', e.target.value)}
-                  readOnly={readOnly}
-                  rows={2}
-                  className={`${inputCls} resize-none`}
-                  placeholder="Upgrade description"
-                />
-              </div>
-            ))}
-          </div>
-        </section>
+        <PowerUpgradeEditor upgrades={upgrades} readOnly={readOnly} onChange={setUpgrades} />
 
         {/* Actions */}
         {!readOnly && (
