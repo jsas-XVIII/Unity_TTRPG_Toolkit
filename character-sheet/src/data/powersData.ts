@@ -1,6 +1,7 @@
 import type { Power, ClassName } from '../types/character'
 import powersJson from './powers.json'
 import { getHomebrewPowers } from '../services/powersStorage'
+import { mergeOfficial } from '../utils/mergeOfficial'
 export type { HomebrewPower } from '../services/powersStorage'
 
 export type { ClassName }
@@ -62,8 +63,7 @@ export interface ResolvedPowerPool {
 
 function mergeHomebrew(official: Power[], cls: ClassName, tier: Power['tier']): Power[] {
   const homebrew = getHomebrewPowers().filter((p) => p.className === cls && p.tier === tier)
-  const overriddenIds = new Set(homebrew.map((p) => p.id))
-  return [...official.filter((p) => !overriddenIds.has(p.id)), ...homebrew]
+  return mergeOfficial(official, homebrew)
 }
 
 export function getPowersByClass(cls: ClassName): ResolvedPowerPool {
