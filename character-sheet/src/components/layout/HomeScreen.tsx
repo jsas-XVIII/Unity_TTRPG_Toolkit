@@ -1,9 +1,6 @@
-// HomeScreen.tsx — the initial landing screen shown when the app loads.
-// Presents four paths: create a new character, load an existing one,
-// import a character from a JSON file, or enter GM mode.
-// GM tools are not yet built so that option is marked as coming soon.
-
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { importContentPack } from '../../services/contentPackService'
+import type { ImportResult } from '../../services/contentPackService'
 
 interface Props {
   onNewCharacter: () => void
@@ -11,6 +8,8 @@ interface Props {
   onImport: (file: File) => void
   onGM: () => void
 }
+
+type PackStatus = null | { ok: true; result: ImportResult } | { ok: false }
 
 interface OptionCardProps {
   title: string
@@ -45,9 +44,38 @@ function OptionCard({ title, description, onClick, disabled, badge }: OptionCard
   )
 }
 
+function packStatusMessage(result: ImportResult): { text: string; color: string } {
+  if (result.powersCount === 0 && result.perksCount === 0) {
+    return {
+      text: 'Import successful — no content found. Check with your GM.',
+      color: 'text-yellow-400',
+    }
+  }
+  const parts: string[] = []
+  if (result.powersCount > 0)
+    parts.push(`${result.powersCount} power${result.powersCount !== 1 ? 's' : ''}`)
+  if (result.perksCount > 0)
+    parts.push(`${result.perksCount} perk${result.perksCount !== 1 ? 's' : ''}`)
+  return { text: `Imported ${parts.join(' and ')}.`, color: 'text-green-400' }
+}
+
 export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImport, onGM }: Props) {
-  // Ref for the hidden file input — triggered programmatically by the Import Character card
   const importInputRef = useRef<HTMLInputElement>(null)
+  const contentPackInputRef = useRef<HTMLInputElement>(null)
+  const [packStatus, setPackStatus] = useState<PackStatus>(null)
+
+  function handleContentPackFile(file: File) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const result = importContentPack(e.target?.result as string)
+        setPackStatus({ ok: true, result })
+      } catch {
+        setPackStatus({ ok: false })
+      }
+    }
+    reader.readAsText(file)
+  }
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4">
@@ -74,7 +102,6 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
           description="Load a character from a JSON file exported from this app."
           onClick={() => importInputRef.current?.click()}
         />
-        {/* Hidden file input — clicked programmatically by the Import Character card */}
         <input
           ref={importInputRef}
           type="file"
@@ -88,6 +115,47 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
             }
           }}
         />
+
+        {packStatus === null ? (
+          <OptionCard
+            title="Import Content Pack"
+            description="Load homebrew powers and perks shared by your GM."
+            onClick={() => contentPackInputRef.current?.click()}
+          />
+        ) : (
+          <div className="relative flex flex-col items-start text-left w-full p-6 rounded-xl border border-gray-700 bg-gray-900">
+            <span className="text-lg font-bold text-gray-100 mb-2">Import Content Pack</span>
+            {!packStatus.ok ? (
+              <span className="text-sm text-red-400">Invalid content pack file.</span>
+            ) : (
+              <span className={`text-sm ${packStatusMessage(packStatus.result).color}`}>
+                {packStatusMessage(packStatus.result).text}
+              </span>
+            )}
+            <button
+              className="mt-3 text-xs text-gray-500 hover:text-gray-300 transition-colors"
+              onClick={() => setPackStatus(null)}
+            >
+              Import another
+            </button>
+          </div>
+        )}
+        <input
+          data-testid="content-pack-input"
+          ref={contentPackInputRef}
+          type="file"
+          accept=".json,application/json"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file) {
+              handleContentPackFile(file)
+              // Reset so the same file can be re-imported after "Import another"
+              e.target.value = ''
+            }
+          }}
+        />
+
         <OptionCard
           title="Gamemaster"
           description="Monster compendium, encounter management, and homebrew content tools."

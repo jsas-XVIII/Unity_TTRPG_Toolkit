@@ -7,6 +7,7 @@ import PowerEffectsText from './PowerEffectsText'
 interface Props {
   power: Power
   className: ClassName
+  isHomebrew?: boolean
   onRemove?: () => void
   onUpgradeToggle?: (upgradeId: string) => void
   isUsed?: boolean
@@ -40,6 +41,7 @@ const ACTION_LABEL: Record<string, string> = {
 export default function PowerReferenceCard({
   power,
   className,
+  isHomebrew,
   onRemove,
   onUpgradeToggle,
   isUsed,
@@ -60,6 +62,11 @@ export default function PowerReferenceCard({
         <div className="flex items-start justify-between gap-2">
           <h3 className="text-white font-bold text-base uppercase tracking-wide leading-tight">
             {power.name}
+            {isHomebrew && (
+              <span className="text-amber-400 text-xs ml-1 align-super" title="Homebrew">
+                *
+              </span>
+            )}
           </h3>
           <div className="flex items-center gap-1.5 shrink-0 mt-0.5">
             <span className="text-white/60 text-xs font-bold">{TIER_CONFIG[power.tier].label}</span>

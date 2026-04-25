@@ -2,6 +2,7 @@ import { useState } from 'react'
 import MonsterRoster from './monsters/MonsterRoster'
 import PowersPanel from './powers/PowersPanel'
 import PerksPanel from './perks/PerksPanel'
+import { exportContentPack } from '../../services/contentPackService'
 
 type GMView = 'dashboard' | 'monsters' | 'powers' | 'perks'
 
@@ -71,6 +72,11 @@ export default function GMDashboard({ onBack }: Props) {
           title="Perks Editor"
           description="Edit general perks and add homebrew perks for your campaign."
           onClick={() => setGMView('perks')}
+        />
+        <ToolCard
+          title="Export Content Pack"
+          description="Download all homebrew powers and perks as unity-content-pack.json to share with players."
+          onClick={exportContentPack}
         />
         <ToolCard
           title="Ruin Tracker"
