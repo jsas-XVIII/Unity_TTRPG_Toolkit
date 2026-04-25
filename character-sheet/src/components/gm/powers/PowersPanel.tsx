@@ -6,6 +6,7 @@ import {
   CLASS_NAMES,
   getPowersByClass,
   isOfficialPower,
+  TIER_CONFIG,
   type ResolvedPowerPool,
 } from '../../../data/powersData'
 import {
@@ -29,24 +30,6 @@ const TIER_LABELS: Record<keyof ResolvedPowerPool, string> = {
   lv3: 'Lv 3',
   lv8: 'Lv 8',
   lv10: 'Lv 10',
-}
-
-function tierBadge(tier: Power['tier']): string {
-  if (tier === 'baseline') return 'bg-sky-900 text-sky-300'
-  if (tier === 1) return 'bg-gray-700 text-gray-300'
-  if (tier === 2) return 'bg-amber-900 text-amber-300'
-  if (tier === 'lv3') return 'bg-green-900 text-green-300'
-  if (tier === 'lv8') return 'bg-purple-900 text-purple-300'
-  return 'bg-rose-900 text-rose-300'
-}
-
-function tierLabel(tier: Power['tier']): string {
-  if (tier === 'baseline') return 'Baseline'
-  if (tier === 1) return 'T1'
-  if (tier === 2) return 'T2'
-  if (tier === 'lv3') return 'Lv3'
-  if (tier === 'lv8') return 'Lv8'
-  return 'Lv10'
 }
 
 export default function PowersPanel({ onBack }: Props) {
@@ -238,9 +221,9 @@ export default function PowersPanel({ onBack }: Props) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span
-                      className={`text-xs font-bold px-1.5 py-0.5 rounded shrink-0 ${tierBadge(power.tier)}`}
+                      className={`text-xs font-bold px-1.5 py-0.5 rounded shrink-0 ${TIER_CONFIG[power.tier].badgeColor}`}
                     >
-                      {tierLabel(power.tier)}
+                      {TIER_CONFIG[power.tier].label}
                     </span>
                     <span className="font-semibold text-gray-100">{power.name}</span>
                     <span className="text-xs text-gray-500 shrink-0">{power.actionType}</span>

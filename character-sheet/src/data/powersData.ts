@@ -26,16 +26,46 @@ export type FeaturePoolKey = (typeof FEATURE_POOL_KEYS)[number]
 // Display config for every tier value — drives labels in cards and section headings.
 export const TIER_CONFIG: Record<
   Power['tier'],
-  { label: string; sectionHeading: string; headingColor: string }
+  { label: string; sectionHeading: string; headingColor: string; badgeColor: string }
 > = {
-  baseline: { label: 'Baseline', sectionHeading: 'Baseline', headingColor: 'text-sky-600' },
+  baseline: {
+    label: 'Baseline',
+    sectionHeading: 'Baseline',
+    headingColor: 'text-sky-600',
+    badgeColor: 'bg-sky-900 text-sky-300',
+  },
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  1: { label: 'T1', sectionHeading: 'Tier I', headingColor: 'text-gray-500' },
+  1: {
+    label: 'T1',
+    sectionHeading: 'Tier I',
+    headingColor: 'text-gray-500',
+    badgeColor: 'bg-gray-700 text-gray-300',
+  },
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  2: { label: 'T2', sectionHeading: 'Tier II', headingColor: 'text-amber-700' },
-  lv3: { label: 'Lv3', sectionHeading: 'Level 3', headingColor: 'text-green-700' },
-  lv8: { label: 'Lv8', sectionHeading: 'Level 8', headingColor: 'text-purple-700' },
-  lv10: { label: 'Lv10', sectionHeading: 'Level 10', headingColor: 'text-rose-700' },
+  2: {
+    label: 'T2',
+    sectionHeading: 'Tier II',
+    headingColor: 'text-amber-700',
+    badgeColor: 'bg-amber-900 text-amber-300',
+  },
+  lv3: {
+    label: 'Lv3',
+    sectionHeading: 'Level 3',
+    headingColor: 'text-green-700',
+    badgeColor: 'bg-green-900 text-green-300',
+  },
+  lv8: {
+    label: 'Lv8',
+    sectionHeading: 'Level 8',
+    headingColor: 'text-purple-700',
+    badgeColor: 'bg-purple-900 text-purple-300',
+  },
+  lv10: {
+    label: 'Lv10',
+    sectionHeading: 'Level 10',
+    headingColor: 'text-rose-700',
+    badgeColor: 'bg-rose-900 text-rose-300',
+  },
 }
 
 // Shape of each class entry in powers.json.
