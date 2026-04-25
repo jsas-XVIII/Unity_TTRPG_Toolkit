@@ -1,6 +1,7 @@
 import type { Power, ClassName } from '../types/character'
 import powersJson from './powers.json'
-import { getHomebrewPowers } from '../services/powersStorage'
+import { getHomebrewPowers, type HomebrewPower } from '../services/powersStorage'
+import { mergeOfficial } from '../utils/mergeOfficial'
 export type { HomebrewPower } from '../services/powersStorage'
 
 export type { ClassName }
@@ -25,16 +26,46 @@ export type FeaturePoolKey = (typeof FEATURE_POOL_KEYS)[number]
 // Display config for every tier value — drives labels in cards and section headings.
 export const TIER_CONFIG: Record<
   Power['tier'],
-  { label: string; sectionHeading: string; headingColor: string }
+  { label: string; sectionHeading: string; headingColor: string; badgeColor: string }
 > = {
-  baseline: { label: 'Baseline', sectionHeading: 'Baseline', headingColor: 'text-sky-600' },
+  baseline: {
+    label: 'Baseline',
+    sectionHeading: 'Baseline',
+    headingColor: 'text-sky-600',
+    badgeColor: 'bg-sky-900 text-sky-300',
+  },
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  1: { label: 'T1', sectionHeading: 'Tier I', headingColor: 'text-gray-500' },
+  1: {
+    label: 'T1',
+    sectionHeading: 'Tier I',
+    headingColor: 'text-gray-500',
+    badgeColor: 'bg-gray-700 text-gray-300',
+  },
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  2: { label: 'T2', sectionHeading: 'Tier II', headingColor: 'text-amber-700' },
-  lv3: { label: 'Lv3', sectionHeading: 'Level 3', headingColor: 'text-green-700' },
-  lv8: { label: 'Lv8', sectionHeading: 'Level 8', headingColor: 'text-purple-700' },
-  lv10: { label: 'Lv10', sectionHeading: 'Level 10', headingColor: 'text-rose-700' },
+  2: {
+    label: 'T2',
+    sectionHeading: 'Tier II',
+    headingColor: 'text-amber-700',
+    badgeColor: 'bg-amber-900 text-amber-300',
+  },
+  lv3: {
+    label: 'Lv3',
+    sectionHeading: 'Level 3',
+    headingColor: 'text-green-700',
+    badgeColor: 'bg-green-900 text-green-300',
+  },
+  lv8: {
+    label: 'Lv8',
+    sectionHeading: 'Level 8',
+    headingColor: 'text-purple-700',
+    badgeColor: 'bg-purple-900 text-purple-300',
+  },
+  lv10: {
+    label: 'Lv10',
+    sectionHeading: 'Level 10',
+    headingColor: 'text-rose-700',
+    badgeColor: 'bg-rose-900 text-rose-300',
+  },
 }
 
 // Shape of each class entry in powers.json.
@@ -51,6 +82,21 @@ type ClassPowerPool = {
 
 const powersData = powersJson as Record<string, ClassPowerPool>
 
+// Built once at module load — O(1) lookups for isOfficialPower() instead of scanning all JSON per call.
+const officialPowerIds = new Set<string>(
+  CLASS_NAMES.flatMap((cls) => {
+    const e = powersData[cls] ?? {}
+    return [
+      ...(e.baseline ?? e.classpath ?? []),
+      ...(e.tier1 ?? []),
+      ...(e.tier2 ?? []),
+      ...(e.lv3 ?? []),
+      ...(e.lv8 ?? []),
+      ...(e.lv10 ?? []),
+    ].map((p) => p.id)
+  })
+)
+
 export interface ResolvedPowerPool {
   baseline: Power[]
   tier1: Power[]
@@ -60,39 +106,29 @@ export interface ResolvedPowerPool {
   lv10: Power[]
 }
 
-function mergeHomebrew(official: Power[], cls: ClassName, tier: Power['tier']): Power[] {
-  const homebrew = getHomebrewPowers().filter((p) => p.className === cls && p.tier === tier)
-  const overriddenIds = new Set(homebrew.map((p) => p.id))
-  return [...official.filter((p) => !overriddenIds.has(p.id)), ...homebrew]
+// homebrew is pre-filtered to this class — caller reads localStorage once and passes it in
+function mergeHomebrew(official: Power[], homebrew: HomebrewPower[], tier: Power['tier']): Power[] {
+  return mergeOfficial(
+    official,
+    homebrew.filter((p) => p.tier === tier)
+  )
 }
 
 export function getPowersByClass(cls: ClassName): ResolvedPowerPool {
   const e = powersData[cls] ?? {}
+  const homebrew = getHomebrewPowers().filter((p) => p.className === cls)
   return {
-    baseline: mergeHomebrew(e.baseline ?? e.classpath ?? [], cls, 'baseline'),
-    tier1: mergeHomebrew(e.tier1 ?? [], cls, 1),
-    tier2: mergeHomebrew(e.tier2 ?? [], cls, 2),
-    lv3: mergeHomebrew(e.lv3 ?? [], cls, 'lv3'),
-    lv8: mergeHomebrew(e.lv8 ?? [], cls, 'lv8'),
-    lv10: mergeHomebrew(e.lv10 ?? [], cls, 'lv10'),
+    baseline: mergeHomebrew(e.baseline ?? e.classpath ?? [], homebrew, 'baseline'),
+    tier1: mergeHomebrew(e.tier1 ?? [], homebrew, 1),
+    tier2: mergeHomebrew(e.tier2 ?? [], homebrew, 2),
+    lv3: mergeHomebrew(e.lv3 ?? [], homebrew, 'lv3'),
+    lv8: mergeHomebrew(e.lv8 ?? [], homebrew, 'lv8'),
+    lv10: mergeHomebrew(e.lv10 ?? [], homebrew, 'lv10'),
   }
 }
 
 export function isOfficialPower(id: string): boolean {
-  const data = powersJson as Record<string, ClassPowerPool>
-  for (const cls of CLASS_NAMES) {
-    const e = data[cls] ?? {}
-    const all = [
-      ...(e.baseline ?? e.classpath ?? []),
-      ...(e.tier1 ?? []),
-      ...(e.tier2 ?? []),
-      ...(e.lv3 ?? []),
-      ...(e.lv8 ?? []),
-      ...(e.lv10 ?? []),
-    ]
-    if (all.some((p) => p.id === id)) return true
-  }
-  return false
+  return officialPowerIds.has(id)
 }
 
 const ALL_POOL_KEYS: (keyof ResolvedPowerPool)[] = [

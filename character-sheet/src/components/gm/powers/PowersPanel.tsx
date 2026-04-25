@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Power, ClassName } from '../../../types/character'
 import type { HomebrewPower } from '../../../services/powersStorage'
 import {
   CLASS_NAMES,
   getPowersByClass,
   isOfficialPower,
+  TIER_CONFIG,
   type ResolvedPowerPool,
 } from '../../../data/powersData'
 import {
@@ -13,6 +15,7 @@ import {
   deleteHomebrewPower,
 } from '../../../services/powersStorage'
 import PowerEditorForm from './PowerEditorForm'
+import { uid } from '../../../utils/idGenerator'
 
 interface Props {
   onBack: () => void
@@ -29,39 +32,18 @@ const TIER_LABELS: Record<keyof ResolvedPowerPool, string> = {
   lv10: 'Lv 10',
 }
 
-function tierBadge(tier: Power['tier']): string {
-  if (tier === 'baseline') return 'bg-sky-900 text-sky-300'
-  if (tier === 1) return 'bg-gray-700 text-gray-300'
-  if (tier === 2) return 'bg-amber-900 text-amber-300'
-  if (tier === 'lv3') return 'bg-green-900 text-green-300'
-  if (tier === 'lv8') return 'bg-purple-900 text-purple-300'
-  return 'bg-rose-900 text-rose-300'
-}
-
-function tierLabel(tier: Power['tier']): string {
-  if (tier === 'baseline') return 'Baseline'
-  if (tier === 1) return 'T1'
-  if (tier === 2) return 'T2'
-  if (tier === 'lv3') return 'Lv3'
-  if (tier === 'lv8') return 'Lv8'
-  return 'Lv10'
-}
-
-function uid(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
-}
-
 export default function PowersPanel({ onBack }: Props) {
   const [selectedClass, setSelectedClass] = useState<ClassName>('Dreadnought')
   const [tierFilter, setTierFilter] = useState<TierFilter>('all')
   const [search, setSearch] = useState('')
   const [editing, setEditing] = useState<{ power: HomebrewPower; readOnly: boolean } | null>(null)
-  const [, forceUpdate] = useState(0)
-  const refresh = () => forceUpdate((n) => n + 1)
+  const [refreshKey, refresh] = useDataRefresh()
 
-  const homebrewIds = new Set(getHomebrewPowers().map((p) => p.id))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const homebrewPowers = useMemo(() => getHomebrewPowers(), [refreshKey])
+  const homebrewIds = useMemo(() => new Set(homebrewPowers.map((p) => p.id)), [homebrewPowers])
 
-  function getPowersForDisplay(): Array<{ power: Power; poolKey: keyof ResolvedPowerPool }> {
+  const allPowers = useMemo(() => {
     const pools = getPowersByClass(selectedClass)
     const keys = (
       tierFilter === 'all'
@@ -69,17 +51,18 @@ export default function PowersPanel({ onBack }: Props) {
         : [tierFilter]
     ) as (keyof ResolvedPowerPool)[]
     return keys.flatMap((key) => pools[key].map((power) => ({ power, poolKey: key })))
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedClass, tierFilter, refreshKey])
 
-  const allPowers = getPowersForDisplay()
-  const filtered = search.trim()
-    ? allPowers.filter((p) => p.power.name.toLowerCase().includes(search.toLowerCase()))
-    : allPowers
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase()
+    return term ? allPowers.filter((p) => p.power.name.toLowerCase().includes(term)) : allPowers
+  }, [allPowers, search])
 
+  // If the power has a homebrew override, edit that version — not the official one.
+  // Falls back to a shaped copy of the official Power with className injected.
   function resolvePower(power: Power): HomebrewPower {
-    return (
-      getHomebrewPowers().find((p) => p.id === power.id) ?? { ...power, className: selectedClass }
-    )
+    return homebrewPowers.find((p) => p.id === power.id) ?? { ...power, className: selectedClass }
   }
 
   function startView(power: Power) {
@@ -228,6 +211,9 @@ export default function PowersPanel({ onBack }: Props) {
       ) : (
         <div className="space-y-2">
           {filtered.map(({ power }) => {
+            // official=true  + overridden=false → official, untouched
+            // official=true  + overridden=true  → official entry shadowed by homebrew override
+            // official=false + homebrewOnly=true → net-new homebrew (no official equivalent)
             const official = isOfficialPower(power.id)
             const overridden = official && homebrewIds.has(power.id)
             const homebrewOnly = !official
@@ -240,9 +226,9 @@ export default function PowersPanel({ onBack }: Props) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span
-                      className={`text-xs font-bold px-1.5 py-0.5 rounded shrink-0 ${tierBadge(power.tier)}`}
+                      className={`text-xs font-bold px-1.5 py-0.5 rounded shrink-0 ${TIER_CONFIG[power.tier].badgeColor}`}
                     >
-                      {tierLabel(power.tier)}
+                      {TIER_CONFIG[power.tier].label}
                     </span>
                     <span className="font-semibold text-gray-100">{power.name}</span>
                     <span className="text-xs text-gray-500 shrink-0">{power.actionType}</span>

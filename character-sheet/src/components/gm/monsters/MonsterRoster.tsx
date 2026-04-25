@@ -1,14 +1,16 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Monster } from '../../../types/monster'
 import { getAllMonsters, getFactions } from '../../../data/monstersData'
 import {
+  getHomebrewMonsters,
   addHomebrewMonster,
   updateHomebrewMonster,
   deleteHomebrewMonster,
-  isHomebrew,
 } from '../../../services/monsterStorage'
 import MonsterCard from './MonsterCard'
 import MonsterForm from './MonsterForm'
+import { uid } from '../../../utils/idGenerator'
 
 interface Props {
   onBack: () => void
@@ -16,10 +18,9 @@ interface Props {
 
 type RosterView = 'list' | 'card' | 'form'
 
-function uid(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
-}
-
+// Color-codes the DL badge by threat tier. Thresholds are informal UX groupings,
+// not hard rules — adjust the breakpoints here if the palette needs to change.
+// DL 1–3: low threat · DL 4–6: moderate · DL 7–8: high · DL 9+: extreme
 function dlColor(dl: number): string {
   if (dl <= 3) return 'bg-green-900 text-green-300'
   if (dl <= 6) return 'bg-yellow-900 text-yellow-300'
@@ -33,19 +34,29 @@ export default function MonsterRoster({ onBack }: Props) {
   const [editingMonster, setEditingMonster] = useState<Monster | undefined>()
   const [factionFilter, setFactionFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'Standard' | 'Elite'>('all')
-  const [, forceUpdate] = useState(0)
-  const refresh = () => forceUpdate((n) => n + 1)
+  const [refreshKey, refresh] = useDataRefresh()
 
-  const allMonsters = getAllMonsters()
-  const factions = getFactions()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const allMonsters = useMemo(() => getAllMonsters(), [refreshKey])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const factions = useMemo(() => getFactions(), [refreshKey])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const homebrewIds = useMemo(() => new Set(getHomebrewMonsters().map((m) => m.id)), [refreshKey])
 
-  const filtered = allMonsters.filter((m) => {
-    if (factionFilter !== 'all' && m.faction !== factionFilter) return false
-    if (typeFilter !== 'all' && m.type !== typeFilter) return false
-    return true
-  })
+  const filtered = useMemo(
+    () =>
+      allMonsters.filter((m) => {
+        if (factionFilter !== 'all' && m.faction !== factionFilter) return false
+        if (typeFilter !== 'all' && m.type !== typeFilter) return false
+        return true
+      }),
+    [allMonsters, factionFilter, typeFilter]
+  )
 
-  const sorted = [...filtered].sort((a, b) => a.dangerLevel - b.dangerLevel)
+  const sorted = useMemo(
+    () => [...filtered].sort((a, b) => a.dangerLevel - b.dangerLevel),
+    [filtered]
+  )
 
   function handleSave(monster: Monster) {
     if (editingMonster) {
@@ -102,7 +113,7 @@ export default function MonsterRoster({ onBack }: Props) {
           onBack={() => setView('list')}
           onClone={() => handleClone(monster)}
           onEdit={
-            isHomebrew(monster.id)
+            homebrewIds.has(monster.id)
               ? () => {
                   setEditingMonster(monster)
                   setView('form')
@@ -176,7 +187,7 @@ export default function MonsterRoster({ onBack }: Props) {
       ) : (
         <div className="space-y-2">
           {sorted.map((m: Monster) => {
-            const homebrew = isHomebrew(m.id)
+            const homebrew = homebrewIds.has(m.id)
             return (
               <div key={m.id} className="relative group">
                 <button

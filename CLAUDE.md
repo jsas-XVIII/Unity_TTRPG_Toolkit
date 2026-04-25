@@ -144,23 +144,38 @@ All GM-managed game content (powers, perks, monsters) follows a two-layer model:
 - `unity_ttrpg_homebrew_perks` — `Perk[]` (overrides + additions)
 - `unity_ttrpg_monsters_abilities` — `MonsterAbility[]` (existing; homebrew abilities only)
 
+### GM Tools — Planned: HomebrewContext Refactor (dedicated branch)
+
+The GM panels currently write directly to localStorage and call a `refresh()` function (from `hooks/useDataRefresh.ts`) to force a re-render. This works but is a workaround — React has no visibility into the mutations.
+
+The proper fix is a `HomebrewContext` that holds powers, perks, and monster abilities in React state. Writes go through context setters; panels read from context and re-render automatically. This also enables undo/redo and real-time sync as future features.
+
+**Do this on its own dedicated branch** — it touches every GM panel, their tests, and the service layer. Do not fold it into a feature or other refactor branch.
+
+When ready: replace `useDataRefresh()` calls one panel at a time. Each panel can be migrated independently since the context and the localStorage services can coexist during the transition.
+
+---
+
 ### GM Tools — Powers & Perks (branch: GM_Powers_Perks_Tool)
 
---Resume here--
+**Done:**
+- `data/perks.json` + `data/perksData.ts` — static perks (gp-001…gp-012), `getAllPerks`/`getPerkById`/`isOfficialPerk` with homebrew merge
+- `services/powersStorage.ts` + `services/perksStorage.ts` — CRUD for both homebrew stores
+- `data/powersData.ts` — homebrew merged into `getPowersByClass` / `getPowerById`
+- `components/gm/powers/PowersPanel` + `PowerEditorForm` — class tabs, tier filter, search; View/Edit per row; all fields; inline upgrade CRUD; multi-action types; Range select
+- `components/gm/perks/PerksPanel` + `PerkEditorForm` — flat list; same View/Edit/readOnly pattern
+- `types/character.ts` — `Power.additionalActionTypes?: ActionType[]`
+- Tests: `PowerEditorForm.test.tsx`, `PowersPanel.test.tsx`, `PerkEditorForm.test.tsx`, `PerksPanel.test.tsx`
 
-**Plan:**
-- Migrate `constants/perks.ts` → `data/perks.json` (add stable IDs `gp-001`…`gp-012`)
-- `data/perksData.ts` — `getAllPerks()`, `getPerkById()` with homebrew merge
-- `services/powersStorage.ts` — CRUD for `unity_ttrpg_homebrew_powers`
-- `services/perksStorage.ts` — CRUD for `unity_ttrpg_homebrew_perks`
-- Update `data/powersData.ts` — merge homebrew layer into `getPowersByClass` / `getPowerById`
-- `components/gm/powers/PowersPanel` — class tabs + tier filter + search; edit/delete per entry; "New Power" button
-- `components/gm/powers/PowerEditorForm` — all fields + inline upgrade CRUD; class/tier locked for official, picker for new homebrew
-- `components/gm/perks/PerksPanel` — flat list + "New Perk" button
-- `components/gm/perks/PerkEditorForm` — name + description; reset for official, delete for homebrew
+**UI conventions (all GM editor panels):**
+- List rows: static div + **View** (gray border) + **Edit** (amber border) — no clickable row
+- View mode: "View: {name}" title, "← Back" button, all inputs readOnly/disabled, action bar hidden
+- Edit mode: "Edit: {name}" title, "← Cancel" button, Save/Reset/Delete visible
+- Cancel/Back button style: `border border-gray-700 text-gray-400 hover:border-gray-500`
+
+**--Resume here-- (remaining):**
 - Export Content Pack button (GM side) — downloads `unity-content-pack.json`
 - Import Content Pack card on HomeScreen (player side) — merges into localStorage
-- GMDashboard — add Powers and Perks cards
 
 ### Game reference docs
 
