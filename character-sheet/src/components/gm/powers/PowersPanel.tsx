@@ -59,6 +59,8 @@ export default function PowersPanel({ onBack }: Props) {
     return term ? allPowers.filter((p) => p.power.name.toLowerCase().includes(term)) : allPowers
   }, [allPowers, search])
 
+  // If the power has a homebrew override, edit that version — not the official one.
+  // Falls back to a shaped copy of the official Power with className injected.
   function resolvePower(power: Power): HomebrewPower {
     return homebrewPowers.find((p) => p.id === power.id) ?? { ...power, className: selectedClass }
   }
@@ -209,6 +211,9 @@ export default function PowersPanel({ onBack }: Props) {
       ) : (
         <div className="space-y-2">
           {filtered.map(({ power }) => {
+            // official=true  + overridden=false → official, untouched
+            // official=true  + overridden=true  → official entry shadowed by homebrew override
+            // official=false + homebrewOnly=true → net-new homebrew (no official equivalent)
             const official = isOfficialPower(power.id)
             const overridden = official && homebrewIds.has(power.id)
             const homebrewOnly = !official

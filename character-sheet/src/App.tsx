@@ -13,7 +13,7 @@ import ImportConfirmModal from './components/layout/ImportConfirmModal'
 import DuplicateCharacterModal from './components/layout/DuplicateCharacterModal'
 import type { Character } from './types/character'
 import { useApi } from './hooks/useApi'
-import { checkImport } from './utils/importCharacter'
+import { useImportFlow } from './hooks/useImportFlow'
 
 type View = 'home' | 'roster' | 'wizard' | 'sheet' | 'gm'
 
@@ -25,16 +25,23 @@ export default function App() {
   const [character, setCharacter] = useState<Character | null>(null)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle')
 
-  // Holds a successfully imported character while the ImportConfirmModal is open.
-  const [importedCharacter, setImportedCharacter] = useState<Character | null>(null)
-
-  // Set when an imported file matches an id already in storage.
-  // fromHome tracks whether the import originated from the home screen (load directly)
-  // or the character sheet (show ImportConfirmModal after resolving).
-  const [duplicateImport, setDuplicateImport] = useState<{
-    parsed: Character
-    fromHome: boolean
-  } | null>(null)
+  const {
+    importedCharacter,
+    duplicateImport,
+    handleImport,
+    handleImportDirect,
+    handleDuplicateConfirm,
+    handleDuplicateDismiss,
+    handleImportConfirm,
+    handleImportDismiss,
+  } = useImportFlow(
+    api,
+    (c) => {
+      setCharacter(c)
+      setView('sheet')
+    },
+    () => setSaveStatus('error')
+  )
 
   // --- Roster ---
 
@@ -89,82 +96,6 @@ export default function App() {
     a.download = `${c.name.replace(/\s+/g, '_')}_character.json`
     a.click()
     URL.revokeObjectURL(url)
-  }
-
-  // --- Import flow ---
-
-  // Shared handler for both import entry points.
-  // Reads the file, checks for a duplicate id, then either:
-  //   - Creates immediately (new id) and proceeds
-  //   - Opens DuplicateCharacterModal (existing id)
-  // fromHome=true  → load sheet directly after resolving
-  // fromHome=false → show ImportConfirmModal after resolving
-  async function handleFileSelected(file: File, fromHome: boolean) {
-    try {
-      const result = await checkImport(file, api)
-      if (result.status === 'duplicate') {
-        setDuplicateImport({ parsed: result.parsed, fromHome })
-        return
-      }
-      const created = await api.create(result.parsed)
-      if (fromHome) {
-        setCharacter(created)
-        setView('sheet')
-      } else {
-        setImportedCharacter(created)
-      }
-    } catch {
-      setSaveStatus('error')
-    }
-  }
-
-  // Import JSON button on the character sheet — shows ImportConfirmModal after resolving
-  function handleImport(file: File) {
-    handleFileSelected(file, false)
-  }
-
-  // Import Character button on the home screen — loads sheet directly after resolving
-  function handleImportDirect(file: File) {
-    handleFileSelected(file, true)
-  }
-
-  // User confirmed they want a copy of the duplicate.
-  // Creates a new entry with a fresh id and " - copy" appended to the name.
-  async function handleDuplicateConfirm() {
-    if (!duplicateImport) return
-    const { parsed, fromHome } = duplicateImport
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, ...rest } = parsed
-      const copy = await api.create({ ...rest, name: `${parsed.name} - copy` })
-      setDuplicateImport(null)
-      if (fromHome) {
-        setCharacter(copy)
-        setView('sheet')
-      } else {
-        setImportedCharacter(copy)
-      }
-    } catch {
-      setSaveStatus('error')
-    }
-  }
-
-  // User cancelled — block the import, do nothing
-  function handleDuplicateDismiss() {
-    setDuplicateImport(null)
-  }
-
-  // ImportConfirmModal: switch to the imported character
-  function handleImportConfirm() {
-    if (!importedCharacter) return
-    setCharacter(importedCharacter)
-    setView('sheet')
-    setImportedCharacter(null)
-  }
-
-  // ImportConfirmModal: stay on current screen
-  function handleImportDismiss() {
-    setImportedCharacter(null)
   }
 
   // --- Routing ---

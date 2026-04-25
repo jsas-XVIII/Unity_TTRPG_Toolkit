@@ -18,6 +18,9 @@ interface Props {
 
 type RosterView = 'list' | 'card' | 'form'
 
+// Color-codes the DL badge by threat tier. Thresholds are informal UX groupings,
+// not hard rules — adjust the breakpoints here if the palette needs to change.
+// DL 1–3: low threat · DL 4–6: moderate · DL 7–8: high · DL 9+: extreme
 function dlColor(dl: number): string {
   if (dl <= 3) return 'bg-green-900 text-green-300'
   if (dl <= 6) return 'bg-yellow-900 text-yellow-300'
