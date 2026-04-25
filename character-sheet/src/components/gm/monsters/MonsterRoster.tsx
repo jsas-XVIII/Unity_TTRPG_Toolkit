@@ -3,10 +3,10 @@ import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Monster } from '../../../types/monster'
 import { getAllMonsters, getFactions } from '../../../data/monstersData'
 import {
+  getHomebrewMonsters,
   addHomebrewMonster,
   updateHomebrewMonster,
   deleteHomebrewMonster,
-  isHomebrew,
 } from '../../../services/monsterStorage'
 import MonsterCard from './MonsterCard'
 import MonsterForm from './MonsterForm'
@@ -40,6 +40,8 @@ export default function MonsterRoster({ onBack }: Props) {
   const allMonsters = useMemo(() => getAllMonsters(), [refreshKey])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const factions = useMemo(() => getFactions(), [refreshKey])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const homebrewIds = useMemo(() => new Set(getHomebrewMonsters().map((m) => m.id)), [refreshKey])
 
   const filtered = useMemo(
     () =>
@@ -111,7 +113,7 @@ export default function MonsterRoster({ onBack }: Props) {
           onBack={() => setView('list')}
           onClone={() => handleClone(monster)}
           onEdit={
-            isHomebrew(monster.id)
+            homebrewIds.has(monster.id)
               ? () => {
                   setEditingMonster(monster)
                   setView('form')
@@ -185,7 +187,7 @@ export default function MonsterRoster({ onBack }: Props) {
       ) : (
         <div className="space-y-2">
           {sorted.map((m: Monster) => {
-            const homebrew = isHomebrew(m.id)
+            const homebrew = homebrewIds.has(m.id)
             return (
               <div key={m.id} className="relative group">
                 <button
