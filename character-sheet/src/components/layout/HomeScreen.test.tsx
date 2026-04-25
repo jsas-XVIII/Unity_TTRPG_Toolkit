@@ -6,8 +6,7 @@
 //   3. Clicking "Existing Character" fires the correct callback
 //   4. Selecting a file via "Import Character" calls onImport with the File object
 //   5. The file input resets after selection so the same file can be re-imported
-//   6. The Gamemaster button is disabled (GM tools not built yet)
-//   7. The "Coming Soon" badge appears on the Gamemaster card
+//   6. Clicking "Gamemaster" fires the onGM callback
 
 import { describe, it, expect, vi } from 'vitest'
 import '@testing-library/jest-dom/vitest'
@@ -24,6 +23,7 @@ function renderHome(overrides?: Partial<React.ComponentProps<typeof HomeScreen>>
     onNewCharacter: vi.fn(),
     onExistingCharacter: vi.fn(),
     onImport: vi.fn(),
+    onGM: vi.fn(),
     ...overrides,
   }
   render(<HomeScreen {...props} />)
@@ -89,24 +89,9 @@ describe('HomeScreen', () => {
     expect(input.value).toBe('')
   })
 
-  it('Gamemaster button is disabled', () => {
-    renderHome()
-    expect(screen.getByRole('button', { name: /gamemaster/i })).toBeDisabled()
-  })
-
-  it('shows a "Coming Soon" badge on the Gamemaster card', () => {
-    renderHome()
-    expect(screen.getByText(/coming soon/i)).toBeInTheDocument()
-  })
-
-  it('does not call any callback when the disabled Gamemaster button is clicked', async () => {
-    const onNewCharacter = vi.fn()
-    const onExistingCharacter = vi.fn()
-    const onImport = vi.fn()
-    renderHome({ onNewCharacter, onExistingCharacter, onImport })
+  it('calls onGM when "Gamemaster" is clicked', async () => {
+    const { onGM } = renderHome()
     await userEvent.click(screen.getByRole('button', { name: /gamemaster/i }))
-    expect(onNewCharacter).not.toHaveBeenCalled()
-    expect(onExistingCharacter).not.toHaveBeenCalled()
-    expect(onImport).not.toHaveBeenCalled()
+    expect(onGM).toHaveBeenCalledOnce()
   })
 })
