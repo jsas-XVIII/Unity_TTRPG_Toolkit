@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Perk } from '../../../types/character'
 import { getAllPerks, getOfficialPerks, isOfficialPerk } from '../../../data/perksData'
@@ -16,10 +16,13 @@ interface Props {
 
 export default function PerksPanel({ onBack }: Props) {
   const [editing, setEditing] = useState<{ perk: Perk; readOnly: boolean } | null>(null)
-  const refresh = useDataRefresh()
+  const [refreshKey, refresh] = useDataRefresh()
 
-  const perks = getAllPerks()
-  const homebrewIds = new Set(getHomebrewPerks().map((p) => p.id))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const homebrewPerks = useMemo(() => getHomebrewPerks(), [refreshKey])
+  const homebrewIds = useMemo(() => new Set(homebrewPerks.map((p) => p.id)), [homebrewPerks])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const perks = useMemo(() => getAllPerks(), [refreshKey])
 
   function startView(perk: Perk) {
     setEditing({ perk, readOnly: true })

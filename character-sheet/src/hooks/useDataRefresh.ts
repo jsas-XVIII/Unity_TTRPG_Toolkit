@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 
-export function useDataRefresh(): () => void {
-  const [, forceUpdate] = useState(0)
-  return useCallback(() => forceUpdate((n) => n + 1), [])
+export function useDataRefresh(): [number, () => void] {
+  const [key, setKey] = useState(0)
+  const refresh = useCallback(() => setKey((n) => n + 1), [])
+  return [key, refresh]
 }

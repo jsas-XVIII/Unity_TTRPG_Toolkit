@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Power, ClassName } from '../../../types/character'
 import type { HomebrewPower } from '../../../services/powersStorage'
@@ -54,11 +54,13 @@ export default function PowersPanel({ onBack }: Props) {
   const [tierFilter, setTierFilter] = useState<TierFilter>('all')
   const [search, setSearch] = useState('')
   const [editing, setEditing] = useState<{ power: HomebrewPower; readOnly: boolean } | null>(null)
-  const refresh = useDataRefresh()
+  const [refreshKey, refresh] = useDataRefresh()
 
-  const homebrewIds = new Set(getHomebrewPowers().map((p) => p.id))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const homebrewPowers = useMemo(() => getHomebrewPowers(), [refreshKey])
+  const homebrewIds = useMemo(() => new Set(homebrewPowers.map((p) => p.id)), [homebrewPowers])
 
-  function getPowersForDisplay(): Array<{ power: Power; poolKey: keyof ResolvedPowerPool }> {
+  const allPowers = useMemo(() => {
     const pools = getPowersByClass(selectedClass)
     const keys = (
       tierFilter === 'all'
@@ -66,17 +68,16 @@ export default function PowersPanel({ onBack }: Props) {
         : [tierFilter]
     ) as (keyof ResolvedPowerPool)[]
     return keys.flatMap((key) => pools[key].map((power) => ({ power, poolKey: key })))
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedClass, tierFilter, refreshKey])
 
-  const allPowers = getPowersForDisplay()
-  const filtered = search.trim()
-    ? allPowers.filter((p) => p.power.name.toLowerCase().includes(search.toLowerCase()))
-    : allPowers
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase()
+    return term ? allPowers.filter((p) => p.power.name.toLowerCase().includes(term)) : allPowers
+  }, [allPowers, search])
 
   function resolvePower(power: Power): HomebrewPower {
-    return (
-      getHomebrewPowers().find((p) => p.id === power.id) ?? { ...power, className: selectedClass }
-    )
+    return homebrewPowers.find((p) => p.id === power.id) ?? { ...power, className: selectedClass }
   }
 
   function startView(power: Power) {

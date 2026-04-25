@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Monster } from '../../../types/monster'
 import { getAllMonsters, getFactions } from '../../../data/monstersData'
@@ -31,18 +31,27 @@ export default function MonsterRoster({ onBack }: Props) {
   const [editingMonster, setEditingMonster] = useState<Monster | undefined>()
   const [factionFilter, setFactionFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'Standard' | 'Elite'>('all')
-  const refresh = useDataRefresh()
+  const [refreshKey, refresh] = useDataRefresh()
 
-  const allMonsters = getAllMonsters()
-  const factions = getFactions()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const allMonsters = useMemo(() => getAllMonsters(), [refreshKey])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const factions = useMemo(() => getFactions(), [refreshKey])
 
-  const filtered = allMonsters.filter((m) => {
-    if (factionFilter !== 'all' && m.faction !== factionFilter) return false
-    if (typeFilter !== 'all' && m.type !== typeFilter) return false
-    return true
-  })
+  const filtered = useMemo(
+    () =>
+      allMonsters.filter((m) => {
+        if (factionFilter !== 'all' && m.faction !== factionFilter) return false
+        if (typeFilter !== 'all' && m.type !== typeFilter) return false
+        return true
+      }),
+    [allMonsters, factionFilter, typeFilter]
+  )
 
-  const sorted = [...filtered].sort((a, b) => a.dangerLevel - b.dangerLevel)
+  const sorted = useMemo(
+    () => [...filtered].sort((a, b) => a.dangerLevel - b.dangerLevel),
+    [filtered]
+  )
 
   function handleSave(monster: Monster) {
     if (editingMonster) {
