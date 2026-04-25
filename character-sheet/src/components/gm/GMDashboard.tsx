@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import MonsterRoster from './monsters/MonsterRoster'
+import PowersPanel from './powers/PowersPanel'
+import PerksPanel from './perks/PerksPanel'
 
-type GMView = 'dashboard' | 'monsters'
+type GMView = 'dashboard' | 'monsters' | 'powers' | 'perks'
 
 interface Props {
   onBack: () => void
@@ -44,6 +46,8 @@ export default function GMDashboard({ onBack }: Props) {
   const [gmView, setGMView] = useState<GMView>('dashboard')
 
   if (gmView === 'monsters') return <MonsterRoster onBack={() => setGMView('dashboard')} />
+  if (gmView === 'powers') return <PowersPanel onBack={() => setGMView('dashboard')} />
+  if (gmView === 'perks') return <PerksPanel onBack={() => setGMView('dashboard')} />
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4">
@@ -57,6 +61,16 @@ export default function GMDashboard({ onBack }: Props) {
           title="Monster Compendium"
           description="Browse, filter, and manage monster stat blocks for your encounters."
           onClick={() => setGMView('monsters')}
+        />
+        <ToolCard
+          title="Powers Editor"
+          description="Browse, edit, and add homebrew powers for any class."
+          onClick={() => setGMView('powers')}
+        />
+        <ToolCard
+          title="Perks Editor"
+          description="Edit general perks and add homebrew perks for your campaign."
+          onClick={() => setGMView('perks')}
         />
         <ToolCard
           title="Ruin Tracker"
