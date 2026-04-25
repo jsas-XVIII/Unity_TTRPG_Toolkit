@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Power, ClassName } from '../../../types/character'
 import type { HomebrewPower } from '../../../services/powersStorage'
 import {
@@ -53,8 +54,7 @@ export default function PowersPanel({ onBack }: Props) {
   const [tierFilter, setTierFilter] = useState<TierFilter>('all')
   const [search, setSearch] = useState('')
   const [editing, setEditing] = useState<{ power: HomebrewPower; readOnly: boolean } | null>(null)
-  const [, forceUpdate] = useState(0)
-  const refresh = () => forceUpdate((n) => n + 1)
+  const refresh = useDataRefresh()
 
   const homebrewIds = new Set(getHomebrewPowers().map((p) => p.id))
 

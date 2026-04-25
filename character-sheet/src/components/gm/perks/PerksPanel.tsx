@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Perk } from '../../../types/character'
 import { getAllPerks, getOfficialPerks, isOfficialPerk } from '../../../data/perksData'
 import {
@@ -15,8 +16,7 @@ interface Props {
 
 export default function PerksPanel({ onBack }: Props) {
   const [editing, setEditing] = useState<{ perk: Perk; readOnly: boolean } | null>(null)
-  const [, forceUpdate] = useState(0)
-  const refresh = () => forceUpdate((n) => n + 1)
+  const refresh = useDataRefresh()
 
   const perks = getAllPerks()
   const homebrewIds = new Set(getHomebrewPerks().map((p) => p.id))

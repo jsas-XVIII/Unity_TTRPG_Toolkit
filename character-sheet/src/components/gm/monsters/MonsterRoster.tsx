@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import type { Monster } from '../../../types/monster'
 import { getAllMonsters, getFactions } from '../../../data/monstersData'
 import {
@@ -30,8 +31,7 @@ export default function MonsterRoster({ onBack }: Props) {
   const [editingMonster, setEditingMonster] = useState<Monster | undefined>()
   const [factionFilter, setFactionFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'Standard' | 'Elite'>('all')
-  const [, forceUpdate] = useState(0)
-  const refresh = () => forceUpdate((n) => n + 1)
+  const refresh = useDataRefresh()
 
   const allMonsters = getAllMonsters()
   const factions = getFactions()
