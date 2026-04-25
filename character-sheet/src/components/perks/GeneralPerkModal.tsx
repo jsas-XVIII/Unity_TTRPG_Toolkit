@@ -2,7 +2,7 @@
 // Shows all available perks with descriptions so the player can browse before committing.
 
 import { useState } from 'react'
-import { GENERAL_PERKS } from '../../constants/perks'
+import { getAllPerks } from '../../data/perksData'
 
 interface Props {
   onAdd: (perkName: string) => void
@@ -35,7 +35,7 @@ export default function GeneralPerkModal({ onAdd, onClose }: Props) {
 
         {/* Scrollable perk list */}
         <div className="overflow-y-auto flex-1 space-y-2 pr-1">
-          {GENERAL_PERKS.map((perk) => (
+          {getAllPerks().map((perk) => (
             <button
               key={perk.name}
               onClick={() => setSelected(perk.name)}

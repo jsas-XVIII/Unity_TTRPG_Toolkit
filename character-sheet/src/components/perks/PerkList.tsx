@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { Perk } from '../../types/character'
 import type { Dispatch } from 'react'
-import { GENERAL_PERKS } from '../../constants/perks'
+import { getPerkByName } from '../../data/perksData'
 import { CARD, SECTION_HEADING, REMOVE_BTN } from '../../styles/classes'
 import { ADVANCEMENT_ROWS } from '../../data/advancementData'
 import GeneralPerkModal from './GeneralPerkModal'
@@ -50,7 +50,7 @@ export default function PerkList({ perks, level, dispatch }: Props) {
   ).length
 
   function addGeneralPerk(perkName: string) {
-    const template = GENERAL_PERKS.find((p) => p.name === perkName)
+    const template = getPerkByName(perkName)
     if (!template) return
     dispatch({ type: 'ADD_PERK', perk: { ...template, id: uuidv4() } })
   }

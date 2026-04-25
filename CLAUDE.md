@@ -130,9 +130,37 @@ All nine classes are defined in `constants/classes.ts` as `ClassDefinition[]`, e
 **DL range validation in MonsterForm:**
 `DL_RANGES` (indexed by DL 1–10, sourced from Chapter VIII Monster Creation Table) stores `[min, max]` tuples per stat. Out-of-range fields get amber styling + a "suggested: X–Y" hint. Saving with out-of-range stats shows a confirmation step. "Apply baseline" fills all stats with DL minimums. The `dlColor()` helper uses if/else ranges (not numeric Record keys — ESLint naming-convention violation).
 
-**Next up — Monster Creator:**
+### GM Tools — Content Layering Model
+
+All GM-managed game content (powers, perks, monsters) follows a two-layer model:
+
+- **Official layer** — static JSON files checked into the repo (`powers.json`, `perks.json`, `monsters.json`, `monster-abilities.json`). Always present, never mutated at runtime.
+- **Homebrew layer** — stored in localStorage. Handles both *overrides* (homebrew entry with the same ID as an official entry shadows it) and *additions* (homebrew entry with a new ID appended alongside official entries). Resolution is identical for both: homebrew wins on ID match, otherwise official is used, then homebrew-only entries are appended.
+
+**Sharing homebrew content:** The GM exports a single `unity-content-pack.json` (all homebrew powers + perks) and sends it to players. Players import it via the HomeScreen, which writes it into their localStorage. Import merges, not replaces, so players can apply updates incrementally.
+
+**localStorage keys:**
+- `unity_ttrpg_homebrew_powers` — `Power[]` (overrides + additions; class + tier baked into each entry)
+- `unity_ttrpg_homebrew_perks` — `Perk[]` (overrides + additions)
+- `unity_ttrpg_monsters_abilities` — `MonsterAbility[]` (existing; homebrew abilities only)
+
+### GM Tools — Powers & Perks (branch: GM_Powers_Perks_Tool)
+
 --Resume here--
-1. Monster **template** system: a template is a named set of stat deltas and ability additions/removals that the GM applies to any monster on the fly during a combat encounter (e.g. "Enraged +5 HP, +1 DMG" or "Blessed +2 AR"). Templates are not persisted to a monster — they are a transient overlay.
+
+**Plan:**
+- Migrate `constants/perks.ts` → `data/perks.json` (add stable IDs `gp-001`…`gp-012`)
+- `data/perksData.ts` — `getAllPerks()`, `getPerkById()` with homebrew merge
+- `services/powersStorage.ts` — CRUD for `unity_ttrpg_homebrew_powers`
+- `services/perksStorage.ts` — CRUD for `unity_ttrpg_homebrew_perks`
+- Update `data/powersData.ts` — merge homebrew layer into `getPowersByClass` / `getPowerById`
+- `components/gm/powers/PowersPanel` — class tabs + tier filter + search; edit/delete per entry; "New Power" button
+- `components/gm/powers/PowerEditorForm` — all fields + inline upgrade CRUD; class/tier locked for official, picker for new homebrew
+- `components/gm/perks/PerksPanel` — flat list + "New Perk" button
+- `components/gm/perks/PerkEditorForm` — name + description; reset for official, delete for homebrew
+- Export Content Pack button (GM side) — downloads `unity-content-pack.json`
+- Import Content Pack card on HomeScreen (player side) — merges into localStorage
+- GMDashboard — add Powers and Perks cards
 
 ### Game reference docs
 

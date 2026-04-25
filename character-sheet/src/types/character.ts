@@ -66,6 +66,7 @@ export interface Power {
   tier: 1 | 2 | 'baseline' | 'lv3' | 'lv8' | 'lv10'
   restrictToClassPath?: string
   actionType: ActionType
+  additionalActionTypes?: ActionType[]
   cost: string
   target: string
   range: string
