@@ -1,5 +1,7 @@
 import type { Power, ClassName } from '../types/character'
 import powersJson from './powers.json'
+import { getHomebrewPowers } from '../services/powersStorage'
+export type { HomebrewPower } from '../services/powersStorage'
 
 export type { ClassName }
 
@@ -58,16 +60,39 @@ export interface ResolvedPowerPool {
   lv10: Power[]
 }
 
+function mergeHomebrew(official: Power[], cls: ClassName, tier: Power['tier']): Power[] {
+  const homebrew = getHomebrewPowers().filter((p) => p.className === cls && p.tier === tier)
+  const overriddenIds = new Set(homebrew.map((p) => p.id))
+  return [...official.filter((p) => !overriddenIds.has(p.id)), ...homebrew]
+}
+
 export function getPowersByClass(cls: ClassName): ResolvedPowerPool {
   const e = powersData[cls] ?? {}
   return {
-    baseline: e.baseline ?? e.classpath ?? [],
-    tier1: e.tier1 ?? [],
-    tier2: e.tier2 ?? [],
-    lv3: e.lv3 ?? [],
-    lv8: e.lv8 ?? [],
-    lv10: e.lv10 ?? [],
+    baseline: mergeHomebrew(e.baseline ?? e.classpath ?? [], cls, 'baseline'),
+    tier1: mergeHomebrew(e.tier1 ?? [], cls, 1),
+    tier2: mergeHomebrew(e.tier2 ?? [], cls, 2),
+    lv3: mergeHomebrew(e.lv3 ?? [], cls, 'lv3'),
+    lv8: mergeHomebrew(e.lv8 ?? [], cls, 'lv8'),
+    lv10: mergeHomebrew(e.lv10 ?? [], cls, 'lv10'),
   }
+}
+
+export function isOfficialPower(id: string): boolean {
+  const data = powersJson as Record<string, ClassPowerPool>
+  for (const cls of CLASS_NAMES) {
+    const e = data[cls] ?? {}
+    const all = [
+      ...(e.baseline ?? e.classpath ?? []),
+      ...(e.tier1 ?? []),
+      ...(e.tier2 ?? []),
+      ...(e.lv3 ?? []),
+      ...(e.lv8 ?? []),
+      ...(e.lv10 ?? []),
+    ]
+    if (all.some((p) => p.id === id)) return true
+  }
+  return false
 }
 
 const ALL_POOL_KEYS: (keyof ResolvedPowerPool)[] = [

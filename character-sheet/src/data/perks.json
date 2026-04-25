@@ -1,0 +1,74 @@
+[
+  {
+    "id": "gp-001",
+    "name": "Combat Specialist",
+    "source": "General",
+    "description": "+1 to Class Resource recharge rolls (+2 at Level 5)."
+  },
+  {
+    "id": "gp-002",
+    "name": "Indomitable",
+    "source": "General",
+    "description": "Death rolls use 3d10 (choose best 2); second wind HP is doubled."
+  },
+  {
+    "id": "gp-003",
+    "name": "Weapons Master",
+    "source": "General",
+    "description": "+1 damage with chosen weapon class; stackable and repeatable for other competencies."
+  },
+  {
+    "id": "gp-004",
+    "name": "Jack of All Trades",
+    "source": "General",
+    "description": "+1 to any non-highest Attribute; stackable."
+  },
+  {
+    "id": "gp-005",
+    "name": "Burst of Speed",
+    "source": "General",
+    "description": "Once per Full Rest: Movement action covers 2 range bands, immune to Provoked Attacks that round."
+  },
+  {
+    "id": "gp-006",
+    "name": "Resilient",
+    "source": "General",
+    "description": "Max HP always increased by Level + 5."
+  },
+  {
+    "id": "gp-007",
+    "name": "Opportunist",
+    "source": "General",
+    "description": "Successful Provoked Attacks deal extra HL damage."
+  },
+  {
+    "id": "gp-008",
+    "name": "My Brother's Keeper",
+    "source": "General",
+    "description": "No Provoked Attacks when stabilizing allies; stabilize rolls can Recharge; success grants Benefit on next action."
+  },
+  {
+    "id": "gp-009",
+    "name": "Thrill of Battle",
+    "source": "General",
+    "description": "Double 10s grant both Massive Hit and Adrenaline Rush (instead of choosing)."
+  },
+  {
+    "id": "gp-010",
+    "name": "Seize the Initiative",
+    "source": "General",
+    "description": "Benefit + HL bonus on all Speed checks."
+  },
+  {
+    "id": "gp-011",
+    "name": "Mastery",
+    "source": "General",
+    "description": "Once per Full Rest: reduce next power's Class Resource cost by 2."
+  },
+  {
+    "id": "gp-012",
+    "name": "Snakeblood",
+    "source": "General",
+    "description": "Improved resistance to Poison and Disease effects."
+  }
+]
