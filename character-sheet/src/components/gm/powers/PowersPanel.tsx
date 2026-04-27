@@ -79,7 +79,7 @@ export default function PowersPanel({ onBack }: Props) {
         id: `hb-power-${uid()}`,
         name: '',
         className: selectedClass,
-        tier: 'tier1' as unknown as Power['tier'],
+        tier: 1,
         actionType: 'Standard',
         cost: '',
         target: 'Single',
