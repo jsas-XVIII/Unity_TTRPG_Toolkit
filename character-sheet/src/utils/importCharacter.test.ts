@@ -5,9 +5,15 @@
 //   { status: 'duplicate', parsed } — id already exists, ask the user
 
 import { describe, it, expect, vi } from 'vitest'
-import { checkImport, migrateCharacter } from './importCharacter'
+import { checkImport, migrateCharacter, type ImportCheckResult } from './importCharacter'
 import type { CharacterRepository } from '../services/api'
 import { baseCharacter } from '../test/fixtures'
+
+function assertParsed(
+  result: ImportCheckResult
+): asserts result is Exclude<ImportCheckResult, { status: 'invalid' }> {
+  if (result.status === 'invalid') throw new Error('Expected a parsed result')
+}
 
 function makeFile(character = baseCharacter): File {
   return new File([JSON.stringify(character)], 'character.json', {
@@ -36,6 +42,7 @@ describe('checkImport — new character (id not in storage)', () => {
   it('includes the parsed character data in the result', async () => {
     const api = mockApi()
     const result = await checkImport(makeFile(), api)
+    assertParsed(result)
     expect(result.parsed.name).toBe(baseCharacter.name)
     expect(result.parsed.id).toBe(baseCharacter.id)
   })
@@ -55,6 +62,7 @@ describe('checkImport — existing character (id already in storage)', () => {
       getById: vi.fn().mockResolvedValue(baseCharacter),
     })
     const result = await checkImport(makeFile(), api)
+    assertParsed(result)
     expect(result.parsed.name).toBe(baseCharacter.name)
     expect(result.parsed.id).toBe(baseCharacter.id)
   })
@@ -130,6 +138,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers).toEqual([{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }])
   })
 
@@ -138,6 +147,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     const power = result.parsed.powers[0]
     expect(power.purchasedUpgradeIds).toContain('upg-2')
     expect(power.purchasedUpgradeIds).not.toContain('upg-1')
@@ -148,6 +158,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers[0].purchasedUpgradeIds).toHaveLength(1)
   })
 
@@ -156,6 +167,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers).toEqual([{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }])
   })
 
@@ -166,6 +178,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.hpBonus).toBe(0)
   })
 
@@ -190,6 +203,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers).toEqual([{ id: 'power-xyz', purchasedUpgradeIds: [] }])
   })
 })
