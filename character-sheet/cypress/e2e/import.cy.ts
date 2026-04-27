@@ -1,3 +1,4 @@
+export {}
 // import.cy.ts — E2E tests for the JSON import flow.
 //
 // Covers:
@@ -66,7 +67,7 @@ function visitWithCharacter(id: string, name: string, extra: object = {}) {
 function uploadFile(fixture: string) {
   cy.get('[data-testid="character-import-input"],[data-testid="sheet-import-input"]').selectFile(
     `cypress/fixtures/${fixture}`,
-    { force: true },
+    { force: true }
   )
 }
 
