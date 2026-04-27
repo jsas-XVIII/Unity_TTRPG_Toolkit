@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { importContentPack } from './contentPackService'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { importContentPack, exportContentPack } from './contentPackService'
 import type { ContentPack } from './contentPackService'
 
 const POWERS_KEY = 'unity_ttrpg_homebrew_powers'
@@ -10,7 +10,7 @@ beforeEach(() => {
 })
 
 describe('importContentPack', () => {
-  it('merges powers and perks into localStorage and returns counts', () => {
+  it('writes powers and perks to localStorage and returns counts', () => {
     const pack: ContentPack = {
       version: 1,
       powers: [
@@ -37,7 +37,7 @@ describe('importContentPack', () => {
     expect(JSON.parse(localStorage.getItem(PERKS_KEY)!)).toHaveLength(1)
   })
 
-  it('merges incrementally — existing entries are preserved', () => {
+  it('replaces all existing powers — entries not in the new pack are removed', () => {
     localStorage.setItem(POWERS_KEY, JSON.stringify([{ id: 'existing', name: 'Old' }]))
 
     const pack: ContentPack = {
@@ -62,9 +62,54 @@ describe('importContentPack', () => {
     importContentPack(JSON.stringify(pack))
 
     const stored = JSON.parse(localStorage.getItem(POWERS_KEY)!)
-    expect(stored).toHaveLength(2)
-    expect(stored.map((p: { id: string }) => p.id)).toContain('existing')
-    expect(stored.map((p: { id: string }) => p.id)).toContain('hb-new')
+    expect(stored).toHaveLength(1)
+    expect(stored[0].id).toBe('hb-new')
+  })
+
+  it('replaces all existing perks — entries not in the new pack are removed', () => {
+    localStorage.setItem(PERKS_KEY, JSON.stringify([{ id: 'old-perk', name: 'Old Perk' }]))
+
+    const pack: ContentPack = {
+      version: 1,
+      powers: [],
+      perks: [{ id: 'new-perk', name: 'New Perk', description: 'desc', source: 'General' }],
+    }
+
+    importContentPack(JSON.stringify(pack))
+
+    const stored = JSON.parse(localStorage.getItem(PERKS_KEY)!)
+    expect(stored).toHaveLength(1)
+    expect(stored[0].id).toBe('new-perk')
+  })
+
+  it('propagates GM deletions — power absent from new pack is removed from player storage', () => {
+    const deletedPower = {
+      id: 'deleted-power',
+      name: 'Deleted',
+      className: 'Dreadnought',
+      tier: 1,
+      actionType: 'Standard',
+      cost: '1 AP',
+      target: 'Single',
+      range: 'Nearby',
+      effectsText: '',
+      upgrades: [],
+    }
+    localStorage.setItem(POWERS_KEY, JSON.stringify([deletedPower]))
+
+    const pack: ContentPack = { version: 1, powers: [], perks: [] }
+    importContentPack(JSON.stringify(pack))
+
+    expect(JSON.parse(localStorage.getItem(POWERS_KEY)!)).toHaveLength(0)
+  })
+
+  it('propagates GM deletions — perk absent from new pack is removed from player storage', () => {
+    localStorage.setItem(PERKS_KEY, JSON.stringify([{ id: 'deleted-perk', name: 'Old' }]))
+
+    const pack: ContentPack = { version: 1, powers: [], perks: [] }
+    importContentPack(JSON.stringify(pack))
+
+    expect(JSON.parse(localStorage.getItem(PERKS_KEY)!)).toHaveLength(0)
   })
 
   it('returns zero counts for empty arrays', () => {
@@ -80,5 +125,71 @@ describe('importContentPack', () => {
 
   it('throws on invalid JSON', () => {
     expect(() => importContentPack('not-json')).toThrow()
+  })
+})
+
+function readBlob(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = () => reject(reader.error)
+    reader.readAsText(blob)
+  })
+}
+
+describe('exportContentPack', () => {
+  const createObjectURL = vi.fn().mockReturnValue('blob:mock-url')
+  const revokeObjectURL = vi.fn()
+
+  beforeEach(() => {
+    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+    createObjectURL.mockClear()
+    revokeObjectURL.mockClear()
+  })
+
+  it('triggers a download named unity-content-pack.json and releases the object URL', () => {
+    const anchor = { href: '', download: '', click: vi.fn() }
+    vi.spyOn(document, 'createElement').mockReturnValueOnce(anchor as unknown as HTMLElement)
+
+    exportContentPack()
+
+    expect(anchor.download).toBe('unity-content-pack.json')
+    expect(anchor.click).toHaveBeenCalled()
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
+  })
+
+  it('includes current homebrew powers and perks in the downloaded pack', async () => {
+    localStorage.setItem(POWERS_KEY, JSON.stringify([{ id: 'p1', name: 'A Power' }]))
+    localStorage.setItem(PERKS_KEY, JSON.stringify([{ id: 'k1', name: 'A Perk' }]))
+
+    const anchor = { href: '', download: '', click: vi.fn() }
+    vi.spyOn(document, 'createElement').mockReturnValueOnce(anchor as unknown as HTMLElement)
+
+    exportContentPack()
+
+    const blob = createObjectURL.mock.calls[0][0] as Blob
+    const pack = JSON.parse(await readBlob(blob)) as ContentPack
+    expect(pack.version).toBe(1)
+    expect(pack.powers).toHaveLength(1)
+    expect(pack.powers[0].id).toBe('p1')
+    expect(pack.perks).toHaveLength(1)
+    expect(pack.perks[0].id).toBe('k1')
+  })
+
+  it('exports empty arrays when no homebrew content exists', async () => {
+    const anchor = { href: '', download: '', click: vi.fn() }
+    vi.spyOn(document, 'createElement').mockReturnValueOnce(anchor as unknown as HTMLElement)
+
+    exportContentPack()
+
+    const blob = createObjectURL.mock.calls[0][0] as Blob
+    const pack = JSON.parse(await readBlob(blob)) as ContentPack
+    expect(pack.powers).toHaveLength(0)
+    expect(pack.perks).toHaveLength(0)
   })
 })

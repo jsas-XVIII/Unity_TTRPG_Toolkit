@@ -10,12 +10,17 @@ export function getHomebrewPowers(): HomebrewPower[] {
   try {
     return JSON.parse(localStorage.getItem(KEY) ?? '[]') as HomebrewPower[]
   } catch {
+    // localStorage value is corrupted (non-JSON); treat as empty rather than crashing.
     return []
   }
 }
 
 function save(powers: HomebrewPower[]): void {
   localStorage.setItem(KEY, JSON.stringify(powers))
+}
+
+export function replaceHomebrewPowers(powers: HomebrewPower[]): void {
+  save(powers)
 }
 
 export function upsertHomebrewPower(power: HomebrewPower): void {

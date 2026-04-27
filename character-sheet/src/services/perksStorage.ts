@@ -6,12 +6,17 @@ export function getHomebrewPerks(): Perk[] {
   try {
     return JSON.parse(localStorage.getItem(KEY) ?? '[]') as Perk[]
   } catch {
+    // localStorage value is corrupted (non-JSON); treat as empty rather than crashing.
     return []
   }
 }
 
 function save(perks: Perk[]): void {
   localStorage.setItem(KEY, JSON.stringify(perks))
+}
+
+export function replaceHomebrewPerks(perks: Perk[]): void {
+  save(perks)
 }
 
 export function upsertHomebrewPerk(perk: Perk): void {
