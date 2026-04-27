@@ -1,7 +1,7 @@
 import type { Perk } from '../types/character'
 import type { HomebrewPower } from './powersStorage'
-import { getHomebrewPowers, upsertHomebrewPower } from './powersStorage'
-import { getHomebrewPerks, upsertHomebrewPerk } from './perksStorage'
+import { getHomebrewPowers, replaceHomebrewPowers } from './powersStorage'
+import { getHomebrewPerks, replaceHomebrewPerks } from './perksStorage'
 
 export interface ContentPack {
   // Literal 1 (not number) so future schema versions can be narrowed with a discriminated union
@@ -38,9 +38,9 @@ export function importContentPack(json: string): ImportResult {
   // an older version), so we still import whichever half is present.
   const powers: HomebrewPower[] = Array.isArray(pack.powers) ? pack.powers : []
   const perks: Perk[] = Array.isArray(pack.perks) ? pack.perks : []
-  // upsert = merge, not replace: existing homebrew entries are preserved; incoming entries
-  // with matching IDs override them, and new IDs are appended.
-  powers.forEach(upsertHomebrewPower)
-  perks.forEach(upsertHomebrewPerk)
+  // Full replace, not merge: the exported pack is the GM's authoritative state, so entries
+  // the GM deleted must disappear from the player's storage too.
+  replaceHomebrewPowers(powers)
+  replaceHomebrewPerks(perks)
   return { powersCount: powers.length, perksCount: perks.length }
 }
