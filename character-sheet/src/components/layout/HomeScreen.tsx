@@ -103,6 +103,7 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
           onClick={() => importInputRef.current?.click()}
         />
         <input
+          data-testid="character-import-input"
           ref={importInputRef}
           type="file"
           accept=".json,application/json"

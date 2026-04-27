@@ -73,6 +73,7 @@ export default function CharacterSheet({
           Import JSON
         </button>
         <input
+          data-testid="sheet-import-input"
           ref={importInputRef}
           type="file"
           accept=".json,application/json"
