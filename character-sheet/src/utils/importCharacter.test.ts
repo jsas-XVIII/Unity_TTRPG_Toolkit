@@ -75,10 +75,25 @@ describe('checkImport — existing character (id already in storage)', () => {
   })
 })
 
-describe('checkImport — error cases', () => {
-  it('rejects when the file contains invalid JSON', async () => {
+describe('checkImport — invalid file cases', () => {
+  it('returns status "invalid" when the file contains malformed JSON', async () => {
     const badFile = new File(['not valid json'], 'bad.json', { type: 'application/json' })
-    await expect(checkImport(badFile, mockApi())).rejects.toThrow()
+    const result = await checkImport(badFile, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when the JSON is not a character (e.g. a content pack)', async () => {
+    const contentPack = JSON.stringify({ powers: [], perks: [] })
+    const file = new File([contentPack], 'unity-content-pack.json', { type: 'application/json' })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when the JSON has no id field', async () => {
+    const noId = JSON.stringify({ name: 'Aldric', className: 'Dreadnought' })
+    const file = new File([noId], 'partial.json', { type: 'application/json' })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
   })
 })
 

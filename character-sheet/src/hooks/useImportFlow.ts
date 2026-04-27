@@ -25,11 +25,17 @@ export function useImportFlow(
     parsed: Character
     fromHome: boolean
   } | null>(null)
+  // Set when the selected file is not a valid character JSON
+  const [importError, setImportError] = useState<string | null>(null)
 
   // Core handler — shared by both entry points via handleImport / handleImportDirect
   async function handleFileSelected(file: File, fromHome: boolean) {
     try {
       const result = await checkImport(file, api)
+      if (result.status === 'invalid') {
+        setImportError("Invalid file — this doesn't look like a character.")
+        return
+      }
       if (result.status === 'duplicate') {
         setDuplicateImport({ parsed: result.parsed, fromHome })
         return
@@ -43,6 +49,10 @@ export function useImportFlow(
     } catch {
       onError()
     }
+  }
+
+  function clearImportError() {
+    setImportError(null)
   }
 
   // Entry point: CharacterSheet "Import JSON" button
@@ -94,6 +104,8 @@ export function useImportFlow(
   return {
     importedCharacter,
     duplicateImport,
+    importError,
+    clearImportError,
     handleImport,
     handleImportDirect,
     handleDuplicateConfirm,

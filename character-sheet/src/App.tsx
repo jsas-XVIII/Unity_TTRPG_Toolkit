@@ -28,6 +28,8 @@ export default function App() {
   const {
     importedCharacter,
     duplicateImport,
+    importError,
+    clearImportError,
     handleImport,
     handleImportDirect,
     handleDuplicateConfirm,
@@ -143,6 +145,20 @@ export default function App() {
             onNewCharacter={() => setView('home')}
           />
         </>
+      )}
+
+      {/* Invalid file selected for character import */}
+      {importError && (
+        <div className="fixed top-4 right-4 flex items-center gap-3 bg-red-900 border border-red-700 text-red-200 px-4 py-2 rounded shadow-lg z-50 text-sm">
+          {importError}
+          <button
+            onClick={clearImportError}
+            className="text-red-400 hover:text-red-200 transition-colors leading-none"
+            aria-label="Dismiss"
+          >
+            ×
+          </button>
+        </div>
       )}
 
       {/* Duplicate detected — ask the user if they want a copy */}

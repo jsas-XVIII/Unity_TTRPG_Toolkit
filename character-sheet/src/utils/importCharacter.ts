@@ -41,6 +41,13 @@ export function migrateCharacter(character: Character): Character {
 export type ImportCheckResult =
   | { status: 'new'; parsed: Character }
   | { status: 'duplicate'; parsed: Character }
+  | { status: 'invalid' }
+
+function isValidCharacter(obj: unknown): obj is Character {
+  if (!obj || typeof obj !== 'object') return false
+  const c = obj as Record<string, unknown>
+  return typeof c.id === 'string' && typeof c.name === 'string' && typeof c.className === 'string'
+}
 
 // Wraps FileReader in a Promise so the async/await flow stays clean.
 // file.text() is not supported in jsdom (the test environment).
@@ -58,7 +65,17 @@ export async function checkImport(
   api: CharacterRepository
 ): Promise<ImportCheckResult> {
   const text = await readFileAsText(file)
-  const parsed = migrateCharacter(JSON.parse(text) as Character)
+
+  let raw: unknown
+  try {
+    raw = JSON.parse(text)
+  } catch {
+    return { status: 'invalid' }
+  }
+
+  if (!isValidCharacter(raw)) return { status: 'invalid' }
+
+  const parsed = migrateCharacter(raw)
 
   try {
     await api.getById(parsed.id)

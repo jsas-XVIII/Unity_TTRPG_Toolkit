@@ -205,6 +205,33 @@ describe('handleImportDismiss', () => {
   })
 })
 
+// --- invalid file ---
+
+describe('invalid file', () => {
+  it('sets importError and does not call api.create or onError', async () => {
+    mockCheckImport.mockResolvedValue({ status: 'invalid' })
+    const api = mockApi()
+    const onError = vi.fn()
+    const { result } = renderHook(() => useImportFlow(api, vi.fn(), onError))
+
+    await act(() => result.current.handleImportDirect(makeFile()))
+
+    expect(result.current.importError).toBe("Invalid file — this doesn't look like a character.")
+    expect(api.create).not.toHaveBeenCalled()
+    expect(onError).not.toHaveBeenCalled()
+  })
+
+  it('clearImportError resets importError to null', async () => {
+    mockCheckImport.mockResolvedValue({ status: 'invalid' })
+    const { result } = renderHook(() => useImportFlow(mockApi(), vi.fn(), vi.fn()))
+
+    await act(() => result.current.handleImportDirect(makeFile()))
+    act(() => result.current.clearImportError())
+
+    expect(result.current.importError).toBeNull()
+  })
+})
+
 // --- error handling ---
 
 describe('error handling', () => {
