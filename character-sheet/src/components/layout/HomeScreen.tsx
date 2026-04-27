@@ -44,6 +44,27 @@ function OptionCard({ title, description, onClick, disabled, badge }: OptionCard
   )
 }
 
+function UploadIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-gray-400"
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="17 8 12 3 7 8" />
+      <line x1="12" y1="3" x2="12" y2="15" />
+    </svg>
+  )
+}
+
 function packStatusMessage(result: ImportResult): { text: string; color: string } {
   if (result.powersCount === 0 && result.perksCount === 0) {
     return {
@@ -98,70 +119,83 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
           onClick={onExistingCharacter}
         />
         <OptionCard
-          title="Import Character"
-          description="Load a character from a JSON file exported from this app."
-          onClick={() => importInputRef.current?.click()}
-        />
-        <input
-          data-testid="character-import-input"
-          ref={importInputRef}
-          type="file"
-          accept=".json,application/json"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files?.[0]
-            if (file) {
-              onImport(file)
-              e.target.value = ''
-            }
-          }}
-        />
-
-        {packStatus === null ? (
-          <OptionCard
-            title="Import Content Pack"
-            description="Load homebrew powers and perks shared by your GM."
-            onClick={() => contentPackInputRef.current?.click()}
-          />
-        ) : (
-          <div className="relative flex flex-col items-start text-left w-full p-6 rounded-xl border border-gray-700 bg-gray-900">
-            <span className="text-lg font-bold text-gray-100 mb-2">Import Content Pack</span>
-            {!packStatus.ok ? (
-              <span className="text-sm text-red-400">Invalid content pack file.</span>
-            ) : (
-              <span className={`text-sm ${packStatusMessage(packStatus.result).color}`}>
-                {packStatusMessage(packStatus.result).text}
-              </span>
-            )}
-            <button
-              className="mt-3 text-xs text-gray-500 hover:text-gray-300 transition-colors"
-              onClick={() => setPackStatus(null)}
-            >
-              Import another
-            </button>
-          </div>
-        )}
-        <input
-          data-testid="content-pack-input"
-          ref={contentPackInputRef}
-          type="file"
-          accept=".json,application/json"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files?.[0]
-            if (file) {
-              handleContentPackFile(file)
-              // Reset so the same file can be re-imported after "Import another"
-              e.target.value = ''
-            }
-          }}
-        />
-
-        <OptionCard
           title="Gamemaster"
           description="Monster compendium, encounter management, and homebrew content tools."
           onClick={onGM}
         />
+
+        {/* Import row — two half-width buttons */}
+        <div className="flex gap-4">
+          <button
+            data-testid="import-character-button"
+            onClick={() => importInputRef.current?.click()}
+            className="flex-1 flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-gray-700 bg-gray-900 hover:border-amber-600 hover:bg-gray-800 transition-all cursor-pointer"
+          >
+            <UploadIcon />
+            <span className="text-sm font-bold text-gray-100">Import Character</span>
+            <span className="text-xs text-gray-400 leading-relaxed">Load from a JSON file</span>
+          </button>
+          <input
+            data-testid="character-import-input"
+            ref={importInputRef}
+            type="file"
+            accept=".json,application/json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) {
+                onImport(file)
+                e.target.value = ''
+              }
+            }}
+          />
+
+          {packStatus === null ? (
+            <button
+              data-testid="import-content-pack-button"
+              onClick={() => contentPackInputRef.current?.click()}
+              className="flex-1 flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-gray-700 bg-gray-900 hover:border-amber-600 hover:bg-gray-800 transition-all cursor-pointer"
+            >
+              <UploadIcon />
+              <span className="text-sm font-bold text-gray-100">Import Content Pack</span>
+              <span className="text-xs text-gray-400 leading-relaxed">Homebrew from your GM</span>
+            </button>
+          ) : (
+            <div className="flex-1 flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-gray-700 bg-gray-900">
+              <UploadIcon />
+              <span className="text-sm font-bold text-gray-100">Import Content Pack</span>
+              {!packStatus.ok ? (
+                <span className="text-xs text-red-400">Invalid file.</span>
+              ) : (
+                <span
+                  className={`text-xs leading-relaxed ${packStatusMessage(packStatus.result).color}`}
+                >
+                  {packStatusMessage(packStatus.result).text}
+                </span>
+              )}
+              <button
+                className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+                onClick={() => setPackStatus(null)}
+              >
+                Import another
+              </button>
+            </div>
+          )}
+          <input
+            data-testid="content-pack-input"
+            ref={contentPackInputRef}
+            type="file"
+            accept=".json,application/json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) {
+                handleContentPackFile(file)
+                e.target.value = ''
+              }
+            }}
+          />
+        </div>
       </div>
     </div>
   )

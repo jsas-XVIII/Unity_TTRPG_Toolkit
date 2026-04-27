@@ -80,7 +80,7 @@ export default function PerksPanel({ onBack }: Props) {
       <div className="flex items-center gap-4 mb-6">
         <button
           onClick={onBack}
-          className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+          className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm"
         >
           ← Back
         </button>
