@@ -145,9 +145,7 @@ describe('HomeScreen', () => {
       })
       renderHome()
       triggerContentPackFile('not-json')
-      await waitFor(() =>
-        expect(screen.getByText(/invalid content pack file/i)).toBeInTheDocument()
-      )
+      await waitFor(() => expect(screen.getByText(/invalid file/i)).toBeInTheDocument())
     })
 
     it('"Import another" resets back to the card', async () => {

@@ -12,6 +12,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
 expect.extend(matchers)
@@ -80,5 +81,18 @@ describe('Import JSON button', () => {
 
     // After the change handler runs, value should be cleared
     expect(input.value).toBe('')
+  })
+})
+
+describe('CharacterSheet — navigation', () => {
+  it('renders the "← Main Menu" button', () => {
+    renderSheet()
+    expect(screen.getByRole('button', { name: /main menu/i })).toBeInTheDocument()
+  })
+
+  it('clicking "← Main Menu" calls onNewCharacter', async () => {
+    const props = renderSheet()
+    await userEvent.click(screen.getByRole('button', { name: /main menu/i }))
+    expect(props.onNewCharacter).toHaveBeenCalledOnce()
   })
 })

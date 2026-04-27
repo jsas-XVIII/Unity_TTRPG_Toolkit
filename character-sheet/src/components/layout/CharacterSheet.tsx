@@ -53,6 +53,13 @@ export default function CharacterSheet({
       {/* Global controls — Save, Export, Import, New Character */}
       <div className="flex gap-2 px-4 py-2 bg-gray-900 border-b border-gray-800">
         <button
+          className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm"
+          onClick={onNewCharacter}
+        >
+          ← Main Menu
+        </button>
+        <div className="w-px bg-gray-700 mx-1" />
+        <button
           className="px-4 py-1.5 rounded bg-amber-700 hover:bg-amber-600 text-white text-sm font-semibold"
           onClick={() => onSave(character)}
         >
@@ -64,8 +71,6 @@ export default function CharacterSheet({
         >
           Export JSON
         </button>
-        {/* Import JSON: button triggers the hidden file input; input resets after selection
-            so the same file can be re-imported in the same session */}
         <button
           className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm"
           onClick={() => importInputRef.current?.click()}
@@ -86,12 +91,6 @@ export default function CharacterSheet({
             }
           }}
         />
-        <button
-          className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm ml-auto"
-          onClick={onNewCharacter}
-        >
-          New Character
-        </button>
       </div>
 
       {/* Tab bar */}
