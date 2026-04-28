@@ -9,6 +9,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Testing & Linting Gate
 After making code changes, always run tests AND lint together as a single gate before declaring work complete. Don't wait to be asked — treat lint as part of the test cycle.
 
+### Failing Tests — Research Before Fixing
+When a test is failing, do NOT automatically fix it. First research what the test asserts, what the code does, and why they diverge. Present findings — including your own assessment of whether the test or the code is the problem and why — then wait for confirmation before writing any changes.
+
 ### Before Implementing Options
 When presenting multiple options (A/B/C), wait for explicit user selection and echo back which option you're implementing before writing code.
 
