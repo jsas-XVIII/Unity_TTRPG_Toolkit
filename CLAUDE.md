@@ -12,6 +12,8 @@ After making code changes, always run tests AND lint together as a single gate b
 ### Failing Tests — Research Before Fixing
 When a test is failing, do NOT automatically fix it. First research what the test asserts, what the code does, and why they diverge. Present findings — including your own assessment of whether the test or the code is the problem and why — then wait for confirmation before writing any changes.
 
+Exception: if the user explicitly says "write a failing test, then implement" (TDD), the failing test is expected — proceed directly to implementation without stopping to discuss.
+
 ### Before Implementing Options
 When presenting multiple options (A/B/C), wait for explicit user selection and echo back which option you're implementing before writing code.
 
@@ -140,7 +142,7 @@ All GM-managed game content (powers, perks, monsters) follows a two-layer model:
 - **Official layer** — static JSON files checked into the repo (`powers.json`, `perks.json`, `monsters.json`, `monster-abilities.json`). Always present, never mutated at runtime.
 - **Homebrew layer** — stored in localStorage. Handles both *overrides* (homebrew entry with the same ID as an official entry shadows it) and *additions* (homebrew entry with a new ID appended alongside official entries). Resolution is identical for both: homebrew wins on ID match, otherwise official is used, then homebrew-only entries are appended.
 
-**Sharing homebrew content:** The GM exports a single `unity-content-pack.json` (all homebrew powers + perks) and sends it to players. Players import it via the HomeScreen, which writes it into their localStorage. Import merges, not replaces, so players can apply updates incrementally.
+**Sharing homebrew content:** The GM exports a single `unity-content-pack.json` (all homebrew powers + perks) and sends it to players. Players import it via the HomeScreen, which writes it into their localStorage. Import replaces the player's homebrew library wholesale — the GM's exported pack is authoritative, so entries the GM deleted disappear from the player's storage too.
 
 **localStorage keys:**
 - `unity_ttrpg_homebrew_powers` — `Power[]` (overrides + additions; class + tier baked into each entry)
@@ -159,16 +161,16 @@ When ready: replace `useDataRefresh()` calls one panel at a time. Each panel can
 
 ---
 
-### GM Tools — Powers & Perks (branch: GM_Powers_Perks_Tool)
+### GM Tools — Powers & Perks
 
-**Done:**
+**Shipped** (`GM_Powers_Perks_Tool` + `ExportImport_Content_Pack` branches).
+
 - `data/perks.json` + `data/perksData.ts` — static perks (gp-001…gp-012), `getAllPerks`/`getPerkById`/`isOfficialPerk` with homebrew merge
 - `services/powersStorage.ts` + `services/perksStorage.ts` — CRUD for both homebrew stores
 - `data/powersData.ts` — homebrew merged into `getPowersByClass` / `getPowerById`
-- `components/gm/powers/PowersPanel` + `PowerEditorForm` — class tabs, tier filter, search; View/Edit per row; all fields; inline upgrade CRUD; multi-action types; Range select
+- `components/gm/powers/PowersPanel` + `PowerEditorForm` — class tabs, tier filter, search; View/Edit per row
 - `components/gm/perks/PerksPanel` + `PerkEditorForm` — flat list; same View/Edit/readOnly pattern
-- `types/character.ts` — `Power.additionalActionTypes?: ActionType[]`
-- Tests: `PowerEditorForm.test.tsx`, `PowersPanel.test.tsx`, `PerkEditorForm.test.tsx`, `PerksPanel.test.tsx`
+- Export Content Pack button (GM side) + Import Content Pack card (HomeScreen, player side)
 
 **UI conventions (all GM editor panels):**
 - List rows: static div + **View** (gray border) + **Edit** (amber border) — no clickable row
@@ -176,9 +178,7 @@ When ready: replace `useDataRefresh()` calls one panel at a time. Each panel can
 - Edit mode: "Edit: {name}" title, "← Cancel" button, Save/Reset/Delete visible
 - Cancel/Back button style: `border border-gray-700 text-gray-400 hover:border-gray-500`
 
-**--Resume here-- (remaining):**
-- Export Content Pack button (GM side) — downloads `unity-content-pack.json`
-- Import Content Pack card on HomeScreen (player side) — merges into localStorage
+**Upcoming improvements:** See `PLAN.md` for sequenced perf, security, and hygiene phases.
 
 ### Game reference docs
 
