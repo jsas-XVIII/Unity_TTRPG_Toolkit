@@ -33,11 +33,27 @@ export function exportContentPack(): void {
 }
 
 export function importContentPack(json: string): ImportResult {
-  const pack = JSON.parse(json) as ContentPack
+  let raw: unknown
+  try {
+    raw = JSON.parse(json)
+  } catch {
+    throw new Error('Content pack is not valid JSON')
+  }
+
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new Error('Content pack must be a JSON object')
+  }
+
+  const pack = raw as Record<string, unknown>
+
+  if (pack.version !== 1) {
+    throw new Error('Unsupported content pack version')
+  }
+
   // Guard against packs that are missing one key entirely (e.g. a powers-only export from
   // an older version), so we still import whichever half is present.
-  const powers: HomebrewPower[] = Array.isArray(pack.powers) ? pack.powers : []
-  const perks: Perk[] = Array.isArray(pack.perks) ? pack.perks : []
+  const powers: HomebrewPower[] = Array.isArray(pack.powers) ? (pack.powers as HomebrewPower[]) : []
+  const perks: Perk[] = Array.isArray(pack.perks) ? (pack.perks as Perk[]) : []
   // Full replace, not merge: the exported pack is the GM's authoritative state, so entries
   // the GM deleted must disappear from the player's storage too.
   replaceHomebrewPowers(powers)

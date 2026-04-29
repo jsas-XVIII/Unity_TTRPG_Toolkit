@@ -126,6 +126,22 @@ describe('importContentPack', () => {
   it('throws on invalid JSON', () => {
     expect(() => importContentPack('not-json')).toThrow()
   })
+
+  it('throws when version is missing', () => {
+    expect(() => importContentPack(JSON.stringify({ powers: [], perks: [] }))).toThrow(
+      'Unsupported content pack version'
+    )
+  })
+
+  it('throws when version is not 1', () => {
+    expect(() => importContentPack(JSON.stringify({ version: 2, powers: [], perks: [] }))).toThrow(
+      'Unsupported content pack version'
+    )
+  })
+
+  it('throws when the JSON is not an object', () => {
+    expect(() => importContentPack(JSON.stringify([{ version: 1 }]))).toThrow()
+  })
 })
 
 function readBlob(blob: Blob): Promise<string> {
