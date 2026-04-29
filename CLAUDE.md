@@ -20,6 +20,18 @@ When presenting multiple options (A/B/C), wait for explicit user selection and e
 ### Custom Commands
 When creating new slash commands or modifying `.claude/` config, remind the user that Claude Code must be restarted for changes to take effect.
 
+### Netlify Security Headers — Testing
+
+Headers in `netlify.toml` only apply when Netlify serves the files. The Vite dev server ignores them. To verify:
+
+1. Merge branch → Development → Main (Netlify deploys only on Main changes to reduce build usage)
+2. Wait for the Netlify deploy to complete
+3. Open the live URL in the browser → DevTools → Network tab → click any request → **Response Headers**
+   - Expected: `content-security-policy`, `x-frame-options`, `x-content-type-options`, `referrer-policy`, `strict-transport-security`
+4. Alternatively: `curl -I <live-url>`
+
+If the CSP blocks resources (console errors about blocked scripts/styles), relax the relevant directive in `netlify.toml` and redeploy.
+
 ---
 
 ## Shell Environment

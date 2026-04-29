@@ -70,15 +70,7 @@ Each phase = one branch / PR. Branch names suggested. Sequencing favors low-risk
   - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
 - Tailwind v4 uses inline `<style>`, so `'unsafe-inline'` for styles is required. Tighten via deploy preview console feedback.
 
-### Phase 2 — Dep cleanup + `docs/rules/` un-ignore
-**Branch:** `chore/dep-cleanup`
-**Model:** Sonnet
-**Risk:** Low.
-
-- Delete dead `overrides: { lodash }` block in `character-sheet/package.json`.
-- Add `.runner_system_id` to root `.gitignore`; `git rm --cached .runner_system_id`.
-- Remove `docs/rules/` line from root `.gitignore`; `git add docs/rules/`.
-- Skip the `uuid` → `crypto.randomUUID()` swap (not worth touching for ~4 KB).
+### ~~Phase 2 — Dep cleanup + `docs/rules/` un-ignore~~ ✓ done 2026-04-29
 
 ### Phase 4 — localStorage quota handling
 **Branch:** `feat/storage-quota-handling`
