@@ -32,7 +32,8 @@ function loadAll(): Character[] {
   }
 }
 
-// Serialises the full character array back to localStorage
+// Serialises the full character array back to localStorage.
+// Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
 function saveAll(characters: Character[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(characters))
 }

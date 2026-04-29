@@ -15,6 +15,7 @@ export function getHomebrewMonsters(): Monster[] {
   return readJson<Monster>(MONSTERS_KEY)
 }
 
+// Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
 function saveMonsters(monsters: Monster[]): void {
   localStorage.setItem(MONSTERS_KEY, JSON.stringify(monsters))
 }
@@ -39,6 +40,7 @@ export function getHomebrewAbilities(): MonsterAbility[] {
   return readJson<MonsterAbility>(ABILITIES_KEY)
 }
 
+// Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
 function saveAbilities(abilities: MonsterAbility[]): void {
   localStorage.setItem(ABILITIES_KEY, JSON.stringify(abilities))
 }

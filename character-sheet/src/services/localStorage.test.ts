@@ -7,7 +7,7 @@
 //   4. Importing the same file twice detects a duplicate (same id stored)
 //   5. update() throws when the id doesn't exist
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { localStorageRepository as repo } from './localStorage'
 import { baseCharacter } from '../test/fixtures'
 
@@ -78,6 +78,18 @@ describe('localStorageRepository — character migration on load', () => {
     localStorage.setItem('unity_ttrpg_characters', JSON.stringify([char]))
     const fetched = await repo.getById(baseCharacter.id)
     expect(fetched.hpBonus).toBe(12)
+  })
+})
+
+describe('localStorageRepository — QuotaExceededError propagation', () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  it('create() rejects when setItem throws QuotaExceededError', async () => {
+    const quotaError = new DOMException('QuotaExceededError', 'QuotaExceededError')
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementationOnce(() => {
+      throw quotaError
+    })
+    await expect(repo.create(baseCharacter)).rejects.toThrow()
   })
 })
 

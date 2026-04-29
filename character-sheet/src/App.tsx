@@ -14,6 +14,8 @@ import DuplicateCharacterModal from './components/layout/DuplicateCharacterModal
 import type { Character } from './types/character'
 import { useApi } from './hooks/useApi'
 import { useImportFlow } from './hooks/useImportFlow'
+import StorageErrorToast from './components/ui/StorageErrorToast'
+import { isQuotaError } from './utils/storageErrors'
 
 type View = 'home' | 'roster' | 'wizard' | 'sheet' | 'gm'
 
@@ -23,7 +25,7 @@ export default function App() {
 
   const [view, setView] = useState<View>('home')
   const [character, setCharacter] = useState<Character | null>(null)
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle')
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error' | 'quota'>('idle')
 
   const {
     importedCharacter,
@@ -66,9 +68,10 @@ export default function App() {
       const created = await api.create(newChar)
       setCharacter(created)
       setView('sheet')
-    } catch {
+    } catch (e) {
       setCharacter(newChar)
       setView('sheet')
+      if (isQuotaError(e)) setSaveStatus('quota')
     }
   }
 
@@ -84,8 +87,8 @@ export default function App() {
       })
       setSaveStatus('saved')
       setTimeout(() => setSaveStatus('idle'), 2000)
-    } catch {
-      setSaveStatus('error')
+    } catch (e) {
+      setSaveStatus(isQuotaError(e) ? 'quota' : 'error')
     }
   }
 
@@ -136,6 +139,7 @@ export default function App() {
               Save failed.
             </div>
           )}
+          {saveStatus === 'quota' && <StorageErrorToast onDismiss={() => setSaveStatus('idle')} />}
           <CharacterSheet
             key={character.id}
             initial={character}

@@ -11,6 +11,7 @@ export function getHomebrewPerks(): Perk[] {
   }
 }
 
+// Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
 function save(perks: Perk[]): void {
   localStorage.setItem(KEY, JSON.stringify(perks))
 }

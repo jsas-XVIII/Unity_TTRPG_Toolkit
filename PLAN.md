@@ -72,14 +72,7 @@ Each phase = one branch / PR. Branch names suggested. Sequencing favors low-risk
 
 ### ~~Phase 2 — Dep cleanup + `docs/rules/` un-ignore~~ ✓ done 2026-04-29
 
-### Phase 4 — localStorage quota handling
-**Branch:** `feat/storage-quota-handling`
-**Model:** Sonnet
-**Risk:** Low.
-
-- Wrap `saveAll`/`save` in `services/localStorage.ts`, `services/powersStorage.ts`, `services/perksStorage.ts`, `services/monsterStorage.ts` in try/catch for `QuotaExceededError`.
-- Surface a "storage full" toast (reuse `App.tsx` save-status banner pattern).
-- Add a vitest case that mocks `setItem` to throw and confirms error propagation.
+### ~~Phase 4 — localStorage quota handling~~ ✓ done 2026-04-29
 
 ### Phase 3 — Import validation (storage hygiene)
 **Branch:** `feat/import-validation`
