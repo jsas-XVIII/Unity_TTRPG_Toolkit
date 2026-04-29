@@ -1,232 +1,197 @@
-# Unity TTRPG Toolkit — Implementation Plan
+# Unity TTRPG Toolkit — Improvement Plan
 
 ## Project Goal
 A toolkit for the Unity Tabletop RPG (Zensara Studios / Modiphius Entertainment) featuring:
 - Interactive digital character sheets
-- Game Master tools (Ruin tracker, Spark Points, encounter management)
-- Eventually: character data persisted to SQLite via a C# REST API
-
----
+- Game Master tools (powers/perks editor, monster creation, encounter management)
+- Eventually: character data persisted to SQLite via a C# REST API (deferred)
 
 ## Tech Stack
 
 | Layer | Technology | Notes |
 |-------|-----------|-------|
-| Frontend | React + Vite + TypeScript | Component model maps cleanly to character sheet zones |
-| Styling | Tailwind CSS | Fast iteration, no CSS file management |
-| Form state | React Hook Form | Handles many editable fields efficiently |
-| Persistence | `localStorage` + JSON files | Characters in localStorage; game content (powers, classes, etc.) in repo JSON files |
-| Backend (deferred) | C# ASP.NET Core + SQLite | Only if multi-device sync or multi-tenancy becomes a real requirement |
+| Frontend | React 19 + Vite + TypeScript | |
+| Styling | Tailwind CSS v4 | |
+| Form state | React Hook Form | |
+| Persistence | `localStorage` + JSON files in repo | Characters in localStorage; game content (powers, monsters, perks) in `src/data/*.json` |
+| Hosting | Netlify (`netlify.toml`) | Public deploy of a private GitLab repo |
+| Backend (deferred) | C# ASP.NET Core + SQLite | Only if multi-device sync becomes a real need |
+
+## Current State (2026-04-28)
+
+Foundational features are mostly complete (character sheet, wizard, advancement, GM monster tool, GM powers/perks editor with View/Edit/readOnly). Remaining roadmap item is the player-side **Import Content Pack** card on `HomeScreen` (export side already shipped on the GM dashboard).
+
+This document supersedes the previous roadmap. It captures an Opus-driven review of the codebase and a sequenced improvement plan covering performance, security, and bundle hygiene.
 
 ---
 
-## Project Structure
-
-```
-Unity_TTRPG_Toolkit/
-  docs/                              (gitignored — rules reference extracted from PDF)
-  character-sheet/                   (frontend application)
-    src/
-      types/                         TypeScript interfaces
-        character.ts                 Root Character interface + all sub-types
-        class.ts                     ClassDefinition interface
-        equipment.ts                 Weapon, Armor, Artifact interfaces
-        power.ts                     Power, PowerUpgrade interfaces
-      constants/                     Static game data
-        classes.ts                   All 9 class definitions
-        races.ts                     All 4 race baselines
-        weapons.ts                   Weapon categories + damage dice
-        armor.ts                     Armor categories + AV values
-        perks.ts                     General perks list
-      components/
-        layout/
-          CharacterSheet.tsx         Root sheet container
-          SheetHeader.tsx            Name, Class, Race, Level, XP, Age
-        identity/
-          AttributeBlock.tsx         MIGHT / AGILITY / MIND / PRESENCE
-          DerivedStats.tsx           AR, DR, MR, Speed, AV, Max HP (display only)
-        resources/
-          HPTracker.tsx              Current/max HP + 5 Fading slots
-          ResourceTracker.tsx        Primary + secondary class resource pips
-          RecuperationTracker.tsx    Recuperation count + die type
-        paths/
-          CorePathList.tsx           3 Core Path entries
-          CorePathEntry.tsx          Single path: name, description, point stepper
-        powers/
-          PowerList.tsx              Tier I / Tier II grid
-          PowerCard.tsx              Collapsible card: action type, cost, effects, upgrades
-        equipment/
-          WeaponSlots.tsx
-          ArmorSlot.tsx
-          ArtifactList.tsx           With capacity warning when exceeded
-          InventoryBlock.tsx         Denerim, Necessities, Gear
-        perks/
-          PerkList.tsx               Class + General perks
-      hooks/
-        useCharacter.ts              Character state (useReducer) + derived stat calculations
-        useApi.ts                    Returns LocalStorageRepository or RestApiRepository based on env
-      services/
-        api.ts                       CharacterRepository interface
-        localStorage.ts              Phase 1: reads/writes localStorage
-        restApi.ts                   Phase 2: calls C# backend via fetch()
-      utils/
-        derivedStats.ts              Pure functions — AR, DR, MR, Speed, HP, AV, Recuperations, HL
-  api/                               (future — C# ASP.NET Core project)
-    UnityTtrpg.Api/
-  PLAN.md                            (this file)
-  .gitignore
-```
-
----
-
-## Data Model
-
-### Character Identity
-- `id` (UUID), `name`, `race`, `className`, `level`, `xp`, `age`, `notes`
-
-### Races (4)
-| Race | MIGHT | AGILITY | MIND | PRESENCE | Racial Power |
-|------|-------|---------|------|----------|-------------|
-| Valla | 0 | 2 | 1 | 1 | Harmony — grant Defense/skill bonus to allies once/Full Rest |
-| Furian | 2 | 1 | 0 | 1 | Unbound — deal highest Attribute as bonus damage once/Full Rest (risk Red Rage on repeat) |
-| Human | 1 | 1 | 1 | 1 | Tenacious — re-roll any roll once/Full Rest |
-| Afflicted | 1 | 1 | 2 | 0 | Grisly Triage — heal from corpses; scavenge Recuperation once/Full Rest |
-
-### Classes (9)
-| Class | Main Attr | HP Formula | Resource | Max | Recharge Die |
-|-------|-----------|-----------|---------|-----|-------------|
-| Dreadnought | MIGHT | 14 + MIGHT | Fury | 6 | 1d4 |
-| Driftwalker | MIND | varies | Bile + Blood (HP) | varies | varies |
-| Fell Hunter | AGILITY | varies | varies | varies | varies |
-| Judge | MIGHT | varies | Fervor | varies | 1d4 |
-| Mystic | MIND | varies | Mana | varies | 1d6 |
-| Phantom | AGILITY | varies | Guile | varies | varies |
-| Priest | MIND | varies | Mana + Healing Charges | varies | varies |
-| Primalist | varies | varies | Spirit + Ferocity | varies | varies |
-| Sentinel | MIGHT | 12 + MIGHT | Discipline | 8–10 | 1d4 |
-
-### Derived Stats (always computed, never stored)
-| Stat | Formula |
-|------|---------|
-| AR (Attack Rating) | Class Main Attribute + level AR bonuses |
-| DR (Defense Rating) | AGILITY + class DR bonuses |
-| MR (Mental Resistance) | MIND + class MR bonuses |
-| Speed | AGILITY + speed bonuses |
-| AV (Armor Value) | Sum of all equipped armor AV |
-| Max HP | Class HP base + MIGHT + HP Boosts from leveling |
-| Max Recuperations | 2 + floor(MIGHT / 2) + class bonuses |
-| HL (Half Level) | floor(Level / 2), minimum 1 |
-
-### Other Fields
-- `currentHp`, `fadingStacks` (0–5)
-- `primaryResource` { name, current, max, rechargeDie }
-- `secondaryResource` { name, current, max } | null
-- `corePaths[]` { id, name, description, points (1–6) }
-- `powers[]` { id, name, tier, actionType, cost, target, range, effectsText, upgrades[] }
-- `perks[]` { id, name, description, source: 'Class' | 'General' }
-- `weapons[]`, `armor[]`, `artifacts[]`, `artifactCapacity`
-- `denerim`, `necessities`, `gear`
-
----
-
-## UI Layout (7 Zones)
-
-| Zone | Components | Contents |
-|------|-----------|---------|
-| 1. Header | `SheetHeader` | Name, Class, Race, Level, XP, Age |
-| 2. Core Stats | `AttributeBlock` + `DerivedStats` | 4 attributes (editable) + AR/DR/MR/Speed/AV/HP (computed, tooltip shows formula) |
-| 3. Resources | `HPTracker`, `ResourceTracker`, `RecuperationTracker` | HP + 5 Fading slots; class resource pips; recuperation count |
-| 4. Core Paths | `CorePathList` | 3 paths: name, description, point stepper (1–6; budget shown) |
-| 5. Powers | `PowerList` + `PowerCard` | Tier I/II grid; collapsible cards; upgrade checkboxes |
-| 6. Perks | `PerkList` | Class perks + General perks |
-| 7. Equipment | `WeaponSlots`, `ArmorSlot`, `ArtifactList`, `InventoryBlock` | Weapons/armor/artifacts, Denerim/Necessities/Gear |
-
-**Global controls:** Save, New Character wizard, Export JSON, Import JSON
-
----
-
-## API Abstraction
-
-```typescript
-interface CharacterRepository {
-  getAll(): Promise<CharacterSummary[]>;
-  getById(id: string): Promise<Character>;
-  create(character: CreateCharacterDto): Promise<Character>;
-  update(id: string, character: Partial<Character>): Promise<Character>;
-  delete(id: string): Promise<void>;
-}
-```
-
-Switch from local → remote: set `VITE_USE_API=true` in `.env.local`. No component changes.
-
-### REST API Contract (C# backend must implement)
-```
-GET    /api/characters          → CharacterSummary[]
-GET    /api/characters/{id}     → Character
-POST   /api/characters          → Character
-PUT    /api/characters/{id}     → Character
-DELETE /api/characters/{id}     → 204
-```
-
-JSON: camelCase, ISO-8601 dates. C# uses `System.Text.Json` with `JsonNamingPolicy.CamelCase`.
-
----
-
----
-
-## Architecture Decisions
+## Architecture Decisions (still in force)
 
 ### Game Reference Data — JSON files (not SQLite)
-Races, abilities, perks, artifacts, weapons, equipment, and powers are static rulebook content stored as JSON files in the repo (`src/data/`). The GM can add homebrew content via a GM authoring tool that generates new JSON entries.
+Static rulebook content (`powers.json`, `perks.json`, `monsters.json`, `monster-abilities.json`, `monster-templates.json`) lives in `src/data/`. Homebrew lives in localStorage and is layered on top via the merge helpers in `data/powersData.ts`, `data/perksData.ts`, `data/monstersData.ts`. See CLAUDE.md → "GM Tools — Content Layering Model" for the full model.
 
-**Why:** The data is read-only reference content — SQLite would add unnecessary complexity (migrations, sync scripts, distribution). JSON files are versioned with the repo and deployed automatically via Netlify.
+### Per-Instance Multi-Group Isolation
+Each GM forks the repo and runs their own Netlify deploy. Multi-tenancy on a single hosted app is out of scope.
 
-### Multi-Group Isolation — Per-Instance Model (Option A)
-Each GM/group runs their own Netlify instance (their own fork of the repo). Homebrew content is committed to their fork and auto-deployed. Groups are isolated by default with zero infrastructure cost.
+### GM Authoring — In-App
+The GM creates homebrew content via the in-app GM panels. Content packs are exported as a single JSON file the GM shares with players, who import it into their browsers. No git knowledge required.
 
-**Future:** If multi-tenancy becomes a requirement (one hosted app, multiple groups), the path would be Supabase (Postgres + auth) — but this is out of scope for the current build.
-
-### GM Content Authoring — In-App Tool (Option B)
-The GM adds homebrew content (abilities, perks, weapons, etc.) via a form-based authoring tool built into the app. The tool generates a JSON file the GM downloads, then uploads directly to the repo via the GitLab web editor. No git knowledge or local installs required — just a GitLab account with repo access.
-
-**Why:** Keeps the workflow accessible to non-technical GMs while avoiding the complexity of a CMS integration. Also a strong portfolio piece — demonstrates thinking about the full content authoring lifecycle, not just the player-facing UI.
+### REST API Contract (deferred backend)
+`services/api.ts` defines `CharacterRepository`. `useApi()` swaps implementations based on `VITE_USE_API`. When the C# backend is built, only `services/restApi.ts` needs to be added — no component changes.
 
 ---
 
-## Implementation Phases
+## Phase 0 — Investigation (resolved 2026-04-28)
 
-### Phase 1 — Interactive Character Sheet (localStorage)
-**Goal:** Fully functional sheet, data persists in the browser. No backend.
+| Question | Result |
+|---|---|
+| Is copyrighted material in git history? | No. PDF and `unity_rules.txt` were always gitignored. |
+| Does `uuid ^13.0.0` resolve? | Yes (v13 and v14 exist). Pin is valid. |
+| Is `docs/rules/` meant to be in-repo? | Yes — un-ignore and commit (single-developer project, useful from other devices). |
+| Any `dangerouslySetInnerHTML` in `src/`? | None. React's default text-escaping is sufficient. Demotes import-validation from "security" to "storage hygiene." |
+| Public-deploy copyright concern? | Acknowledged. Deploy is technically public via the Netlify URL but practically invisible. Revisit if scope changes (auth, broader sharing). |
 
-Order of work:
-1. Scaffold Vite + React + TypeScript project in `character-sheet/`
-2. Install and configure Tailwind CSS
-3. Write TypeScript interfaces (`src/types/`)
-4. Write static game data constants (`src/constants/`) — all 9 classes, 4 races, equipment tables
-5. Implement `src/utils/derivedStats.ts` — all pure computation functions
-6. Implement `LocalStorageRepository`
-7. Build `useCharacter` hook with `useReducer`
-8. Build components (simplest → most complex): Header → Attributes → Derived Stats → HP → Resources → Recuperations → Core Paths → Perks → Powers → Equipment
-9. Assemble `CharacterSheet.tsx` root layout
-10. Build New Character wizard (step-by-step: race → attributes → class → paths → perks → powers → equipment)
-11. Add JSON export/import
+---
 
-### Phase 2 — GM Tools
-**Goal:** In-app authoring tools for GMs to create and edit game content. Output is JSON files committed to the repo — no backend required.
+## Improvement Phases
 
-- Finish character sheet: Gear, Necessities, Denerim fields, Artifacts
-- Monster creation tool
-- Power / ability authoring tool
-- Class and perk authoring tool
-- Ruin tracker, Spark Points tracker, encounter builder
-- Dice roller built into the sheet (click AR → rolls 2d10+AR)
-- Print / PDF export
+Each phase = one branch / PR. Branch names suggested. Sequencing favors low-risk wins first; phases 1, 2, 4 can run in parallel.
 
-### Phase 3 — Backend (Deferred)
-**Goal:** Revisit only if a real need emerges (multi-device sync, multi-group hosting).
+### Phase 1 — Netlify security headers + CSP
+**Branch:** `chore/security-headers`
+**Model:** Sonnet
+**Risk:** Low. Worst case: CSP too strict, deploy preview shows console violations, relax and retry.
 
-localStorage + JSON files is the long-term persistence story unless one of these becomes a requirement:
-- Multiple devices sharing a character
-- A hosted multi-group / multi-tenancy scenario
+- Add `[[headers]]` block to `netlify.toml`:
+  - `Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'`
+  - `X-Frame-Options: DENY`
+  - `X-Content-Type-Options: nosniff`
+  - `Referrer-Policy: strict-origin-when-cross-origin`
+  - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+- Tailwind v4 uses inline `<style>`, so `'unsafe-inline'` for styles is required. Tighten via deploy preview console feedback.
 
-If needed, the `CharacterRepository` interface in `services/api.ts` already provides a clean swap point — implement a REST backend there without touching any component code.
+### Phase 2 — Dep cleanup + `docs/rules/` un-ignore
+**Branch:** `chore/dep-cleanup`
+**Model:** Sonnet
+**Risk:** Low.
+
+- Delete dead `overrides: { lodash }` block in `character-sheet/package.json`.
+- Add `.runner_system_id` to root `.gitignore`; `git rm --cached .runner_system_id`.
+- Remove `docs/rules/` line from root `.gitignore`; `git add docs/rules/`.
+- Skip the `uuid` → `crypto.randomUUID()` swap (not worth touching for ~4 KB).
+
+### Phase 4 — localStorage quota handling
+**Branch:** `feat/storage-quota-handling`
+**Model:** Sonnet
+**Risk:** Low.
+
+- Wrap `saveAll`/`save` in `services/localStorage.ts`, `services/powersStorage.ts`, `services/perksStorage.ts`, `services/monsterStorage.ts` in try/catch for `QuotaExceededError`.
+- Surface a "storage full" toast (reuse `App.tsx` save-status banner pattern).
+- Add a vitest case that mocks `setItem` to throw and confirms error propagation.
+
+### Phase 3 — Import validation (storage hygiene)
+**Branch:** `feat/import-validation`
+**Model:** Sonnet
+**Risk:** Medium — touches the import surface. Existing tests in `useImportFlow.test.ts` and `contentPackService.test.ts` to extend.
+
+Demoted from Phase 3 → after Phase 4 since the XSS angle is gone (no `dangerouslySetInnerHTML` anywhere). Still worth doing for storage hygiene and malformed-data resilience.
+
+- Tighten `isValidCharacter` in `src/utils/importCharacter.ts:46`: validate every required field's type, validate enum values (`className`, `race`), strip unknown keys before persisting.
+- Add `try/catch` around `JSON.parse` in `src/services/contentPackService.ts:36` and validate `version === 1`, `powers[]`, `perks[]` shapes before calling `replaceHomebrewPowers/Perks`.
+- Add a confirmation prompt in the player-side import flow ("this will replace your homebrew library — continue?"). Belongs with the Import Content Pack card on `HomeScreen` if that ships first.
+
+### Phase 5 — Bundle splitting + lazy GM data
+**Branch:** `perf/bundle-split`
+**Model:** Sonnet (Opus only if measurements get weird)
+**Risk:** Medium — async data loading touches `getAllMonsters`/`getAbilityById` call sites. Likely needs small loading states in GM panels.
+
+- In `vite.config.ts`, add `build.rollupOptions.output.manualChunks` to split React, react-hook-form, and uuid into a vendor chunk.
+- Convert `monstersData.ts` to lazy-load `monsters.json`, `monster-abilities.json`, `monster-templates.json` via dynamic `import()`.
+- Wrap `GMDashboard` in `React.lazy()` + `<Suspense>`.
+- Measure before/after: `dist/assets/index-*.js` size. Target: initial chunk under 300 KB pre-gzip.
+
+### Phase 6A — Lightweight homebrew/power lookup memoization
+**Branch:** `perf/homebrew-cache`
+**Model:** Sonnet
+**Risk:** Low.
+
+Bandaid for the perf hotspot before the proper HomebrewContext refactor (6B). `getPowersByClass` and `getPowerById` in `src/data/powersData.ts` re-read localStorage and re-parse 148 KB of JSON on every call. Same pattern in `monstersData.ts`.
+
+- Add module-scope cache (`Map<id, Power>` + a flat resolved-pool cache) in `powersData.ts` and `monstersData.ts`.
+- Invalidate the cache in `services/powersStorage.ts`/`perksStorage.ts`/`monsterStorage.ts` write functions (call an exposed `invalidatePowerCache()` / `invalidateMonsterCache()`).
+- Keep the existing public API so call sites don't change.
+
+### Phase 7 — Repo migration cache
+**Branch:** `perf/repo-cache`
+**Model:** Sonnet
+**Risk:** Low–medium. Needs `storage` event handling for cross-tab sync.
+
+`services/localStorage.ts` runs `migrateCharacter` on every character on every read. Every `update`/`delete`/`getById` call triggers a full re-migration of the entire roster.
+
+- Add a module-scope cache of the migrated character array. `loadAll` returns the cache; writes update both cache and localStorage.
+- Listen for `window.storage` events to invalidate the cache when other tabs write.
+- Extend `localStorage.test.ts` with a cross-tab sync case.
+
+### Phase 6B — HomebrewContext refactor
+**Branch:** `refactor/homebrew-context` (dedicated, per CLAUDE.md)
+**Model:** **Opus**
+**Risk:** Medium. Touches every GM panel and their tests. Sequence after 6A and 7 land.
+
+The proper architectural fix flagged in CLAUDE.md → "GM Tools — Planned: HomebrewContext Refactor". Replace direct localStorage writes + `useDataRefresh()` with React-aware state in a `HomebrewContext`. Migrate panels one at a time; the context and the localStorage services can coexist during the transition.
+
+This is the one phase that meaningfully benefits from Opus: cross-cutting refactor, multiple call sites, judgment on context shape and migration order.
+
+---
+
+## Sequencing
+
+```
+Phase 0 (investigation)             ✓ done 2026-04-28
+   ↓
+Phase 1 (headers)        ─┐
+Phase 2 (deps + rules)   ─┤  parallel-safe; can land in any order
+Phase 4 (quota)          ─┘
+   ↓
+Phase 3 (import validation)
+   ↓
+Phase 5 (bundle split)
+   ↓
+Phase 6A (lightweight cache)
+   ↓
+Phase 7 (repo migration cache)
+   ↓
+Phase 6B (HomebrewContext)          dedicated branch, Opus session
+```
+
+Phases 1, 2, 4 don't touch overlapping files — pick whichever order fits. Phase 6A should land before Phase 7 to prove the cache-invalidation pattern on a smaller surface first.
+
+---
+
+## Model assignment summary
+
+| Phase | Model |
+|---|---|
+| 1 — Netlify headers | Sonnet |
+| 2 — Dep cleanup + un-ignore docs/rules | Sonnet |
+| 3 — Import validation | Sonnet |
+| 4 — Quota handling | Sonnet |
+| 5 — Bundle split + lazy GM | Sonnet |
+| 6A — Lightweight cache | Sonnet |
+| 6B — HomebrewContext refactor | **Opus** |
+| 7 — Repo migration cache | Sonnet |
+
+Per the user's Sonnet-foundation / Opus-refinement workflow: most phases are well-scoped enough for Sonnet to land using this document as the brief. Reserve Opus for 6B and any phase where measurements or cross-file judgment calls demand deeper analysis.
+
+---
+
+## Open decisions
+
+- **Sequencing vs. the in-flight Import Content Pack work** (next-task memory) — Phase 3 (import validation) should probably land *together with* the player-side Import Content Pack card on HomeScreen, since both touch the import surface. Decide at the time.
+- **Phase 6A vs. 6B order** — current plan: 6A first as a perf bandaid, 6B later as the proper fix. Both will ship eventually.
+- **Public-deploy copyright posture** — fine for now (private friend group). Revisit if the deploy ever gets shared more broadly.
+
+---
+
+## What this document is not
+
+This is a planning document — not a status tracker, not a code reference. The repo state and CLAUDE.md are authoritative for "how things work today." When a phase ships, update CLAUDE.md if the architecture changed, and remove the phase from this file (or strike it through) so the remaining work stays prominent.
