@@ -103,6 +103,69 @@ describe('checkImport — invalid file cases', () => {
     const result = await checkImport(file, mockApi())
     expect(result.status).toBe('invalid')
   })
+
+  it('returns status "invalid" when className is not a recognized value', async () => {
+    const file = makeFile({ ...baseCharacter, className: 'Wizard' as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when race is not a recognized value', async () => {
+    const file = makeFile({ ...baseCharacter, race: 'Elf' as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when level is not a number', async () => {
+    const file = makeFile({ ...baseCharacter, level: '1' as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when powers is not an array', async () => {
+    const file = makeFile({ ...baseCharacter, powers: null as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when the JSON is an array', async () => {
+    const file = new File([JSON.stringify([baseCharacter])], 'array.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+})
+
+describe('checkImport — unknown key sanitization', () => {
+  it('strips unknown keys from the parsed character', async () => {
+    const withExtra = { ...baseCharacter, unknownField: 'should be removed' }
+    const file = new File([JSON.stringify(withExtra)], 'extra.json', { type: 'application/json' })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('new')
+    if (result.status === 'new') {
+      expect(result.parsed).not.toHaveProperty('unknownField')
+    }
+  })
+
+  it('preserves optional fields that are set (classPath, featureUpgrades, usedPowerIds)', async () => {
+    const withOptionals = {
+      ...baseCharacter,
+      classPath: 'chaplain',
+      featureUpgrades: { 'power-1': ['upg-a'] },
+      usedPowerIds: ['power-x'],
+    }
+    const file = new File([JSON.stringify(withOptionals)], 'optionals.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('new')
+    if (result.status === 'new') {
+      expect(result.parsed.classPath).toBe('chaplain')
+      expect(result.parsed.featureUpgrades).toEqual({ 'power-1': ['upg-a'] })
+      expect(result.parsed.usedPowerIds).toEqual(['power-x'])
+    }
+  })
 })
 
 describe('checkImport — power format migration', () => {

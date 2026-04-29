@@ -11,6 +11,19 @@
 import type { Character, CharacterPower } from '../types/character'
 import type { CharacterRepository } from '../services/api'
 
+const VALID_RACES = new Set<string>(['Valla', 'Furian', 'Human', 'Afflicted'])
+const VALID_CLASS_NAMES = new Set<string>([
+  'Dreadnought',
+  'Driftwalker',
+  'Fell Hunter',
+  'Judge',
+  'Mystic',
+  'Phantom',
+  'Priest',
+  'Primalist',
+  'Sentinel',
+])
+
 // Migrates a character saved before the CharacterPower refactor.
 // Old format stored full Power objects; new format stores only { id, purchasedUpgradeIds }.
 function migratePowers(character: Character): Character {
@@ -44,9 +57,80 @@ export type ImportCheckResult =
   | { status: 'invalid' }
 
 function isValidCharacter(obj: unknown): obj is Character {
-  if (!obj || typeof obj !== 'object') return false
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false
   const c = obj as Record<string, unknown>
-  return typeof c.id === 'string' && typeof c.name === 'string' && typeof c.className === 'string'
+  return (
+    typeof c.id === 'string' &&
+    typeof c.name === 'string' &&
+    typeof c.race === 'string' &&
+    VALID_RACES.has(c.race) &&
+    typeof c.className === 'string' &&
+    VALID_CLASS_NAMES.has(c.className) &&
+    typeof c.level === 'number' &&
+    typeof c.xp === 'number' &&
+    typeof c.age === 'string' &&
+    typeof c.notes === 'string' &&
+    !!c.attributes &&
+    typeof c.attributes === 'object' &&
+    !Array.isArray(c.attributes) &&
+    typeof c.arBonus === 'number' &&
+    typeof c.drBonus === 'number' &&
+    typeof c.currentHp === 'number' &&
+    typeof c.fadingStacks === 'number' &&
+    !!c.primaryResource &&
+    typeof c.primaryResource === 'object' &&
+    !Array.isArray(c.primaryResource) &&
+    typeof c.recuperationBonus === 'number' &&
+    typeof c.recuperationDie === 'string' &&
+    Array.isArray(c.corePaths) &&
+    Array.isArray(c.powers) &&
+    Array.isArray(c.perks) &&
+    Array.isArray(c.weapons) &&
+    Array.isArray(c.armor) &&
+    Array.isArray(c.artifacts) &&
+    typeof c.artifactCapacity === 'number' &&
+    typeof c.denerim === 'number' &&
+    typeof c.necessities === 'number' &&
+    typeof c.gear === 'number'
+  )
+}
+
+// Returns a new Character with only known fields — drops any extra keys from the imported JSON.
+function sanitizeCharacter(c: Character): Character {
+  const out: Character = {
+    id: c.id,
+    name: c.name,
+    race: c.race,
+    className: c.className,
+    level: c.level,
+    xp: c.xp,
+    age: c.age,
+    notes: c.notes,
+    attributes: c.attributes,
+    arBonus: c.arBonus,
+    drBonus: c.drBonus,
+    hpBonus: c.hpBonus,
+    currentHp: c.currentHp,
+    fadingStacks: c.fadingStacks,
+    primaryResource: c.primaryResource,
+    secondaryResource: c.secondaryResource,
+    recuperationBonus: c.recuperationBonus,
+    recuperationDie: c.recuperationDie,
+    corePaths: c.corePaths,
+    powers: c.powers,
+    perks: c.perks,
+    weapons: c.weapons,
+    armor: c.armor,
+    artifacts: c.artifacts,
+    artifactCapacity: c.artifactCapacity,
+    denerim: c.denerim,
+    necessities: c.necessities,
+    gear: c.gear,
+  }
+  if (c.classPath !== undefined) out.classPath = c.classPath
+  if (c.featureUpgrades !== undefined) out.featureUpgrades = c.featureUpgrades
+  if (c.usedPowerIds !== undefined) out.usedPowerIds = c.usedPowerIds
+  return out
 }
 
 // Wraps FileReader in a Promise so the async/await flow stays clean.
@@ -75,7 +159,7 @@ export async function checkImport(
 
   if (!isValidCharacter(raw)) return { status: 'invalid' }
 
-  const parsed = migrateCharacter(raw)
+  const parsed = sanitizeCharacter(migrateCharacter(raw))
 
   try {
     await api.getById(parsed.id)
