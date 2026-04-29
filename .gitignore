@@ -1,4 +1,6 @@
 # Local reference files (copyrighted material / local dev only)
 Unity - Core Rules.pdf
 unity_rules.txt
-docs/rules/
+
+# GitLab runner state
+.runner_system_id
