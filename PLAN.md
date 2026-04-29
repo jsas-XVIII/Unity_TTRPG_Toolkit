@@ -70,24 +70,9 @@ Each phase = one branch / PR. Branch names suggested. Sequencing favors low-risk
   - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
 - Tailwind v4 uses inline `<style>`, so `'unsafe-inline'` for styles is required. Tighten via deploy preview console feedback.
 
-### Phase 2 — Dep cleanup + `docs/rules/` un-ignore
-**Branch:** `chore/dep-cleanup`
-**Model:** Sonnet
-**Risk:** Low.
+### ~~Phase 2 — Dep cleanup + `docs/rules/` un-ignore~~ ✓ done 2026-04-29
 
-- Delete dead `overrides: { lodash }` block in `character-sheet/package.json`.
-- Add `.runner_system_id` to root `.gitignore`; `git rm --cached .runner_system_id`.
-- Remove `docs/rules/` line from root `.gitignore`; `git add docs/rules/`.
-- Skip the `uuid` → `crypto.randomUUID()` swap (not worth touching for ~4 KB).
-
-### Phase 4 — localStorage quota handling
-**Branch:** `feat/storage-quota-handling`
-**Model:** Sonnet
-**Risk:** Low.
-
-- Wrap `saveAll`/`save` in `services/localStorage.ts`, `services/powersStorage.ts`, `services/perksStorage.ts`, `services/monsterStorage.ts` in try/catch for `QuotaExceededError`.
-- Surface a "storage full" toast (reuse `App.tsx` save-status banner pattern).
-- Add a vitest case that mocks `setItem` to throw and confirms error propagation.
+### ~~Phase 4 — localStorage quota handling~~ ✓ done 2026-04-29
 
 ### Phase 3 — Import validation (storage hygiene)
 **Branch:** `feat/import-validation`

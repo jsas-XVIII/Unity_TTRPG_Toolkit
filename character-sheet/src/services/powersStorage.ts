@@ -15,6 +15,7 @@ export function getHomebrewPowers(): HomebrewPower[] {
   }
 }
 
+// Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
 function save(powers: HomebrewPower[]): void {
   localStorage.setItem(KEY, JSON.stringify(powers))
 }
