@@ -3,12 +3,12 @@
 // All persistence calls (create / update) flow through the `api` hook so the same
 // code works whether the backend is localStorage (Phase 1) or a C# REST API (Phase 2).
 
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import HomeScreen from './components/layout/HomeScreen'
 import CharacterRoster from './components/layout/CharacterRoster'
 import CharacterSheet from './components/layout/CharacterSheet'
 import CharacterWizard from './components/wizard/CharacterWizard'
-import GMDashboard from './components/gm/GMDashboard'
+const GMDashboard = lazy(() => import('./components/gm/GMDashboard'))
 import ImportConfirmModal from './components/layout/ImportConfirmModal'
 import DuplicateCharacterModal from './components/layout/DuplicateCharacterModal'
 import type { Character } from './types/character'
@@ -121,7 +121,11 @@ export default function App() {
         <CharacterRoster api={api} onSelect={handleRosterSelect} onBack={() => setView('home')} />
       )}
 
-      {view === 'gm' && <GMDashboard onBack={() => setView('home')} />}
+      {view === 'gm' && (
+        <Suspense fallback={<div className="min-h-screen bg-gray-950" />}>
+          <GMDashboard onBack={() => setView('home')} />
+        </Suspense>
+      )}
 
       {view === 'wizard' && (
         <CharacterWizard onComplete={handleWizardComplete} onCancel={() => setView('home')} />
