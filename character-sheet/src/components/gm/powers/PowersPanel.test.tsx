@@ -2,12 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PowersPanel from './PowersPanel'
+import { HomebrewProvider } from '../../../context/HomebrewContext'
 
 // "Shieldbreaker" is the first Dreadnought power displayed (baseline pool, default class on mount).
 const FIRST_POWER_NAME = 'Shieldbreaker'
 
 function renderPanel(onBack = vi.fn()) {
-  render(<PowersPanel onBack={onBack} />)
+  render(
+    <HomebrewProvider>
+      <PowersPanel onBack={onBack} />
+    </HomebrewProvider>
+  )
   return { onBack }
 }
 

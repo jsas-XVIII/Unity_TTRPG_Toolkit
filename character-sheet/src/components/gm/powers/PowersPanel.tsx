@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import StorageErrorToast from '../../ui/StorageErrorToast'
 import { isQuotaError } from '../../../utils/storageErrors'
 import type { Power, ClassName } from '../../../types/character'
@@ -11,11 +10,7 @@ import {
   TIER_CONFIG,
   type ResolvedPowerPool,
 } from '../../../data/powersData'
-import {
-  getHomebrewPowers,
-  upsertHomebrewPower,
-  deleteHomebrewPower,
-} from '../../../services/powersStorage'
+import { useHomebrew } from '../../../context/HomebrewContext'
 import PowerEditorForm from './PowerEditorForm'
 import { uid } from '../../../utils/idGenerator'
 
@@ -40,10 +35,8 @@ export default function PowersPanel({ onBack }: Props) {
   const [search, setSearch] = useState('')
   const [editing, setEditing] = useState<{ power: HomebrewPower; readOnly: boolean } | null>(null)
   const [storageError, setStorageError] = useState(false)
-  const [refreshKey, refresh] = useDataRefresh()
+  const { powers: homebrewPowers, upsertPower, deletePower } = useHomebrew()
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const homebrewPowers = useMemo(() => getHomebrewPowers(), [refreshKey])
   const homebrewIds = useMemo(() => new Set(homebrewPowers.map((p) => p.id)), [homebrewPowers])
 
   const allPowers = useMemo(() => {
@@ -54,8 +47,8 @@ export default function PowersPanel({ onBack }: Props) {
         : [tierFilter]
     ) as (keyof ResolvedPowerPool)[]
     return keys.flatMap((key) => pools[key].map((power) => ({ power, poolKey: key })))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedClass, tierFilter, refreshKey])
+    // homebrewPowers identity changes on every mutation, replacing the old refreshKey memo dep.
+  }, [selectedClass, tierFilter, homebrewPowers])
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase()
@@ -96,8 +89,7 @@ export default function PowersPanel({ onBack }: Props) {
 
   function handleSave(power: HomebrewPower) {
     try {
-      upsertHomebrewPower(power)
-      refresh()
+      upsertPower(power)
       setEditing(null)
     } catch (e) {
       if (isQuotaError(e)) setStorageError(true)
@@ -105,14 +97,12 @@ export default function PowersPanel({ onBack }: Props) {
   }
 
   function handleReset(id: string) {
-    deleteHomebrewPower(id)
-    refresh()
+    deletePower(id)
     setEditing(null)
   }
 
   function handleDelete(id: string) {
-    deleteHomebrewPower(id)
-    refresh()
+    deletePower(id)
     setEditing(null)
   }
 
