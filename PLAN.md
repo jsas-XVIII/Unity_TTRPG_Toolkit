@@ -57,18 +57,7 @@ The GM creates homebrew content via the in-app GM panels. Content packs are expo
 
 Each phase = one branch / PR. Branch names suggested. Sequencing favors low-risk wins first; phases 1, 2, 4 can run in parallel.
 
-### Phase 1 — Netlify security headers + CSP
-**Branch:** `chore/security-headers`
-**Model:** Sonnet
-**Risk:** Low. Worst case: CSP too strict, deploy preview shows console violations, relax and retry.
-
-- Add `[[headers]]` block to `netlify.toml`:
-  - `Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'`
-  - `X-Frame-Options: DENY`
-  - `X-Content-Type-Options: nosniff`
-  - `Referrer-Policy: strict-origin-when-cross-origin`
-  - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
-- Tailwind v4 uses inline `<style>`, so `'unsafe-inline'` for styles is required. Tighten via deploy preview console feedback.
+### ~~Phase 1 — Netlify security headers + CSP~~ ✓ done 2026-05-05
 
 ### ~~Phase 2 — Dep cleanup + `docs/rules/` un-ignore~~ ✓ done 2026-04-29
 
@@ -134,7 +123,7 @@ This is the one phase that meaningfully benefits from Opus: cross-cutting refact
 Phase 0 (investigation)             ✓ done 2026-04-28
    ↓
 Phase 1 (headers)        ─┐
-Phase 2 (deps + rules)   ─┤  parallel-safe; can land in any order
+Phase 2 (deps + rules)   ─┤  parallel-safe; can land in any order  ✓ all done 2026-05-05
 Phase 4 (quota)          ─┘
    ↓
 Phase 3 (import validation)

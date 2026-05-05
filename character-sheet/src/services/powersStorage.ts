@@ -6,18 +6,27 @@ export interface HomebrewPower extends Power {
 
 const KEY = 'unity_ttrpg_homebrew_powers'
 
+let cache: HomebrewPower[] | null = null
+
+export function invalidatePowerCache(): void {
+  cache = null
+}
+
 export function getHomebrewPowers(): HomebrewPower[] {
+  if (cache !== null) return cache
   try {
-    return JSON.parse(localStorage.getItem(KEY) ?? '[]') as HomebrewPower[]
+    cache = JSON.parse(localStorage.getItem(KEY) ?? '[]') as HomebrewPower[]
   } catch {
     // localStorage value is corrupted (non-JSON); treat as empty rather than crashing.
-    return []
+    cache = []
   }
+  return cache
 }
 
 // Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
 function save(powers: HomebrewPower[]): void {
   localStorage.setItem(KEY, JSON.stringify(powers))
+  cache = powers
 }
 
 export function replaceHomebrewPowers(powers: HomebrewPower[]): void {
@@ -32,7 +41,14 @@ export function upsertHomebrewPower(power: HomebrewPower): void {
   } else {
     existing.push(power)
   }
-  save(existing)
+  try {
+    save(existing)
+  } catch (e) {
+    // save() mutates cache before the localStorage write, so reset on failure
+    // to keep cache consistent with what's actually persisted.
+    cache = null
+    throw e
+  }
 }
 
 export function deleteHomebrewPower(id: string): void {

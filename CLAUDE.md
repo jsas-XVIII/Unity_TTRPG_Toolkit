@@ -14,6 +14,9 @@ When a test is failing, do NOT automatically fix it. First research what the tes
 
 Exception: if the user explicitly says "write a failing test, then implement" (TDD), the failing test is expected — proceed directly to implementation without stopping to discuss.
 
+### Error Handling at Storage Boundaries
+If a write function mutates in-memory state (a cache, an array) before calling the storage operation, wrap the storage call in `try/catch` and reset the in-memory state on failure so it stays consistent with what's actually persisted. Pure functions and reads don't need this.
+
 ### Before Implementing Options
 When presenting multiple options (A/B/C), wait for explicit user selection and echo back which option you're implementing before writing code.
 

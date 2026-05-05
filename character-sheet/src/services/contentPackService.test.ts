@@ -1,12 +1,16 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { importContentPack, exportContentPack } from './contentPackService'
 import type { ContentPack } from './contentPackService'
+import { invalidatePowerCache } from './powersStorage'
+import { invalidatePerksCache } from './perksStorage'
 
 const POWERS_KEY = 'unity_ttrpg_homebrew_powers'
 const PERKS_KEY = 'unity_ttrpg_homebrew_perks'
 
 beforeEach(() => {
   localStorage.clear()
+  invalidatePowerCache()
+  invalidatePerksCache()
 })
 
 describe('importContentPack', () => {
