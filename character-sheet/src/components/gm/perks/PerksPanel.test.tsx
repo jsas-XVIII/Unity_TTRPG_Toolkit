@@ -2,12 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PerksPanel from './PerksPanel'
+import { HomebrewProvider } from '../../../context/HomebrewContext'
 
 // "Combat Specialist" is the first official perk (gp-001).
 const FIRST_PERK_NAME = 'Combat Specialist'
 
 function renderPanel(onBack = vi.fn()) {
-  render(<PerksPanel onBack={onBack} />)
+  render(
+    <HomebrewProvider>
+      <PerksPanel onBack={onBack} />
+    </HomebrewProvider>
+  )
   return { onBack }
 }
 
