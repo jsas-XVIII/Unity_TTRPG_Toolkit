@@ -17,16 +17,35 @@ import { migrateCharacter } from '../utils/importCharacter'
 const STORAGE_KEY = 'unity_ttrpg_characters'
 
 // ---------------------------------------------------------------------------
+// Module-scope cache — avoids re-parsing and re-migrating on every read.
+// ---------------------------------------------------------------------------
+
+let cache: Character[] | null = null
+
+export function invalidateCharacterCache(): void {
+  cache = null
+}
+
+// Invalidate when another tab writes to the same key.
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY || e.key === null) cache = null
+  })
+}
+
+// ---------------------------------------------------------------------------
 // Internal helpers — not part of the public interface
 // ---------------------------------------------------------------------------
 
 // Reads and deserialises all characters from localStorage.
 // Returns an empty array on parse failure so a corrupt entry doesn't crash the app.
 function loadAll(): Character[] {
+  if (cache !== null) return cache
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     const characters: Character[] = raw ? (JSON.parse(raw) as Character[]) : []
-    return characters.map(migrateCharacter)
+    cache = characters.map(migrateCharacter)
+    return cache
   } catch {
     return []
   }
@@ -36,6 +55,7 @@ function loadAll(): Character[] {
 // Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
 function saveAll(characters: Character[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(characters))
+  cache = characters
 }
 
 // ---------------------------------------------------------------------------
@@ -65,7 +85,12 @@ export const localStorageRepository: CharacterRepository = {
     // Only generate a fresh UUID when no id is supplied (e.g. new characters from the wizard).
     const character: Character = { ...dto, id: dto.id ?? uuidv4() }
     characters.push(character)
-    saveAll(characters)
+    try {
+      saveAll(characters)
+    } catch (e) {
+      cache = null
+      throw e
+    }
     return character
   },
 
@@ -75,7 +100,12 @@ export const localStorageRepository: CharacterRepository = {
     if (index === -1) throw new Error(`Character ${id} not found`)
     // Merge patch fields onto the existing record
     characters[index] = { ...characters[index], ...patch }
-    saveAll(characters)
+    try {
+      saveAll(characters)
+    } catch (e) {
+      cache = null
+      throw e
+    }
     return characters[index]
   },
 

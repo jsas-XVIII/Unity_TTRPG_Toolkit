@@ -84,16 +84,7 @@ Demoted from Phase 3 → after Phase 4 since the XSS angle is gone (no `dangerou
 - Wrap `GMDashboard` in `React.lazy()` + `<Suspense>`.
 - Measure before/after: `dist/assets/index-*.js` size. Target: initial chunk under 300 KB pre-gzip.
 
-### Phase 6A — Lightweight homebrew/power lookup memoization
-**Branch:** `perf/homebrew-cache`
-**Model:** Sonnet
-**Risk:** Low.
-
-Bandaid for the perf hotspot before the proper HomebrewContext refactor (6B). `getPowersByClass` and `getPowerById` in `src/data/powersData.ts` re-read localStorage and re-parse 148 KB of JSON on every call. Same pattern in `monstersData.ts`.
-
-- Add module-scope cache (`Map<id, Power>` + a flat resolved-pool cache) in `powersData.ts` and `monstersData.ts`.
-- Invalidate the cache in `services/powersStorage.ts`/`perksStorage.ts`/`monsterStorage.ts` write functions (call an exposed `invalidatePowerCache()` / `invalidateMonsterCache()`).
-- Keep the existing public API so call sites don't change.
+### ~~Phase 6A — Lightweight homebrew/power lookup memoization~~ ✓ done 2026-05-05
 
 ### Phase 7 — Repo migration cache
 **Branch:** `perf/repo-cache`
@@ -130,7 +121,7 @@ Phase 3 (import validation)
    ↓
 Phase 5 (bundle split)
    ↓
-Phase 6A (lightweight cache)
+Phase 6A (lightweight cache)        ✓ done 2026-05-05
    ↓
 Phase 7 (repo migration cache)
    ↓
