@@ -1,7 +1,7 @@
 import type { Perk } from '../types/character'
 import type { HomebrewPower } from './powersStorage'
-import { getHomebrewPowers, replaceHomebrewPowers } from './powersStorage'
-import { getHomebrewPerks, replaceHomebrewPerks } from './perksStorage'
+import { getHomebrewPowers } from './powersStorage'
+import { getHomebrewPerks } from './perksStorage'
 
 export interface ContentPack {
   // Literal 1 (not number) so future schema versions can be narrowed with a discriminated union
@@ -32,7 +32,10 @@ export function exportContentPack(): void {
   URL.revokeObjectURL(url)
 }
 
-export function importContentPack(json: string): ImportResult {
+// Pure parser — validates the pack JSON and returns the arrays. Persisting them is the
+// caller's job, since the player-side import flow needs to update HomebrewContext too,
+// which can only happen from inside React. See HomeScreen.handleContentPackFile.
+export function parseContentPack(json: string): { powers: HomebrewPower[]; perks: Perk[] } {
   let raw: unknown
   try {
     raw = JSON.parse(json)
@@ -54,9 +57,5 @@ export function importContentPack(json: string): ImportResult {
   // an older version), so we still import whichever half is present.
   const powers: HomebrewPower[] = Array.isArray(pack.powers) ? (pack.powers as HomebrewPower[]) : []
   const perks: Perk[] = Array.isArray(pack.perks) ? (pack.perks as Perk[]) : []
-  // Full replace, not merge: the exported pack is the GM's authoritative state, so entries
-  // the GM deleted must disappear from the player's storage too.
-  replaceHomebrewPowers(powers)
-  replaceHomebrewPerks(perks)
-  return { powersCount: powers.length, perksCount: perks.length }
+  return { powers, perks }
 }

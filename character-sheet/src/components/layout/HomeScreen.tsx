@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
-import { importContentPack } from '../../services/contentPackService'
+import { parseContentPack } from '../../services/contentPackService'
 import type { ImportResult } from '../../services/contentPackService'
+import { useHomebrew } from '../../context/HomebrewContext'
 
 interface Props {
   onNewCharacter: () => void
@@ -84,12 +85,18 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
   const importInputRef = useRef<HTMLInputElement>(null)
   const contentPackInputRef = useRef<HTMLInputElement>(null)
   const [packStatus, setPackStatus] = useState<PackStatus>(null)
+  const { replacePowers, replacePerks } = useHomebrew()
 
   function handleContentPackFile(file: File) {
     const reader = new FileReader()
     reader.onload = (e) => {
       try {
-        const result = importContentPack(e.target?.result as string)
+        const { powers, perks } = parseContentPack(e.target?.result as string)
+        // Full replace, not merge: the GM's exported pack is authoritative, so entries the
+        // GM deleted must disappear from the player's storage too.
+        replacePowers(powers)
+        replacePerks(perks)
+        const result: ImportResult = { powersCount: powers.length, perksCount: perks.length }
         setPackStatus({ ok: true, result })
       } catch {
         setPackStatus({ ok: false })
