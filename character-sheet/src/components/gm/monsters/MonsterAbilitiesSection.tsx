@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { MonsterAbility } from '../../../types/monster'
 import StorageErrorToast from '../../ui/StorageErrorToast'
 import { isQuotaError } from '../../../utils/storageErrors'
 import { getAllAbilities } from '../../../data/monstersData'
-import { addHomebrewAbility } from '../../../services/monsterStorage'
+import { useHomebrew } from '../../../context/HomebrewContext'
 import { uid } from '../../../utils/idGenerator'
 import MonsterAbilitySection, { type AbilityDraft } from './MonsterAbilitySection'
 
@@ -22,11 +22,13 @@ export default function MonsterAbilitiesSection({
   powerIds,
   onPowerIdsChange,
 }: Props) {
-  const [allAbilities, setAllAbilities] = useState(() => getAllAbilities())
+  const { abilities: homebrewAbilities, addAbility } = useHomebrew()
   const [traitDraft, setTraitDraft] = useState<AbilityDraft | null>(null)
   const [powerDraft, setPowerDraft] = useState<AbilityDraft | null>(null)
   const [storageError, setStorageError] = useState(false)
 
+  // homebrewAbilities identity changes on every mutation; allAbilities is recomputed then.
+  const allAbilities = useMemo(() => getAllAbilities(), [homebrewAbilities])
   const libraryTraits = allAbilities.filter((a) => a.kind === 'trait')
   const libraryPowers = allAbilities.filter((a) => a.kind === 'power')
 
@@ -48,12 +50,11 @@ export default function MonsterAbilitiesSection({
       recharge: kind === 'power' && draft.recharge ? Number(draft.recharge) : null,
     }
     try {
-      addHomebrewAbility(ability)
+      addAbility(ability)
     } catch (e) {
       if (isQuotaError(e)) setStorageError(true)
       return
     }
-    setAllAbilities(getAllAbilities())
     if (kind === 'trait') {
       onTraitIdsChange([...traitIds, ability.id])
       setTraitDraft(null)
