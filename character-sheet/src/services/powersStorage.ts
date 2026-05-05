@@ -24,6 +24,8 @@ export function getHomebrewPowers(): HomebrewPower[] {
 }
 
 // Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
+// Every write produces a fresh array reference (cache is replaced, never mutated in place),
+// so React state mirrors of getHomebrewPowers() can rely on identity-based change detection.
 function save(powers: HomebrewPower[]): void {
   localStorage.setItem(KEY, JSON.stringify(powers))
   cache = powers
@@ -36,19 +38,8 @@ export function replaceHomebrewPowers(powers: HomebrewPower[]): void {
 export function upsertHomebrewPower(power: HomebrewPower): void {
   const existing = getHomebrewPowers()
   const idx = existing.findIndex((p) => p.id === power.id)
-  if (idx >= 0) {
-    existing[idx] = power
-  } else {
-    existing.push(power)
-  }
-  try {
-    save(existing)
-  } catch (e) {
-    // save() mutates cache before the localStorage write, so reset on failure
-    // to keep cache consistent with what's actually persisted.
-    cache = null
-    throw e
-  }
+  const next = idx >= 0 ? existing.map((p, i) => (i === idx ? power : p)) : [...existing, power]
+  save(next)
 }
 
 export function deleteHomebrewPower(id: string): void {

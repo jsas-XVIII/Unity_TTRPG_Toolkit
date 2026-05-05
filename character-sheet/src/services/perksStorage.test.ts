@@ -57,6 +57,20 @@ describe('upsertHomebrewPerk', () => {
     upsertHomebrewPerk(makePerk('k2'))
     expect(getHomebrewPerks()).toHaveLength(2)
   })
+
+  // Regression: in-place mutation of the cached array would defeat React-state mirrors
+  // (HomebrewProvider) that rely on Object.is identity to detect changes.
+  it('returns a new array reference after each upsert (no in-place cache mutation)', () => {
+    upsertHomebrewPerk(makePerk('k1'))
+    const before = getHomebrewPerks()
+    upsertHomebrewPerk(makePerk('k2'))
+    const afterAdd = getHomebrewPerks()
+    expect(afterAdd).not.toBe(before)
+
+    upsertHomebrewPerk(makePerk('k1', 'Updated'))
+    const afterUpdate = getHomebrewPerks()
+    expect(afterUpdate).not.toBe(afterAdd)
+  })
 })
 
 describe('deleteHomebrewPerk', () => {
