@@ -86,16 +86,7 @@ Demoted from Phase 3 → after Phase 4 since the XSS angle is gone (no `dangerou
 
 ### ~~Phase 6A — Lightweight homebrew/power lookup memoization~~ ✓ done 2026-05-05
 
-### Phase 7 — Repo migration cache
-**Branch:** `perf/repo-cache`
-**Model:** Sonnet
-**Risk:** Low–medium. Needs `storage` event handling for cross-tab sync.
-
-`services/localStorage.ts` runs `migrateCharacter` on every character on every read. Every `update`/`delete`/`getById` call triggers a full re-migration of the entire roster.
-
-- Add a module-scope cache of the migrated character array. `loadAll` returns the cache; writes update both cache and localStorage.
-- Listen for `window.storage` events to invalidate the cache when other tabs write.
-- Extend `localStorage.test.ts` with a cross-tab sync case.
+### ~~Phase 7 — Repo migration cache~~ ✓ done 2026-05-05
 
 ### Phase 6B — HomebrewContext refactor
 **Branch:** `refactor/homebrew-context` (dedicated, per CLAUDE.md)
@@ -123,7 +114,7 @@ Phase 5 (bundle split)
    ↓
 Phase 6A (lightweight cache)        ✓ done 2026-05-05
    ↓
-Phase 7 (repo migration cache)
+Phase 7 (repo migration cache)      ✓ done 2026-05-05
    ↓
 Phase 6B (HomebrewContext)          dedicated branch, Opus session
 ```
