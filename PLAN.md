@@ -88,14 +88,7 @@ Demoted from Phase 3 → after Phase 4 since the XSS angle is gone (no `dangerou
 
 ### ~~Phase 7 — Repo migration cache~~ ✓ done 2026-05-05
 
-### Phase 6B — HomebrewContext refactor
-**Branch:** `refactor/homebrew-context` (dedicated, per CLAUDE.md)
-**Model:** **Opus**
-**Risk:** Medium. Touches every GM panel and their tests. Sequence after 6A and 7 land.
-
-The proper architectural fix flagged in CLAUDE.md → "GM Tools — Planned: HomebrewContext Refactor". Replace direct localStorage writes + `useDataRefresh()` with React-aware state in a `HomebrewContext`. Migrate panels one at a time; the context and the localStorage services can coexist during the transition.
-
-This is the one phase that meaningfully benefits from Opus: cross-cutting refactor, multiple call sites, judgment on context shape and migration order.
+### ~~Phase 6B — HomebrewContext refactor~~ ✓ done 2026-05-05
 
 ---
 
@@ -116,7 +109,7 @@ Phase 6A (lightweight cache)        ✓ done 2026-05-05
    ↓
 Phase 7 (repo migration cache)      ✓ done 2026-05-05
    ↓
-Phase 6B (HomebrewContext)          dedicated branch, Opus session
+Phase 6B (HomebrewContext)          ✓ done 2026-05-05
 ```
 
 Phases 1, 2, 4 don't touch overlapping files — pick whichever order fits. Phase 6A should land before Phase 7 to prove the cache-invalidation pattern on a smaller surface first.

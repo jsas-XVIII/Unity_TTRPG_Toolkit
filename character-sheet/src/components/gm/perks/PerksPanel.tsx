@@ -17,8 +17,12 @@ export default function PerksPanel({ onBack }: Props) {
   const { perks: homebrewPerks, upsertPerk, deletePerk } = useHomebrew()
 
   const homebrewIds = useMemo(() => new Set(homebrewPerks.map((p) => p.id)), [homebrewPerks])
-  // homebrewPerks identity changes on every mutation, replacing the old refreshKey memo dep.
-  const perks = useMemo(() => getAllPerks(), [homebrewPerks])
+  const perks = useMemo(() => {
+    // homebrewPerks is read so this memo recomputes when homebrew changes; getAllPerks()
+    // reads the storage cache, which is kept current by the context.
+    void homebrewPerks
+    return getAllPerks()
+  }, [homebrewPerks])
 
   function startView(perk: Perk) {
     setEditing({ perk, readOnly: true })

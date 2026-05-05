@@ -1,16 +1,11 @@
-// HomebrewContext — React-aware mirror of the homebrew localStorage stores.
+// HomebrewProvider — owns the React state mirror of the homebrew localStorage stores.
 //
-// Mutators delegate to the storage services first (which write localStorage and
-// keep their internal cache in sync), then update React state. Components that
-// render homebrew read from this context so they re-render automatically — no
-// manual refresh keys required.
-//
-// Data-layer functions in src/data/*Data.ts continue to read from the storage
-// service caches (which are kept fresh because all mutations flow through here),
-// so non-React callers keep working without changes.
-import { createContext, useCallback, useContext, useState, type ReactNode } from 'react'
-import type { Perk } from '../types/character'
-import type { Monster, MonsterAbility } from '../types/monster'
+// Mutators delegate to the storage services first (which write localStorage and keep
+// their internal cache in sync), then update React state. If the storage call throws
+// (quota), the React state is not updated, keeping it consistent with what's persisted.
+// Non-React callers (data-layer functions like getPowersByClass) read from the storage
+// cache, which stays fresh because all mutations flow through this provider.
+import { useCallback, useState, type ReactNode } from 'react'
 import {
   getHomebrewPowers,
   upsertHomebrewPower,
@@ -32,25 +27,9 @@ import {
   getHomebrewAbilities,
   addHomebrewAbility,
 } from '../services/monsterStorage'
-
-interface HomebrewContextValue {
-  powers: HomebrewPower[]
-  perks: Perk[]
-  monsters: Monster[]
-  abilities: MonsterAbility[]
-  upsertPower: (power: HomebrewPower) => void
-  deletePower: (id: string) => void
-  replacePowers: (powers: HomebrewPower[]) => void
-  upsertPerk: (perk: Perk) => void
-  deletePerk: (id: string) => void
-  replacePerks: (perks: Perk[]) => void
-  addMonster: (monster: Monster) => void
-  updateMonster: (monster: Monster) => void
-  deleteMonster: (id: string) => void
-  addAbility: (ability: MonsterAbility) => void
-}
-
-const HomebrewContext = createContext<HomebrewContextValue | null>(null)
+import type { Perk } from '../types/character'
+import type { Monster, MonsterAbility } from '../types/monster'
+import { HomebrewContext } from './HomebrewContext'
 
 export function HomebrewProvider({ children }: { children: ReactNode }) {
   const [powers, setPowers] = useState<HomebrewPower[]>(() => getHomebrewPowers())
@@ -58,8 +37,6 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
   const [monsters, setMonsters] = useState<Monster[]>(() => getHomebrewMonsters())
   const [abilities, setAbilities] = useState<MonsterAbility[]>(() => getHomebrewAbilities())
 
-  // Each mutator: persist via the storage service first; if that throws (quota),
-  // skip the setState so React state stays consistent with what's persisted.
   const upsertPower = useCallback((power: HomebrewPower) => {
     upsertHomebrewPower(power)
     setPowers(getHomebrewPowers())
@@ -132,10 +109,4 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
       {children}
     </HomebrewContext.Provider>
   )
-}
-
-export function useHomebrew(): HomebrewContextValue {
-  const ctx = useContext(HomebrewContext)
-  if (!ctx) throw new Error('useHomebrew must be used inside <HomebrewProvider>')
-  return ctx
 }

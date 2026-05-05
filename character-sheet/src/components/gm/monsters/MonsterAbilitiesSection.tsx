@@ -27,8 +27,12 @@ export default function MonsterAbilitiesSection({
   const [powerDraft, setPowerDraft] = useState<AbilityDraft | null>(null)
   const [storageError, setStorageError] = useState(false)
 
-  // homebrewAbilities identity changes on every mutation; allAbilities is recomputed then.
-  const allAbilities = useMemo(() => getAllAbilities(), [homebrewAbilities])
+  const allAbilities = useMemo(() => {
+    // homebrewAbilities is read so this memo recomputes when homebrew changes;
+    // getAllAbilities() reads the storage cache, which is kept current by the context.
+    void homebrewAbilities
+    return getAllAbilities()
+  }, [homebrewAbilities])
   const libraryTraits = allAbilities.filter((a) => a.kind === 'trait')
   const libraryPowers = allAbilities.filter((a) => a.kind === 'power')
 

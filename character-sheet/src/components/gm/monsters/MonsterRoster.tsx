@@ -31,20 +31,19 @@ export default function MonsterRoster({ onBack }: Props) {
   const [factionFilter, setFactionFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'Standard' | 'Elite'>('all')
   const [storageError, setStorageError] = useState(false)
-  const {
-    monsters: homebrewMonsters,
-    addMonster,
-    updateMonster,
-    deleteMonster,
-  } = useHomebrew()
+  const { monsters: homebrewMonsters, addMonster, updateMonster, deleteMonster } = useHomebrew()
 
-  // homebrewMonsters identity changes on every mutation, replacing the old refreshKey memo dep.
-  const allMonsters = useMemo(() => getAllMonsters(), [homebrewMonsters])
-  const factions = useMemo(() => getFactions(), [homebrewMonsters])
-  const homebrewIds = useMemo(
-    () => new Set(homebrewMonsters.map((m) => m.id)),
-    [homebrewMonsters]
-  )
+  const allMonsters = useMemo(() => {
+    // homebrewMonsters is read so this memo recomputes when homebrew changes; getAllMonsters()
+    // reads the storage cache, which is kept current by the context.
+    void homebrewMonsters
+    return getAllMonsters()
+  }, [homebrewMonsters])
+  const factions = useMemo(() => {
+    void homebrewMonsters
+    return getFactions()
+  }, [homebrewMonsters])
+  const homebrewIds = useMemo(() => new Set(homebrewMonsters.map((m) => m.id)), [homebrewMonsters])
 
   const filtered = useMemo(
     () =>

@@ -164,15 +164,11 @@ All GM-managed game content (powers, perks, monsters) follows a two-layer model:
 - `unity_ttrpg_homebrew_perks` — `Perk[]` (overrides + additions)
 - `unity_ttrpg_monsters_abilities` — `MonsterAbility[]` (existing; homebrew abilities only)
 
-### GM Tools — Planned: HomebrewContext Refactor (dedicated branch)
+### GM Tools — HomebrewContext
 
-The GM panels currently write directly to localStorage and call a `refresh()` function (from `hooks/useDataRefresh.ts`) to force a re-render. This works but is a workaround — React has no visibility into the mutations.
+`context/HomebrewContext.tsx` exposes the homebrew arrays (powers, perks, monsters, abilities) as React state, plus mutators (`upsertPower`, `deletePower`, `replacePowers`, etc.). The provider wraps the App root; GM panels and the player-side content pack import call `useHomebrew()` and re-render automatically when state changes.
 
-The proper fix is a `HomebrewContext` that holds powers, perks, and monster abilities in React state. Writes go through context setters; panels read from context and re-render automatically. This also enables undo/redo and real-time sync as future features.
-
-**Do this on its own dedicated branch** — it touches every GM panel, their tests, and the service layer. Do not fold it into a feature or other refactor branch.
-
-When ready: replace `useDataRefresh()` calls one panel at a time. Each panel can be migrated independently since the context and the localStorage services can coexist during the transition.
+Mutators delegate to the storage services first (which persist to localStorage and update their internal cache), then update React state. If the storage call throws (quota), the React state is not updated, keeping it consistent with what's actually persisted. Non-React callers (data-layer functions like `getPowersByClass`) continue to read from the storage cache, which stays warm because all mutations flow through the context.
 
 ---
 

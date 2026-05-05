@@ -16,7 +16,7 @@ import { useApi } from './hooks/useApi'
 import { useImportFlow } from './hooks/useImportFlow'
 import StorageErrorToast from './components/ui/StorageErrorToast'
 import { isQuotaError } from './utils/storageErrors'
-import { HomebrewProvider } from './context/HomebrewContext'
+import { HomebrewProvider } from './context/HomebrewProvider'
 
 type View = 'home' | 'roster' | 'wizard' | 'sheet' | 'gm'
 

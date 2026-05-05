@@ -20,7 +20,7 @@ import userEvent from '@testing-library/user-event'
 import HomeScreen from './HomeScreen'
 import { baseCharacter } from '../../test/fixtures'
 import { parseContentPack } from '../../services/contentPackService'
-import { HomebrewProvider } from '../../context/HomebrewContext'
+import { HomebrewProvider } from '../../context/HomebrewProvider'
 
 vi.mock('../../services/contentPackService', () => ({
   parseContentPack: vi.fn(),

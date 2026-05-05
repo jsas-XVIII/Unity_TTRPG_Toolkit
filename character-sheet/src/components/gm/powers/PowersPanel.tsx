@@ -40,6 +40,9 @@ export default function PowersPanel({ onBack }: Props) {
   const homebrewIds = useMemo(() => new Set(homebrewPowers.map((p) => p.id)), [homebrewPowers])
 
   const allPowers = useMemo(() => {
+    // homebrewPowers is read so this memo recomputes when homebrew changes; getPowersByClass()
+    // reads the storage cache, which is kept current by the context.
+    void homebrewPowers
     const pools = getPowersByClass(selectedClass)
     const keys = (
       tierFilter === 'all'
@@ -47,7 +50,6 @@ export default function PowersPanel({ onBack }: Props) {
         : [tierFilter]
     ) as (keyof ResolvedPowerPool)[]
     return keys.flatMap((key) => pools[key].map((power) => ({ power, poolKey: key })))
-    // homebrewPowers identity changes on every mutation, replacing the old refreshKey memo dep.
   }, [selectedClass, tierFilter, homebrewPowers])
 
   const filtered = useMemo(() => {
