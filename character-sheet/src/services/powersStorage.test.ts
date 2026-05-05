@@ -4,6 +4,7 @@ import {
   upsertHomebrewPower,
   deleteHomebrewPower,
   replaceHomebrewPowers,
+  invalidatePowerCache,
 } from './powersStorage'
 import type { HomebrewPower } from './powersStorage'
 
@@ -24,6 +25,7 @@ const makePower = (id: string, name = 'Power'): HomebrewPower => ({
 
 beforeEach(() => {
   localStorage.clear()
+  invalidatePowerCache()
 })
 
 describe('getHomebrewPowers', () => {

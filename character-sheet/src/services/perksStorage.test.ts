@@ -4,6 +4,7 @@ import {
   upsertHomebrewPerk,
   deleteHomebrewPerk,
   replaceHomebrewPerks,
+  invalidatePerksCache,
 } from './perksStorage'
 import type { Perk } from '../types/character'
 
@@ -18,6 +19,7 @@ const makePerk = (id: string, name = 'Perk'): Perk => ({
 
 beforeEach(() => {
   localStorage.clear()
+  invalidatePerksCache()
 })
 
 describe('getHomebrewPerks', () => {
