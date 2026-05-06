@@ -48,14 +48,7 @@ The GM creates homebrew content via the in-app GM panels. Content packs are expo
 
 ## Remaining
 
-### Phase 3 — Import-pack resilience
-**Branch:** `feat/import-validation`
-**Scope:** keep small. Two changes only:
-
-- Wrap `JSON.parse` in `src/services/contentPackService.ts:36` in `try/catch` so a malformed file shows a friendly error instead of crashing.
-- Reject the import unless the parsed object has `version === 1` and arrays for `powers`/`perks`. Anything else surfaces as an error to the user.
-
-Deliberately **not** doing: deep field validation, unknown-key stripping, or rewriting `isValidCharacter`. The XSS angle is gone (no `dangerouslySetInnerHTML` anywhere — confirmed 2026-04-28), so the remaining concern is just "don't crash on a typo'd file."
+- ~~Phase 3 — Import-pack resilience~~ ✓ 2026-05-06
 
 ---
 
