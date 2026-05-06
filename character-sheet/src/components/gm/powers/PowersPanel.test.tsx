@@ -108,3 +108,19 @@ describe('PowersPanel — Back button', () => {
     expect(onBack).toHaveBeenCalledOnce()
   })
 })
+
+describe('PowersPanel — Save flow', () => {
+  it('renders a newly-saved homebrew power in the list', async () => {
+    renderPanel()
+    const newName = 'Test Homebrew Power'
+
+    await userEvent.click(screen.getByRole('button', { name: /\+ new power/i }))
+    await userEvent.type(screen.getByPlaceholderText('Power name'), newName)
+    await userEvent.click(screen.getByRole('button', { name: /^save$/i }))
+
+    // Form closed, list returned
+    expect(screen.getByRole('button', { name: /\+ new power/i })).toBeInTheDocument()
+    // New power appears in the list
+    expect(screen.getByText(newName)).toBeInTheDocument()
+  })
+})

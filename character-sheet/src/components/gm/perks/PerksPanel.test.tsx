@@ -107,3 +107,19 @@ describe('PerksPanel — Back button', () => {
     expect(onBack).toHaveBeenCalledOnce()
   })
 })
+
+describe('PerksPanel — Save flow', () => {
+  it('renders a newly-saved homebrew perk in the list', async () => {
+    renderPanel()
+    const newName = 'Test Homebrew Perk'
+
+    await userEvent.click(screen.getByRole('button', { name: /\+ new perk/i }))
+    await userEvent.type(screen.getByPlaceholderText('Perk name'), newName)
+    await userEvent.click(screen.getByRole('button', { name: /^save$/i }))
+
+    // Form closed, list returned
+    expect(screen.getByRole('button', { name: /\+ new perk/i })).toBeInTheDocument()
+    // New perk appears in the list
+    expect(screen.getByText(newName)).toBeInTheDocument()
+  })
+})
