@@ -2,12 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PowersPanel from './PowersPanel'
+import { HomebrewProvider } from '../../../context/HomebrewProvider'
 
 // "Shieldbreaker" is the first Dreadnought power displayed (baseline pool, default class on mount).
 const FIRST_POWER_NAME = 'Shieldbreaker'
 
 function renderPanel(onBack = vi.fn()) {
-  render(<PowersPanel onBack={onBack} />)
+  render(
+    <HomebrewProvider>
+      <PowersPanel onBack={onBack} />
+    </HomebrewProvider>
+  )
   return { onBack }
 }
 
@@ -101,5 +106,21 @@ describe('PowersPanel — Back button', () => {
     const { onBack } = renderPanel()
     await userEvent.click(screen.getByRole('button', { name: /← back/i }))
     expect(onBack).toHaveBeenCalledOnce()
+  })
+})
+
+describe('PowersPanel — Save flow', () => {
+  it('renders a newly-saved homebrew power in the list', async () => {
+    renderPanel()
+    const newName = 'Test Homebrew Power'
+
+    await userEvent.click(screen.getByRole('button', { name: /\+ new power/i }))
+    await userEvent.type(screen.getByPlaceholderText('Power name'), newName)
+    await userEvent.click(screen.getByRole('button', { name: /^save$/i }))
+
+    // Form closed, list returned
+    expect(screen.getByRole('button', { name: /\+ new power/i })).toBeInTheDocument()
+    // New power appears in the list
+    expect(screen.getByText(newName)).toBeInTheDocument()
   })
 })

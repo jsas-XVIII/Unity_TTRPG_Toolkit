@@ -2,12 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PerksPanel from './PerksPanel'
+import { HomebrewProvider } from '../../../context/HomebrewProvider'
 
 // "Combat Specialist" is the first official perk (gp-001).
 const FIRST_PERK_NAME = 'Combat Specialist'
 
 function renderPanel(onBack = vi.fn()) {
-  render(<PerksPanel onBack={onBack} />)
+  render(
+    <HomebrewProvider>
+      <PerksPanel onBack={onBack} />
+    </HomebrewProvider>
+  )
   return { onBack }
 }
 
@@ -100,5 +105,21 @@ describe('PerksPanel — Back button', () => {
     const { onBack } = renderPanel()
     await userEvent.click(screen.getByRole('button', { name: /← back/i }))
     expect(onBack).toHaveBeenCalledOnce()
+  })
+})
+
+describe('PerksPanel — Save flow', () => {
+  it('renders a newly-saved homebrew perk in the list', async () => {
+    renderPanel()
+    const newName = 'Test Homebrew Perk'
+
+    await userEvent.click(screen.getByRole('button', { name: /\+ new perk/i }))
+    await userEvent.type(screen.getByPlaceholderText('Perk name'), newName)
+    await userEvent.click(screen.getByRole('button', { name: /^save$/i }))
+
+    // Form closed, list returned
+    expect(screen.getByRole('button', { name: /\+ new perk/i })).toBeInTheDocument()
+    // New perk appears in the list
+    expect(screen.getByText(newName)).toBeInTheDocument()
   })
 })

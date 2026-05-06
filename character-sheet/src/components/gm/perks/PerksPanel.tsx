@@ -1,14 +1,9 @@
 import { useState, useMemo } from 'react'
-import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import StorageErrorToast from '../../ui/StorageErrorToast'
 import { isQuotaError } from '../../../utils/storageErrors'
 import type { Perk } from '../../../types/character'
 import { getAllPerks, getOfficialPerks, isOfficialPerk } from '../../../data/perksData'
-import {
-  upsertHomebrewPerk,
-  deleteHomebrewPerk,
-  getHomebrewPerks,
-} from '../../../services/perksStorage'
+import { useHomebrew } from '../../../context/HomebrewContext'
 import PerkEditorForm from './PerkEditorForm'
 import { uid } from '../../../utils/idGenerator'
 
@@ -19,13 +14,15 @@ interface Props {
 export default function PerksPanel({ onBack }: Props) {
   const [editing, setEditing] = useState<{ perk: Perk; readOnly: boolean } | null>(null)
   const [storageError, setStorageError] = useState(false)
-  const [refreshKey, refresh] = useDataRefresh()
+  const { perks: homebrewPerks, upsertPerk, deletePerk } = useHomebrew()
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const homebrewPerks = useMemo(() => getHomebrewPerks(), [refreshKey])
   const homebrewIds = useMemo(() => new Set(homebrewPerks.map((p) => p.id)), [homebrewPerks])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const perks = useMemo(() => getAllPerks(), [refreshKey])
+  const perks = useMemo(() => {
+    // homebrewPerks is read so this memo recomputes when homebrew changes; getAllPerks()
+    // reads the storage cache, which is kept current by the context.
+    void homebrewPerks
+    return getAllPerks()
+  }, [homebrewPerks])
 
   function startView(perk: Perk) {
     setEditing({ perk, readOnly: true })
@@ -44,8 +41,7 @@ export default function PerksPanel({ onBack }: Props) {
 
   function handleSave(perk: Perk) {
     try {
-      upsertHomebrewPerk(perk)
-      refresh()
+      upsertPerk(perk)
       setEditing(null)
     } catch (e) {
       if (isQuotaError(e)) setStorageError(true)
@@ -53,14 +49,12 @@ export default function PerksPanel({ onBack }: Props) {
   }
 
   function handleReset(id: string) {
-    deleteHomebrewPerk(id)
-    refresh()
+    deletePerk(id)
     setEditing(null)
   }
 
   function handleDelete(id: string) {
-    deleteHomebrewPerk(id)
-    refresh()
+    deletePerk(id)
     setEditing(null)
   }
 

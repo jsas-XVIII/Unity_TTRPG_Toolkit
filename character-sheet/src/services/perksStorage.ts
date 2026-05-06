@@ -20,6 +20,8 @@ export function getHomebrewPerks(): Perk[] {
 }
 
 // Throws QuotaExceededError if the browser storage limit is reached — callers must handle it.
+// Every write produces a fresh array reference (cache is replaced, never mutated in place),
+// so React state mirrors of getHomebrewPerks() can rely on identity-based change detection.
 function save(perks: Perk[]): void {
   localStorage.setItem(KEY, JSON.stringify(perks))
   cache = perks
@@ -32,19 +34,8 @@ export function replaceHomebrewPerks(perks: Perk[]): void {
 export function upsertHomebrewPerk(perk: Perk): void {
   const existing = getHomebrewPerks()
   const idx = existing.findIndex((p) => p.id === perk.id)
-  if (idx >= 0) {
-    existing[idx] = perk
-  } else {
-    existing.push(perk)
-  }
-  try {
-    save(existing)
-  } catch (e) {
-    // save() mutates cache before the localStorage write, so reset on failure
-    // to keep cache consistent with what's actually persisted.
-    cache = null
-    throw e
-  }
+  const next = idx >= 0 ? existing.map((p, i) => (i === idx ? perk : p)) : [...existing, perk]
+  save(next)
 }
 
 export function deleteHomebrewPerk(id: string): void {

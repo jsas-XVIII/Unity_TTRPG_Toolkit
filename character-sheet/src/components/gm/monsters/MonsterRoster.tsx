@@ -1,15 +1,9 @@
 import { useState, useMemo } from 'react'
-import { useDataRefresh } from '../../../hooks/useDataRefresh'
 import StorageErrorToast from '../../ui/StorageErrorToast'
 import { isQuotaError } from '../../../utils/storageErrors'
 import type { Monster } from '../../../types/monster'
 import { getAllMonsters, getFactions } from '../../../data/monstersData'
-import {
-  getHomebrewMonsters,
-  addHomebrewMonster,
-  updateHomebrewMonster,
-  deleteHomebrewMonster,
-} from '../../../services/monsterStorage'
+import { useHomebrew } from '../../../context/HomebrewContext'
 import MonsterCard from './MonsterCard'
 import MonsterForm from './MonsterForm'
 import { uid } from '../../../utils/idGenerator'
@@ -37,14 +31,19 @@ export default function MonsterRoster({ onBack }: Props) {
   const [factionFilter, setFactionFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'Standard' | 'Elite'>('all')
   const [storageError, setStorageError] = useState(false)
-  const [refreshKey, refresh] = useDataRefresh()
+  const { monsters: homebrewMonsters, addMonster, updateMonster, deleteMonster } = useHomebrew()
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const allMonsters = useMemo(() => getAllMonsters(), [refreshKey])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const factions = useMemo(() => getFactions(), [refreshKey])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const homebrewIds = useMemo(() => new Set(getHomebrewMonsters().map((m) => m.id)), [refreshKey])
+  const allMonsters = useMemo(() => {
+    // homebrewMonsters is read so this memo recomputes when homebrew changes; getAllMonsters()
+    // reads the storage cache, which is kept current by the context.
+    void homebrewMonsters
+    return getAllMonsters()
+  }, [homebrewMonsters])
+  const factions = useMemo(() => {
+    void homebrewMonsters
+    return getFactions()
+  }, [homebrewMonsters])
+  const homebrewIds = useMemo(() => new Set(homebrewMonsters.map((m) => m.id)), [homebrewMonsters])
 
   const filtered = useMemo(
     () =>
@@ -64,11 +63,10 @@ export default function MonsterRoster({ onBack }: Props) {
   function handleSave(monster: Monster) {
     try {
       if (editingMonster) {
-        updateHomebrewMonster(monster)
+        updateMonster(monster)
       } else {
-        addHomebrewMonster(monster)
+        addMonster(monster)
       }
-      refresh()
       setEditingMonster(undefined)
       setView('list')
     } catch (e) {
@@ -83,8 +81,7 @@ export default function MonsterRoster({ onBack }: Props) {
         id: `hb-${uid()}`,
         name: `${monster.name} (Copy)`,
       }
-      addHomebrewMonster(cloned)
-      refresh()
+      addMonster(cloned)
       setSelectedId(cloned.id)
       setEditingMonster(cloned)
       setView('form')
@@ -94,8 +91,7 @@ export default function MonsterRoster({ onBack }: Props) {
   }
 
   function handleDelete(id: string) {
-    deleteHomebrewMonster(id)
-    refresh()
+    deleteMonster(id)
     setEditingMonster(undefined)
     setSelectedId(null)
     setView('list')

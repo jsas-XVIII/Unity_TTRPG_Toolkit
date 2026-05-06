@@ -16,10 +16,19 @@ import { useApi } from './hooks/useApi'
 import { useImportFlow } from './hooks/useImportFlow'
 import StorageErrorToast from './components/ui/StorageErrorToast'
 import { isQuotaError } from './utils/storageErrors'
+import { HomebrewProvider } from './context/HomebrewProvider'
 
 type View = 'home' | 'roster' | 'wizard' | 'sheet' | 'gm'
 
 export default function App() {
+  return (
+    <HomebrewProvider>
+      <AppRoutes />
+    </HomebrewProvider>
+  )
+}
+
+function AppRoutes() {
   // useApi returns localStorageRepository or restApiRepository depending on VITE_USE_API env var
   const api = useApi()
 

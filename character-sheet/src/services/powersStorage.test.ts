@@ -63,6 +63,20 @@ describe('upsertHomebrewPower', () => {
     upsertHomebrewPower(makePower('p2'))
     expect(getHomebrewPowers()).toHaveLength(2)
   })
+
+  // Regression: in-place mutation of the cached array would defeat React-state mirrors
+  // (HomebrewProvider) that rely on Object.is identity to detect changes.
+  it('returns a new array reference after each upsert (no in-place cache mutation)', () => {
+    upsertHomebrewPower(makePower('p1'))
+    const before = getHomebrewPowers()
+    upsertHomebrewPower(makePower('p2'))
+    const afterAdd = getHomebrewPowers()
+    expect(afterAdd).not.toBe(before)
+
+    upsertHomebrewPower(makePower('p1', 'Updated'))
+    const afterUpdate = getHomebrewPowers()
+    expect(afterUpdate).not.toBe(afterAdd)
+  })
 })
 
 describe('deleteHomebrewPower', () => {

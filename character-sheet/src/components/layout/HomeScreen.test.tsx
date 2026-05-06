@@ -12,22 +12,28 @@
 //   9. Invalid content pack file shows error message
 //  10. "Import another" resets back to the card
 
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import HomeScreen from './HomeScreen'
 import { baseCharacter } from '../../test/fixtures'
-import { importContentPack } from '../../services/contentPackService'
+import { parseContentPack } from '../../services/contentPackService'
+import { HomebrewProvider } from '../../context/HomebrewProvider'
 
 vi.mock('../../services/contentPackService', () => ({
-  importContentPack: vi.fn(),
+  parseContentPack: vi.fn(),
 }))
 
-const mockImportContentPack = vi.mocked(importContentPack)
+const mockParseContentPack = vi.mocked(parseContentPack)
 
 expect.extend(matchers)
+
+beforeEach(() => {
+  localStorage.clear()
+  mockParseContentPack.mockReset()
+})
 
 function renderHome(overrides?: Partial<React.ComponentProps<typeof HomeScreen>>) {
   const props = {
@@ -37,7 +43,11 @@ function renderHome(overrides?: Partial<React.ComponentProps<typeof HomeScreen>>
     onGM: vi.fn(),
     ...overrides,
   }
-  render(<HomeScreen {...props} />)
+  render(
+    <HomebrewProvider>
+      <HomeScreen {...props} />
+    </HomebrewProvider>
+  )
   return props
 }
 
@@ -114,8 +124,17 @@ describe('HomeScreen', () => {
       fireEvent.change(input, { target: { files: [file] } })
     }
 
+    // Helper: create a parsed-pack stub of the desired length. The HomeScreen counts the
+    // arrays, so we just need enough placeholder entries to hit the target counts.
+    function stubPack(powersCount: number, perksCount: number) {
+      mockParseContentPack.mockReturnValue({
+        powers: Array.from({ length: powersCount }, (_, i) => ({ id: `p${i}` })) as never,
+        perks: Array.from({ length: perksCount }, (_, i) => ({ id: `k${i}` })) as never,
+      })
+    }
+
     it('shows success confirmation with counts after a valid import', async () => {
-      mockImportContentPack.mockReturnValue({ powersCount: 3, perksCount: 1 })
+      stubPack(3, 1)
       renderHome()
       triggerContentPackFile('{}')
       await waitFor(() =>
@@ -124,14 +143,14 @@ describe('HomeScreen', () => {
     })
 
     it('shows singular form for a single power or perk', async () => {
-      mockImportContentPack.mockReturnValue({ powersCount: 1, perksCount: 0 })
+      stubPack(1, 0)
       renderHome()
       triggerContentPackFile('{}')
       await waitFor(() => expect(screen.getByText(/imported 1 power\./i)).toBeInTheDocument())
     })
 
     it('shows no-content warning when both counts are zero', async () => {
-      mockImportContentPack.mockReturnValue({ powersCount: 0, perksCount: 0 })
+      stubPack(0, 0)
       renderHome()
       triggerContentPackFile('{}')
       await waitFor(() =>
@@ -140,7 +159,7 @@ describe('HomeScreen', () => {
     })
 
     it('shows error message for an invalid file', async () => {
-      mockImportContentPack.mockImplementation(() => {
+      mockParseContentPack.mockImplementation(() => {
         throw new Error('bad json')
       })
       renderHome()
@@ -149,7 +168,7 @@ describe('HomeScreen', () => {
     })
 
     it('"Import another" resets back to the card', async () => {
-      mockImportContentPack.mockReturnValue({ powersCount: 2, perksCount: 0 })
+      stubPack(2, 0)
       renderHome()
       triggerContentPackFile('{}')
       await waitFor(() => expect(screen.getByText(/import another/i)).toBeInTheDocument())
