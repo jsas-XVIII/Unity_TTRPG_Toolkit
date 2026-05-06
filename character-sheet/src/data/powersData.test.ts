@@ -1,7 +1,7 @@
 // powersData.test.ts — unit tests for power data lookup and class path filtering.
 
 import { describe, it, expect } from 'vitest'
-import { getPowersByClass, getPowerById, getTokenBudget } from './powersData'
+import { getPowersByClass, getPowerById, getTokenBudget, isOfficialPower } from './powersData'
 
 describe('getPowersByClass — Priest baseline powers', () => {
   const { baseline } = getPowersByClass('Priest')
@@ -178,6 +178,28 @@ describe('getTokenBudget — correct values at each level', () => {
 
   it('level 10 returns tier1=9, tier2=4', () => {
     expect(getTokenBudget(10)).toEqual({ tier1: 9, tier2: 4 })
+  })
+})
+
+describe('isOfficialPower', () => {
+  it('returns true for a known Dreadnought baseline power', () => {
+    expect(isOfficialPower('dreadnought-shieldbreaker')).toBe(true)
+  })
+
+  it('returns true for a power from a non-Dreadnought class', () => {
+    expect(isOfficialPower('healing-charge')).toBe(true)
+  })
+
+  it('returns true for a feature pool power (lv3)', () => {
+    expect(isOfficialPower('dreadnought-heart-of-the-mountain')).toBe(true)
+  })
+
+  it('returns false for an unknown id', () => {
+    expect(isOfficialPower('not-a-real-power')).toBe(false)
+  })
+
+  it('returns false for a homebrew-prefixed id that does not exist in the JSON', () => {
+    expect(isOfficialPower('hb-power-12345')).toBe(false)
   })
 })
 

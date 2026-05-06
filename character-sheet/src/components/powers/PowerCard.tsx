@@ -1,7 +1,7 @@
 import type { CharacterPower } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
 import type { Dispatch } from 'react'
-import { getPowerById } from '../../data/powersData'
+import { getPowerById, isOfficialPower } from '../../data/powersData'
 import PowerReferenceCard from './PowerReferenceCard'
 
 type Action =
@@ -50,6 +50,7 @@ export default function PowerCard({ power, className, usedPowerIds, dispatch }: 
     <PowerReferenceCard
       power={resolvedPower}
       className={className}
+      isHomebrew={!isOfficialPower(power.id)}
       onRemove={() => dispatch({ type: 'REMOVE_POWER', id: power.id })}
       onUpgradeToggle={(upgradeId) =>
         dispatch({ type: 'TOGGLE_UPGRADE', powerId: power.id, upgradeId })

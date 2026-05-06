@@ -1,3 +1,4 @@
+export {}
 // roster.cy.ts — E2E tests for the CharacterRoster screen.
 //
 // Covers:

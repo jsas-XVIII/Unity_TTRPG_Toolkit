@@ -7,13 +7,14 @@
 //   4. Importing the same file twice detects a duplicate (same id stored)
 //   5. update() throws when the id doesn't exist
 
-import { describe, it, expect, beforeEach } from 'vitest'
-import { localStorageRepository as repo } from './localStorage'
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
+import { localStorageRepository as repo, invalidateCharacterCache } from './localStorage'
 import { baseCharacter } from '../test/fixtures'
 
-// Wipe localStorage before each test so tests don't bleed into each other
+// Wipe localStorage and module cache before each test so tests don't bleed into each other
 beforeEach(() => {
   localStorage.clear()
+  invalidateCharacterCache()
 })
 
 describe('localStorageRepository.create()', () => {
@@ -81,6 +82,18 @@ describe('localStorageRepository — character migration on load', () => {
   })
 })
 
+describe('localStorageRepository — QuotaExceededError propagation', () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  it('create() rejects when setItem throws QuotaExceededError', async () => {
+    const quotaError = new DOMException('QuotaExceededError', 'QuotaExceededError')
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementationOnce(() => {
+      throw quotaError
+    })
+    await expect(repo.create(baseCharacter)).rejects.toThrow()
+  })
+})
+
 describe('localStorageRepository.update()', () => {
   it('throws when the character has not been created first', async () => {
     await expect(repo.update(baseCharacter.id, { name: 'Should Not Work' })).rejects.toThrow()
@@ -95,5 +108,34 @@ describe('localStorageRepository.update()', () => {
     // Fields not in the patch should be unchanged
     expect(updated.className).toBe(baseCharacter.className)
     expect(updated.attributes).toEqual(baseCharacter.attributes)
+  })
+})
+
+describe('localStorageRepository — cross-tab cache invalidation', () => {
+  it('reflects changes written directly to localStorage (simulating another tab)', async () => {
+    await repo.create(baseCharacter)
+
+    // Simulate another tab writing a modified roster directly to localStorage
+    const modified = { ...baseCharacter, name: 'Changed by Tab B' }
+    localStorage.setItem('unity_ttrpg_characters', JSON.stringify([modified]))
+
+    // Dispatch the storage event that browsers fire in all tabs except the writer
+    window.dispatchEvent(new StorageEvent('storage', { key: 'unity_ttrpg_characters' }))
+
+    // Cache should be invalidated — next read re-parses from localStorage
+    const fetched = await repo.getById(baseCharacter.id)
+    expect(fetched.name).toBe('Changed by Tab B')
+  })
+
+  it('invalidates cache when another tab calls localStorage.clear() (key is null)', async () => {
+    await repo.create(baseCharacter)
+
+    // Simulate another tab calling localStorage.clear() — key is null per the Web Storage spec
+    localStorage.clear()
+    window.dispatchEvent(new StorageEvent('storage', { key: null }))
+
+    // Cache should be invalidated — roster is now empty
+    const all = await repo.getAll()
+    expect(all).toHaveLength(0)
   })
 })

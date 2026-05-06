@@ -1,15 +1,16 @@
-// HomeScreen.tsx — the initial landing screen shown when the app loads.
-// Presents four paths: create a new character, load an existing one,
-// import a character from a JSON file, or enter GM mode.
-// GM tools are not yet built so that option is marked as coming soon.
-
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { parseContentPack } from '../../services/contentPackService'
+import type { ImportResult } from '../../services/contentPackService'
+import { useHomebrew } from '../../context/HomebrewContext'
 
 interface Props {
   onNewCharacter: () => void
   onExistingCharacter: () => void
   onImport: (file: File) => void
+  onGM: () => void
 }
+
+type PackStatus = null | { ok: true; result: ImportResult } | { ok: false }
 
 interface OptionCardProps {
   title: string
@@ -44,9 +45,65 @@ function OptionCard({ title, description, onClick, disabled, badge }: OptionCard
   )
 }
 
-export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImport }: Props) {
-  // Ref for the hidden file input — triggered programmatically by the Import Character card
+function UploadIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-gray-400"
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="17 8 12 3 7 8" />
+      <line x1="12" y1="3" x2="12" y2="15" />
+    </svg>
+  )
+}
+
+function packStatusMessage(result: ImportResult): { text: string; color: string } {
+  if (result.powersCount === 0 && result.perksCount === 0) {
+    return {
+      text: 'Import successful — no content found. Check with your GM.',
+      color: 'text-yellow-400',
+    }
+  }
+  const parts: string[] = []
+  if (result.powersCount > 0)
+    parts.push(`${result.powersCount} power${result.powersCount !== 1 ? 's' : ''}`)
+  if (result.perksCount > 0)
+    parts.push(`${result.perksCount} perk${result.perksCount !== 1 ? 's' : ''}`)
+  return { text: `Imported ${parts.join(' and ')}.`, color: 'text-green-400' }
+}
+
+export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImport, onGM }: Props) {
   const importInputRef = useRef<HTMLInputElement>(null)
+  const contentPackInputRef = useRef<HTMLInputElement>(null)
+  const [packStatus, setPackStatus] = useState<PackStatus>(null)
+  const { replacePowers, replacePerks } = useHomebrew()
+
+  function handleContentPackFile(file: File) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const { powers, perks } = parseContentPack(e.target?.result as string)
+        // Full replace, not merge: the GM's exported pack is authoritative, so entries the
+        // GM deleted must disappear from the player's storage too.
+        replacePowers(powers)
+        replacePerks(perks)
+        const result: ImportResult = { powersCount: powers.length, perksCount: perks.length }
+        setPackStatus({ ok: true, result })
+      } catch {
+        setPackStatus({ ok: false })
+      }
+    }
+    reader.readAsText(file)
+  }
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4">
@@ -69,30 +126,83 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
           onClick={onExistingCharacter}
         />
         <OptionCard
-          title="Import Character"
-          description="Load a character from a JSON file exported from this app."
-          onClick={() => importInputRef.current?.click()}
-        />
-        {/* Hidden file input — clicked programmatically by the Import Character card */}
-        <input
-          ref={importInputRef}
-          type="file"
-          accept=".json,application/json"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files?.[0]
-            if (file) {
-              onImport(file)
-              e.target.value = ''
-            }
-          }}
-        />
-        <OptionCard
           title="Gamemaster"
-          description="Ruin tracker, Spark Points, encounter management, and homebrew content tools."
-          disabled
-          badge="Coming Soon"
+          description="Monster compendium, encounter management, and homebrew content tools."
+          onClick={onGM}
         />
+
+        {/* Import row — two half-width buttons */}
+        <div className="flex gap-4">
+          <button
+            data-testid="import-character-button"
+            onClick={() => importInputRef.current?.click()}
+            className="flex-1 flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-gray-700 bg-gray-900 hover:border-amber-600 hover:bg-gray-800 transition-all cursor-pointer"
+          >
+            <UploadIcon />
+            <span className="text-sm font-bold text-gray-100">Import Character</span>
+            <span className="text-xs text-gray-400 leading-relaxed">Load from a JSON file</span>
+          </button>
+          <input
+            data-testid="character-import-input"
+            ref={importInputRef}
+            type="file"
+            accept=".json,application/json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) {
+                onImport(file)
+                e.target.value = ''
+              }
+            }}
+          />
+
+          {packStatus === null ? (
+            <button
+              data-testid="import-content-pack-button"
+              onClick={() => contentPackInputRef.current?.click()}
+              className="flex-1 flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-gray-700 bg-gray-900 hover:border-amber-600 hover:bg-gray-800 transition-all cursor-pointer"
+            >
+              <UploadIcon />
+              <span className="text-sm font-bold text-gray-100">Import Content Pack</span>
+              <span className="text-xs text-gray-400 leading-relaxed">Homebrew from your GM</span>
+            </button>
+          ) : (
+            <div className="flex-1 flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-gray-700 bg-gray-900">
+              <UploadIcon />
+              <span className="text-sm font-bold text-gray-100">Import Content Pack</span>
+              {!packStatus.ok ? (
+                <span className="text-xs text-red-400">Invalid file.</span>
+              ) : (
+                <span
+                  className={`text-xs leading-relaxed ${packStatusMessage(packStatus.result).color}`}
+                >
+                  {packStatusMessage(packStatus.result).text}
+                </span>
+              )}
+              <button
+                className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+                onClick={() => setPackStatus(null)}
+              >
+                Import another
+              </button>
+            </div>
+          )}
+          <input
+            data-testid="content-pack-input"
+            ref={contentPackInputRef}
+            type="file"
+            accept=".json,application/json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) {
+                handleContentPackFile(file)
+                e.target.value = ''
+              }
+            }}
+          />
+        </div>
       </div>
     </div>
   )

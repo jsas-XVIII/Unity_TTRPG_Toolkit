@@ -3,38 +3,58 @@
 // All persistence calls (create / update) flow through the `api` hook so the same
 // code works whether the backend is localStorage (Phase 1) or a C# REST API (Phase 2).
 
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import HomeScreen from './components/layout/HomeScreen'
 import CharacterRoster from './components/layout/CharacterRoster'
 import CharacterSheet from './components/layout/CharacterSheet'
 import CharacterWizard from './components/wizard/CharacterWizard'
+const GMDashboard = lazy(() => import('./components/gm/GMDashboard'))
 import ImportConfirmModal from './components/layout/ImportConfirmModal'
 import DuplicateCharacterModal from './components/layout/DuplicateCharacterModal'
 import type { Character } from './types/character'
 import { useApi } from './hooks/useApi'
-import { checkImport } from './utils/importCharacter'
+import { useImportFlow } from './hooks/useImportFlow'
+import StorageErrorToast from './components/ui/StorageErrorToast'
+import { isQuotaError } from './utils/storageErrors'
+import { HomebrewProvider } from './context/HomebrewProvider'
 
-// The four screens the app can show
-type View = 'home' | 'roster' | 'wizard' | 'sheet'
+type View = 'home' | 'roster' | 'wizard' | 'sheet' | 'gm'
 
 export default function App() {
+  return (
+    <HomebrewProvider>
+      <AppRoutes />
+    </HomebrewProvider>
+  )
+}
+
+function AppRoutes() {
   // useApi returns localStorageRepository or restApiRepository depending on VITE_USE_API env var
   const api = useApi()
 
   const [view, setView] = useState<View>('home')
   const [character, setCharacter] = useState<Character | null>(null)
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle')
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error' | 'quota'>('idle')
 
-  // Holds a successfully imported character while the ImportConfirmModal is open.
-  const [importedCharacter, setImportedCharacter] = useState<Character | null>(null)
-
-  // Set when an imported file matches an id already in storage.
-  // fromHome tracks whether the import originated from the home screen (load directly)
-  // or the character sheet (show ImportConfirmModal after resolving).
-  const [duplicateImport, setDuplicateImport] = useState<{
-    parsed: Character
-    fromHome: boolean
-  } | null>(null)
+  const {
+    importedCharacter,
+    duplicateImport,
+    importError,
+    clearImportError,
+    handleImport,
+    handleImportDirect,
+    handleDuplicateConfirm,
+    handleDuplicateDismiss,
+    handleImportConfirm,
+    handleImportDismiss,
+  } = useImportFlow(
+    api,
+    (c) => {
+      setCharacter(c)
+      setView('sheet')
+    },
+    () => setSaveStatus('error')
+  )
 
   // --- Roster ---
 
@@ -57,9 +77,10 @@ export default function App() {
       const created = await api.create(newChar)
       setCharacter(created)
       setView('sheet')
-    } catch {
+    } catch (e) {
       setCharacter(newChar)
       setView('sheet')
+      if (isQuotaError(e)) setSaveStatus('quota')
     }
   }
 
@@ -75,8 +96,8 @@ export default function App() {
       })
       setSaveStatus('saved')
       setTimeout(() => setSaveStatus('idle'), 2000)
-    } catch {
-      setSaveStatus('error')
+    } catch (e) {
+      setSaveStatus(isQuotaError(e) ? 'quota' : 'error')
     }
   }
 
@@ -91,82 +112,6 @@ export default function App() {
     URL.revokeObjectURL(url)
   }
 
-  // --- Import flow ---
-
-  // Shared handler for both import entry points.
-  // Reads the file, checks for a duplicate id, then either:
-  //   - Creates immediately (new id) and proceeds
-  //   - Opens DuplicateCharacterModal (existing id)
-  // fromHome=true  → load sheet directly after resolving
-  // fromHome=false → show ImportConfirmModal after resolving
-  async function handleFileSelected(file: File, fromHome: boolean) {
-    try {
-      const result = await checkImport(file, api)
-      if (result.status === 'duplicate') {
-        setDuplicateImport({ parsed: result.parsed, fromHome })
-        return
-      }
-      const created = await api.create(result.parsed)
-      if (fromHome) {
-        setCharacter(created)
-        setView('sheet')
-      } else {
-        setImportedCharacter(created)
-      }
-    } catch {
-      setSaveStatus('error')
-    }
-  }
-
-  // Import JSON button on the character sheet — shows ImportConfirmModal after resolving
-  function handleImport(file: File) {
-    handleFileSelected(file, false)
-  }
-
-  // Import Character button on the home screen — loads sheet directly after resolving
-  function handleImportDirect(file: File) {
-    handleFileSelected(file, true)
-  }
-
-  // User confirmed they want a copy of the duplicate.
-  // Creates a new entry with a fresh id and " - copy" appended to the name.
-  async function handleDuplicateConfirm() {
-    if (!duplicateImport) return
-    const { parsed, fromHome } = duplicateImport
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, ...rest } = parsed
-      const copy = await api.create({ ...rest, name: `${parsed.name} - copy` })
-      setDuplicateImport(null)
-      if (fromHome) {
-        setCharacter(copy)
-        setView('sheet')
-      } else {
-        setImportedCharacter(copy)
-      }
-    } catch {
-      setSaveStatus('error')
-    }
-  }
-
-  // User cancelled — block the import, do nothing
-  function handleDuplicateDismiss() {
-    setDuplicateImport(null)
-  }
-
-  // ImportConfirmModal: switch to the imported character
-  function handleImportConfirm() {
-    if (!importedCharacter) return
-    setCharacter(importedCharacter)
-    setView('sheet')
-    setImportedCharacter(null)
-  }
-
-  // ImportConfirmModal: stay on current screen
-  function handleImportDismiss() {
-    setImportedCharacter(null)
-  }
-
   // --- Routing ---
   // Single return so modals can overlay any view.
 
@@ -177,11 +122,18 @@ export default function App() {
           onNewCharacter={() => setView('wizard')}
           onExistingCharacter={() => setView('roster')}
           onImport={handleImportDirect}
+          onGM={() => setView('gm')}
         />
       )}
 
       {view === 'roster' && (
         <CharacterRoster api={api} onSelect={handleRosterSelect} onBack={() => setView('home')} />
+      )}
+
+      {view === 'gm' && (
+        <Suspense fallback={<div className="min-h-screen bg-gray-950" />}>
+          <GMDashboard onBack={() => setView('home')} />
+        </Suspense>
       )}
 
       {view === 'wizard' && (
@@ -200,6 +152,7 @@ export default function App() {
               Save failed.
             </div>
           )}
+          {saveStatus === 'quota' && <StorageErrorToast onDismiss={() => setSaveStatus('idle')} />}
           <CharacterSheet
             key={character.id}
             initial={character}
@@ -209,6 +162,20 @@ export default function App() {
             onNewCharacter={() => setView('home')}
           />
         </>
+      )}
+
+      {/* Invalid file selected for character import */}
+      {importError && (
+        <div className="fixed top-4 right-4 flex items-center gap-3 bg-red-900 border border-red-700 text-red-200 px-4 py-2 rounded shadow-lg z-50 text-sm">
+          {importError}
+          <button
+            onClick={clearImportError}
+            className="text-red-400 hover:text-red-200 transition-colors leading-none"
+            aria-label="Dismiss"
+          >
+            ×
+          </button>
+        </div>
       )}
 
       {/* Duplicate detected — ask the user if they want a copy */}

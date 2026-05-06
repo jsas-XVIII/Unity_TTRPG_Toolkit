@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { Perk } from '../../types/character'
 import type { Dispatch } from 'react'
-import { GENERAL_PERKS } from '../../constants/perks'
+import { getPerkByName, isOfficialPerk } from '../../data/perksData'
 import { CARD, SECTION_HEADING, REMOVE_BTN } from '../../styles/classes'
 import { ADVANCEMENT_ROWS } from '../../data/advancementData'
 import GeneralPerkModal from './GeneralPerkModal'
@@ -30,7 +30,14 @@ function PerkRow({ perk, dispatch }: PerkRowProps) {
   return (
     <div className="flex items-start gap-2 py-1.5 border-b border-gray-800 last:border-0">
       <div className="flex-1">
-        <span className="text-sm font-semibold text-white">{perk.name}</span>
+        <span className="text-sm font-semibold text-white">
+          {perk.name}
+          {!isOfficialPerk(perk.id) && (
+            <span className="text-amber-400 text-xs ml-1" title="Homebrew">
+              *
+            </span>
+          )}
+        </span>
         {perk.description && <p className="text-xs text-gray-400 mt-0.5">{perk.description}</p>}
       </div>
       <button className={REMOVE_BTN} onClick={() => dispatch({ type: 'REMOVE_PERK', id: perk.id })}>
@@ -50,7 +57,7 @@ export default function PerkList({ perks, level, dispatch }: Props) {
   ).length
 
   function addGeneralPerk(perkName: string) {
-    const template = GENERAL_PERKS.find((p) => p.name === perkName)
+    const template = getPerkByName(perkName)
     if (!template) return
     dispatch({ type: 'ADD_PERK', perk: { ...template, id: uuidv4() } })
   }

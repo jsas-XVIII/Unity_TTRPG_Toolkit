@@ -5,9 +5,15 @@
 //   { status: 'duplicate', parsed } — id already exists, ask the user
 
 import { describe, it, expect, vi } from 'vitest'
-import { checkImport, migrateCharacter } from './importCharacter'
+import { checkImport, migrateCharacter, type ImportCheckResult } from './importCharacter'
 import type { CharacterRepository } from '../services/api'
 import { baseCharacter } from '../test/fixtures'
+
+function assertParsed(
+  result: ImportCheckResult
+): asserts result is Exclude<ImportCheckResult, { status: 'invalid' }> {
+  if (result.status === 'invalid') throw new Error('Expected a parsed result')
+}
 
 function makeFile(character = baseCharacter): File {
   return new File([JSON.stringify(character)], 'character.json', {
@@ -36,6 +42,7 @@ describe('checkImport — new character (id not in storage)', () => {
   it('includes the parsed character data in the result', async () => {
     const api = mockApi()
     const result = await checkImport(makeFile(), api)
+    assertParsed(result)
     expect(result.parsed.name).toBe(baseCharacter.name)
     expect(result.parsed.id).toBe(baseCharacter.id)
   })
@@ -55,6 +62,7 @@ describe('checkImport — existing character (id already in storage)', () => {
       getById: vi.fn().mockResolvedValue(baseCharacter),
     })
     const result = await checkImport(makeFile(), api)
+    assertParsed(result)
     expect(result.parsed.name).toBe(baseCharacter.name)
     expect(result.parsed.id).toBe(baseCharacter.id)
   })
@@ -75,10 +83,88 @@ describe('checkImport — existing character (id already in storage)', () => {
   })
 })
 
-describe('checkImport — error cases', () => {
-  it('rejects when the file contains invalid JSON', async () => {
+describe('checkImport — invalid file cases', () => {
+  it('returns status "invalid" when the file contains malformed JSON', async () => {
     const badFile = new File(['not valid json'], 'bad.json', { type: 'application/json' })
-    await expect(checkImport(badFile, mockApi())).rejects.toThrow()
+    const result = await checkImport(badFile, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when the JSON is not a character (e.g. a content pack)', async () => {
+    const contentPack = JSON.stringify({ powers: [], perks: [] })
+    const file = new File([contentPack], 'unity-content-pack.json', { type: 'application/json' })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when the JSON has no id field', async () => {
+    const noId = JSON.stringify({ name: 'Aldric', className: 'Dreadnought' })
+    const file = new File([noId], 'partial.json', { type: 'application/json' })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when className is not a recognized value', async () => {
+    const file = makeFile({ ...baseCharacter, className: 'Wizard' as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when race is not a recognized value', async () => {
+    const file = makeFile({ ...baseCharacter, race: 'Elf' as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when level is not a number', async () => {
+    const file = makeFile({ ...baseCharacter, level: '1' as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when powers is not an array', async () => {
+    const file = makeFile({ ...baseCharacter, powers: null as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns status "invalid" when the JSON is an array', async () => {
+    const file = new File([JSON.stringify([baseCharacter])], 'array.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+})
+
+describe('checkImport — unknown key sanitization', () => {
+  it('strips unknown keys from the parsed character', async () => {
+    const withExtra = { ...baseCharacter, unknownField: 'should be removed' }
+    const file = new File([JSON.stringify(withExtra)], 'extra.json', { type: 'application/json' })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('new')
+    if (result.status === 'new') {
+      expect(result.parsed).not.toHaveProperty('unknownField')
+    }
+  })
+
+  it('preserves optional fields that are set (classPath, featureUpgrades, usedPowerIds)', async () => {
+    const withOptionals = {
+      ...baseCharacter,
+      classPath: 'chaplain',
+      featureUpgrades: { 'power-1': ['upg-a'] },
+      usedPowerIds: ['power-x'],
+    }
+    const file = new File([JSON.stringify(withOptionals)], 'optionals.json', {
+      type: 'application/json',
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('new')
+    if (result.status === 'new') {
+      expect(result.parsed.classPath).toBe('chaplain')
+      expect(result.parsed.featureUpgrades).toEqual({ 'power-1': ['upg-a'] })
+      expect(result.parsed.usedPowerIds).toEqual(['power-x'])
+    }
   })
 })
 
@@ -115,6 +201,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers).toEqual([{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }])
   })
 
@@ -123,6 +210,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     const power = result.parsed.powers[0]
     expect(power.purchasedUpgradeIds).toContain('upg-2')
     expect(power.purchasedUpgradeIds).not.toContain('upg-1')
@@ -133,6 +221,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers[0].purchasedUpgradeIds).toHaveLength(1)
   })
 
@@ -141,6 +230,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers).toEqual([{ id: 'power-abc', purchasedUpgradeIds: ['upg-2'] }])
   })
 
@@ -151,6 +241,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.hpBonus).toBe(0)
   })
 
@@ -175,6 +266,7 @@ describe('checkImport — power format migration', () => {
       type: 'application/json',
     })
     const result = await checkImport(file, mockApi())
+    assertParsed(result)
     expect(result.parsed.powers).toEqual([{ id: 'power-xyz', purchasedUpgradeIds: [] }])
   })
 })

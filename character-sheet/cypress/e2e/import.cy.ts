@@ -1,3 +1,4 @@
+export {}
 // import.cy.ts — E2E tests for the JSON import flow.
 //
 // Covers:
@@ -61,9 +62,13 @@ function visitWithCharacter(id: string, name: string, extra: object = {}) {
   })
 }
 
-// Selects a file on the hidden <input type="file"> using force to bypass visibility
+// Selects a file on the hidden character import input. The combined selector covers
+// both contexts (home screen and character sheet) — only one is ever in the DOM at a time.
 function uploadFile(fixture: string) {
-  cy.get('input[type="file"]').selectFile(`cypress/fixtures/${fixture}`, { force: true })
+  cy.get('[data-testid="character-import-input"],[data-testid="sheet-import-input"]').selectFile(
+    `cypress/fixtures/${fixture}`,
+    { force: true }
+  )
 }
 
 describe('Import from the home screen', () => {

@@ -3,7 +3,7 @@
 // Covers:
 //   1. App title and subtitle are visible
 //   2. All four option cards render
-//   3. Gamemaster card is disabled with a "Coming Soon" badge
+//   3. Gamemaster card is enabled
 //   4. "New Character" navigates to the character creation wizard
 //   5. "Existing Character" navigates to the character roster
 
@@ -25,12 +25,8 @@ describe('Home Screen', () => {
     cy.contains('Gamemaster').should('be.visible')
   })
 
-  it('Gamemaster card is disabled', () => {
-    cy.contains('button', 'Gamemaster').should('be.disabled')
-  })
-
-  it('Gamemaster card shows a "Coming Soon" badge', () => {
-    cy.contains('Coming Soon').should('be.visible')
+  it('Gamemaster card is enabled', () => {
+    cy.contains('button', 'Gamemaster').should('be.enabled')
   })
 
   it('clicking "New Character" opens the character creation wizard at step 1', () => {

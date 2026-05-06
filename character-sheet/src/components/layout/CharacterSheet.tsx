@@ -53,6 +53,13 @@ export default function CharacterSheet({
       {/* Global controls — Save, Export, Import, New Character */}
       <div className="flex gap-2 px-4 py-2 bg-gray-900 border-b border-gray-800">
         <button
+          className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm"
+          onClick={onNewCharacter}
+        >
+          ← Main Menu
+        </button>
+        <div className="w-px bg-gray-700 mx-1" />
+        <button
           className="px-4 py-1.5 rounded bg-amber-700 hover:bg-amber-600 text-white text-sm font-semibold"
           onClick={() => onSave(character)}
         >
@@ -64,8 +71,6 @@ export default function CharacterSheet({
         >
           Export JSON
         </button>
-        {/* Import JSON: button triggers the hidden file input; input resets after selection
-            so the same file can be re-imported in the same session */}
         <button
           className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm"
           onClick={() => importInputRef.current?.click()}
@@ -73,6 +78,7 @@ export default function CharacterSheet({
           Import JSON
         </button>
         <input
+          data-testid="sheet-import-input"
           ref={importInputRef}
           type="file"
           accept=".json,application/json"
@@ -85,11 +91,29 @@ export default function CharacterSheet({
             }
           }}
         />
+      </div>
+
+      {/* Tab bar */}
+      <div className="flex border-b border-gray-800 px-4 bg-gray-900">
         <button
-          className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm ml-auto"
-          onClick={onNewCharacter}
+          onClick={() => setActiveTab('sheet')}
+          className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
+            activeTab === 'sheet'
+              ? 'border-amber-500 text-amber-400'
+              : 'border-transparent text-gray-500 hover:text-gray-300'
+          }`}
         >
-          New Character
+          Character Sheet
+        </button>
+        <button
+          onClick={() => setActiveTab('advancement')}
+          className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
+            activeTab === 'advancement'
+              ? 'border-amber-500 text-amber-400'
+              : 'border-transparent text-gray-500 hover:text-gray-300'
+          }`}
+        >
+          Advancement
         </button>
       </div>
 

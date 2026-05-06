@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Monster",
+  "type": "object",
+  "required": ["id", "name", "dangerLevel", "type", "size", "faction", "xp", "hp", "ar", "dr", "mr", "av", "spd", "dmg", "damageDie", "traitIds", "powerIds"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": { "type": "string", "minLength": 1 },
+    "dangerLevel": { "type": "integer", "minimum": 1 },
+    "type": { "type": "string", "enum": ["Standard", "Elite"] },
+    "size": { "type": "string", "enum": ["Small", "Medium", "Large", "Colossal"] },
+    "faction": { "type": ["string", "null"] },
+    "xp": { "type": "integer", "minimum": 0 },
+    "hp": { "type": "integer", "minimum": 1 },
+    "ar": { "type": "integer" },
+    "dr": { "type": "integer" },
+    "mr": { "type": "integer" },
+    "av": { "type": "integer", "minimum": 0 },
+    "spd": { "type": "integer" },
+    "dmg": { "type": "integer" },
+    "damageDie": { "type": "string", "pattern": "^\\d+d\\d+$" },
+    "traitIds": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "powerIds": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "imageUrl": { "type": "string" },
+    "notes": { "type": "string" }
+  }
+}

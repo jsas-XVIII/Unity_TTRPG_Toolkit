@@ -1,41 +1,63 @@
 // HomeScreen.test.tsx — tests for the initial landing screen.
 //
 // Covers:
-//   1. All four option cards render
+//   1. All five option cards render
 //   2. Clicking "New Character" fires the correct callback
 //   3. Clicking "Existing Character" fires the correct callback
 //   4. Selecting a file via "Import Character" calls onImport with the File object
 //   5. The file input resets after selection so the same file can be re-imported
-//   6. The Gamemaster button is disabled (GM tools not built yet)
-//   7. The "Coming Soon" badge appears on the Gamemaster card
+//   6. Clicking "Gamemaster" fires the onGM callback
+//   7. Selecting a content pack file shows success confirmation with counts
+//   8. Empty content pack shows no-content warning
+//   9. Invalid content pack file shows error message
+//  10. "Import another" resets back to the card
 
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import HomeScreen from './HomeScreen'
 import { baseCharacter } from '../../test/fixtures'
+import { parseContentPack } from '../../services/contentPackService'
+import { HomebrewProvider } from '../../context/HomebrewProvider'
+
+vi.mock('../../services/contentPackService', () => ({
+  parseContentPack: vi.fn(),
+}))
+
+const mockParseContentPack = vi.mocked(parseContentPack)
 
 expect.extend(matchers)
+
+beforeEach(() => {
+  localStorage.clear()
+  mockParseContentPack.mockReset()
+})
 
 function renderHome(overrides?: Partial<React.ComponentProps<typeof HomeScreen>>) {
   const props = {
     onNewCharacter: vi.fn(),
     onExistingCharacter: vi.fn(),
     onImport: vi.fn(),
+    onGM: vi.fn(),
     ...overrides,
   }
-  render(<HomeScreen {...props} />)
+  render(
+    <HomebrewProvider>
+      <HomeScreen {...props} />
+    </HomebrewProvider>
+  )
   return props
 }
 
 describe('HomeScreen', () => {
-  it('renders all four option cards', () => {
+  it('renders all five option cards', () => {
     renderHome()
     expect(screen.getByRole('button', { name: /new character/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /existing character/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /import character/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /import content pack/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /gamemaster/i })).toBeInTheDocument()
   })
 
@@ -89,24 +111,69 @@ describe('HomeScreen', () => {
     expect(input.value).toBe('')
   })
 
-  it('Gamemaster button is disabled', () => {
-    renderHome()
-    expect(screen.getByRole('button', { name: /gamemaster/i })).toBeDisabled()
-  })
-
-  it('shows a "Coming Soon" badge on the Gamemaster card', () => {
-    renderHome()
-    expect(screen.getByText(/coming soon/i)).toBeInTheDocument()
-  })
-
-  it('does not call any callback when the disabled Gamemaster button is clicked', async () => {
-    const onNewCharacter = vi.fn()
-    const onExistingCharacter = vi.fn()
-    const onImport = vi.fn()
-    renderHome({ onNewCharacter, onExistingCharacter, onImport })
+  it('calls onGM when "Gamemaster" is clicked', async () => {
+    const { onGM } = renderHome()
     await userEvent.click(screen.getByRole('button', { name: /gamemaster/i }))
-    expect(onNewCharacter).not.toHaveBeenCalled()
-    expect(onExistingCharacter).not.toHaveBeenCalled()
-    expect(onImport).not.toHaveBeenCalled()
+    expect(onGM).toHaveBeenCalledOnce()
+  })
+
+  describe('Import Content Pack', () => {
+    function triggerContentPackFile(json: string) {
+      const file = new File([json], 'unity-content-pack.json', { type: 'application/json' })
+      const input = screen.getByTestId('content-pack-input') as HTMLInputElement
+      fireEvent.change(input, { target: { files: [file] } })
+    }
+
+    // Helper: create a parsed-pack stub of the desired length. The HomeScreen counts the
+    // arrays, so we just need enough placeholder entries to hit the target counts.
+    function stubPack(powersCount: number, perksCount: number) {
+      mockParseContentPack.mockReturnValue({
+        powers: Array.from({ length: powersCount }, (_, i) => ({ id: `p${i}` })) as never,
+        perks: Array.from({ length: perksCount }, (_, i) => ({ id: `k${i}` })) as never,
+      })
+    }
+
+    it('shows success confirmation with counts after a valid import', async () => {
+      stubPack(3, 1)
+      renderHome()
+      triggerContentPackFile('{}')
+      await waitFor(() =>
+        expect(screen.getByText(/imported 3 powers and 1 perk/i)).toBeInTheDocument()
+      )
+    })
+
+    it('shows singular form for a single power or perk', async () => {
+      stubPack(1, 0)
+      renderHome()
+      triggerContentPackFile('{}')
+      await waitFor(() => expect(screen.getByText(/imported 1 power\./i)).toBeInTheDocument())
+    })
+
+    it('shows no-content warning when both counts are zero', async () => {
+      stubPack(0, 0)
+      renderHome()
+      triggerContentPackFile('{}')
+      await waitFor(() =>
+        expect(screen.getByText(/import successful — no content found/i)).toBeInTheDocument()
+      )
+    })
+
+    it('shows error message for an invalid file', async () => {
+      mockParseContentPack.mockImplementation(() => {
+        throw new Error('bad json')
+      })
+      renderHome()
+      triggerContentPackFile('not-json')
+      await waitFor(() => expect(screen.getByText(/invalid file/i)).toBeInTheDocument())
+    })
+
+    it('"Import another" resets back to the card', async () => {
+      stubPack(2, 0)
+      renderHome()
+      triggerContentPackFile('{}')
+      await waitFor(() => expect(screen.getByText(/import another/i)).toBeInTheDocument())
+      await userEvent.click(screen.getByText(/import another/i))
+      expect(screen.getByRole('button', { name: /import content pack/i })).toBeInTheDocument()
+    })
   })
 })

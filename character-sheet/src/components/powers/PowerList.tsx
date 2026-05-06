@@ -2,7 +2,13 @@ import { useState, useMemo } from 'react'
 import type { CharacterPower, Power } from '../../types/character'
 import type { ClassName } from '../../data/powersData'
 import type { Dispatch } from 'react'
-import { getPowersByClass, getPowerById, TIER_CONFIG, getTokenBudget } from '../../data/powersData'
+import {
+  getPowersByClass,
+  getPowerById,
+  TIER_CONFIG,
+  getTokenBudget,
+  isOfficialPower,
+} from '../../data/powersData'
 import PowerCard from './PowerCard'
 import PowerReferenceCard from './PowerReferenceCard'
 import { CARD, SECTION_HEADING } from '../../styles/classes'
@@ -164,7 +170,9 @@ export default function PowerList({
         </p>
       )}
 
-      {/* Baseline — derived from class data, read-only */}
+      {/* Baseline — derived from class data, read-only.
+          isOfficialPower check is needed here (not just for tier1/tier2) because GMs can
+          add homebrew powers at any tier, including baseline and level-feature pools. */}
       {baselinePowers.length > 0 && (
         <div className="mb-4">
           <p className={`text-xs ${TIER_CONFIG.baseline.headingColor} uppercase mb-2`}>
@@ -176,6 +184,7 @@ export default function PowerList({
                 key={p.id}
                 power={p}
                 className={className}
+                isHomebrew={!isOfficialPower(p.id)}
                 isUsed={
                   p.actionType === 'Overdrive' || p.actionType === 'Ultimate'
                     ? usedSet.has(p.id)
@@ -211,6 +220,7 @@ export default function PowerList({
                   key={p.id}
                   power={p}
                   className={className}
+                  isHomebrew={!isOfficialPower(p.id)}
                   onUpgradeToggle={
                     p.upgrades.length > 0
                       ? (upgradeId) =>
