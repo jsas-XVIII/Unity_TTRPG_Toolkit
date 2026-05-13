@@ -43,4 +43,9 @@ describe('GMDashboard — tool cards', () => {
     renderDashboard()
     expect(screen.getByRole('button', { name: /perks editor/i })).toBeInTheDocument()
   })
+
+  it('renders the Artifacts Editor card', () => {
+    renderDashboard()
+    expect(screen.getByRole('button', { name: /artifacts editor/i })).toBeInTheDocument()
+  })
 })

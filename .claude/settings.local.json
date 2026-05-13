@@ -44,7 +44,8 @@
       "mcp__ide__getDiagnostics",
       "Bash(grep -r \"environment\\\\|jsdom\\\\|happy-dom\" vite.config.ts vitest.config.ts)",
       "Bash(grep -r \"environment\" vite.config.ts)",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(Select-Object -ExpandProperty Name)"
     ]
   }
 }
