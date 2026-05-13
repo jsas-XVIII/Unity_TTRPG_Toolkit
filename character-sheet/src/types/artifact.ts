@@ -17,6 +17,7 @@ export type ArtifactEffectKind =
   | 'Reaction'
   | 'Set Bonus'
   | 'Passage'
+  | 'Movement'
 
 export interface ArtifactEffect {
   name: string

@@ -67,7 +67,7 @@ function UploadIcon() {
 }
 
 function packStatusMessage(result: ImportResult): { text: string; color: string } {
-  if (result.powersCount === 0 && result.perksCount === 0) {
+  if (result.powersCount === 0 && result.perksCount === 0 && result.artifactsCount === 0) {
     return {
       text: 'Import successful — no content found. Check with your GM.',
       color: 'text-yellow-400',
@@ -78,25 +78,32 @@ function packStatusMessage(result: ImportResult): { text: string; color: string 
     parts.push(`${result.powersCount} power${result.powersCount !== 1 ? 's' : ''}`)
   if (result.perksCount > 0)
     parts.push(`${result.perksCount} perk${result.perksCount !== 1 ? 's' : ''}`)
-  return { text: `Imported ${parts.join(' and ')}.`, color: 'text-green-400' }
+  if (result.artifactsCount > 0)
+    parts.push(`${result.artifactsCount} artifact${result.artifactsCount !== 1 ? 's' : ''}`)
+  return { text: `Imported ${parts.join(', ')}.`, color: 'text-green-400' }
 }
 
 export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImport, onGM }: Props) {
   const importInputRef = useRef<HTMLInputElement>(null)
   const contentPackInputRef = useRef<HTMLInputElement>(null)
   const [packStatus, setPackStatus] = useState<PackStatus>(null)
-  const { replacePowers, replacePerks } = useHomebrew()
+  const { replacePowers, replacePerks, replaceArtifacts } = useHomebrew()
 
   function handleContentPackFile(file: File) {
     const reader = new FileReader()
     reader.onload = (e) => {
       try {
-        const { powers, perks } = parseContentPack(e.target?.result as string)
+        const { powers, perks, artifacts } = parseContentPack(e.target?.result as string)
         // Full replace, not merge: the GM's exported pack is authoritative, so entries the
         // GM deleted must disappear from the player's storage too.
         replacePowers(powers)
         replacePerks(perks)
-        const result: ImportResult = { powersCount: powers.length, perksCount: perks.length }
+        replaceArtifacts(artifacts)
+        const result: ImportResult = {
+          powersCount: powers.length,
+          perksCount: perks.length,
+          artifactsCount: artifacts.length,
+        }
         setPackStatus({ ok: true, result })
       } catch {
         setPackStatus({ ok: false })

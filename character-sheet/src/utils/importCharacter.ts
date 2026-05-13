@@ -48,7 +48,7 @@ function migrateArtifacts(character: Character): Character {
   if (Array.isArray(c.artifacts)) {
     const migrated = { ...c }
     delete migrated.artifacts
-    return { ...(migrated as Character), equippedArtifacts: [] }
+    return { ...(migrated as unknown as Character), equippedArtifacts: [] }
   }
   // Phase 1 format: plain string ID array → promote to CharacterArtifact[]
   if (Array.isArray(c.artifactIds)) {
@@ -58,7 +58,7 @@ function migrateArtifacts(character: Character): Character {
       id,
       purchasedUpgradeIds: [],
     }))
-    return { ...(migrated2 as Character), equippedArtifacts }
+    return { ...(migrated2 as unknown as Character), equippedArtifacts }
   }
   if (!Array.isArray(c.equippedArtifacts)) {
     return { ...character, equippedArtifacts: [] }

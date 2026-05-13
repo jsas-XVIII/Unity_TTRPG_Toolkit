@@ -27,8 +27,15 @@ import {
   getHomebrewAbilities,
   addHomebrewAbility,
 } from '../services/monsterStorage'
+import {
+  getHomebrewArtifacts,
+  upsertHomebrewArtifact,
+  deleteHomebrewArtifact,
+  replaceHomebrewArtifacts,
+} from '../services/artifactsStorage'
 import type { Perk } from '../types/character'
 import type { Monster, MonsterAbility } from '../types/monster'
+import type { ArtifactDefinition } from '../types/artifact'
 import { HomebrewContext } from './HomebrewContext'
 
 export function HomebrewProvider({ children }: { children: ReactNode }) {
@@ -36,6 +43,7 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
   const [perks, setPerks] = useState<Perk[]>(() => getHomebrewPerks())
   const [monsters, setMonsters] = useState<Monster[]>(() => getHomebrewMonsters())
   const [abilities, setAbilities] = useState<MonsterAbility[]>(() => getHomebrewAbilities())
+  const [artifacts, setArtifacts] = useState<ArtifactDefinition[]>(() => getHomebrewArtifacts())
 
   const upsertPower = useCallback((power: HomebrewPower) => {
     upsertHomebrewPower(power)
@@ -87,6 +95,21 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
     setAbilities(getHomebrewAbilities())
   }, [])
 
+  const upsertArtifact = useCallback((artifact: ArtifactDefinition) => {
+    upsertHomebrewArtifact(artifact)
+    setArtifacts(getHomebrewArtifacts())
+  }, [])
+
+  const deleteArtifact = useCallback((id: string) => {
+    deleteHomebrewArtifact(id)
+    setArtifacts(getHomebrewArtifacts())
+  }, [])
+
+  const replaceArtifacts = useCallback((next: ArtifactDefinition[]) => {
+    replaceHomebrewArtifacts(next)
+    setArtifacts(getHomebrewArtifacts())
+  }, [])
+
   return (
     <HomebrewContext.Provider
       value={{
@@ -94,6 +117,7 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
         perks,
         monsters,
         abilities,
+        artifacts,
         upsertPower,
         deletePower,
         replacePowers,
@@ -104,6 +128,9 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
         updateMonster,
         deleteMonster,
         addAbility,
+        upsertArtifact,
+        deleteArtifact,
+        replaceArtifacts,
       }}
     >
       {children}

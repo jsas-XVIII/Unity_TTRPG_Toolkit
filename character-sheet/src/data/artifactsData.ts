@@ -1,14 +1,20 @@
 import artifactsJson from './artifacts.json'
 import type { ArtifactDefinition } from '../types/artifact'
+import { getHomebrewArtifacts } from '../services/artifactsStorage'
+import { mergeOfficial } from '../utils/mergeOfficial'
 
 const OFFICIAL_ARTIFACTS: ArtifactDefinition[] = artifactsJson as ArtifactDefinition[]
 
 export function getAllArtifacts(): ArtifactDefinition[] {
+  return mergeOfficial(OFFICIAL_ARTIFACTS, getHomebrewArtifacts())
+}
+
+export function getOfficialArtifacts(): ArtifactDefinition[] {
   return OFFICIAL_ARTIFACTS
 }
 
 export function getArtifactById(id: string): ArtifactDefinition | undefined {
-  return OFFICIAL_ARTIFACTS.find((a) => a.id === id)
+  return getAllArtifacts().find((a) => a.id === id)
 }
 
 export function isOfficialArtifact(id: string): boolean {
@@ -16,5 +22,5 @@ export function isOfficialArtifact(id: string): boolean {
 }
 
 export function getArtifactsBySet(setId: string): ArtifactDefinition[] {
-  return OFFICIAL_ARTIFACTS.filter((a) => a.setId === setId)
+  return getAllArtifacts().filter((a) => a.setId === setId)
 }

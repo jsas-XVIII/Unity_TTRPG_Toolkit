@@ -21,6 +21,7 @@ function kindColor(kind: ArtifactEffectKind): string {
   if (kind === 'Quick') return 'bg-green-900 text-green-300'
   if (kind === 'Reaction') return 'bg-purple-900 text-purple-300'
   if (kind === 'Set Bonus') return 'bg-amber-900 text-amber-300'
+  if (kind === 'Movement') return 'bg-cyan-900 text-cyan-300'
   return 'bg-red-900 text-red-300' // Passage
 }
 
@@ -48,7 +49,8 @@ export default function ArtifactList({ equippedArtifacts, artifactCapacity, disp
         <span
           className={`text-xs px-1.5 rounded ${overCapacity ? 'bg-red-900 text-red-300' : 'bg-gray-800 text-gray-500'}`}
         >
-          {equippedArtifacts.length}/{artifactCapacity} equipped{overCapacity && ' ⚠ Hindrance to ALL actions!'}
+          {equippedArtifacts.length}/{artifactCapacity} equipped
+          {overCapacity && ' ⚠ Hindrance to ALL actions!'}
         </span>
       </div>
 

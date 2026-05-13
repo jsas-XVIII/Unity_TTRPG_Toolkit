@@ -126,10 +126,11 @@ describe('HomeScreen', () => {
 
     // Helper: create a parsed-pack stub of the desired length. The HomeScreen counts the
     // arrays, so we just need enough placeholder entries to hit the target counts.
-    function stubPack(powersCount: number, perksCount: number) {
+    function stubPack(powersCount: number, perksCount: number, artifactsCount = 0) {
       mockParseContentPack.mockReturnValue({
         powers: Array.from({ length: powersCount }, (_, i) => ({ id: `p${i}` })) as never,
         perks: Array.from({ length: perksCount }, (_, i) => ({ id: `k${i}` })) as never,
+        artifacts: Array.from({ length: artifactsCount }, (_, i) => ({ id: `a${i}` })) as never,
       })
     }
 
@@ -138,7 +139,7 @@ describe('HomeScreen', () => {
       renderHome()
       triggerContentPackFile('{}')
       await waitFor(() =>
-        expect(screen.getByText(/imported 3 powers and 1 perk/i)).toBeInTheDocument()
+        expect(screen.getByText(/imported 3 powers, 1 perk/i)).toBeInTheDocument()
       )
     })
 
