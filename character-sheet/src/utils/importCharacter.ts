@@ -48,10 +48,20 @@ function migrateArtifacts(character: Character): Character {
   if (Array.isArray(c.artifacts)) {
     const migrated = { ...c }
     delete migrated.artifacts
-    return { ...(migrated as Character), artifactIds: [] }
+    return { ...(migrated as Character), equippedArtifacts: [] }
   }
-  if (!Array.isArray(c.artifactIds)) {
-    return { ...character, artifactIds: [] }
+  // Phase 1 format: plain string ID array → promote to CharacterArtifact[]
+  if (Array.isArray(c.artifactIds)) {
+    const migrated2 = { ...c }
+    delete migrated2.artifactIds
+    const equippedArtifacts = (c.artifactIds as string[]).map((id) => ({
+      id,
+      purchasedUpgradeIds: [],
+    }))
+    return { ...(migrated2 as Character), equippedArtifacts }
+  }
+  if (!Array.isArray(c.equippedArtifacts)) {
+    return { ...character, equippedArtifacts: [] }
   }
   return character
 }
@@ -104,7 +114,9 @@ function isValidCharacter(obj: unknown): obj is Character {
     Array.isArray(c.perks) &&
     Array.isArray(c.weapons) &&
     Array.isArray(c.armor) &&
-    (Array.isArray(c.artifactIds) || Array.isArray(c.artifacts)) &&
+    (Array.isArray(c.equippedArtifacts) ||
+      Array.isArray(c.artifactIds) ||
+      Array.isArray(c.artifacts)) &&
     typeof c.artifactCapacity === 'number' &&
     typeof c.denerim === 'number' &&
     typeof c.necessities === 'number' &&
@@ -138,7 +150,7 @@ function sanitizeCharacter(c: Character): Character {
     perks: c.perks,
     weapons: c.weapons,
     armor: c.armor,
-    artifactIds: c.artifactIds,
+    equippedArtifacts: c.equippedArtifacts,
     artifactCapacity: c.artifactCapacity,
     denerim: c.denerim,
     necessities: c.necessities,

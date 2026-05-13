@@ -12,6 +12,7 @@
 import { useReducer, useCallback, useMemo } from 'react'
 import type { Character, CharacterPower, CorePath, Perk } from '../types/character'
 import type { Weapon, ArmorItem } from '../types/equipment'
+import type { CharacterArtifact } from '../types/artifact'
 import { CLASS_MAP } from '../constants/classes'
 import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
 import { applyLevelUp } from '../data/advancementData'
@@ -35,6 +36,7 @@ type Action =
   | { type: 'REMOVE_ARMOR'; id: string }
   | { type: 'EQUIP_ARTIFACT'; id: string }
   | { type: 'UNEQUIP_ARTIFACT'; id: string }
+  | { type: 'TOGGLE_ARTIFACT_UPGRADE'; artifactId: string; upgradeId: string }
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
@@ -106,11 +108,30 @@ function reducer(state: Character, action: Action): Character {
     case 'REMOVE_ARMOR':
       return { ...state, armor: state.armor.filter((a) => a.id !== action.id) }
 
-    case 'EQUIP_ARTIFACT':
-      if (state.artifactIds.includes(action.id)) return state
-      return { ...state, artifactIds: [...state.artifactIds, action.id] }
+    case 'EQUIP_ARTIFACT': {
+      if (state.equippedArtifacts.some((a) => a.id === action.id)) return state
+      const newEntry: CharacterArtifact = { id: action.id, purchasedUpgradeIds: [] }
+      return { ...state, equippedArtifacts: [...state.equippedArtifacts, newEntry] }
+    }
     case 'UNEQUIP_ARTIFACT':
-      return { ...state, artifactIds: state.artifactIds.filter((id) => id !== action.id) }
+      return {
+        ...state,
+        equippedArtifacts: state.equippedArtifacts.filter((a) => a.id !== action.id),
+      }
+    case 'TOGGLE_ARTIFACT_UPGRADE':
+      return {
+        ...state,
+        equippedArtifacts: state.equippedArtifacts.map((a) => {
+          if (a.id !== action.artifactId) return a
+          const already = a.purchasedUpgradeIds.includes(action.upgradeId)
+          return {
+            ...a,
+            purchasedUpgradeIds: already
+              ? a.purchasedUpgradeIds.filter((uid) => uid !== action.upgradeId)
+              : [...a.purchasedUpgradeIds, action.upgradeId],
+          }
+        }),
+      }
 
     // --- Powers ---
     case 'ADD_POWER':

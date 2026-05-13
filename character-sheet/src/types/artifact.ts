@@ -25,6 +25,7 @@ export interface ArtifactEffect {
 }
 
 export interface ArtifactUpgrade {
+  id: string
   name: string
   description: string
 }
@@ -38,4 +39,11 @@ export interface ArtifactDefinition {
   effects: ArtifactEffect[]
   upgrades?: ArtifactUpgrade[]
   setId?: string
+}
+
+// Stored on the Character — references an artifact by ID and tracks only mutable state.
+// Full artifact data is resolved at render time from artifacts.json.
+export interface CharacterArtifact {
+  id: string
+  purchasedUpgradeIds: string[]
 }

@@ -176,8 +176,9 @@ export default function CharacterSheet({
               <WeaponSlots weapons={character.weapons} dispatch={dispatch} />
               <ArmorSlot armor={character.armor} dispatch={dispatch} />
               <ArtifactList
-                artifactIds={character.artifactIds}
+                equippedArtifacts={character.equippedArtifacts}
                 artifactCapacity={character.artifactCapacity}
+                dispatch={dispatch}
               />
               <InventoryBlock
                 denerim={character.denerim}

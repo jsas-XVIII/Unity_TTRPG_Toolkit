@@ -97,6 +97,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-005-u1",
         "name": "Ocrun's Undying Strength",
         "description": "Ocrun's Raging Fire also forces a MIGHT vs MIGHT contest. If you win, the target gains Hindrance for 1 round. If you lose, you are Staggered for 1 round."
       }
@@ -122,6 +123,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-006-u1",
         "name": "Volley",
         "description": "Passive. On an attack roll of 16–20, make a second Basic Ranged attack against the same target for free."
       }
@@ -147,6 +149,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-007-u1",
         "name": "Thundering Strikes",
         "description": "Passive. On any Melee attack roll of 16–20, deal an additional 1d8 Electric damage."
       }
@@ -167,6 +170,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-008-u1",
         "name": "Unending Knowledge",
         "description": "Passive. While wielding the Lantern, your Primary Class Resource maximum increases by 1."
       }
@@ -192,6 +196,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-009-u1",
         "name": "Weight of the World",
         "description": "Passive. When you roll the maximum value on any damage die, the target is Rooted for 1 round. Elites are immune."
       }
@@ -217,6 +222,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-010-u1",
         "name": "Killshot",
         "description": "Passive. For each consecutive round you remain stationary, gain +2 damage, stacking up to your current Level. Moving resets the bonus."
       }
@@ -242,6 +248,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-011-u1",
         "name": "Makeshift Grenade",
         "description": "Passive. The vial can be opened as a grenade, dealing 4d4 Arcane damage to the target and all adjacent creatures. Epilogue loses Arcane Shot until a new vial is placed."
       }
@@ -272,6 +279,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-012-u1",
         "name": "No Mercy",
         "description": "Passive. Straight to the Heart now triggers on an attack roll of 14–20 instead of 17–20."
       }
@@ -297,6 +305,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-013-u1",
         "name": "Mirrored Steel",
         "description": "Return Fire now also deflects magical ranged projectiles."
       }
@@ -386,10 +395,12 @@
     ],
     "upgrades": [
       {
+        "id": "art-017-u1",
         "name": "Illumination",
         "description": "Echoes of Light now triggers on an attack roll of 17–20 instead of 19–20."
       },
       {
+        "id": "art-017-u2",
         "name": "A Righteous Blade",
         "description": "Passive. While wielding Solarius, the Judge power 'And You Shall Know His Name' doubles its bonus from +HL to +Level."
       }
@@ -420,6 +431,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-018-u1",
         "name": "Dragon's Breath",
         "description": "Passive. Gain the Mystic power Breath of Fire. Activate it by expending Primary Resource. If you already possess Breath of Fire, its Mana cost is reduced to 1."
       }
@@ -469,6 +481,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-020-u1",
         "name": "Always First",
         "description": "Once per Full Rest, grant yourself First Strike at the start of an encounter. Doing so deals True damage equal to your Level."
       }
@@ -499,6 +512,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-021-u1",
         "name": "Together as One",
         "description": "Set Bonus. Morning and Evening intertwine into a double-bladed glaive, upgrading the damage die to 1d10."
       }
@@ -530,6 +544,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-022-u1",
         "name": "Together as One",
         "description": "Set Bonus. Morning and Evening intertwine into a double-bladed glaive, upgrading the damage die to 1d10."
       }
@@ -551,6 +566,7 @@
     ],
     "upgrades": [
       {
+        "id": "art-023-u1",
         "name": "More Deals",
         "description": "Unlock a secondary contract slot. The second contract must target AR, DR, MR, Speed, or AV (+1 for 5 Max HP). Adds 5 additional uses to the tome."
       }
