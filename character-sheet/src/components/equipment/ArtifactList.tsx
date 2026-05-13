@@ -33,6 +33,17 @@ export default function ArtifactList({ equippedArtifacts, artifactCapacity, disp
   const unequippedArtifacts = allArtifacts.filter((a) => !equippedSet.has(a.id))
   const overCapacity = equippedArtifacts.length > artifactCapacity
 
+  const equippedSetIds = new Set(
+    equippedArtifacts
+      .map((ca) => getArtifactById(ca.id)?.setId)
+      .filter((id): id is string => id !== undefined)
+  )
+  const completeSets = new Set(
+    [...equippedSetIds].filter((setId) =>
+      allArtifacts.filter((a) => a.setId === setId).every((a) => equippedSet.has(a.id))
+    )
+  )
+
   function toggleExpanded(id: string) {
     setExpandedIds((prev) => {
       const next = new Set(prev)
@@ -70,6 +81,11 @@ export default function ArtifactList({ equippedArtifacts, artifactCapacity, disp
                   {artifact.name}
                 </span>
                 <span className="text-xs text-gray-400 shrink-0">{artifact.subtype}</span>
+                {artifact.setId && completeSets.has(artifact.setId) && (
+                  <span className="text-xs px-1.5 py-0.5 rounded bg-amber-900 text-amber-300 shrink-0">
+                    Set Active
+                  </span>
+                )}
                 <span className="ml-auto text-gray-400 shrink-0 text-xs">
                   {expanded ? '▲' : '▼'}
                 </span>
