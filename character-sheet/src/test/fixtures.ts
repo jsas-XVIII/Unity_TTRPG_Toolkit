@@ -35,7 +35,7 @@ export const baseCharacter: Character = {
   perks: [],
   weapons: [],
   armor: [],
-  artifacts: [],
+  artifactIds: [],
   artifactCapacity: 2,
 
   denerim: 0,

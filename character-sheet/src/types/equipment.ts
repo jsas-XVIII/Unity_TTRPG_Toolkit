@@ -27,10 +27,3 @@ export interface ArmorItem {
   cost: number
   notes: string
 }
-
-export interface Artifact {
-  id: string
-  name: string
-  description: string
-  equipped: boolean
-}

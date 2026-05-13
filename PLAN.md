@@ -52,6 +52,25 @@ The GM creates homebrew content via the in-app GM panels. Content packs are expo
 
 ---
 
+## Upcoming Features
+
+### Dice Rolling — Character Sheet
+Roll dice directly from the character sheet (attributes, skills, powers). Scope TBD — inline roll buttons, a roll log, or a dedicated roll modal.
+
+### Encounter Builder — GM Tools
+GM tool to build and run encounters: select monsters from the roster, set quantities, track initiative and HP during a session.
+
+### GM Screen
+A GM-facing panel for session management: free-form notes, active encounter tracker, quick reference tables.
+
+### Ruin Tracker
+Track Ruin (the campaign's corruption/doom mechanic) at the party or per-character level. Design TBD — needs more thought on how the GM wants to surface and interact with it.
+
+### Story Progression Bonuses — Homebrew
+Allow the GM to define and distribute out-of-band bonuses tied to story events: bonus attributes, bonus perks, bonus Power Tokens, or other stat adjustments. These would be authored in the GM panel and included in the content pack so players receive them automatically on import.
+
+---
+
 ## Deliberately not on this list
 
 The following came up during prior reviews but were judged over-engineering for a single-user, localStorage-backed hobby app. Revisit only if scope changes.

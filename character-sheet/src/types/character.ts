@@ -1,6 +1,6 @@
-import type { Weapon, ArmorItem, Artifact } from './equipment'
+import type { Weapon, ArmorItem } from './equipment'
 
-export type { Weapon, ArmorItem, Artifact }
+export type { Weapon, ArmorItem }
 
 export type Race = 'Valla' | 'Furian' | 'Human' | 'Afflicted'
 
@@ -136,7 +136,7 @@ export interface Character {
   perks: Perk[]
   weapons: Weapon[]
   armor: ArmorItem[]
-  artifacts: Artifact[]
+  artifactIds: string[]
   artifactCapacity: number
 
   denerim: number

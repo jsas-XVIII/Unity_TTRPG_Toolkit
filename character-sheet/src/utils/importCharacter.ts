@@ -40,6 +40,22 @@ function migratePowers(character: Character): Character {
   return { ...character, powers: migrated }
 }
 
+// Migrates a character saved before the Artifact System refactor.
+// Old format stored freeform Artifact objects; new format stores only string IDs.
+// Old UUIDs cannot map to official artifact IDs, so they are discarded.
+function migrateArtifacts(character: Character): Character {
+  const c = character as unknown as Record<string, unknown>
+  if (Array.isArray(c.artifacts)) {
+    const migrated = { ...c }
+    delete migrated.artifacts
+    return { ...(migrated as Character), artifactIds: [] }
+  }
+  if (!Array.isArray(c.artifactIds)) {
+    return { ...character, artifactIds: [] }
+  }
+  return character
+}
+
 // Applies all field migrations in sequence. Called whenever a character is loaded
 // from localStorage or imported from a JSON file, so old saves stay compatible.
 export function migrateCharacter(character: Character): Character {
@@ -48,6 +64,7 @@ export function migrateCharacter(character: Character): Character {
   if ((c as { hpBonus?: number }).hpBonus === undefined) {
     c = { ...c, hpBonus: 0 }
   }
+  c = migrateArtifacts(c)
   return c
 }
 
@@ -87,7 +104,7 @@ function isValidCharacter(obj: unknown): obj is Character {
     Array.isArray(c.perks) &&
     Array.isArray(c.weapons) &&
     Array.isArray(c.armor) &&
-    Array.isArray(c.artifacts) &&
+    (Array.isArray(c.artifactIds) || Array.isArray(c.artifacts)) &&
     typeof c.artifactCapacity === 'number' &&
     typeof c.denerim === 'number' &&
     typeof c.necessities === 'number' &&
@@ -121,7 +138,7 @@ function sanitizeCharacter(c: Character): Character {
     perks: c.perks,
     weapons: c.weapons,
     armor: c.armor,
-    artifacts: c.artifacts,
+    artifactIds: c.artifactIds,
     artifactCapacity: c.artifactCapacity,
     denerim: c.denerim,
     necessities: c.necessities,

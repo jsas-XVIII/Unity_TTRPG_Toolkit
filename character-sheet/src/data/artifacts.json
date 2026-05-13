@@ -1,0 +1,559 @@
+[
+  {
+    "id": "art-001",
+    "name": "Bosley's Good-Luck Charm",
+    "category": "Accessory",
+    "subtype": "Amulet",
+    "description": "A tarnished amulet worn smooth by anxious fingers. Against all odds, it works.",
+    "effects": [
+      {
+        "name": "Bet You Can't Do That Again",
+        "kind": "Passive",
+        "description": "When you take a hit that deals 25% or more of your Max HP in damage, gain +8 DR against the next incoming attack."
+      },
+      {
+        "name": "Bosley's Fortune",
+        "kind": "Set Bonus",
+        "description": "When both Bosley's set pieces are equipped, the DR bonus from Bet You Can't Do That Again is doubled to +16."
+      }
+    ],
+    "setId": "bosley"
+  },
+  {
+    "id": "art-002",
+    "name": "Bosley's Lucky Ring",
+    "category": "Accessory",
+    "subtype": "Ring",
+    "description": "A cheap copper ring with a bent band. You can't explain why you keep it, but you can't bring yourself to throw it away.",
+    "effects": [
+      {
+        "name": "Not Today",
+        "kind": "Passive",
+        "description": "When you roll a 2 or 3 on a 2d10 Defense check, reduce the damage you take by half instead of taking the full amount."
+      },
+      {
+        "name": "Bosley's Fortune",
+        "kind": "Set Bonus",
+        "description": "When both Bosley's set pieces are equipped, Not Today negates all damage instead of halving it."
+      }
+    ],
+    "setId": "bosley"
+  },
+  {
+    "id": "art-003",
+    "name": "Coin of the Nivh'dhre",
+    "category": "Accessory",
+    "subtype": "Coin",
+    "description": "A coin from a civilization that shouldn't exist. It clings to your hand like it was made for it.",
+    "effects": [
+      {
+        "name": "Embrace Power",
+        "kind": "Passive",
+        "description": "Choose one power you own. That power always Benefits. You cannot voluntarily drop the Coin."
+      },
+      {
+        "name": "Darkness",
+        "kind": "Passage",
+        "description": "You gain an extra 1d4 Ruin per session. The GM may call for Dark Tutelage rolls (2d10+MIND vs TN 15) when the coin's influence becomes relevant."
+      }
+    ]
+  },
+  {
+    "id": "art-004",
+    "name": "Last Tear of the Ivory Queen",
+    "category": "Accessory",
+    "subtype": "Amulet",
+    "description": "A crystalline gem that weeps light. It is said to be the final tear shed by a queen who gave everything for her people.",
+    "effects": [
+      {
+        "name": "Mercy of the Ivory Queen",
+        "kind": "Reaction",
+        "description": "Once per Full Rest, protect an adjacent Ally from a fatal blow. If the incoming damage exceeds half the target's Max HP, this effect fails."
+      },
+      {
+        "name": "A Mother's Sacrifice",
+        "kind": "Quick",
+        "description": "Once per campaign, remove the gem and touch a fallen ally who died within the last 24 hours to revive them. This destroys the artifact permanently."
+      }
+    ]
+  },
+  {
+    "id": "art-005",
+    "name": "Ocrun's Might",
+    "category": "Heavy Melee",
+    "subtype": "Maul",
+    "description": "A massive iron maul that smells faintly of scorched earth. The flames come when it counts.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 damage."
+      },
+      {
+        "name": "Ocrun's Raging Fire",
+        "kind": "Passive",
+        "description": "On an attack roll of 18–20, deal additional Fire damage equal to your MIGHT."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Ocrun's Undying Strength",
+        "description": "Ocrun's Raging Fire also forces a MIGHT vs MIGHT contest. If you win, the target gains Hindrance for 1 round. If you lose, you are Staggered for 1 round."
+      }
+    ]
+  },
+  {
+    "id": "art-006",
+    "name": "Courier, Chord of the Stars",
+    "category": "Heavy Ranged",
+    "subtype": "Longbow",
+    "description": "A bow carved from wood that no longer exists. Each arrow loosed hums like a plucked string.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 damage."
+      },
+      {
+        "name": "Starfire Arrow",
+        "kind": "Standard",
+        "description": "Expend 1 Class Resource. Make a Basic Ranged attack at Very Far range that deals Fire damage instead of Physical."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Volley",
+        "description": "Passive. On an attack roll of 16–20, make a second Basic Ranged attack against the same target for free."
+      }
+    ]
+  },
+  {
+    "id": "art-007",
+    "name": "Stormbringer, Gavel of the Faithful",
+    "category": "Medium Melee",
+    "subtype": "Warhammer",
+    "description": "A divine warhammer that crackles with restrained lightning. Its judgment falls once, but falls completely.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 damage."
+      },
+      {
+        "name": "Judgment",
+        "kind": "Standard",
+        "description": "Once per Full Rest, make a Basic Melee attack against an adjacent target. On a hit, deal Electric damage and Stun the target for 1 round. On a miss, deal half Electric damage and Stagger the target for 1 round."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Thundering Strikes",
+        "description": "Passive. On any Melee attack roll of 16–20, deal an additional 1d8 Electric damage."
+      }
+    ]
+  },
+  {
+    "id": "art-008",
+    "name": "Lantern of the Lorekeeper",
+    "category": "Light Melee",
+    "subtype": "Staff",
+    "description": "A staff topped with an ever-burning lantern. It illuminates paths that shouldn't be there.",
+    "effects": [
+      {
+        "name": "Brilliance",
+        "kind": "Passive",
+        "description": "Gain one additional Tier 1 power or upgrade from your class. This bonus is lost if you stop wielding the Lantern. You cannot upgrade it, and your choice is locked once bonded."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Unending Knowledge",
+        "description": "Passive. While wielding the Lantern, your Primary Class Resource maximum increases by 1."
+      }
+    ]
+  },
+  {
+    "id": "art-009",
+    "name": "Nightmare, The Shadow's Wake",
+    "category": "Heavy Melee",
+    "subtype": "Giant Hammer",
+    "description": "A two-faced hammer — one side a screaming visage, the other a serene mask. Neither face is comforting.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 damage."
+      },
+      {
+        "name": "Two-Faced",
+        "kind": "Passive",
+        "description": "Stare at the rage face: gain AR up to half your Level but lose the same as DR. Stare at the calm face: gain DR up to half your Level but lose the same as AR. Look away and it functions as a mundane weapon. Your chosen stance locks until a Full Rest."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Weight of the World",
+        "description": "Passive. When you roll the maximum value on any damage die, the target is Rooted for 1 round. Elites are immune."
+      }
+    ]
+  },
+  {
+    "id": "art-010",
+    "name": "Echo",
+    "category": "Heavy Ranged",
+    "subtype": "Rifle",
+    "description": "A long rifle that fires with uncanny precision. Every shot placed, every shot counted.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 damage."
+      },
+      {
+        "name": "Sureshot",
+        "kind": "Passive",
+        "description": "Re-roll any damage dice that show a 1 or 2. Use the new result."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Killshot",
+        "description": "Passive. For each consecutive round you remain stationary, gain +2 damage, stacking up to your current Level. Moving resets the bonus."
+      }
+    ]
+  },
+  {
+    "id": "art-011",
+    "name": "Epilogue",
+    "category": "Light Ranged",
+    "subtype": "Pistol",
+    "description": "A pistol with a glass vial socket on the barrel. Whatever you load into it comes out worse.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+1 damage."
+      },
+      {
+        "name": "Arcane Shot",
+        "kind": "Standard",
+        "description": "The vial socket charges with arcane energy. Expend the charge to fire an arcane-infused shot."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Makeshift Grenade",
+        "description": "Passive. The vial can be opened as a grenade, dealing 4d4 Arcane damage to the target and all adjacent creatures. Epilogue loses Arcane Shot until a new vial is placed."
+      }
+    ]
+  },
+  {
+    "id": "art-012",
+    "name": "The Black Maiden",
+    "category": "Medium Melee",
+    "subtype": "Longsword",
+    "description": "A longsword with a blade the color of a starless sky. It finds gaps in armor as if designed for nothing else.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+1 damage."
+      },
+      {
+        "name": "Straight to the Heart",
+        "kind": "Passive",
+        "description": "On an attack roll of 17–20, completely ignore the target's AV for that attack."
+      },
+      {
+        "name": "Magnetic",
+        "kind": "Passive",
+        "description": "+1 Presence while equipped."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "No Mercy",
+        "description": "Passive. Straight to the Heart now triggers on an attack roll of 14–20 instead of 17–20."
+      }
+    ]
+  },
+  {
+    "id": "art-013",
+    "name": "Bracers of the Vanguard",
+    "category": "Accessory",
+    "subtype": "Bracers",
+    "description": "Heavy steel bracers etched with deflection runes. They have caught more arrows than most shields.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 DR."
+      },
+      {
+        "name": "Return Fire",
+        "kind": "Passive",
+        "description": "On a Defense roll of 18–20, deflect any reasonably-sized ranged physical projectile back at the attacker."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Mirrored Steel",
+        "description": "Return Fire now also deflects magical ranged projectiles."
+      }
+    ]
+  },
+  {
+    "id": "art-014",
+    "name": "Altarion's Ward",
+    "category": "Shield",
+    "subtype": "Shield",
+    "description": "A tower shield engraved with the crest of a forgotten dueling order. It rewards those who commit to the fight.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+1 AV."
+      },
+      {
+        "name": "Duelist",
+        "kind": "Passive",
+        "description": "When you and your target are the only two ADJACENT units in the engagement, gain your HL as a bonus to both AR and damage."
+      }
+    ]
+  },
+  {
+    "id": "art-015",
+    "name": "Shadowmantle",
+    "category": "Light Armour",
+    "subtype": "Chestpiece",
+    "description": "Dark armor that seems to drink in light. Moving in it is barely a whisper.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 AV."
+      },
+      {
+        "name": "Elusive",
+        "kind": "Passive",
+        "description": "+2 DR against Provoked Attacks."
+      },
+      {
+        "name": "Shadowdancer",
+        "kind": "Set Bonus",
+        "description": "While both Shadowmantle and Twilight Walkers are equipped, deal an additional 1d6 Physical damage on a successful Melee attack against a target ADJACENT to one of your Allies."
+      }
+    ],
+    "setId": "shadowdancer"
+  },
+  {
+    "id": "art-016",
+    "name": "Twilight Walkers",
+    "category": "Accessory",
+    "subtype": "Boots",
+    "description": "Soft-soled boots that leave no sound and almost no footprint. Perfect for those who prefer not to be found.",
+    "effects": [
+      {
+        "name": "Soft as a Feather",
+        "kind": "Passive",
+        "description": "Add your HL to any roll involving sneaking or staying undetected."
+      },
+      {
+        "name": "Shadowdancer",
+        "kind": "Set Bonus",
+        "description": "While both Shadowmantle and Twilight Walkers are equipped, deal an additional 1d6 Physical damage on a successful Melee attack against a target ADJACENT to one of your Allies."
+      }
+    ],
+    "setId": "shadowdancer"
+  },
+  {
+    "id": "art-017",
+    "name": "Solarius, Hand of the Dawn",
+    "category": "Heavy Melee",
+    "subtype": "Greatsword",
+    "description": "A greatsword that blazes with golden light. The faithful say it remembers every divine blow ever struck.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+2 damage."
+      },
+      {
+        "name": "Echoes of Light",
+        "kind": "Passive",
+        "description": "On an attack roll of 19–20, replicate all Divine damage dealt that round to the same target."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Illumination",
+        "description": "Echoes of Light now triggers on an attack roll of 17–20 instead of 19–20."
+      },
+      {
+        "name": "A Righteous Blade",
+        "description": "Passive. While wielding Solarius, the Judge power 'And You Shall Know His Name' doubles its bonus from +HL to +Level."
+      }
+    ]
+  },
+  {
+    "id": "art-018",
+    "name": "Dragon's Kiss",
+    "category": "Light Melee",
+    "subtype": "Dagger",
+    "description": "A dagger forged in dragonfire. It keeps you warm even when nothing else does.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+1 damage."
+      },
+      {
+        "name": "Fiery Soul",
+        "kind": "Passive",
+        "description": "When you deal Fire damage through a power, add additional Fire damage equal to your HL."
+      },
+      {
+        "name": "Unending Warmth",
+        "kind": "Passive",
+        "description": "+7 Frost Resistance."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Dragon's Breath",
+        "description": "Passive. Gain the Mystic power Breath of Fire. Activate it by expending Primary Resource. If you already possess Breath of Fire, its Mana cost is reduced to 1."
+      }
+    ]
+  },
+  {
+    "id": "art-019",
+    "name": "Soul Razor",
+    "category": "Light Melee",
+    "subtype": "Fist Weapon",
+    "description": "A bladed fist weapon that grows sharper with each life it takes. It wants more.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+1 damage."
+      },
+      {
+        "name": "Thirst for Blood",
+        "kind": "Passive",
+        "description": "When you land a killing blow, heal 1 HP."
+      },
+      {
+        "name": "Eternal Hunger",
+        "kind": "Passive",
+        "description": "After 10 kills with the Soul Razor, the healing from Thirst for Blood permanently increases by 1. This can stack up to a maximum bonus of +4."
+      }
+    ]
+  },
+  {
+    "id": "art-020",
+    "name": "Anklets of Wicked Speed",
+    "category": "Accessory",
+    "subtype": "Anklet",
+    "description": "Lightweight anklets that buzz with restless energy. You'll feel it even when you're standing still.",
+    "effects": [
+      {
+        "name": "Can't Catch Me",
+        "kind": "Passive",
+        "description": "+2 DR against Provoked Attacks."
+      },
+      {
+        "name": "Restless",
+        "kind": "Passive",
+        "description": "Narrative effect: your legs bounce and fidget whenever you are stationary for more than 5 minutes. Stops only when lying down."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Always First",
+        "description": "Once per Full Rest, grant yourself First Strike at the start of an encounter. Doing so deals True damage equal to your Level."
+      }
+    ]
+  },
+  {
+    "id": "art-021",
+    "name": "Morning",
+    "category": "Light Melee",
+    "subtype": "Blade",
+    "description": "One of a matched pair of blades. Lighter than it looks, and faster than you expect.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+1 damage."
+      },
+      {
+        "name": "Morning's Grace",
+        "kind": "Passive",
+        "description": "+3 Speed when in natural or forested settings."
+      },
+      {
+        "name": "Forest Blades",
+        "kind": "Set Bonus",
+        "description": "While both Morning and Evening are equipped (outdoors only): Overdrive/Movement — instantly move FAR without triggering Provoked Attacks."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Together as One",
+        "description": "Set Bonus. Morning and Evening intertwine into a double-bladed glaive, upgrading the damage die to 1d10."
+      }
+    ],
+    "setId": "forest-blades"
+  },
+  {
+    "id": "art-022",
+    "name": "Evening",
+    "category": "Light Melee",
+    "subtype": "Handblade",
+    "description": "One of a matched pair of blades. It settles into the hand like it was always meant to be there.",
+    "effects": [
+      {
+        "name": "Enhanced",
+        "kind": "Passive",
+        "description": "+1 damage."
+      },
+      {
+        "name": "Evening's Cover",
+        "kind": "Passive",
+        "description": "+2 to stealth-related checks when in natural or forested settings."
+      },
+      {
+        "name": "Forest Blades",
+        "kind": "Set Bonus",
+        "description": "While both Morning and Evening are equipped (outdoors only): Overdrive/Movement — instantly move FAR without triggering Provoked Attacks."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "Together as One",
+        "description": "Set Bonus. Morning and Evening intertwine into a double-bladed glaive, upgrading the damage die to 1d10."
+      }
+    ],
+    "setId": "forest-blades"
+  },
+  {
+    "id": "art-023",
+    "name": "Dreambinder, Tome of the Deceiver",
+    "category": "Accessory",
+    "subtype": "Tome",
+    "description": "A book that writes contracts in your blood. You never remember signing, but the terms are always clear.",
+    "effects": [
+      {
+        "name": "Shrewd Bargain",
+        "kind": "Passive",
+        "description": "Choose 1 Main Attribute and increase it by 1, losing 5 Max HP as the cost. Tear the page to cancel the contract. Only 1 contract may be active at a time. The tome has 10 uses total."
+      }
+    ],
+    "upgrades": [
+      {
+        "name": "More Deals",
+        "description": "Unlock a secondary contract slot. The second contract must target AR, DR, MR, Speed, or AV (+1 for 5 Max HP). Adds 5 additional uses to the tome."
+      }
+    ]
+  }
+]

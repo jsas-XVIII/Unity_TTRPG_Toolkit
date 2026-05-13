@@ -11,7 +11,7 @@
 
 import { useReducer, useCallback, useMemo } from 'react'
 import type { Character, CharacterPower, CorePath, Perk } from '../types/character'
-import type { Weapon, ArmorItem, Artifact } from '../types/equipment'
+import type { Weapon, ArmorItem } from '../types/equipment'
 import { CLASS_MAP } from '../constants/classes'
 import { computeDerivedStats, type DerivedStats } from '../utils/derivedStats'
 import { applyLevelUp } from '../data/advancementData'
@@ -33,10 +33,8 @@ type Action =
   | { type: 'REMOVE_WEAPON'; id: string }
   | { type: 'ADD_ARMOR'; armor: ArmorItem }
   | { type: 'REMOVE_ARMOR'; id: string }
-  | { type: 'ADD_ARTIFACT'; artifact: Artifact }
-  | { type: 'REMOVE_ARTIFACT'; id: string }
-  | { type: 'TOGGLE_ARTIFACT_EQUIPPED'; id: string }
-  | { type: 'UPDATE_ARTIFACT_DESCRIPTION'; id: string; description: string }
+  | { type: 'EQUIP_ARTIFACT'; id: string }
+  | { type: 'UNEQUIP_ARTIFACT'; id: string }
   | { type: 'ADD_POWER'; power: CharacterPower }
   | { type: 'REMOVE_POWER'; id: string }
   | { type: 'TOGGLE_UPGRADE'; powerId: string; upgradeId: string }
@@ -108,26 +106,11 @@ function reducer(state: Character, action: Action): Character {
     case 'REMOVE_ARMOR':
       return { ...state, armor: state.armor.filter((a) => a.id !== action.id) }
 
-    case 'ADD_ARTIFACT':
-      return { ...state, artifacts: [...state.artifacts, action.artifact] }
-    case 'REMOVE_ARTIFACT':
-      return { ...state, artifacts: state.artifacts.filter((a) => a.id !== action.id) }
-
-    // Flips the equipped boolean on a single artifact without touching the rest
-    case 'TOGGLE_ARTIFACT_EQUIPPED':
-      return {
-        ...state,
-        artifacts: state.artifacts.map((a) =>
-          a.id === action.id ? { ...a, equipped: !a.equipped } : a
-        ),
-      }
-    case 'UPDATE_ARTIFACT_DESCRIPTION':
-      return {
-        ...state,
-        artifacts: state.artifacts.map((a) =>
-          a.id === action.id ? { ...a, description: action.description } : a
-        ),
-      }
+    case 'EQUIP_ARTIFACT':
+      if (state.artifactIds.includes(action.id)) return state
+      return { ...state, artifactIds: [...state.artifactIds, action.id] }
+    case 'UNEQUIP_ARTIFACT':
+      return { ...state, artifactIds: state.artifactIds.filter((id) => id !== action.id) }
 
     // --- Powers ---
     case 'ADD_POWER':
