@@ -54,43 +54,11 @@ The GM creates homebrew content via the in-app GM panels. Content packs are expo
 
 ## Upcoming Features
 
-### Dice Rolling — Character Sheet
+### ~~Dice Rolling — Character Sheet~~ ✓ 2026-05-14
 
-**Entry point:** A button in the character sheet header opens a **Dice Tray modal** with two tabs.
+Dice Tray modal on the character sheet with quick-roll buttons (Attack/Defense/Mind Resist), custom roll form (dice type, attribute, benefit/hindrance, half level, misc bonus, label), Roll20 macro export, 500ms tumbling animation, procedural Web Audio sound effects, and per-character roll history (last 50, localStorage).
 
-**Roll tab**
-- Three quick-roll buttons: **Attack** (`2d10 + AR`), **Defense** (`2d10 + DR`), **Mind Resist** (`2d10 + MR`). Fire immediately using derived stats; respect the current Benefit/Hindrance toggle state.
-- **Custom roll form:**
-  | Field | Options | Condition |
-  |---|---|---|
-  | Dice | 2d10, d4, d6, d8, d10, d12, 2d6 | Always |
-  | Attribute | None, Might, Agility, Mind, Presence | Always |
-  | Normal / Benefit / Hindrance | toggle | Only when dice = 2d10 |
-  | Half Level | checkbox | Only when dice = 2d10 |
-  | Misc bonus | +/- number field | Always |
-- Optional **label field** (blank by default) — stored with the history entry if filled.
-- **Result display** inside the modal: individual dice values visible, crit highlighted.
-
-**Crit logic (2d10 rolls only):**
-- Normal: both kept dice match → crit
-- Benefit: roll 3d10, keep 2 highest — crit if any two of the three dice match (including the dropped die)
-- Hindrance: roll 3d10, keep 2 lowest — crit impossible
-
-**History tab**
-- Last 50 rolls, newest first.
-- Each entry shows: source/label, individual dice results, total.
-- Persisted to **localStorage**, scoped per character. Survives page refresh.
-
-**Roll20 Macro Export**
-- The Roll tab has two independent actions on the same form state: **Roll** (rolls in the app and shows the result) and **Copy Roll20 Macro** (generates a macro string and copies it to the clipboard). Either can be used independently.
-- Syntax mapping:
-  - Normal: `/roll 2d10+5 [Attack Roll]`
-  - Benefit: `/roll 3d10kh2+5 [Attack Roll]`
-  - Hindrance: `/roll 3d10kl2+5 [Attack Roll]`
-- The label field (if filled) is appended in brackets for Roll20 chat context.
-- Damage/other dice follow the same pattern without the kh/kl modifier.
-
-**Out of scope:** Inline roll buttons on the sheet, automatic power-expression parsing.
+**Deferred:** GM dice rolling — GMs don't roll dice in standard rules. Will be added as part of the GM Screen feature if needed.
 
 ### Encounter Builder — GM Tools
 GM tool to build and run encounters: select monsters from the roster, set quantities, track initiative and HP during a session.
