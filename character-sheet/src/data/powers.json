@@ -433,71 +433,71 @@
     "baseline": [
       {
         "id": "driftwalker-dark-bargain",
-        "name": "Dark Bargain",
+        "name": "Vital Exchange",
         "tier": "baseline",
         "actionType": "Quick",
         "cost": "2+MIND Blood",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Recharge 1 Bile.",
+        "effectsText": "Sacrifice life force to restore power. Recharge 1 Bile.",
         "upgrades": []
       },
       {
         "id": "driftwalker-siphoning-strike",
-        "name": "Siphoning Strike",
+        "name": "Draining Blow",
         "tier": "baseline",
         "actionType": "Standard",
         "cost": "2 Bile",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: You deal Basic Attack damage and heal yourself for HL+MIND. Failure: You deal half damage and heal for HL.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage and restore HL+MIND HP. Failure: Deal half damage and restore HL HP.",
         "upgrades": []
       }
     ],
     "tier1": [
       {
         "id": "black-blood",
-        "name": "Black Blood",
+        "name": "Corrosive Ichor",
         "tier": 1,
         "actionType": "Standard",
         "cost": "1 Bile + X d4 Blood",
         "target": "Single",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack. Success: Deal 1d4+MIND Corrosive damage and spawn up to HL Festering Pustules on the target. Pustules explode for 1d4 Corrosive damage each to the target and Adjacent enemies when the target takes damage. Failure: Deal 1d4 Corrosive damage.",
+        "effectsText": "Roll your Basic Attack. Success: Deal 1d4+MIND Corrosive damage and spawn up to HL Festering Pustules on the target. Pustules burst for 1d4 Corrosive damage each to the target and Adjacent enemies when the target takes damage. Failure: Deal 1d4 Corrosive damage.",
         "upgrades": [
           {
             "id": "black-blood-virulent",
-            "name": "Virulent",
+            "name": "Potent Toxin",
             "description": "Pustules deal 1d6 damage each instead of 1d4.",
             "purchased": false
           },
           {
             "id": "black-blood-contagion",
-            "name": "Contagion",
+            "name": "Spreading Blight",
             "description": "Spawn 1 Pustule even on failure.",
             "purchased": false
           },
           {
             "id": "black-blood-leeching-sores",
-            "name": "Leeching Sores",
-            "description": "Heal for half of the total Pustule damage dealt.",
+            "name": "Parasitic Wounds",
+            "description": "Restore HP equal to half of the total Pustule damage dealt.",
             "purchased": false
           }
         ]
       },
       {
         "id": "demonic-constitution",
-        "name": "Demonic Constitution",
+        "name": "Aberrant Physique",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Gain +10 maximum HP but lose 1 maximum Bile. Can be taken up to 2 times, once per level.",
+        "effectsText": "Permanently gain +10 maximum HP but lose 1 maximum Bile. Can be taken up to 2 times, once per level.",
         "upgrades": [
           {
             "id": "demonic-constitution-might-of-the-void",
-            "name": "Might of the Void",
+            "name": "Void-Touched Strength",
             "description": "Your Basic Attack damage die becomes 1d12 or 2d6.",
             "purchased": false
           }
@@ -505,37 +505,37 @@
       },
       {
         "id": "chains-of-morganus",
-        "name": "Chains of Morganus",
+        "name": "Spectral Fetters",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Bile",
         "target": "Single",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack. Success: Pull the target to your location. Contest MIGHT vs. MIND if the target is larger than Medium or Elite. Failure: Mark the target — your next Chains of Morganus against them gains Benefit (lasts until end of your next turn).",
+        "effectsText": "Roll your Basic Attack. Success: Drag the target to your location. Contest MIGHT vs. MIND if the target is larger than Medium or Elite. Failure: Mark the target — your next Spectral Fetters against them gains Benefit (lasts until end of your next turn).",
         "upgrades": [
           {
             "id": "chains-searing-links",
-            "name": "Searing Links",
-            "description": "As a Quick action, spend 1d4 Blood to deal double damage + MIND Corrosive to the chained target.",
+            "name": "Burning Bonds",
+            "description": "As a Quick action, spend 1d4 Blood to deal double damage + MIND Corrosive to the tethered target.",
             "purchased": false
           },
           {
             "id": "chains-draining-bondage",
-            "name": "Draining Bondage",
-            "description": "Spend 1 Bile to heal for MIND+HL.",
+            "name": "Leeching Tether",
+            "description": "Spend 1 Bile to restore HL+MIND HP.",
             "purchased": false
           },
           {
             "id": "chains-splintering-grip",
-            "name": "Splintering Grip",
-            "description": "On a successful chain, shatter the chains to deal 1d4+HL+MIND Corrosive to enemies Adjacent to the target.",
+            "name": "Shattering Release",
+            "description": "On a successful drag, shatter the bonds to deal 1d4+HL+MIND Corrosive to enemies Adjacent to the target.",
             "purchased": false
           }
         ]
       },
       {
         "id": "demonic-speed",
-        "name": "Demonic Speed",
+        "name": "Unnatural Swiftness",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -545,7 +545,7 @@
         "upgrades": [
           {
             "id": "demonic-speed-shimmer",
-            "name": "Shimmer",
+            "name": "Phase Shimmer",
             "description": "Spend 1 Bile as a Reaction to increase DR by +MIND against an incoming attack. Declare before rolling.",
             "purchased": false
           }
@@ -553,31 +553,31 @@
       },
       {
         "id": "bone-prison",
-        "name": "Bone Prison",
+        "name": "Osseous Cage",
         "tier": 1,
         "actionType": "Maintain",
         "cost": "3 Bile (activate) + 1d4 Blood per round (maintain)",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Roll your Basic Attack to determine X. Imprison the target — they cannot move but can still attack. The prison absorbs damage up to LEVEL+MIND+X before shattering. Only one prison can be active at a time.",
+        "effectsText": "Roll your Basic Attack to determine X. Encase the target — they cannot move but may still attack. The cage absorbs damage up to LEVEL+MIND+X before collapsing. Only one cage can be active at a time.",
         "upgrades": [
           {
             "id": "bone-prison-roll-the-bones",
-            "name": "Roll the Bones",
-            "description": "You can maintain multiple prisons simultaneously.",
+            "name": "Spreading Snare",
+            "description": "You can maintain multiple cages simultaneously.",
             "purchased": false
           },
           {
             "id": "bone-prison-bone-spurs",
-            "name": "Bone Spurs",
-            "description": "Melee attackers who strike the prison take +MIND Physical damage.",
+            "name": "Jagged Protrusions",
+            "description": "Melee attackers who strike the cage take +MIND Physical damage.",
             "purchased": false
           }
         ]
       },
       {
         "id": "fell-carapace",
-        "name": "Fell Carapace",
+        "name": "Void Carapace",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -587,7 +587,7 @@
         "upgrades": [
           {
             "id": "fell-carapace-thick-skin",
-            "name": "Thick Skin",
+            "name": "Reinforced Shell",
             "description": "Spend 2 Bile as a Reaction to gain additional AV equal to +MIND against a single incoming attack.",
             "purchased": false
           }
@@ -595,47 +595,47 @@
       },
       {
         "id": "second-serving",
-        "name": "Second Serving",
+        "name": "Marked Prey",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Siphoning Strike leaves a mark on its target. Your next Siphoning Strike against that target gains Benefit. The mark lasts until end of your next turn.",
+        "effectsText": "Draining Blow leaves a mark on its target. Your next Draining Blow against that target gains Benefit. The mark lasts until end of your next turn.",
         "upgrades": [
           {
             "id": "second-serving-reaping-swing",
-            "name": "Reaping Swing",
-            "description": "Spend 1 Bile to heal for an additional +MIND HP on a successful Siphoning Strike hit.",
+            "name": "Hungry Strike",
+            "description": "Spend 1 Bile to restore an additional +MIND HP on a successful Draining Blow hit.",
             "purchased": false
           }
         ]
       },
       {
         "id": "nightmare",
-        "name": "Nightmare",
+        "name": "Terror Vision",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "2 Bile",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack targeting MR. Success: Deal 1d8+MIND True damage; target is unable to attack you for 2 rounds. Failure: Deal half damage; target is unable to attack you for 1 round.",
+        "effectsText": "Roll your Basic Attack targeting MR. Success: Deal 1d8+MIND True damage; target cannot attack you for 2 rounds. Failure: Deal half damage; target cannot attack you for 1 round.",
         "upgrades": [
           {
             "id": "nightmare-terror-strikes-twice",
-            "name": "Terror Strikes Twice",
+            "name": "Spreading Terror",
             "description": "One Ally of your choice also gains immunity from the target's attacks.",
             "purchased": false
           },
           {
             "id": "nightmare-surrender-to-fear",
-            "name": "Surrender to Fear",
-            "description": "Nightmare is always cast with Benefit and costs no Bile.",
+            "name": "Overwhelming Dread",
+            "description": "Terror Vision is always cast with Benefit and costs no Bile.",
             "purchased": false
           },
           {
             "id": "nightmare-psychic-scarring",
-            "name": "Psychic Scarring",
+            "name": "Deep Wounds",
             "description": "Damage increased to 1d12+MIND+LEVEL.",
             "purchased": false
           }
@@ -645,41 +645,41 @@
     "tier2": [
       {
         "id": "blood-parasite",
-        "name": "Blood Parasite",
+        "name": "Vital Leech",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "3 Bile",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Roll your Basic Attack. Success: A parasite burrows into the target, dealing +MIND damage and healing you for the damage dealt. While Maintained, the parasite repeats at the start of your next turn. Only 1 parasite can be active at a time.",
+        "effectsText": "Roll your Basic Attack. Success: A leech latches onto the target, dealing +MIND damage and restoring that amount as HP. While Maintained, the leech repeats at the start of your next turn. Only 1 leech can be active at a time.",
         "upgrades": [
           {
             "id": "blood-parasite-proliferation",
-            "name": "Proliferation",
-            "description": "You can maintain multiple parasites simultaneously.",
+            "name": "Spreading Infestation",
+            "description": "You can maintain multiple leeches simultaneously.",
             "purchased": false
           },
           {
             "id": "blood-parasite-blood-feast",
-            "name": "Blood Feast",
-            "description": "Allies striking a parasitized target heal for 1d4.",
+            "name": "Shared Feast",
+            "description": "Allies striking a leeched target restore 1d4 HP.",
             "purchased": false
           }
         ]
       },
       {
         "id": "soul-reaper",
-        "name": "Soul Reaper",
+        "name": "Death Harvest",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "When any enemy dies, heal for HL.",
+        "effectsText": "When any enemy dies, restore HL HP.",
         "upgrades": [
           {
             "id": "soul-reaper-empower",
-            "name": "Empower",
+            "name": "Death Surge",
             "description": "When an enemy dies, your next attack gains HL to AR. This does not stack from multiple deaths.",
             "purchased": false
           }
@@ -687,7 +687,7 @@
       },
       {
         "id": "explode-corpse",
-        "name": "Explode Corpse",
+        "name": "Cadaver Burst",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Bile + 1d6 Blood",
@@ -697,13 +697,13 @@
         "upgrades": [
           {
             "id": "explode-corpse-lingering-miasma",
-            "name": "Lingering Miasma",
-            "description": "A cloud of gas remains, dealing +MIND Corrosive damage to anyone in the area for 2 rounds.",
+            "name": "Toxic Cloud",
+            "description": "A cloud of gas lingers, dealing +MIND Corrosive damage to anyone in the area for 2 rounds.",
             "purchased": false
           },
           {
             "id": "explode-corpse-choking-fumes",
-            "name": "Choking Fumes",
+            "name": "Nauseating Vapors",
             "description": "Targets hit are also Staggered.",
             "purchased": false
           }
@@ -711,7 +711,7 @@
       },
       {
         "id": "sunder-soul",
-        "name": "Sunder Soul",
+        "name": "Essence Rend",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Bile + X Blood",
@@ -721,13 +721,13 @@
         "upgrades": [
           {
             "id": "sunder-soul-grim-gift",
-            "name": "Grim Gift",
-            "description": "Share your Soul Reaper healing bonuses with Allies on each trigger.",
+            "name": "Shared Harvest",
+            "description": "Share your Death Harvest restoration with Allies on each trigger.",
             "purchased": false
           },
           {
             "id": "sunder-soul-dancing-with-death",
-            "name": "Dancing with Death",
+            "name": "Reckless Expenditure",
             "description": "Double the Blood expenditure for doubled bonus damage.",
             "purchased": false
           }
@@ -735,58 +735,58 @@
       },
       {
         "id": "soul-link",
-        "name": "Soul Link",
+        "name": "Life Bond",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "2 Bile",
         "target": "Single Ally",
         "range": "Far",
-        "effectsText": "Tether yourself to a willing Ally. All damage is split in half (rounded down) between both of you. All healing heals both of you for the full amount. Lasts until end of battle, 10 minutes, or either of you becomes Incapacitated or moves out of range.",
+        "effectsText": "Tether yourself to a willing Ally. All damage is split in half (rounded down) between both of you. All healing restores the full amount to both of you. Lasts until end of battle, 10 minutes, or either of you becomes Incapacitated or moves out of range.",
         "upgrades": [
           {
             "id": "soul-link-blood-ritual",
-            "name": "Blood Ritual",
-            "description": "As a Quick action, you and your linked Ally can transfer life force between each other.",
+            "name": "Life Exchange",
+            "description": "As a Quick action, you and your bonded Ally can transfer life force between each other.",
             "purchased": false
           },
           {
             "id": "soul-link-uplift",
-            "name": "Uplift",
-            "description": "Both linked characters regenerate 1 Class Resource per round.",
+            "name": "Shared Recovery",
+            "description": "Both bonded characters regenerate 1 Class Resource per round.",
             "purchased": false
           }
         ]
       },
       {
         "id": "voidstep",
-        "name": "Voidstep",
+        "name": "Phase Step",
         "tier": 2,
         "actionType": "Movement",
         "cost": "1 Bile + 1d10 Blood",
         "target": "Self",
         "range": "Far",
-        "effectsText": "Teleport up to Far distance, avoiding all Provoked Attacks.",
+        "effectsText": "Blink up to Far distance, bypassing all Provoked Attacks.",
         "upgrades": []
       },
       {
         "id": "grasp-of-irathmus",
-        "name": "Grasp of Irathmus",
+        "name": "Silencing Grip",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Bile",
         "target": "Single",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack. Success: Disable the target from casting or using powers for 1 round (interrupts if mid-cast); deal +MIND damage. Contest MIGHT vs. MIND if larger than Medium or Elite. Failure: Deal half damage.",
+        "effectsText": "Roll your Basic Attack. Success: Prevent the target from casting or using powers for 1 round (interrupts if mid-cast); deal +MIND damage. Contest MIGHT vs. MIND if larger than Medium or Elite. Failure: Deal half damage.",
         "upgrades": [
           {
             "id": "grasp-crushing-grasp",
-            "name": "Crushing Grasp",
+            "name": "Tightening Hold",
             "description": "Spend 1d4+HL Blood to deal double damage.",
             "purchased": false
           },
           {
             "id": "grasp-infernal-reach",
-            "name": "Infernal Reach",
+            "name": "Extended Reach",
             "description": "Range increased to Far.",
             "purchased": false
           }
@@ -794,30 +794,30 @@
       },
       {
         "id": "melt-mind",
-        "name": "Melt Mind",
+        "name": "Mental Erosion",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Bile",
         "target": "Single",
         "range": "Very Far",
-        "effectsText": "Roll your Basic Attack to determine X. Lower the target's MR based on X: 2–8 = −2, 9–15 = −3, 16–21 = −4, 22+ = −5. Effect lasts 1 round.",
+        "effectsText": "Roll your Basic Attack to determine X. Reduce the target's MR based on X: 2–8 = −2, 9–15 = −3, 16–21 = −4, 22+ = −5. Effect lasts 1 round.",
         "upgrades": [
           {
             "id": "melt-mind-psychic-backlash",
-            "name": "Psychic Backlash",
+            "name": "Mental Rebound",
             "description": "The afflicted target suffers the MR penalty as True damage whenever they attack or move.",
             "purchased": false
           },
           {
             "id": "melt-mind-lingering-madness",
-            "name": "Lingering Madness",
+            "name": "Prolonged Confusion",
             "description": "Duration increased to 2 rounds.",
             "purchased": false
           },
           {
             "id": "melt-mind-break-resistance",
-            "name": "Break Resistance",
-            "description": "Also lower one elemental resistance by the same amount as the MR penalty.",
+            "name": "Resistance Fracture",
+            "description": "Also reduce one elemental resistance by the same amount as the MR penalty.",
             "purchased": false
           }
         ]
@@ -826,39 +826,39 @@
     "lv3": [
       {
         "id": "driftwalker-whispers-of-the-drift",
-        "name": "Whispers of the Drift",
+        "name": "Void Whispers",
         "tier": "lv3",
         "actionType": "Overdrive",
         "cost": "None",
         "target": "Single",
         "range": "Nearby",
-        "effectsText": "You are able to affect the mind of a thinking creature momentarily, lowering the TN by HL for whatever coercion or haggling an Ally might wish to apply to the target as you channel this power.",
+        "effectsText": "Briefly intrude upon the mind of a thinking creature, lowering the TN by HL for any coercion or haggling an Ally applies to that target while you channel this power.",
         "upgrades": []
       }
     ],
     "lv8": [
       {
         "id": "driftwalker-dark-thoughts",
-        "name": "Dark Thoughts",
+        "name": "Mental Bridge",
         "tier": "lv8",
         "actionType": "Quick",
         "cost": "2 Bile",
         "target": "Single",
         "range": "Far",
-        "effectsText": "You may telepathically communicate with an intelligent creature that understands the language you are using. Lasts 1 minute.",
+        "effectsText": "Open a telepathic channel with an intelligent creature that understands the language you are using. Lasts 1 minute.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "driftwalker-possession",
-        "name": "Possession",
+        "name": "Mind Domination",
         "tier": "lv10",
         "actionType": "Ultimate",
         "cost": "3 Bile/Special",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Roll your Basic Attack; Targets Mental Resistance (MR). Maintaining this power costs 1d4 Blood per round. Success: You take control of the target each round, beginning at the start of your turn. The GM may reveal the target's stats and abilities. You use the possessed target's Attack and Defense rolls to determine hits. Rolling doubles while possessing a target recharges 1 Bile per standard Driftwalker rules. If the target is Elite, you must Contest MIND vs. MIND initially and each round after to continue. Failure: Your target is greatly shaken by the mental assault and suffers Hindrance on all actions for 2 rounds.",
+        "effectsText": "Roll your Basic Attack; targets Mental Resistance (MR). Maintaining this power costs 1d4 Blood per round. Success: You seize control of the target each round, beginning at the start of your turn. The GM may reveal the target's stats and abilities. You use the dominated target's Attack and Defense rolls to determine hits. Rolling doubles while dominating a target recharges 1 Bile per standard Driftwalker rules. If the target is Elite, you must Contest MIND vs. MIND initially and each round to continue. Failure: Your target is badly shaken by the assault and suffers Hindrance on all actions for 2 rounds.",
         "upgrades": []
       }
     ]
