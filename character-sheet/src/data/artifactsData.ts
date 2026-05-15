@@ -1,12 +1,14 @@
 import artifactsJson from './artifacts.json'
 import type { ArtifactDefinition } from '../types/artifact'
 import { getHomebrewArtifacts } from '../services/artifactsStorage'
+import { getOfficialArtifacts as getOfficialArtifactsFromStorage } from '../services/officialContentStorage'
 import { mergeOfficial } from '../utils/mergeOfficial'
 
 const OFFICIAL_ARTIFACTS: ArtifactDefinition[] = artifactsJson as ArtifactDefinition[]
 
 export function getAllArtifacts(): ArtifactDefinition[] {
-  return mergeOfficial(OFFICIAL_ARTIFACTS, getHomebrewArtifacts())
+  const withOfficial = mergeOfficial(OFFICIAL_ARTIFACTS, getOfficialArtifactsFromStorage() ?? [])
+  return mergeOfficial(withOfficial, getHomebrewArtifacts())
 }
 
 export function getOfficialArtifacts(): ArtifactDefinition[] {

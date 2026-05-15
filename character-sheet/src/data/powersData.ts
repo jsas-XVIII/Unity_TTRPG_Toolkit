@@ -1,6 +1,7 @@
 import type { Power, ClassName } from '../types/character'
 import powersJson from './powers.json'
 import { getHomebrewPowers, type HomebrewPower } from '../services/powersStorage'
+import { getOfficialPowers } from '../services/officialContentStorage'
 import { mergeOfficial } from '../utils/mergeOfficial'
 export type { HomebrewPower } from '../services/powersStorage'
 
@@ -70,7 +71,7 @@ export const TIER_CONFIG: Record<
 
 // Shape of each class entry in powers.json.
 // `classpath` is a legacy key — treated as baseline until the JSON is updated.
-type ClassPowerPool = {
+export type ClassPowerPool = {
   baseline?: Power[]
   classpath?: Power[] // legacy — falls back to baseline
   tier1?: Power[]
@@ -107,24 +108,42 @@ export interface ResolvedPowerPool {
 }
 
 // homebrew is pre-filtered to this class — caller reads localStorage once and passes it in
-function mergeHomebrew(official: Power[], homebrew: HomebrewPower[], tier: Power['tier']): Power[] {
+function mergeHomebrew(base: Power[], homebrew: HomebrewPower[], tier: Power['tier']): Power[] {
   return mergeOfficial(
-    official,
+    base,
     homebrew.filter((p) => p.tier === tier)
   )
 }
 
 export function getPowersByClass(cls: ClassName): ResolvedPowerPool {
-  const e = powersData[cls] ?? {}
+  const demo = powersData[cls] ?? {}
+  const official = getOfficialPowers()?.[cls] ?? null
   const homebrew = getHomebrewPowers().filter((p) => p.className === cls)
-  return {
-    baseline: mergeHomebrew(e.baseline ?? e.classpath ?? [], homebrew, 'baseline'),
-    tier1: mergeHomebrew(e.tier1 ?? [], homebrew, 1),
-    tier2: mergeHomebrew(e.tier2 ?? [], homebrew, 2),
-    lv3: mergeHomebrew(e.lv3 ?? [], homebrew, 'lv3'),
-    lv8: mergeHomebrew(e.lv8 ?? [], homebrew, 'lv8'),
-    lv10: mergeHomebrew(e.lv10 ?? [], homebrew, 'lv10'),
+
+  function resolvePool(demoPool: Power[], tier: Power['tier']): Power[] {
+    const withOfficial = official
+      ? mergeOfficial(demoPool, (official as ClassPowerPool)[poolKeyForTier(tier)] ?? [])
+      : demoPool
+    return mergeHomebrew(withOfficial, homebrew, tier)
   }
+
+  return {
+    baseline: resolvePool(demo.baseline ?? demo.classpath ?? [], 'baseline'),
+    tier1: resolvePool(demo.tier1 ?? [], 1),
+    tier2: resolvePool(demo.tier2 ?? [], 2),
+    lv3: resolvePool(demo.lv3 ?? [], 'lv3'),
+    lv8: resolvePool(demo.lv8 ?? [], 'lv8'),
+    lv10: resolvePool(demo.lv10 ?? [], 'lv10'),
+  }
+}
+
+function poolKeyForTier(tier: Power['tier']): keyof ClassPowerPool {
+  if (tier === 'baseline') return 'baseline'
+  if (tier === 1) return 'tier1'
+  if (tier === 2) return 'tier2'
+  if (tier === 'lv3') return 'lv3'
+  if (tier === 'lv8') return 'lv8'
+  return 'lv10'
 }
 
 export function isOfficialPower(id: string): boolean {
