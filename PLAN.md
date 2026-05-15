@@ -54,8 +54,11 @@ The GM creates homebrew content via the in-app GM panels. Content packs are expo
 
 ## Upcoming Features
 
-### Dice Rolling — Character Sheet
-Roll dice directly from the character sheet (attributes, skills, powers). Scope TBD — inline roll buttons, a roll log, or a dedicated roll modal.
+### ~~Dice Rolling — Character Sheet~~ ✓ 2026-05-14
+
+Dice Tray modal on the character sheet with quick-roll buttons (Attack/Defense/Mind Resist), custom roll form (dice type, attribute, benefit/hindrance, half level, misc bonus, label), Roll20 macro export, 500ms tumbling animation, procedural Web Audio sound effects, and per-character roll history (last 50, localStorage).
+
+**Deferred:** GM dice rolling — GMs don't roll dice in standard rules. Will be added as part of the GM Screen feature if needed.
 
 ### Encounter Builder — GM Tools
 GM tool to build and run encounters: select monsters from the roster, set quantities, track initiative and HP during a session.
