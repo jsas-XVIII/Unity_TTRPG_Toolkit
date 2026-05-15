@@ -3,47 +3,47 @@
     "baseline": [
       {
         "id": "dreadnought-shieldbreaker",
-        "name": "Shieldbreaker",
+        "name": "Armour Pierce",
         "tier": "baseline",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Your Melee attacks gain +1 Armour Penetration, allowing you to ignore 1 AV when calculating damage. Shieldbreaker does not provide additional physical damage if the target has no AV; it only ignores AV the target has. Bonus: +2 at level 5, +3 at level 9.",
+        "effectsText": "Your Melee attacks gain +1 Armour Penetration, ignoring 1 AV when calculating damage. This bonus does not add extra damage if the target has no AV. Scales to +2 at level 5 and +3 at level 9.",
         "upgrades": []
       },
       {
         "id": "dreadnought-cleave",
-        "name": "Cleave",
+        "name": "Sweeping Strike",
         "tier": "baseline",
         "actionType": "Standard",
         "cost": "2 Fury",
         "target": "Up to 1d4",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Roll 1d4 to determine how many ADJACENT enemies are struck by your attack. Success: You deal 1d10+HL damage. Failure: You deal half damage.",
+        "effectsText": "Roll your Basic Attack. Roll 1d4 to determine how many Adjacent enemies are hit. Success: Deal 1d10+HL damage. Failure: Deal half damage.",
         "upgrades": []
       }
     ],
     "tier1": [
       {
         "id": "furious-charge",
-        "name": "Furious Charge",
+        "name": "Brutal Rush",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Fury",
         "target": "Single",
         "range": "Nearby",
-        "effectsText": "Charge a Nearby enemy and make a Basic Attack. AR and damage are increased by your Shieldbreaker bonus. Success: Fury cost refunded. Failure: Normal miss result.",
+        "effectsText": "Charge a Nearby enemy and make a Basic Attack. AR and damage are boosted by your Armour Pierce bonus. Success: Fury cost is refunded. Failure: Normal miss result.",
         "upgrades": [
           {
             "id": "furious-charge-juggernaut",
-            "name": "Juggernaut",
+            "name": "Ironside",
             "description": "Gain +MIGHT to AV against Provoked Attacks while charging.",
             "purchased": false
           },
           {
             "id": "furious-charge-war-cry",
-            "name": "War Cry",
+            "name": "Battle Shout",
             "description": "Gain 1 additional Fury on success.",
             "purchased": false
           }
@@ -51,56 +51,56 @@
       },
       {
         "id": "brace-for-impact",
-        "name": "Brace for Impact",
+        "name": "Iron Stance",
         "tier": 1,
         "actionType": "Reaction",
         "cost": "2 Fury",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Declare before the damage roll of an incoming attack. Gain +MIGHT as universal Damage Resistance against that single attack.",
+        "effectsText": "Declare before an incoming attack's damage roll. Gain +MIGHT as universal Damage Resistance against that single attack.",
         "upgrades": []
       },
       {
         "id": "bring-it-on",
-        "name": "Bring It On",
+        "name": "Outnumbered",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "If more than 1 enemy is Adjacent, add +1 damage per extra enemy beyond the first (increases to +2 per enemy at Level 6). Bonus cannot exceed HL.",
+        "effectsText": "While more than 1 enemy is Adjacent, add +1 damage per extra enemy beyond the first (increases to +2 per enemy at Level 6). This bonus cannot exceed HL.",
         "upgrades": []
       },
       {
         "id": "mighty-cleave",
-        "name": "Mighty Cleave",
+        "name": "Wide Sweep",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Your class Cleave now strikes up to 1d4+1 targets instead of 1d4. If one or more targets die, refund 1 Fury.",
+        "effectsText": "Your Sweeping Strike now hits up to 1d4+1 targets instead of 1d4. If one or more targets die, refund 1 Fury.",
         "upgrades": []
       },
       {
         "id": "reckless-assault",
-        "name": "Reckless Assault",
+        "name": "Wild Swing",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Fury",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage + an additional 1d4+MIGHT+HL damage. Failure: Miss and immediately suffer a retaliation attack with 0 AV; refund 1 Fury.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage plus an additional 1d4+MIGHT+HL damage. Failure: Miss and suffer a retaliation attack with 0 AV; refund 1 Fury.",
         "upgrades": [
           {
             "id": "reckless-assault-channelled-fury",
-            "name": "Channelled Fury",
+            "name": "Focused Rage",
             "description": "Can be combined with another power as a Quick action; non-single targets take half damage from the combo.",
             "purchased": false
           },
           {
             "id": "reckless-assault-broadside",
-            "name": "Broadside",
+            "name": "Reckless Guard",
             "description": "Do not lose AV on the retaliation from a failed attack.",
             "purchased": false
           }
@@ -108,7 +108,7 @@
       },
       {
         "id": "impale",
-        "name": "Impale",
+        "name": "Skewer",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Fury",
@@ -118,7 +118,7 @@
         "upgrades": [
           {
             "id": "impale-pin",
-            "name": "Pin",
+            "name": "Anchor",
             "description": "Spend 1 additional Fury to also lower the target's AR by +MIGHT for 1 round.",
             "purchased": false
           }
@@ -126,7 +126,7 @@
       },
       {
         "id": "thrive-on-chaos",
-        "name": "Thrive on Chaos",
+        "name": "Blood Rush",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "1 Fury",
@@ -137,25 +137,25 @@
       },
       {
         "id": "battle-hardened",
-        "name": "Battle-Hardened",
+        "name": "Bloodied Resolve",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "While below half your maximum HP, your AV counts as universal Damage Resistance. This does not apply to the blow that drops you below half.",
+        "effectsText": "While below half your maximum HP, your AV counts as universal Damage Resistance. This does not apply to the blow that drops you below half HP.",
         "upgrades": [
           {
             "id": "battle-hardened-no-pain",
-            "name": "No Pain",
-            "description": "While Battle-Hardened is active, AV is further increased by your Shieldbreaker bonus.",
+            "name": "Unstoppable",
+            "description": "While Bloodied Resolve is active, AV is further increased by your Armour Pierce bonus.",
             "purchased": false
           }
         ]
       },
       {
         "id": "lets-roll",
-        "name": "Let's Roll",
+        "name": "Toss Ally",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Fury",
@@ -165,7 +165,7 @@
         "upgrades": [
           {
             "id": "lets-roll-battering-ram",
-            "name": "Battering Ram",
+            "name": "Living Projectile",
             "description": "The launched Ally also deals Basic Attack damage in addition to Staggering the target.",
             "purchased": false
           }
@@ -173,29 +173,29 @@
       },
       {
         "id": "rampage",
-        "name": "Rampage",
+        "name": "Frenzy",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Fury",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage + an additional +1d4 damage that stacks each consecutive use. Failure: Deal half damage and lose 1 damage stack if applicable.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage plus an additional +1d4 damage that stacks each consecutive use. Failure: Deal half damage and lose 1 damage stack if applicable.",
         "upgrades": [
           {
             "id": "rampage-cadence",
-            "name": "Cadence",
+            "name": "Rhythm",
             "description": "Cost reduced to 1 Fury.",
             "purchased": false
           },
           {
             "id": "rampage-encore",
-            "name": "Encore",
+            "name": "Second Chance",
             "description": "Spend 1 Fury to reroll a failed attack roll once per round.",
             "purchased": false
           },
           {
             "id": "rampage-maestro",
-            "name": "Maestro",
+            "name": "Escalate",
             "description": "The stacking damage die increases to 1d8.",
             "purchased": false
           }
@@ -205,23 +205,23 @@
     "tier2": [
       {
         "id": "crushing-blow",
-        "name": "Crushing Blow",
+        "name": "Shattering Strike",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Fury",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage ignoring all AV; Shieldbreaker bonus is converted to additional damage instead. Failure: Deal half Basic Attack damage ignoring AV, but no Shieldbreaker bonus.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage ignoring all AV; your Armour Pierce bonus converts to additional damage instead. Failure: Deal half Basic Attack damage ignoring AV, but no Armour Pierce bonus.",
         "upgrades": [
           {
             "id": "crushing-blow-overkill",
-            "name": "Overkill",
-            "description": "Double your Shieldbreaker bonus on success.",
+            "name": "Overwhelm",
+            "description": "Double your Armour Pierce bonus on success.",
             "purchased": false
           },
           {
             "id": "crushing-blow-crumple-armour",
-            "name": "Crumple Armour",
+            "name": "Dent Armour",
             "description": "Reduce the target's AV by HL for 1 round.",
             "purchased": false
           }
@@ -229,7 +229,7 @@
       },
       {
         "id": "living-shield",
-        "name": "Living Shield",
+        "name": "Meat Shield",
         "tier": 2,
         "actionType": "Reaction",
         "cost": "3 Fury",
@@ -239,13 +239,13 @@
         "upgrades": [
           {
             "id": "living-shield-bloodthirsty",
-            "name": "Bloodthirsty",
-            "description": "Generate 5 Fury if the Living Shield target dies.",
+            "name": "Opportunist",
+            "description": "Generate 5 Fury if the Meat Shield target dies.",
             "purchased": false
           },
           {
             "id": "living-shield-mighty-grip",
-            "name": "Mighty Grip",
+            "name": "Iron Grip",
             "description": "Spend 1 additional Fury to gain Benefit on the grab attempt.",
             "purchased": false
           }
@@ -253,7 +253,7 @@
       },
       {
         "id": "roar-of-the-lion",
-        "name": "Roar of the Lion",
+        "name": "Battle Roar",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Fury",
@@ -263,13 +263,13 @@
         "upgrades": [
           {
             "id": "roar-shaken-to-the-core",
-            "name": "Shaken to the Core",
+            "name": "Overwhelmed",
             "description": "Affected targets are also Staggered; the power no longer requires a Movement action.",
             "purchased": false
           },
           {
             "id": "roar-inspire-the-pride",
-            "name": "Inspire the Pride",
+            "name": "Rally",
             "description": "Adjacent Allies gain HL to AR and damage on their next attack.",
             "purchased": false
           }
@@ -277,7 +277,7 @@
       },
       {
         "id": "pain-is-fire",
-        "name": "Pain is Fire",
+        "name": "Pain to Power",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
@@ -288,29 +288,29 @@
       },
       {
         "id": "wrecking-ball",
-        "name": "Wrecking Ball",
+        "name": "Momentum",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Fury",
         "target": "Single",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack against a Nearby target. Success: Deal Basic Attack damage and gain 1 Wrecking Ball stack. Failure: Deal half damage; stacks are maintained. Each stack increases your damage and DR by +2. Stacks fall off after 1 round if not refreshed.",
+        "effectsText": "Roll your Basic Attack against a Nearby target. Success: Deal Basic Attack damage and gain 1 Momentum stack. Failure: Deal half damage; stacks are maintained. Each stack increases your damage and DR by +2. Stacks fall off after 1 round if not refreshed.",
         "upgrades": [
           {
             "id": "wrecking-ball-glory-ignores-pain",
-            "name": "Glory Ignores Pain",
-            "description": "Wrecking Ball stacks also increase AV by +2 each.",
+            "name": "Unstoppable Force",
+            "description": "Momentum stacks also increase AV by +2 each.",
             "purchased": false
           },
           {
             "id": "wrecking-ball-overpower",
-            "name": "Overpower",
+            "name": "Overwhelming",
             "description": "Each stack grants +3 instead of +2.",
             "purchased": false
           },
           {
             "id": "wrecking-ball-bullheaded",
-            "name": "Bullheaded",
+            "name": "Stubborn",
             "description": "Refund 1 Fury on a failed attack.",
             "purchased": false
           }
@@ -318,7 +318,7 @@
       },
       {
         "id": "raging-storm",
-        "name": "Raging Storm",
+        "name": "Whirlwind",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "3 Fury",
@@ -334,7 +334,7 @@
           },
           {
             "id": "raging-storm-eternal-tempest",
-            "name": "Eternal Tempest",
+            "name": "Unending Fury",
             "description": "If you hit 4 or more enemies, reset the Overdrive tag.",
             "purchased": false
           }
@@ -342,29 +342,29 @@
       },
       {
         "id": "vicious-wound",
-        "name": "Vicious Wound",
+        "name": "Deep Cut",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Fury",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage and leave a Vicious Wound on the target (attacks against the target gain +1 damage, stacking up to your Level; lasts until end of next turn). Failure: Deal half damage; no Vicious Wound.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage and leave a Deep Cut on the target (attacks against the target gain +1 damage, stacking up to your Level; lasts until end of next turn). Failure: Deal half damage; no Deep Cut.",
         "upgrades": [
           {
             "id": "vicious-wound-gash",
-            "name": "Gash",
+            "name": "Open Wound",
             "description": "Each attack against the wounded target deals +2 damage per stack instead of +1.",
             "purchased": false
           },
           {
             "id": "vicious-wound-mortal-wounds",
-            "name": "Mortal Wounds",
+            "name": "Grievous Injury",
             "description": "Healing and regeneration on the wounded target are halved.",
             "purchased": false
           },
           {
             "id": "vicious-wound-practiced",
-            "name": "Practiced",
+            "name": "Efficient",
             "description": "Cost reduced to 1 Fury.",
             "purchased": false
           }
@@ -372,7 +372,7 @@
       },
       {
         "id": "relentless",
-        "name": "Relentless",
+        "name": "Last Stand",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
@@ -382,8 +382,8 @@
         "upgrades": [
           {
             "id": "relentless-composed",
-            "name": "Composed",
-            "description": "Use a power instead of a Basic Attack when Relentless triggers.",
+            "name": "Controlled",
+            "description": "Use a power instead of a Basic Attack when Last Stand triggers.",
             "purchased": false
           }
         ]
@@ -392,39 +392,39 @@
     "lv3": [
       {
         "id": "dreadnought-heart-of-the-mountain",
-        "name": "Heart of the Mountain",
+        "name": "Steadfast Protector",
         "tier": "lv3",
         "actionType": "Movement",
         "cost": "None",
         "target": "Special",
         "range": "Nearby",
-        "effectsText": "You may pick up and move an Incapacitated Ally with you, spending your Quick and Movement actions. While doing so you shield your Ally from Provoked Attacks with your own body. If you have the power Let's Roll, its Fury cost is free for one use whenever an Ally falls on the battlefield.",
+        "effectsText": "You may pick up and carry an Incapacitated Ally with you, spending your Quick and Movement actions. While doing so, you shield your Ally from Provoked Attacks with your own body. If you have the power Toss Ally, its Fury cost is free for one use whenever an Ally falls on the battlefield.",
         "upgrades": []
       }
     ],
     "lv8": [
       {
         "id": "dreadnought-fearless",
-        "name": "Fearless",
+        "name": "Undaunted",
         "tier": "lv8",
         "actionType": "Free",
         "cost": "1 Fury",
         "target": "Self",
         "range": "Self",
-        "effectsText": "When a fear or intimidation effect is used, you may activate Fearless to become immune to it for 1 round.",
+        "effectsText": "When a fear or intimidation effect is used against you, activate Undaunted to become immune to it for 1 round.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "dreadnought-split-the-earth",
-        "name": "Split the Earth",
+        "name": "Earthshatter",
         "tier": "lv10",
         "actionType": "Ultimate",
         "cost": "3 Fury",
         "target": "Multiple",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack. Success: All enemies ADJACENT and up to a NEARBY distance away that are struck by Split the Earth suffer 2d20 damage. If your Attack beats the target's DR by 3 or more, the target is Stunned for 1 round. You receive +8 to your DR for 2 rounds. Failure: You deal half damage. Allies still receive +6 to AR and Damage for their next attack.",
+        "effectsText": "Roll your Basic Attack. Success: All enemies Adjacent and up to a Nearby distance away take 2d20 damage. If your attack beats the target's DR by 3 or more, the target is Stunned for 1 round. You gain +8 to your DR for 2 rounds. Failure: You deal half damage. Allies receive +6 to AR and Damage on their next attack.",
         "upgrades": []
       }
     ]
