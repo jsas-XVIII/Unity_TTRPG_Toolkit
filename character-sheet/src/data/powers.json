@@ -2163,18 +2163,18 @@
     "baseline": [
       {
         "id": "phantom-backstab",
-        "name": "Backstab",
+        "name": "Flanking Strike",
         "tier": "baseline",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Anytime you attack an enemy who is ADJACENT to an Ally, add 1d4 damage on a successful attack. Attacking from stealth or surprise grants this bonus as well. Bonus increases to: +2d4 at level 5, +3d4 at level 10.",
+        "effectsText": "Whenever you attack an enemy who is Adjacent to an Ally, add 1d4 damage on a successful attack. Attacking from stealth or surprise grants this bonus as well. Bonus increases to: +2d4 at level 5, +3d4 at level 10.",
         "upgrades": []
       },
       {
         "id": "phantom-tumble",
-        "name": "Tumble",
+        "name": "Evasive Roll",
         "tier": "baseline",
         "actionType": "Reaction",
         "cost": "Special",
@@ -2187,7 +2187,7 @@
     "tier1": [
       {
         "id": "blade-twisting",
-        "name": "Blade Twisting",
+        "name": "Crippling Strike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "3 Guile",
@@ -2197,13 +2197,13 @@
         "upgrades": [
           {
             "id": "blade-twisting-excruciating-pain",
-            "name": "Excruciating Pain",
+            "name": "Agonizing Injury",
             "description": "Target's Provoked Attacks are disabled for 1 round.",
             "purchased": false
           },
           {
             "id": "blade-twisting-deft-hands",
-            "name": "Deft Hands",
+            "name": "Quick Recovery",
             "description": "Refund 1 Guile.",
             "purchased": false
           }
@@ -2211,18 +2211,18 @@
       },
       {
         "id": "expose-weakness",
-        "name": "Expose Weakness",
+        "name": "Find the Gap",
         "tier": 1,
         "actionType": "Standard",
         "cost": "1 Guile",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage and make the target vulnerable for 1 round — the next single attack from any source against them gains the Backstab damage bonus. Failure: Deal half Basic Attack damage.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage and leave the target vulnerable for 1 round — the next single attack from any source against them gains the Flanking Strike damage bonus. Failure: Deal half Basic Attack damage.",
         "upgrades": []
       },
       {
         "id": "spry",
-        "name": "Spry",
+        "name": "Nimble",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -2233,23 +2233,23 @@
       },
       {
         "id": "dancing-blade",
-        "name": "Dancing Blade",
+        "name": "Whirling Blades",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Guile",
         "target": "AoE",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Roll 1d4+1 to determine how many Adjacent enemies are hit. Increase your DR by that same number until end of your next turn. Cannot benefit from Backstab with this power.",
+        "effectsText": "Roll your Basic Attack. Roll 1d4+1 to determine how many Adjacent enemies are hit. Increase your DR by that same number until end of your next turn. Cannot benefit from Flanking Strike with this power.",
         "upgrades": [
           {
             "id": "dancing-blade-crescendo",
-            "name": "Crescendo",
+            "name": "Building Momentum",
             "description": "The DR bonus is increased by +2 per enemy hit.",
             "purchased": false
           },
           {
             "id": "dancing-blade-easy-rhythm",
-            "name": "Easy Rhythm",
+            "name": "Fluid Motion",
             "description": "Refresh the DR bonus duration by spending 1 Guile as a Quick action.",
             "purchased": false
           }
@@ -2257,7 +2257,7 @@
       },
       {
         "id": "stalker",
-        "name": "Stalker",
+        "name": "Ambusher",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -2267,21 +2267,21 @@
         "upgrades": [
           {
             "id": "stalker-cruelty",
-            "name": "Cruelty",
-            "description": "Gain 2 Guile when Stalker triggers.",
+            "name": "Ruthless",
+            "description": "Gain 2 Guile when Ambusher triggers.",
             "purchased": false
           },
           {
             "id": "stalker-shadows-embrace",
-            "name": "Shadow's Embrace",
-            "description": "Stalker reactivates if you haven't used a Standard action yet this battle.",
+            "name": "Persistent Ambush",
+            "description": "Ambusher reactivates if you haven't used a Standard action yet this battle.",
             "purchased": false
           }
         ]
       },
       {
         "id": "ghost-step",
-        "name": "Ghost Step",
+        "name": "Shadow Step",
         "tier": 1,
         "actionType": "Movement",
         "cost": "1 Guile",
@@ -2291,31 +2291,31 @@
         "upgrades": [
           {
             "id": "ghost-step-from-the-shadows",
-            "name": "From the Shadows",
-            "description": "Stepping to an enemy surprises them — you can apply Backstab damage without needing an Adjacent Ally.",
+            "name": "Shadow Assault",
+            "description": "Stepping to an enemy surprises them — you can apply Flanking Strike damage without needing an Adjacent Ally.",
             "purchased": false
           }
         ]
       },
       {
         "id": "shadow-flurry",
-        "name": "Shadow Flurry",
+        "name": "Blade Flurry",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "3 Guile",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack twice. Success on either roll: Deal Basic Attack damage (successful rolls can trigger Backstab). Failure: Deal half damage for failed rolls.",
+        "effectsText": "Roll your Basic Attack twice. Success on either roll: Deal Basic Attack damage (successful rolls can trigger Flanking Strike). Failure: Deal half damage for failed rolls.",
         "upgrades": [
           {
             "id": "shadow-flurry-efficient-striking",
-            "name": "Efficient Striking",
+            "name": "Efficient Blades",
             "description": "Refund 1 Guile per miss.",
             "purchased": false
           },
           {
             "id": "shadow-flurry-a-thousand-blades",
-            "name": "A Thousand Blades",
+            "name": "Triple Strike",
             "description": "Make 3 Basic Attacks instead of 2.",
             "purchased": false
           }
@@ -2323,17 +2323,17 @@
       },
       {
         "id": "vicious-momentum",
-        "name": "Vicious Momentum",
+        "name": "Escalating Strikes",
         "tier": 1,
         "actionType": "Standard",
         "cost": "1 Guile",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal 1d4 damage; gain 1 Vicious Momentum stack. Failure: Deal no damage; still gain 1 stack. Each stack adds +1d4 damage and persists indefinitely while refreshed. Stacks are lost if you take any non-Vicious Momentum action or go 1 round idle. Backstab always applies regardless.",
+        "effectsText": "Roll your Basic Attack. Success: Deal 1d4 damage; gain 1 Escalating Strikes stack. Failure: Deal no damage; still gain 1 stack. Each stack adds +1d4 damage and persists indefinitely while refreshed. Stacks are lost if you take any non-Escalating Strikes action or go 1 round idle. Flanking Strike always applies regardless.",
         "upgrades": [
           {
             "id": "vicious-momentum-deep-cuts",
-            "name": "Deep Cuts",
+            "name": "Deeper Wounds",
             "description": "Each stack adds +1d8 instead; base damage becomes 1d8.",
             "purchased": false
           }
@@ -2343,7 +2343,7 @@
     "tier2": [
       {
         "id": "hamstring",
-        "name": "Hamstring",
+        "name": "Tendon Cut",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Guile",
@@ -2353,7 +2353,7 @@
         "upgrades": [
           {
             "id": "hamstring-flourish",
-            "name": "Flourish",
+            "name": "Opportunistic",
             "description": "No longer requires a distracted or surprised target.",
             "purchased": false
           }
@@ -2361,23 +2361,23 @@
       },
       {
         "id": "muscle-memory",
-        "name": "Muscle Memory",
+        "name": "Reflexive Dodge",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "After using Tumble, roll 1d10. On a 9 or 10, Tumble costs no Guile.",
+        "effectsText": "After using Evasive Roll, roll 1d10. On a 9 or 10, Evasive Roll costs no Guile.",
         "upgrades": [
           {
             "id": "muscle-memory-honed-reflexes",
-            "name": "Honed Reflexes",
-            "description": "A roll of 8 also makes Tumble free.",
+            "name": "Honed Instincts",
+            "description": "A roll of 8 also makes Evasive Roll free.",
             "purchased": false
           },
           {
             "id": "muscle-memory-maves-blessing",
-            "name": "Mave's Blessing",
+            "name": "Last Chance",
             "description": "When your HP would drop to 0, reduce it to 1 instead. Once per Full Rest. Bypassed by damage exceeding 50% of your maximum HP.",
             "purchased": false
           }
@@ -2385,47 +2385,47 @@
       },
       {
         "id": "shadow-clone",
-        "name": "Shadow Clone",
+        "name": "Phantom Double",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "2 Guile",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "A clone of you appears. The clone can attack a Far target while you attack an Adjacent one, or both attack the same Adjacent target (both can apply Backstab). The clone copies your offensive actions up to Overdrive. Lasts 1 round. Clone attacks do not trigger Recharge and cannot benefit from the 9–10 Tumble effect.",
+        "effectsText": "A copy of you appears. The copy can attack a Far target while you attack an Adjacent one, or both attack the same Adjacent target (both can apply Flanking Strike). The copy mimics your offensive actions up to Overdrive. Lasts 1 round. Copy attacks do not trigger Recharge and cannot benefit from the 9–10 Evasive Roll effect.",
         "upgrades": [
           {
             "id": "shadow-clone-separation-anxiety",
-            "name": "Separation Anxiety",
-            "description": "Clone lasts an additional round and mimics your next attack.",
+            "name": "Extended Duration",
+            "description": "Copy lasts an additional round and mimics your next attack.",
             "purchased": false
           },
           {
             "id": "shadow-clone-invigorating-shadows",
-            "name": "Invigorating Shadows",
-            "description": "Heal for the total damage the clone inflicts.",
+            "name": "Vampiric Double",
+            "description": "Restore HP equal to the total damage the copy inflicts.",
             "purchased": false
           }
         ]
       },
       {
         "id": "sleeping-powder",
-        "name": "Sleeping Powder",
+        "name": "Knockout Powder",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Guile",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack targeting MR. Does not work on Elite targets. Success: Target falls asleep until the start of your next turn; they cannot act (waking on damage). Failure: Target Staggered for 1 round.",
+        "effectsText": "Roll your Basic Attack targeting MR. Does not work on Elite targets. Success: Target falls unconscious until the start of your next turn; they cannot act (waking on damage). Failure: Target Staggered for 1 round.",
         "upgrades": [
           {
             "id": "sleeping-powder-extra-dose",
-            "name": "Extra Dose",
+            "name": "Heavy Dose",
             "description": "Gain Benefit on the roll.",
             "purchased": false
           },
           {
             "id": "sleeping-powder-denser-mix",
-            "name": "Denser Mix",
+            "name": "Wider Spread",
             "description": "Range increased to Nearby.",
             "purchased": false
           }
@@ -2433,23 +2433,23 @@
       },
       {
         "id": "reversal-of-fortune",
-        "name": "Reversal of Fortune",
+        "name": "Turn the Tables",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "When you completely negate an Adjacent melee attack using Tumble, roll your Basic Attack. Success: Deal their attack's damage back to them. Failure: Deal half their attack damage back.",
+        "effectsText": "When you completely negate an Adjacent melee attack using Evasive Roll, roll your Basic Attack. Success: Deal their attack's damage back to them. Failure: Deal half their attack damage back.",
         "upgrades": [
           {
             "id": "reversal-overextend",
-            "name": "Overextend",
+            "name": "Commit",
             "description": "Spend 1 extra Guile to gain Benefit on the counter-attack roll.",
             "purchased": false
           },
           {
             "id": "reversal-fortune-favours-the-bold",
-            "name": "Fortune Favours the Bold",
+            "name": "Lucky Counter",
             "description": "Gain half the Guile spent on success.",
             "purchased": false
           }
@@ -2457,7 +2457,7 @@
       },
       {
         "id": "efficiency",
-        "name": "Efficiency",
+        "name": "Deep Reserves",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
@@ -2468,34 +2468,34 @@
       },
       {
         "id": "sharpened-blades",
-        "name": "Sharpened Blades",
+        "name": "Keen Edge",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "1 Guile",
         "target": "Self",
         "range": "Self",
-        "effectsText": "While Maintained, your Backstab class feature deals an additional 1d4 damage.",
+        "effectsText": "While Maintained, your Flanking Strike class feature deals an additional 1d4 damage.",
         "upgrades": []
       },
       {
         "id": "shadowless-strike",
-        "name": "Shadowless Strike",
+        "name": "Ghost Strike",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Guile",
         "target": "Single",
         "range": "Nearby",
-        "effectsText": "Dash to a Nearby target, avoiding Provoked Attacks. Roll your Basic Attack. Success: Deal Basic Attack damage; you may immediately use Shadowless Strike again as a Free action (2 Guile) on a different Nearby target. Continue while hitting and resources allow. Failure: Normal miss result.",
+        "effectsText": "Dash to a Nearby target, avoiding Provoked Attacks. Roll your Basic Attack. Success: Deal Basic Attack damage; you may immediately use Ghost Strike again as a Free action (2 Guile) on a different Nearby target. Continue while hitting and resources allow. Failure: Normal miss result.",
         "upgrades": [
           {
             "id": "shadowless-strike-follow-through",
-            "name": "Follow Through",
+            "name": "Momentum",
             "description": "Subsequent chain strikes cost only 1 Guile.",
             "purchased": false
           },
           {
             "id": "shadowless-strike-force-the-attack",
-            "name": "Force the Attack",
+            "name": "Press the Attack",
             "description": "Spend 1 additional Guile to reroll a failed attack once.",
             "purchased": false
           }
@@ -2505,39 +2505,39 @@
     "lv3": [
       {
         "id": "phantom-perks-of-the-job",
-        "name": "Perks of the Job",
+        "name": "Street Smart",
         "tier": "lv3",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "When entering a town or major city, roll 1d6. 1-3: A 20% discount on anything purchased and 20% more payment on anything sold (always round in your favour). 4-6: All lodgings, food, and recreational activities are free. Perks last for a week before you can re-roll. The GM may also reveal useful information about the town — interesting NPCs, locales, or background knowledge your character possesses as a Phantom.",
+        "effectsText": "When entering a town or major city, roll 1d6. 1-3: A 20% discount on anything purchased and 20% more payment on anything sold (always round in your favour). 4-6: All lodgings, food, and recreational activities are free. Benefits last for a week before you can re-roll. The GM may also reveal useful information about the town — interesting NPCs, locales, or background knowledge your character possesses as a skilled operative.",
         "upgrades": []
       }
     ],
     "lv8": [
       {
         "id": "phantom-light-as-a-feather",
-        "name": "Light as a Feather",
+        "name": "Featherfall",
         "tier": "lv8",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Whenever you are about to take impact damage from falling, you automatically gain a free Tumble effect (that works against falling damage) as strong as spending X Guile, where X is half your current Level.",
+        "effectsText": "Whenever you are about to take impact damage from falling, you automatically gain a free Evasive Roll effect (that works against falling damage) as strong as spending X Guile, where X is half your current Level.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "phantom-shadow-arts",
-        "name": "Shadow Arts",
+        "name": "Deadly Precision",
         "tier": "lv10",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Your Backstab damage is now considered True damage and pierces through all armour, resistances, and shields. It will always deal unmitigated damage in the face of any form of protection. This effect only applies when you are the one dealing the Backstab damage.",
+        "effectsText": "Your Flanking Strike damage is now considered True damage and pierces through all armour, resistances, and shields. It will always deal unmitigated damage in the face of any form of protection. This effect only applies when you are the one dealing the Flanking Strike damage.",
         "upgrades": []
       }
     ]
@@ -3022,7 +3022,7 @@
         "cost": "2 Ferocity",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Increase your MIGHT by +HL. Increase your Max HP and current HP by +MIND. The Max HP increase is lost when you leave this Aspect. Gives you access to the Brace for Impact power (costs 2 Ferocity to use).",
+        "effectsText": "Increase your MIGHT by +HL. Increase your Max HP and current HP by +MIND. The Max HP increase is lost when you leave this Aspect. Gives you access to the Iron Stance power (costs 2 Ferocity to use).",
         "upgrades": []
       },
       {
@@ -3033,7 +3033,7 @@
         "cost": "2 Ferocity",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Increase your AGILITY by +HL. Increase your damage die for your Basic Attack to 1d12. Gives you access to the Tumble power (spend Ferocity in place of Guile to achieve Tumble's effects).",
+        "effectsText": "Increase your AGILITY by +HL. Increase your damage die for your Basic Attack to 1d12. Gives you access to the Evasive Roll power (spend Ferocity in place of Guile to achieve Evasive Roll's effects).",
         "upgrades": []
       }
     ],
