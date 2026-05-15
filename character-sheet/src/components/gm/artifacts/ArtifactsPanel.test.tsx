@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event'
 import ArtifactsPanel from './ArtifactsPanel'
 import { HomebrewProvider } from '../../../context/HomebrewProvider'
 
-// "Bosley's Good-Luck Charm" is the first official artifact (art-001).
-const FIRST_ARTIFACT_NAME = "Bosley's Good-Luck Charm"
+// "Traveler's Keepsake" is the first official artifact (art-001).
+const FIRST_ARTIFACT_NAME = "Traveler's Keepsake"
 
 function renderPanel(onBack = vi.fn()) {
   render(

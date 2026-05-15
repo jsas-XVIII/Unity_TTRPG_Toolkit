@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event'
 import PerksPanel from './PerksPanel'
 import { HomebrewProvider } from '../../../context/HomebrewProvider'
 
-// "Combat Specialist" is the first official perk (gp-001).
-const FIRST_PERK_NAME = 'Combat Specialist'
+// "Relentless" is the first official perk (gp-001).
+const FIRST_PERK_NAME = 'Relentless'
 
 function renderPanel(onBack = vi.fn()) {
   render(

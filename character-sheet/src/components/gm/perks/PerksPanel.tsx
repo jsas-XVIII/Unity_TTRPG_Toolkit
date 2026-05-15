@@ -14,7 +14,7 @@ interface Props {
 export default function PerksPanel({ onBack }: Props) {
   const [editing, setEditing] = useState<{ perk: Perk; readOnly: boolean } | null>(null)
   const [storageError, setStorageError] = useState(false)
-  const { perks: homebrewPerks, upsertPerk, deletePerk } = useHomebrew()
+  const { perks: homebrewPerks, upsertPerk, deletePerk, officialPerks } = useHomebrew()
 
   const homebrewIds = useMemo(() => new Set(homebrewPerks.map((p) => p.id)), [homebrewPerks])
   const perks = useMemo(() => {
@@ -107,6 +107,7 @@ export default function PerksPanel({ onBack }: Props) {
             const official = isOfficialPerk(perk.id)
             const overridden = official && homebrewIds.has(perk.id)
             const homebrewOnly = !official
+            const isDemo = official && officialPerks.length === 0 && !homebrewIds.has(perk.id)
 
             return (
               <div
@@ -116,6 +117,11 @@ export default function PerksPanel({ onBack }: Props) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-semibold text-gray-100">{perk.name}</span>
+                    {isDemo && (
+                      <span className="text-xs px-1.5 py-0.5 rounded bg-gray-600 text-gray-300">
+                        Demo
+                      </span>
+                    )}
                     {overridden && (
                       <span className="text-xs px-1.5 py-0.5 rounded bg-amber-900 text-amber-300">
                         Overridden

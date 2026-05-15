@@ -21,7 +21,12 @@ export default function ArtifactsPanel({ onBack }: Props) {
     readOnly: boolean
   } | null>(null)
   const [storageError, setStorageError] = useState(false)
-  const { artifacts: homebrewArtifacts, upsertArtifact, deleteArtifact } = useHomebrew()
+  const {
+    artifacts: homebrewArtifacts,
+    upsertArtifact,
+    deleteArtifact,
+    officialArtifacts,
+  } = useHomebrew()
 
   const homebrewIds = useMemo(
     () => new Set(homebrewArtifacts.map((a) => a.id)),
@@ -122,6 +127,8 @@ export default function ArtifactsPanel({ onBack }: Props) {
             const official = isOfficialArtifact(artifact.id)
             const overridden = official && homebrewIds.has(artifact.id)
             const homebrewOnly = !official
+            const isDemo =
+              official && officialArtifacts.length === 0 && !homebrewIds.has(artifact.id)
 
             return (
               <div
@@ -132,6 +139,11 @@ export default function ArtifactsPanel({ onBack }: Props) {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-semibold text-gray-100">{artifact.name}</span>
                     <span className="text-xs text-gray-500">{artifact.category}</span>
+                    {isDemo && (
+                      <span className="text-xs px-1.5 py-0.5 rounded bg-gray-600 text-gray-300">
+                        Demo
+                      </span>
+                    )}
                     {overridden && (
                       <span className="text-xs px-1.5 py-0.5 rounded bg-amber-900 text-amber-300">
                         Overridden

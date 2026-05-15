@@ -81,14 +81,14 @@ function getCounterSpan(labelPrefix: string): HTMLElement {
 // ---------------------------------------------------------------------------
 
 describe('baseline section — renders Dreadnought starting features', () => {
-  it('shows Shieldbreaker at level 1', () => {
+  it('shows Armour Pierce at level 1', () => {
     renderList([], 1)
-    expect(screen.getByText('Shieldbreaker')).toBeInTheDocument()
+    expect(screen.getByText('Armour Pierce')).toBeInTheDocument()
   })
 
-  it('shows Cleave at level 1', () => {
+  it('shows Sweeping Strike at level 1', () => {
     renderList([], 1)
-    expect(screen.getByText('Cleave')).toBeInTheDocument()
+    expect(screen.getByText('Sweeping Strike')).toBeInTheDocument()
   })
 })
 
@@ -99,17 +99,17 @@ describe('baseline section — renders Dreadnought starting features', () => {
 describe('lv3 feature section — level gating', () => {
   it('does not render lv3 section below level 3', () => {
     renderList([], 2)
-    expect(screen.queryByText('Heart of the Mountain')).not.toBeInTheDocument()
+    expect(screen.queryByText('Steadfast Protector')).not.toBeInTheDocument()
   })
 
   it('renders lv3 section at exactly level 3', () => {
     renderList([], 3)
-    expect(screen.getByText('Heart of the Mountain')).toBeInTheDocument()
+    expect(screen.getByText('Steadfast Protector')).toBeInTheDocument()
   })
 
   it('still renders lv3 section at level 10', () => {
     renderList([], 10)
-    expect(screen.getByText('Heart of the Mountain')).toBeInTheDocument()
+    expect(screen.getByText('Steadfast Protector')).toBeInTheDocument()
   })
 })
 
@@ -120,12 +120,12 @@ describe('lv3 feature section — level gating', () => {
 describe('lv8 feature section — level gating', () => {
   it('does not render lv8 section below level 8', () => {
     renderList([], 7)
-    expect(screen.queryByText('Fearless')).not.toBeInTheDocument()
+    expect(screen.queryByText('Undaunted')).not.toBeInTheDocument()
   })
 
   it('renders lv8 section at exactly level 8', () => {
     renderList([], 8)
-    expect(screen.getByText('Fearless')).toBeInTheDocument()
+    expect(screen.getByText('Undaunted')).toBeInTheDocument()
   })
 })
 
@@ -136,12 +136,12 @@ describe('lv8 feature section — level gating', () => {
 describe('lv10 feature section — level gating', () => {
   it('does not render lv10 section below level 10', () => {
     renderList([], 9)
-    expect(screen.queryByText('Split the Earth')).not.toBeInTheDocument()
+    expect(screen.queryByText('Earthshatter')).not.toBeInTheDocument()
   })
 
   it('renders lv10 section at level 10', () => {
     renderList([], 10)
-    expect(screen.getByText('Split the Earth')).toBeInTheDocument()
+    expect(screen.getByText('Earthshatter')).toBeInTheDocument()
   })
 })
 

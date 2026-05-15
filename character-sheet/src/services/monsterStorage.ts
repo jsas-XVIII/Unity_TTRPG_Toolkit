@@ -31,6 +31,10 @@ function saveMonsters(monsters: Monster[]): void {
   monstersCache = monsters
 }
 
+export function replaceHomebrewMonsters(monsters: Monster[]): void {
+  saveMonsters(monsters)
+}
+
 export function addHomebrewMonster(monster: Monster): void {
   saveMonsters([...getHomebrewMonsters(), monster])
 }
@@ -57,6 +61,10 @@ export function getHomebrewAbilities(): MonsterAbility[] {
 function saveAbilities(abilities: MonsterAbility[]): void {
   localStorage.setItem(ABILITIES_KEY, JSON.stringify(abilities))
   abilitiesCache = abilities
+}
+
+export function replaceHomebrewAbilities(abilities: MonsterAbility[]): void {
+  saveAbilities(abilities)
 }
 
 export function addHomebrewAbility(ability: MonsterAbility): void {
