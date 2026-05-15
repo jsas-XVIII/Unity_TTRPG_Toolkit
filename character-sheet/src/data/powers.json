@@ -867,31 +867,31 @@
     "baseline": [
       {
         "id": "fell-hunter-point-blank-shot",
-        "name": "Point Blank Shot",
+        "name": "Close Quarters Fire",
         "tier": "baseline",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "You do not suffer the usual Hindrance penalty for attacking with a ranged weapon while ADJACENT to an enemy.",
+        "effectsText": "You suffer no Hindrance penalty when attacking with a ranged weapon while Adjacent to an enemy.",
         "upgrades": []
       },
       {
         "id": "fell-hunter-vault",
-        "name": "Vault",
+        "name": "Evasive Bound",
         "tier": "baseline",
         "actionType": "Movement",
         "cost": "1 Focus",
         "target": "Special",
         "range": "Nearby",
-        "effectsText": "Use your Movement action to Vault up to a NEARBY distance into or away from danger. While Vaulting you receive Benefit against all Provoked Attacks.",
+        "effectsText": "Use your Movement action to leap up to a Nearby distance into or away from danger. While leaping you gain Benefit against all Provoked Attacks.",
         "upgrades": []
       }
     ],
     "tier1": [
       {
         "id": "alpha-strike",
-        "name": "Alpha Strike",
+        "name": "Opening Salvo",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -901,21 +901,21 @@
         "upgrades": [
           {
             "id": "alpha-strike-patient-hunter",
-            "name": "Patient Hunter",
-            "description": "Alpha Strike reactivates if you haven't used a Standard action yet this battle.",
+            "name": "Watchful Patience",
+            "description": "Opening Salvo reactivates if you haven't used a Standard action yet this battle.",
             "purchased": false
           },
           {
             "id": "alpha-strike-drawing-a-bead",
-            "name": "Drawing a Bead",
-            "description": "Gain Benefit on the Alpha Strike attack roll.",
+            "name": "Aimed Shot",
+            "description": "Gain Benefit on the Opening Salvo attack roll.",
             "purchased": false
           }
         ]
       },
       {
         "id": "covering-fire",
-        "name": "Covering Fire",
+        "name": "Suppression Volley",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "3 Focus",
@@ -925,13 +925,13 @@
         "upgrades": [
           {
             "id": "covering-fire-unending-salvo",
-            "name": "Unending Salvo",
+            "name": "Sustained Barrage",
             "description": "Cast with Benefit; cost reduced to 1 Focus.",
             "purchased": false
           },
           {
             "id": "covering-fire-pinning-fire",
-            "name": "Pinning Fire",
+            "name": "Pinning Volley",
             "description": "Targets are also Rooted for 1 round.",
             "purchased": false
           }
@@ -939,18 +939,18 @@
       },
       {
         "id": "adaptive-response",
-        "name": "Adaptive Response",
+        "name": "Hardened Conditioning",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Choose 1 energy type; gain +AGILITY Resistance to that type. Can be taken multiple times for different energy types.",
+        "effectsText": "Select 1 energy type; gain +AGILITY Resistance to that type. Can be taken multiple times for different energy types.",
         "upgrades": []
       },
       {
         "id": "smoke-screen",
-        "name": "Smoke Screen",
+        "name": "Concealment Cloud",
         "tier": 1,
         "actionType": "Quick",
         "cost": "2 Focus",
@@ -961,34 +961,34 @@
       },
       {
         "id": "surefooted",
-        "name": "Surefooted",
+        "name": "Nimble Escape",
         "tier": 1,
         "actionType": "Quick",
         "cost": "1 Focus",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Empower your Vault with this Quick action and 1 additional Focus. When vaulting away from Adjacent enemies, you are immune to Provoked Attacks.",
+        "effectsText": "Combine with Evasive Bound using this Quick action and 1 additional Focus. When leaping away from Adjacent enemies, you are immune to Provoked Attacks.",
         "upgrades": []
       },
       {
         "id": "explosive-bola",
-        "name": "Explosive Bola",
+        "name": "Timed Charge",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Focus",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Roll your Basic Attack. Success: Fire an explosive bola; declare a timer of 1–3 rounds. When it explodes, deal 1d4+AGILITY Fire damage to the target and all creatures Adjacent to it. Failure: Deal 1d6 damage as the bola bounces off.",
+        "effectsText": "Roll your Basic Attack. Success: Attach a timed charge; set a detonation timer of 1–3 rounds. When it detonates, deal 1d4+AGILITY Fire damage to the target and all creatures Adjacent to it. Failure: Deal 1d6 damage as the device bounces off.",
         "upgrades": [
           {
             "id": "explosive-bola-remote-detonation",
-            "name": "Remote Detonation",
-            "description": "Detonate the bola early as a Quick action.",
+            "name": "Early Trigger",
+            "description": "Detonate the charge early as a Quick action.",
             "purchased": false
           },
           {
             "id": "explosive-bola-incendiary-powder",
-            "name": "Incendiary Powder",
+            "name": "High Yield",
             "description": "The explosion damage die increases to 1d10.",
             "purchased": false
           }
@@ -996,7 +996,7 @@
       },
       {
         "id": "twin-fang-strike",
-        "name": "Twin Fang Strike",
+        "name": "Split Strike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Focus",
@@ -1006,7 +1006,7 @@
         "upgrades": [
           {
             "id": "twin-fang-swiftstriker",
-            "name": "Swiftstriker",
+            "name": "Swift Follow-Through",
             "description": "Refund 1 Focus on success.",
             "purchased": false
           }
@@ -1014,34 +1014,34 @@
       },
       {
         "id": "shock-trap",
-        "name": "Shock Trap",
+        "name": "Electric Snare",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Focus",
         "target": "AoE",
         "range": "Self",
-        "effectsText": "With no enemies Adjacent, roll your Basic Attack to determine X. The first enemy who moves Adjacent to you triggers the trap, suffering X+AGILITY Electric damage and a status effect based on the roll: 2–8 Staggered, 9–15 Rooted, 16+ Stunned (1 round). The trap is disabled if you move away.",
+        "effectsText": "With no enemies Adjacent, roll your Basic Attack to determine X. The first enemy who moves Adjacent to you triggers the snare, suffering X+AGILITY Electric damage and a status effect based on the roll: 2–8 Staggered, 9–15 Rooted, 16+ Stunned (1 round). The snare is disabled if you move away.",
         "upgrades": []
       },
       {
         "id": "zen-marksmanship",
-        "name": "Zen Marksmanship",
+        "name": "Focused Barrage",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "1 Focus + 2 Focus per extra shot",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Make multiple ranged Basic Attacks in one action. Each successive shot after the first suffers −2 to AR and damage (cumulative). Limited only by your resource pool.",
+        "effectsText": "Fire multiple ranged Basic Attacks in one action. Each successive shot after the first suffers −2 to AR and damage (cumulative). Limited only by your resource pool.",
         "upgrades": [
           {
             "id": "zen-marksmanship-stillness",
-            "name": "Stillness",
+            "name": "Flow State",
             "description": "Refund 1 Focus for each successful shot after the first.",
             "purchased": false
           },
           {
             "id": "zen-marksmanship-acuity",
-            "name": "Acuity",
+            "name": "Practiced Rhythm",
             "description": "The stacking penalty is reduced to −1 per shot.",
             "purchased": false
           }
@@ -1051,17 +1051,17 @@
     "tier2": [
       {
         "id": "sniper",
-        "name": "Sniper",
+        "name": "Sharpshooter",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Your Basic Ranged Attack range is extended to Very Far. Targets at Far or Very Far distance take an additional +1d6 Physical damage on a successful hit.",
+        "effectsText": "Extend your Basic Ranged Attack range to Very Far. Targets at Far or Very Far distance take an additional +1d6 Physical damage on a successful hit.",
         "upgrades": [
           {
             "id": "sniper-demonsbane",
-            "name": "Demonsbane",
+            "name": "Fell Slayer",
             "description": "The bonus damage applies at ALL ranges when attacking Demons.",
             "purchased": false
           }
@@ -1069,7 +1069,7 @@
       },
       {
         "id": "distract",
-        "name": "Distract",
+        "name": "Feint",
         "tier": 2,
         "actionType": "Standard",
         "cost": "1 Focus",
@@ -1079,15 +1079,15 @@
         "upgrades": [
           {
             "id": "distract-true-nuisance",
-            "name": "True Nuisance",
-            "description": "Distract uses a Quick action instead of Standard.",
+            "name": "Quick Feint",
+            "description": "Feint uses a Quick action instead of Standard.",
             "purchased": false
           }
         ]
       },
       {
         "id": "composure",
-        "name": "Composure",
+        "name": "Rally Focus",
         "tier": 2,
         "actionType": "Standard",
         "cost": "1 Focus",
@@ -1098,7 +1098,7 @@
       },
       {
         "id": "camouflage",
-        "name": "Camouflage",
+        "name": "Evasive Maneuver",
         "tier": 2,
         "actionType": "Quick",
         "cost": "2 Focus",
@@ -1108,13 +1108,13 @@
         "upgrades": [
           {
             "id": "camouflage-mass-camouflage",
-            "name": "Mass Camouflage",
+            "name": "Team Cover",
             "description": "Spend 1 additional Focus to extend the DR bonus to Adjacent Allies.",
             "purchased": false
           },
           {
             "id": "camouflage-blend",
-            "name": "Blend",
+            "name": "Deep Cover",
             "description": "DR bonus is doubled against ranged attacks; +2 to stealth checks.",
             "purchased": false
           }
@@ -1122,55 +1122,55 @@
       },
       {
         "id": "lightning-rod",
-        "name": "Lightning Rod",
+        "name": "Shock Anchor",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "3 Focus",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage as Electric and embed a lightning rod (only 1 at a time). While maintained, enemies starting their turn Adjacent to the rod take +AGILITY Electric damage, and Electric attacks against the rod's target splash half damage to Adjacent enemies. Failure: Deal half damage; rod doesn't stick.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage as Electric and embed a shock anchor (only 1 at a time). While maintained, enemies starting their turn Adjacent to the anchor take +AGILITY Electric damage, and Electric attacks against the anchor's target splash half damage to Adjacent enemies. Failure: Deal half damage; anchor doesn't embed.",
         "upgrades": [
           {
             "id": "lightning-rod-amperage",
-            "name": "Amperage",
+            "name": "High Voltage",
             "description": "Area damage increased to 1d8+AGILITY.",
             "purchased": false
           },
           {
             "id": "lightning-rod-conduction",
-            "name": "Conduction",
-            "description": "No maintain cost; rod lasts until end of combat.",
+            "name": "Persistent Arc",
+            "description": "No maintain cost; anchor lasts until end of combat.",
             "purchased": false
           }
         ]
       },
       {
         "id": "heartseeker",
-        "name": "Heartseeker",
+        "name": "Vital Strike",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "2 Focus",
         "target": "Single",
         "range": "Very Far",
-        "effectsText": "Roll your Basic Attack. Success: Deal 2d8+AGILITY+HL damage; target is Marked for Death (attacks trigger Massive Hit or Adrenaline Rush on rolls of 17–20 instead of 20 only, for 1 round). Failure: Deal half damage; target Staggered for 1 round.",
+        "effectsText": "Roll your Basic Attack. Success: Deal 2d8+AGILITY+HL damage; target is Exposed (attacks trigger Massive Hit or Adrenaline Rush on rolls of 17–20 instead of 20 only, for 1 round). Failure: Deal half damage; target Staggered for 1 round.",
         "upgrades": [
           {
             "id": "heartseeker-magnify-weakness",
-            "name": "Magnify Weakness",
-            "description": "Marked for Death triggers on rolls of 16–20.",
+            "name": "Exposed Weakness",
+            "description": "Exposed triggers on rolls of 16–20.",
             "purchased": false
           },
           {
             "id": "heartseeker-lingering-doom",
-            "name": "Lingering Doom",
-            "description": "The Marked for Death effect lasts an additional round.",
+            "name": "Extended Exposure",
+            "description": "The Exposed effect lasts an additional round.",
             "purchased": false
           }
         ]
       },
       {
         "id": "staggering-shot",
-        "name": "Staggering Shot",
+        "name": "Concussive Shot",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Focus",
@@ -1180,21 +1180,21 @@
         "upgrades": [
           {
             "id": "staggering-shot-forceful-impact",
-            "name": "Forceful Impact",
+            "name": "Knockback Force",
             "description": "Spend 1 additional Focus to push the target Nearby away. Contest MIGHT vs. AGILITY if Elite or larger.",
             "purchased": false
           },
           {
             "id": "staggering-shot-weighted-ammo",
-            "name": "Weighted Ammo",
-            "description": "Target is Staggered even on failure; gain Benefit on the Contest if you have Forceful Impact.",
+            "name": "Heavy Rounds",
+            "description": "Target is Staggered even on failure; gain Benefit on the Contest if you have Knockback Force.",
             "purchased": false
           }
         ]
       },
       {
         "id": "power-shot",
-        "name": "Power Shot",
+        "name": "Called Shot",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Focus",
@@ -1204,7 +1204,7 @@
         "upgrades": [
           {
             "id": "power-shot-steady-hands",
-            "name": "Steady Hands",
+            "name": "Practiced Aim",
             "description": "The damage bonus is doubled.",
             "purchased": false
           }
@@ -1214,39 +1214,39 @@
     "lv3": [
       {
         "id": "fell-hunter-trailblazer",
-        "name": "Trailblazer",
+        "name": "Wilderness Expert",
         "tier": "lv3",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "When travelling by land, any journey that takes 3 days or longer can be reduced by 1 day (e.g. a trek taking 4 days can be reduced to 3 days). When taking a Full Rest in the wilderness or other unsafe areas, the chance of an Intrusion occurring is reduced by 1. Instead of 2 Intrusion numbers, GMs pick only 1.",
+        "effectsText": "When travelling by land, any journey of 3 days or longer can be reduced by 1 day. When taking a Full Rest in the wilderness or other unsafe areas, the chance of an Intrusion is reduced by 1 — the GM picks only 1 Intrusion number instead of 2.",
         "upgrades": []
       }
     ],
     "lv8": [
       {
         "id": "fell-hunter-sixth-sense",
-        "name": "Sixth Sense",
+        "name": "Predator's Instinct",
         "tier": "lv8",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "You receive Benefit on any roll that involves detecting creatures that are sneaking or hiding in your near vicinity. You also no longer suffer Hindrance against attacking targets that are protecting themselves using some sort of visual impairment such as illusions, stealth, or invisibility.",
+        "effectsText": "Gain Benefit on any roll involving detection of creatures that are sneaking or hiding nearby. You no longer suffer Hindrance when attacking targets obscured by illusions, stealth, or invisibility.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "fell-hunter-crackshot",
-        "name": "Crackshot",
+        "name": "Relentless Aim",
         "tier": "lv10",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Every time you miss an attack in combat you gain +1 to your AR until you successfully strike a target. Stacks indefinitely until you have a successful hit or combat ends, then it resets to 0.",
+        "effectsText": "Each time you miss an attack in combat, gain +1 AR until you successfully strike a target. Stacks indefinitely until you hit or combat ends, then resets to 0.",
         "upgrades": []
       }
     ]
