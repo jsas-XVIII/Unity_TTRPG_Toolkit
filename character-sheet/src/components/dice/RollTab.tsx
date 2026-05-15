@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, type JSX } from 'react'
 import type { DiceType, BenHinState, AttributeKey, RollResult } from '../../types/dice'
 import type { DerivedStats } from '../../utils/derivedStats'
 import type { Attributes } from '../../types/character'
