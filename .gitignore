@@ -4,3 +4,6 @@ unity_rules.txt
 
 # GitLab runner state
 .runner_system_id
+
+# Local Claude Code settings (may contain tokens or machine-specific paths)
+.claude/settings.local.json
