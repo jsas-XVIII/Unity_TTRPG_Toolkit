@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event'
 import PowersPanel from './PowersPanel'
 import { HomebrewProvider } from '../../../context/HomebrewProvider'
 
-// "Shieldbreaker" is the first Dreadnought power displayed (baseline pool, default class on mount).
-const FIRST_POWER_NAME = 'Shieldbreaker'
+// "Armour Pierce" is the first Dreadnought power displayed (baseline pool, default class on mount).
+const FIRST_POWER_NAME = 'Armour Pierce'
 
 function renderPanel(onBack = vi.fn()) {
   render(

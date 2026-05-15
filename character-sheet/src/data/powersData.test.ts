@@ -101,7 +101,7 @@ describe('getPowerById — finds new baseline and feature powers', () => {
   it('finds dreadnought-shieldbreaker in baseline', () => {
     const result = getPowerById('dreadnought-shieldbreaker')
     expect(result).toBeDefined()
-    expect(result?.power.name).toBe('Shieldbreaker')
+    expect(result?.power.name).toBe('Armour Pierce')
     expect(result?.className).toBe('Dreadnought')
     expect(result?.power.tier).toBe('baseline')
   })
