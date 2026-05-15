@@ -118,20 +118,20 @@ describe('getPowerById — finds Priest baseline powers by id', () => {
   it('finds sacred-bolt', () => {
     const result = getPowerById('sacred-bolt')
     expect(result).toBeDefined()
-    expect(result?.power.name).toBe('Sacred Bolt')
+    expect(result?.power.name).toBe('Divine Shot')
     expect(result?.className).toBe('Priest')
   })
 
   it('finds holy-strike', () => {
     const result = getPowerById('holy-strike')
     expect(result).toBeDefined()
-    expect(result?.power.name).toBe('Holy Strike')
+    expect(result?.power.name).toBe('Blessed Strike')
   })
 
   it('finds healing-charge', () => {
     const result = getPowerById('healing-charge')
     expect(result).toBeDefined()
-    expect(result?.power.name).toBe('Healing Charge')
+    expect(result?.power.name).toBe('Mending Charge')
   })
 
   it('returns undefined for an unknown id', () => {

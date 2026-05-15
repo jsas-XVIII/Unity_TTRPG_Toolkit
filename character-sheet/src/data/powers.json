@@ -372,7 +372,7 @@
       },
       {
         "id": "relentless",
-        "name": "Last Stand",
+        "name": "Desperate Defiance",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
@@ -383,7 +383,7 @@
           {
             "id": "relentless-composed",
             "name": "Controlled",
-            "description": "Use a power instead of a Basic Attack when Last Stand triggers.",
+            "description": "Use a power instead of a Basic Attack when Desperate Defiance triggers.",
             "purchased": false
           }
         ]
@@ -2546,44 +2546,44 @@
     "baseline": [
       {
         "id": "sacred-bolt",
-        "name": "Sacred Bolt",
+        "name": "Divine Shot",
         "tier": "baseline",
         "restrictToClassPath": "chaplain",
         "actionType": "Standard",
         "cost": "3 Faith",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Roll your Basic Attack. Success: You deal 1d6+HL+MIND Divine damage and gain 1 Healing Charge. Failure: You deal half damage and gain 1 Healing Charge.",
+        "effectsText": "Roll your Basic Attack. Success: Deal 1d6+HL+MIND Divine damage and gain 1 Mending Charge. Failure: Deal half damage and gain 1 Mending Charge.",
         "upgrades": []
       },
       {
         "id": "holy-strike",
-        "name": "Holy Strike",
+        "name": "Blessed Strike",
         "tier": "baseline",
         "restrictToClassPath": "warpriest",
         "actionType": "Standard",
         "cost": "2 Faith",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: You deal your Basic Attack damage and gain 1 Healing Charge. Failure: You deal half Basic Attack damage and gain 1 Healing Charge.",
+        "effectsText": "Roll your Basic Attack. Success: Deal your Basic Attack damage and gain 1 Mending Charge. Failure: Deal half Basic Attack damage and gain 1 Mending Charge.",
         "upgrades": []
       },
       {
         "id": "healing-charge",
-        "name": "Healing Charge",
+        "name": "Mending Charge",
         "tier": "baseline",
         "actionType": "Quick",
         "cost": "1+ HC",
         "target": "Single",
         "range": "Far",
-        "effectsText": "Each Healing Charge heals for 1+HL+MIND. You may expend multiple charges at once on the same target. You start with 1 Healing Charge and every Full Rest grants you 1 Healing Charge.",
+        "effectsText": "Each Mending Charge restores 1+HL+MIND HP. You may expend multiple charges at once on the same target. You start with 1 Mending Charge and every Full Rest grants you 1 Mending Charge.",
         "upgrades": []
       }
     ],
     "tier1": [
       {
         "id": "denounce",
-        "name": "Denounce",
+        "name": "Admonish",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Faith",
@@ -2593,7 +2593,7 @@
         "upgrades": [
           {
             "id": "denounce-ease",
-            "name": "Ease",
+            "name": "Effortless Admonition",
             "description": "Refund 1 additional Faith on success.",
             "purchased": false
           }
@@ -2601,7 +2601,7 @@
       },
       {
         "id": "guided-strike",
-        "name": "Guided Strike",
+        "name": "Weakening Strike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Faith",
@@ -2611,19 +2611,19 @@
         "upgrades": [
           {
             "id": "guided-strike-shame",
-            "name": "Shame",
+            "name": "Double Weakness",
             "description": "Also lower the target's MR by the same amount.",
             "purchased": false
           },
           {
             "id": "guided-strike-shirk",
-            "name": "Shirk",
+            "name": "Evasive Follow-up",
             "description": "Gain Benefit on Defense rolls against the affected target.",
             "purchased": false
           },
           {
             "id": "guided-strike-chastise",
-            "name": "Chastise",
+            "name": "Lasting Weakness",
             "description": "Duration increased to 2 rounds.",
             "purchased": false
           }
@@ -2631,7 +2631,7 @@
       },
       {
         "id": "fanaticism",
-        "name": "Fanaticism",
+        "name": "Battle Fervor",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -2641,7 +2641,7 @@
         "upgrades": [
           {
             "id": "fanaticism-committed",
-            "name": "Committed",
+            "name": "Doubled Fury",
             "description": "The rerolled damage deals additional +HL damage.",
             "purchased": false
           }
@@ -2649,7 +2649,7 @@
       },
       {
         "id": "man-of-the-cloth",
-        "name": "Man of the Cloth",
+        "name": "Devoted Practice",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -2659,7 +2659,7 @@
         "upgrades": [
           {
             "id": "man-of-the-cloth-unbending-faith",
-            "name": "Unbending Faith",
+            "name": "Unyielding Resolve",
             "description": "Roll the Faith Recharge die twice and keep the highest result.",
             "purchased": false
           }
@@ -2667,7 +2667,7 @@
       },
       {
         "id": "mark-of-the-heretic",
-        "name": "Mark of the Heretic",
+        "name": "Blazing Brand",
         "tier": 1,
         "actionType": "Standard",
         "cost": "3 Faith",
@@ -2677,27 +2677,27 @@
         "upgrades": [
           {
             "id": "mark-guide-my-hand",
-            "name": "Guide My Hand",
+            "name": "Focused Strike",
             "description": "Spend 1 additional Faith to gain Benefit on the attack roll.",
             "purchased": false
           },
           {
             "id": "mark-determined",
-            "name": "Determined",
+            "name": "Steadfast",
             "description": "Refund 2 Faith on failure.",
             "purchased": false
           },
           {
             "id": "mark-purifying-flames",
-            "name": "Purifying Flames",
-            "description": "Adjacent Allies heal for +MIND when the brand explodes.",
+            "name": "Cleansing Flame",
+            "description": "Adjacent Allies restore +MIND HP when the brand explodes.",
             "purchased": false
           }
         ]
       },
       {
         "id": "revelation",
-        "name": "Revelation",
+        "name": "Holy Surge",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "None",
@@ -2707,7 +2707,7 @@
         "upgrades": [
           {
             "id": "revelation-i-will-make-them-see",
-            "name": "I Will Make Them See",
+            "name": "Shared Surge",
             "description": "Distribute the 6 bonus Faith among Allies' Class Resources instead.",
             "purchased": false
           }
@@ -2715,7 +2715,7 @@
       },
       {
         "id": "tower-and-shield",
-        "name": "Tower & Shield",
+        "name": "Protective Ward",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Faith",
@@ -2725,19 +2725,19 @@
         "upgrades": [
           {
             "id": "tower-rebuke",
-            "name": "Rebuke",
-            "description": "Enemies that hit the shielded target take +MIND Divine damage.",
+            "name": "Painful Ward",
+            "description": "Enemies that hit the warded target take +MIND Divine damage.",
             "purchased": false
           },
           {
             "id": "tower-reinforce",
-            "name": "Reinforce",
+            "name": "Fortified Ward",
             "description": "Gain Benefit on the roll; duration increased to 2 rounds.",
             "purchased": false
           },
           {
             "id": "tower-share-the-faith",
-            "name": "Share the Faith",
+            "name": "Shared Ward",
             "description": "You always receive the AV bonus in addition to the target.",
             "purchased": false
           }
@@ -2745,7 +2745,7 @@
       },
       {
         "id": "martyr",
-        "name": "Martyr",
+        "name": "Noble Sacrifice",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "None",
@@ -2755,13 +2755,13 @@
         "upgrades": [
           {
             "id": "martyr-guardian-angel",
-            "name": "Guardian Angel",
-            "description": "A burst of light also heals Adjacent Allies for HL+MIND.",
+            "name": "Healing Burst",
+            "description": "A burst of light also restores HL+MIND HP to Adjacent Allies.",
             "purchased": false
           },
           {
             "id": "martyr-not-in-vain",
-            "name": "Not in Vain",
+            "name": "Final Explosion",
             "description": "If you become Incapacitated within 10 minutes, your body explodes for 1d8+HL+MIND Divine damage to Adjacent enemies.",
             "purchased": false
           }
@@ -2769,23 +2769,23 @@
       },
       {
         "id": "wrath",
-        "name": "Wrath",
+        "name": "Thunder of Faith",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Faith",
         "target": "Single",
         "range": "Very Far",
-        "effectsText": "Roll your Basic Attack. Success: Deal 1d6+HL+MIND Electric damage. You may convert up to 1 Healing Charge for an additional 1d6+HL Electric damage. Failure: Deal half damage.",
+        "effectsText": "Roll your Basic Attack. Success: Deal 1d6+HL+MIND Electric damage. You may convert up to 1 Mending Charge for an additional 1d6+HL Electric damage. Failure: Deal half damage.",
         "upgrades": [
           {
             "id": "wrath-furious-grace",
-            "name": "Furious Grace",
-            "description": "On a successful conversion, roll 1d10; on 6+ the Healing Charge is refunded.",
+            "name": "Graceful Fury",
+            "description": "On a successful conversion, roll 1d10; on 6+ the Mending Charge is refunded.",
             "purchased": false
           },
           {
             "id": "wrath-undeterred",
-            "name": "Undeterred",
+            "name": "Resilient Cast",
             "description": "Refund 1 Faith on failure.",
             "purchased": false
           }
@@ -2795,7 +2795,7 @@
     "tier2": [
       {
         "id": "blinding-light",
-        "name": "Blinding Light",
+        "name": "Blinding Flash",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Faith",
@@ -2805,13 +2805,13 @@
         "upgrades": [
           {
             "id": "blinding-light-explosive-light",
-            "name": "Explosive Light",
+            "name": "Light Burst",
             "description": "An explosion at the target also hits an Adjacent enemy with the same effects.",
             "purchased": false
           },
           {
             "id": "blinding-light-brilliance",
-            "name": "Brilliance",
+            "name": "Intense Flash",
             "description": "Damage increased to 2d6+HL+MIND.",
             "purchased": false
           }
@@ -2819,17 +2819,17 @@
       },
       {
         "id": "faith-protects",
-        "name": "Faith Protects",
+        "name": "Faith's Ward",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Instead of healing a target, you may place an absorption shield of the same value on them (lasts for the battle or 10 minutes outside combat).",
+        "effectsText": "Instead of restoring a target's HP, you may place an absorption shield of the same value on them (lasts for the battle or 10 minutes outside combat).",
         "upgrades": [
           {
             "id": "faith-protects-karmic-feedback",
-            "name": "Karmic Feedback",
+            "name": "Reflective Ward",
             "description": "Half of the damage absorbed by the shield is dealt back to the attacker as Divine damage.",
             "purchased": false
           }
@@ -2837,31 +2837,31 @@
       },
       {
         "id": "cleanse",
-        "name": "Cleanse",
+        "name": "Purify",
         "tier": 2,
         "actionType": "Quick",
-        "cost": "1–3 Healing Charges",
+        "cost": "1–3 Mending Charges",
         "target": "Single Ally",
         "range": "Adjacent",
-        "effectsText": "Expend Healing Charges to remove status effects from a target. 1 Charge: removes Staggered. 2 Charges: removes Poison, Confused, or Rooted. 3 Charges: removes Disease, Hindered, or Stunned.",
+        "effectsText": "Expend Mending Charges to remove status effects from a target. 1 Charge: removes Staggered. 2 Charges: removes Poison, Confused, or Rooted. 3 Charges: removes Disease, Hindered, or Stunned.",
         "upgrades": [
           {
             "id": "cleanse-soothing-light",
-            "name": "Soothing Light",
-            "description": "Heal the target for 1d4 per Charge used.",
+            "name": "Healing Light",
+            "description": "Restore 1d4 HP per Charge used.",
             "purchased": false
           },
           {
             "id": "cleanse-blessed-are-the-kind",
-            "name": "Blessed are the Kind",
-            "description": "After Cleansing, roll 1d10; on 8+ refund the Charge cost.",
+            "name": "Fortuitous Cleansing",
+            "description": "After purifying, roll 1d10; on 8+ refund the Charge cost.",
             "purchased": false
           }
         ]
       },
       {
         "id": "rapture",
-        "name": "Rapture",
+        "name": "Compulsion",
         "tier": 2,
         "actionType": "Standard",
         "cost": "4 Faith",
@@ -2871,13 +2871,13 @@
         "upgrades": [
           {
             "id": "rapture-abundant-grace",
-            "name": "Abundant Grace",
+            "name": "Efficient Cast",
             "description": "Cost reduced to 3 Faith.",
             "purchased": false
           },
           {
             "id": "rapture-beauty-is-everywhere",
-            "name": "Beauty is Everywhere",
+            "name": "Directed Movement",
             "description": "No forced movement; you direct their movement if their action is available.",
             "purchased": false
           }
@@ -2885,7 +2885,7 @@
       },
       {
         "id": "crusader",
-        "name": "Crusader",
+        "name": "Champion State",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "1 Faith",
@@ -2895,37 +2895,37 @@
         "upgrades": [
           {
             "id": "crusader-divine-purpose",
-            "name": "Divine Purpose",
-            "description": "Also heal for half your maximum HP on activation.",
+            "name": "Sacred Purpose",
+            "description": "Also restore half your maximum HP on activation.",
             "purchased": false
           }
         ]
       },
       {
         "id": "song-of-mercy",
-        "name": "Song of Mercy",
+        "name": "Wave of Renewal",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "3 Faith",
         "target": "All Allies",
         "range": "Very Far",
-        "effectsText": "Roll your Basic Attack to determine X: 2–10 = 1d4, 11–15 = 2d4, 16–20 = 2d6, 21+ = 2d8. Heal yourself and all Allies on the battlefield for X+HL+MIND. Lingering: all Nearby characters also heal +MIND at the start of their next turn.",
+        "effectsText": "Roll your Basic Attack to determine X: 2–10 = 1d4, 11–15 = 2d4, 16–20 = 2d6, 21+ = 2d8. Restore X+HL+MIND HP to yourself and all Allies on the battlefield. Lingering: all Nearby characters also restore +MIND HP at the start of their next turn.",
         "upgrades": [
           {
             "id": "song-of-mercy-unending-melody",
-            "name": "Unending Melody",
-            "description": "The lingering healing lasts an additional 2 rounds for a total of 3.",
+            "name": "Extended Renewal",
+            "description": "The lingering restoration lasts an additional 2 rounds for a total of 3.",
             "purchased": false
           },
           {
             "id": "song-of-mercy-cacophony",
-            "name": "Cacophony",
+            "name": "Damaging Wave",
             "description": "The initial cast also damages Adjacent and Nearby enemies for 1d8+MIND.",
             "purchased": false
           },
           {
             "id": "song-of-mercy-you-lift-me-up",
-            "name": "You Lift Me Up",
+            "name": "Inspiring Renewal",
             "description": "You and all Nearby Allies generate 2 Class Resource (3 if you rolled 20+).",
             "purchased": false
           }
@@ -2933,18 +2933,18 @@
       },
       {
         "id": "sanctify",
-        "name": "Sanctify",
+        "name": "Blessed Practice",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Your Sacred Bolt and Holy Strike class features now generate 2 Healing Charges on success instead of 1.",
+        "effectsText": "Your Divine Shot and Blessed Strike class features now generate 2 Mending Charges on success instead of 1.",
         "upgrades": []
       },
       {
         "id": "smite",
-        "name": "Smite",
+        "name": "Repelling Strike",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Faith",
@@ -2954,7 +2954,7 @@
         "upgrades": [
           {
             "id": "smite-warning-cry",
-            "name": "Warning Cry",
+            "name": "Opening Created",
             "description": "Allies may make Provoked Attacks on the displaced target.",
             "purchased": false
           }
@@ -2962,7 +2962,7 @@
       },
       {
         "id": "soldier-of-faith",
-        "name": "Soldier of Faith",
+        "name": "Armed Faith",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
@@ -2975,39 +2975,39 @@
     "lv3": [
       {
         "id": "priest-guidance",
-        "name": "Guidance",
+        "name": "Oracle's Counsel",
         "tier": "lv3",
         "actionType": "Overdrive",
         "cost": "2 Faith",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Ask a single question. Objective questions are answered truthfully to varying degrees. Subjective questions or questions pertaining to creatures with free will are murky and will have haphazard results. Gods are mighty, but they do not have domain over free will — if a creature wishes to mask its intent or actions, the gods are not privy to observe them in that moment.",
+        "effectsText": "Ask a single question. Objective questions are answered truthfully to varying degrees. Subjective questions or questions pertaining to creatures with free will are murky and will have haphazard results. Higher powers are mighty, but they do not have domain over free will — if a creature wishes to mask its intent or actions, they are not privy to observe them in that moment.",
         "upgrades": []
       }
     ],
     "lv8": [
       {
         "id": "priest-resurrection",
-        "name": "Resurrection",
+        "name": "Revive",
         "tier": "lv8",
         "actionType": "Overdrive",
         "cost": "6 Faith + Special",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "You are able to bring a corpse that has been dead no longer than 5 days back to life. Resurrection is greatly taxing and can only be invoked once a week. On top of costing 6 Faith, you must sacrifice 2,000 Denerim (or an item of equal or greater value) for each day the corpse has been dead.",
+        "effectsText": "Bring a corpse that has been dead no longer than 5 days back to life. Revive is greatly taxing and can only be invoked once a week. On top of costing 6 Faith, you must sacrifice 2,000 gold (or an item of equal or greater value) for each day the corpse has been dead.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "priest-unending-grace",
-        "name": "Unending Grace",
+        "name": "Boundless Grace",
         "tier": "lv10",
         "actionType": "Ultimate",
         "cost": "1 Faith",
         "target": "Self",
         "range": "Self",
-        "effectsText": "On activation and each round afterwards you generate 1 Healing Charge for free. Lasts until the end of battle. Outside of combat, using Unending Grace will automatically heal your entire party to full HP.",
+        "effectsText": "On activation and each round afterwards you generate 1 Mending Charge for free. Lasts until the end of battle. Outside of combat, using Boundless Grace will automatically restore your entire party to full HP.",
         "upgrades": []
       }
     ]
@@ -3016,18 +3016,18 @@
     "baseline": [
       {
         "id": "primalist-aspect-of-the-boar",
-        "name": "Aspect of the Boar",
+        "name": "Stalwart Form",
         "tier": "baseline",
         "actionType": "Quick",
         "cost": "2 Ferocity",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Increase your MIGHT by +HL. Increase your Max HP and current HP by +MIND. The Max HP increase is lost when you leave this Aspect. Gives you access to the Iron Stance power (costs 2 Ferocity to use).",
+        "effectsText": "Increase your MIGHT by +HL. Increase your Max HP and current HP by +MIND. The Max HP increase is lost when you leave this Form. Gives you access to the Iron Stance power (costs 2 Ferocity to use).",
         "upgrades": []
       },
       {
         "id": "primalist-aspect-of-the-tiger",
-        "name": "Aspect of the Tiger",
+        "name": "Swift Form",
         "tier": "baseline",
         "actionType": "Quick",
         "cost": "2 Ferocity",
@@ -3040,7 +3040,7 @@
     "tier1": [
       {
         "id": "aspect-of-the-rhino",
-        "name": "Aspect of the Rhino",
+        "name": "Charging Form",
         "tier": 1,
         "actionType": "Quick",
         "cost": "2 Ferocity",
@@ -3050,13 +3050,13 @@
         "upgrades": [
           {
             "id": "rhino-stampede",
-            "name": "Stampede",
+            "name": "Wild Charge",
             "description": "Enemies making Provoked Attacks against you while charging suffer +MIND damage.",
             "purchased": false
           },
           {
             "id": "rhino-thick-hide",
-            "name": "Thick Hide",
+            "name": "Armored Rush",
             "description": "Your AV is increased by +MIND against Provoked Attacks while charging.",
             "purchased": false
           }
@@ -3064,7 +3064,7 @@
       },
       {
         "id": "aspect-of-the-mongoose",
-        "name": "Aspect of the Mongoose",
+        "name": "Elusive Form",
         "tier": 1,
         "actionType": "Quick",
         "cost": "4 Ferocity",
@@ -3074,7 +3074,7 @@
         "upgrades": [
           {
             "id": "mongoose-counterstrike",
-            "name": "Counterstrike",
+            "name": "Reactive Strike",
             "description": "When an enemy misses you with a melee attack, immediately retaliate with a Basic Attack.",
             "purchased": false
           }
@@ -3082,7 +3082,7 @@
       },
       {
         "id": "stone-skin",
-        "name": "Stone Skin",
+        "name": "Hardened Skin",
         "tier": 1,
         "actionType": "Reaction",
         "cost": "2 Spirit",
@@ -3093,7 +3093,7 @@
       },
       {
         "id": "icicle",
-        "name": "Icicle",
+        "name": "Frost Spike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "3 Spirit",
@@ -3103,15 +3103,15 @@
         "upgrades": [
           {
             "id": "icicle-splinter",
-            "name": "Splinter",
-            "description": "Spend 1 additional Spirit to split the icicle at an Adjacent target; generates 1 additional Ferocity.",
+            "name": "Ice Split",
+            "description": "Spend 1 additional Spirit to split the spike at an Adjacent target; generates 1 additional Ferocity.",
             "purchased": false
           }
         ]
       },
       {
         "id": "flurry",
-        "name": "Flurry",
+        "name": "Wild Strikes",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Spirit",
@@ -3121,13 +3121,13 @@
         "upgrades": [
           {
             "id": "flurry-relentless-gust",
-            "name": "Relentless Gust",
+            "name": "Persistent Strikes",
             "description": "Attempt the second strike even if the first attack missed.",
             "purchased": false
           },
           {
             "id": "flurry-angry-winds",
-            "name": "Angry Winds",
+            "name": "Furious First Strike",
             "description": "Generate 2 Ferocity from the first attack even on failure.",
             "purchased": false
           }
@@ -3135,7 +3135,7 @@
       },
       {
         "id": "lashing-vines",
-        "name": "Lashing Vines",
+        "name": "Grasping Vines",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Spirit",
@@ -3145,13 +3145,13 @@
         "upgrades": [
           {
             "id": "lashing-vines-entangled",
-            "name": "Entangled",
+            "name": "Binding Lash",
             "description": "A base roll of 15–20 also causes the target to be Staggered for 1 round.",
             "purchased": false
           },
           {
             "id": "lashing-vines-furious-fauna",
-            "name": "Furious Fauna",
+            "name": "Wild Growth",
             "description": "Roll the 1d4 for Ferocity twice and take the highest result.",
             "purchased": false
           }
@@ -3159,29 +3159,29 @@
       },
       {
         "id": "waters-of-life",
-        "name": "Waters of Life",
+        "name": "Nature's Mending",
         "tier": 1,
         "actionType": "Standard",
         "cost": "3 Spirit",
         "target": "Single Ally",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack to determine X: 2–11 = 2, 12–18 = 3, 19–22 = 4, 23+ = 6. Heal the target for 1d4+HL+MIND+X; generate 2 Ferocity.",
+        "effectsText": "Roll your Basic Attack to determine X: 2–11 = 2, 12–18 = 3, 19–22 = 4, 23+ = 6. Restore 1d4+HL+MIND+X HP to the target; generate 2 Ferocity.",
         "upgrades": [
           {
             "id": "waters-hard-water",
-            "name": "Hard Water",
+            "name": "Protective Surge",
             "description": "The target also gains 1d4 AV against a single incoming attack for 1 round.",
             "purchased": false
           },
           {
             "id": "waters-overflow",
-            "name": "Overflow",
-            "description": "Splash half the healing to 2 Adjacent Allies.",
+            "name": "Cascading Mend",
+            "description": "Splash half the restoration to 2 Adjacent Allies.",
             "purchased": false
           },
           {
             "id": "waters-abundance",
-            "name": "Abundance",
+            "name": "Efficient Mending",
             "description": "Cost reduced to 2 Spirit.",
             "purchased": false
           }
@@ -3189,7 +3189,7 @@
       },
       {
         "id": "ravage",
-        "name": "Ravage",
+        "name": "Feral Rush",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "1 Spirit",
@@ -3199,13 +3199,13 @@
         "upgrades": [
           {
             "id": "ravage-savage-talons",
-            "name": "Savage Talons",
+            "name": "Shredding Claws",
             "description": "Double the damage dice.",
             "purchased": false
           },
           {
             "id": "ravage-crushing-leap",
-            "name": "Crushing Leap",
+            "name": "Pinning Leap",
             "description": "Range increased to Far; target is Rooted on success.",
             "purchased": false
           }
@@ -3213,7 +3213,7 @@
       },
       {
         "id": "crystal-shard",
-        "name": "Crystal Shard",
+        "name": "Elemental Shard",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "3 Spirit",
@@ -3223,13 +3223,13 @@
         "upgrades": [
           {
             "id": "crystal-shard-prismatic-assault",
-            "name": "Prismatic Assault",
+            "name": "Elemental Weakness",
             "description": "The weakness bonus increases to +1d10.",
             "purchased": false
           },
           {
             "id": "crystal-shard-pressurized",
-            "name": "Pressurized",
+            "name": "High Impact",
             "description": "Damage increased to 2d8+HL+MIND.",
             "purchased": false
           }
@@ -3239,7 +3239,7 @@
     "tier2": [
       {
         "id": "aspect-of-the-wolf",
-        "name": "Aspect of the Wolf",
+        "name": "Pack Form",
         "tier": 2,
         "actionType": "Quick",
         "cost": "3 Ferocity",
@@ -3249,7 +3249,7 @@
         "upgrades": [
           {
             "id": "wolf-wolf-pack-tactics",
-            "name": "Wolf Pack Tactics",
+            "name": "Pack Tactics",
             "description": "On initial activation, you or an Adjacent Ally may move away from Adjacent enemies without triggering Provoked Attacks, provided another Ally is Adjacent to that enemy.",
             "purchased": false
           }
@@ -3257,7 +3257,7 @@
       },
       {
         "id": "aspect-of-the-viper",
-        "name": "Aspect of the Viper",
+        "name": "Venom Form",
         "tier": 2,
         "actionType": "Quick",
         "cost": "2 Ferocity",
@@ -3267,7 +3267,7 @@
         "upgrades": [
           {
             "id": "viper-leeching-bite",
-            "name": "Leeching Bite",
+            "name": "Corrosive Strike",
             "description": "On initial activation, generate 1 Spirit per successful enemy strike until the end of your next turn.",
             "purchased": false
           }
@@ -3275,7 +3275,7 @@
       },
       {
         "id": "thunderstorm",
-        "name": "Thunderstorm",
+        "name": "Storm Call",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "3 Spirit",
@@ -3285,21 +3285,21 @@
         "upgrades": [
           {
             "id": "thunderstorm-a-storm-is-coming",
-            "name": "A Storm is Coming",
+            "name": "Storm's Edge",
             "description": "Gain Benefit on the determining roll.",
             "purchased": false
           },
           {
             "id": "thunderstorm-dancing-in-the-rain",
-            "name": "Dancing in the Rain",
-            "description": "Additionally heal the same number of Allies for 2d6+MIND (also repeats on 24+).",
+            "name": "Healing Rain",
+            "description": "Additionally restore HP to the same number of Allies for 2d6+MIND (also repeats on 24+).",
             "purchased": false
           }
         ]
       },
       {
         "id": "zephyr",
-        "name": "Zephyr",
+        "name": "Wind Guard",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Spirit",
@@ -3309,13 +3309,13 @@
         "upgrades": [
           {
             "id": "zephyr-turbulence",
-            "name": "Turbulence",
+            "name": "Thorny Wind",
             "description": "Melee attackers targeting the protected character take 1d4+MIND damage.",
             "purchased": false
           },
           {
             "id": "zephyr-lashing-wind",
-            "name": "Lashing Wind",
+            "name": "Deflecting Gust",
             "description": "Missed ranged attacks against the target bounce back to the attacker for half damage.",
             "purchased": false
           }
@@ -3323,7 +3323,7 @@
       },
       {
         "id": "insect-swarm",
-        "name": "Insect Swarm",
+        "name": "Biting Swarm",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Spirit",
@@ -3333,13 +3333,13 @@
         "upgrades": [
           {
             "id": "insect-swarm-deadly-stings",
-            "name": "Deadly Stings",
+            "name": "Toxic Stings",
             "description": "Damage increased to 2d6+MIND.",
             "purchased": false
           },
           {
             "id": "insect-swarm-lasting-buzz",
-            "name": "Lasting Buzz",
+            "name": "Disorienting Swarm",
             "description": "The target's AR is also lowered by HL on success.",
             "purchased": false
           }
@@ -3347,7 +3347,7 @@
       },
       {
         "id": "exhilaration",
-        "name": "Exhilaration",
+        "name": "Wild Energy",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "2 Spirit",
@@ -3357,7 +3357,7 @@
         "upgrades": [
           {
             "id": "exhilaration-tide-of-battle",
-            "name": "Tide of Battle",
+            "name": "Surging Momentum",
             "description": "Affected characters gain +2 to their next Recharge roll and Benefit on their next action for 1 round.",
             "purchased": false
           }
@@ -3365,34 +3365,34 @@
       },
       {
         "id": "channelled-savagery",
-        "name": "Channelled Savagery",
+        "name": "Natural Affinity",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Choose one Aspect power; permanently reduce its Ferocity activation cost by 1. Can be taken multiple times, once per Aspect.",
+        "effectsText": "Choose one Form power; permanently reduce its Ferocity activation cost by 1. Can be taken multiple times, once per Form.",
         "upgrades": []
       },
       {
         "id": "magma-geyser",
-        "name": "Magma Geyser",
+        "name": "Molten Hail",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "3 Spirit",
         "target": "AoE",
         "range": "Very Far",
-        "effectsText": "A volcano erupts somewhere on the battlefield. Roll 1d4 to determine how many gobs of magma are launched. Roll your Basic Attack once. Success: Each gob deals +MIND Fire damage to a random target. Failure: No damage. Maintain to repeat at the start of your next turn.",
+        "effectsText": "Molten rock erupts somewhere on the battlefield. Roll 1d4 to determine how many gobs are launched. Roll your Basic Attack once. Success: Each gob deals +MIND Fire damage to a random target. Failure: No damage. Maintain to repeat at the start of your next turn.",
         "upgrades": [
           {
             "id": "magma-geyser-ferocious-fire",
-            "name": "Ferocious Fire",
+            "name": "Fuel the Fury",
             "description": "Generate 1 Ferocity per 2 successful hits.",
             "purchased": false
           },
           {
             "id": "magma-geyser-high-pressure",
-            "name": "High Pressure",
+            "name": "Increased Volley",
             "description": "The number of potential targets increases to 1d4+1.",
             "purchased": false
           }
@@ -3402,39 +3402,39 @@
     "lv3": [
       {
         "id": "primalist-beastwalker",
-        "name": "Beastwalker",
+        "name": "Wild Walk",
         "tier": "lv3",
         "actionType": "Overdrive",
         "cost": "1 Spirit",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "You can inhabit the body of a willing animal and may control it and see everything it sees. Lasts 10 minutes. Any damage to the host animal cancels the effect. Your own body is rendered prone and vulnerable while Beastwalking. Docile and calm animals have a baseline TN of 10. The GM may ramp the TN up per the Difficulty Table based on other factors (e.g. the animal is wounded, scared, or aggressive).",
+        "effectsText": "You can inhabit the body of a willing animal and control it, seeing everything it sees. Lasts 10 minutes. Any damage to the host animal cancels the effect. Your own body is left prone and vulnerable while Wild Walking. Docile and calm animals have a baseline TN of 10. The GM may adjust the TN based on other factors (e.g. the animal is wounded, scared, or aggressive).",
         "upgrades": []
       }
     ],
     "lv8": [
       {
         "id": "primalist-call-the-elements",
-        "name": "Call the Elements",
+        "name": "Weather Shaping",
         "tier": "lv8",
         "actionType": "Overdrive",
         "cost": "1 Spirit",
         "target": "Special",
         "range": "Special",
-        "effectsText": "You may cause the weather to change around you within a radius of up to 50 metres. Choose from: rainfall, strong winds, or a hot sun and clear blue skies. Outside of combat, Call the Elements lasts up to half an hour. During combat, the weather can only be maintained for 1 round.",
+        "effectsText": "Cause the weather to change within a radius of up to 50 metres. Choose from: rainfall, strong winds, or a hot sun and clear skies. Outside of combat, Weather Shaping lasts up to half an hour. During combat, the weather can only be maintained for 1 round.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "primalist-avatar",
-        "name": "Avatar",
+        "name": "Primal Form",
         "tier": "lv10",
         "actionType": "Ultimate",
         "cost": "Free",
         "target": "Self",
         "range": "Self",
-        "effectsText": "You are instantly healed for half of your Max HP. All Spirit and Ferocity costs are removed for 3 rounds. When Avatar ends, Spirit and Ferocity are maxed.",
+        "effectsText": "You are instantly restored for half of your Max HP. All Spirit and Ferocity costs are removed for 3 rounds. When Primal Form ends, Spirit and Ferocity are maxed.",
         "upgrades": []
       }
     ]
@@ -3443,7 +3443,7 @@
     "baseline": [
       {
         "id": "sentinel-bastion",
-        "name": "Bastion",
+        "name": "Bulwark",
         "tier": "baseline",
         "actionType": "Passive",
         "cost": "None",
@@ -3454,20 +3454,20 @@
       },
       {
         "id": "sentinel-vigilance",
-        "name": "Vigilance",
+        "name": "Watchful Eye",
         "tier": "baseline",
         "actionType": "Quick",
         "cost": "1 Discipline",
         "target": "Single",
         "range": "Special",
-        "effectsText": "Select a single enemy anywhere on the battlefield to become your point of focus. Any time that enemy attacks a target that is not you, you may instead make a Basic Attack against that enemy as a Free action at the time they made the attack. Vigilance lasts until the end of battle or if you use it again to change to a different target.",
+        "effectsText": "Select a single enemy anywhere on the battlefield to become your point of focus. Any time that enemy attacks a target that is not you, you may instead make a Basic Attack against that enemy as a Free action at the time they made the attack. Watchful Eye lasts until the end of battle or if you use it again to change to a different target.",
         "upgrades": []
       }
     ],
     "tier1": [
       {
         "id": "defensive-strike",
-        "name": "Defensive Strike",
+        "name": "Guarded Strike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Discipline",
@@ -3477,7 +3477,7 @@
         "upgrades": [
           {
             "id": "defensive-strike-spellward",
-            "name": "Spellward",
+            "name": "Spell Shield",
             "description": "The AV bonus applies against all damage types except True.",
             "purchased": false
           }
@@ -3485,7 +3485,7 @@
       },
       {
         "id": "phalanx",
-        "name": "Phalanx",
+        "name": "Formation Fighting",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -3496,7 +3496,7 @@
       },
       {
         "id": "shield-mastery",
-        "name": "Shield Mastery",
+        "name": "Shield Expertise",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -3507,7 +3507,7 @@
       },
       {
         "id": "shield-slam",
-        "name": "Shield Slam",
+        "name": "Shield Bash",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Discipline",
@@ -3517,13 +3517,13 @@
         "upgrades": [
           {
             "id": "shield-slam-reverberation",
-            "name": "Reverberation",
+            "name": "Stunning Impact",
             "description": "Target is Staggered on success.",
             "purchased": false
           },
           {
             "id": "shield-slam-shield-arm",
-            "name": "Shield Arm",
+            "name": "Efficient Guard",
             "description": "Cost reduced to 1 Discipline.",
             "purchased": false
           }
@@ -3531,7 +3531,7 @@
       },
       {
         "id": "shield-toss",
-        "name": "Shield Toss",
+        "name": "Shield Throw",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Discipline",
@@ -3541,13 +3541,13 @@
         "upgrades": [
           {
             "id": "shield-toss-topspin",
-            "name": "Topspin",
+            "name": "Returning Arc",
             "description": "Shield returns on 6+; range increased to Far.",
             "purchased": false
           },
           {
             "id": "shield-toss-cannon-arm",
-            "name": "Cannon Arm",
+            "name": "Powered Throw",
             "description": "Add your shield's AV as bonus damage; a Massive Hit instantly kills non-Elite targets.",
             "purchased": false
           }
@@ -3555,7 +3555,7 @@
       },
       {
         "id": "back-to-back",
-        "name": "Back to Back",
+        "name": "Side by Side",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "1 Discipline",
@@ -3565,13 +3565,13 @@
         "upgrades": [
           {
             "id": "back-to-back-strike-as-one",
-            "name": "Strike as One",
+            "name": "Coordinated Strike",
             "description": "Also roll damage dice twice and take the highest.",
             "purchased": false
           },
           {
             "id": "back-to-back-semper-fi",
-            "name": "Semper Fi",
+            "name": "Unbreakable Bond",
             "description": "Effect lasts the entire battle as long as you remain Adjacent.",
             "purchased": false
           }
@@ -3579,7 +3579,7 @@
       },
       {
         "id": "deflect",
-        "name": "Deflect",
+        "name": "Missile Deflection",
         "tier": 1,
         "actionType": "Reaction",
         "cost": "1 Discipline",
@@ -3589,7 +3589,7 @@
         "upgrades": [
           {
             "id": "deflect-redirection",
-            "name": "Redirection",
+            "name": "Projectile Redirect",
             "description": "Redirect an Ally's incoming projectile; can extend its range by 1 band or redirect to impossible angles. Costs 1 additional Discipline.",
             "purchased": false
           }
@@ -3597,7 +3597,7 @@
       },
       {
         "id": "barrier",
-        "name": "Barrier",
+        "name": "Protective Barrier",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "3 Discipline",
@@ -3607,21 +3607,21 @@
         "upgrades": [
           {
             "id": "barrier-impenetrable",
-            "name": "Impenetrable",
+            "name": "Full Coverage",
             "description": "The AV bonus applies against all damage types.",
             "purchased": false
           },
           {
             "id": "barrier-born-defender",
-            "name": "Born Defender",
-            "description": "Barrier costs no Discipline to activate.",
+            "name": "Natural Defender",
+            "description": "Protective Barrier costs no Discipline to activate.",
             "purchased": false
           }
         ]
       },
       {
         "id": "springboard",
-        "name": "Springboard",
+        "name": "Tactical Launch",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Discipline",
@@ -3631,7 +3631,7 @@
         "upgrades": [
           {
             "id": "springboard-launch-pad",
-            "name": "Launch Pad",
+            "name": "Extended Launch",
             "description": "Launch the Ally to Far distance instead of Nearby.",
             "purchased": false
           }
@@ -3641,7 +3641,7 @@
     "tier2": [
       {
         "id": "challenge",
-        "name": "Challenge",
+        "name": "Taunt",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Discipline",
@@ -3651,13 +3651,13 @@
         "upgrades": [
           {
             "id": "challenge-blinded-by-rage",
-            "name": "Blinded by Rage",
-            "description": "Gain Benefit on Defense against one of the challenged target's attacks.",
+            "name": "Tunnel Vision",
+            "description": "Gain Benefit on Defense against one of the taunted target's attacks.",
             "purchased": false
           },
           {
             "id": "challenge-invigoration",
-            "name": "Invigoration",
+            "name": "Enraging Challenge",
             "description": "If you completely evade one of their attacks, gain 4 Discipline.",
             "purchased": false
           }
@@ -3665,31 +3665,31 @@
       },
       {
         "id": "guardian",
-        "name": "Guardian",
+        "name": "Vigilant Protector",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "None",
         "target": "AoE",
         "range": "Nearby",
-        "effectsText": "Your Vigilance class feature extends to all enemies within Nearby distance for 2 rounds. You may make a Free Basic Attack against any Adjacent enemy who strikes an Ally.",
+        "effectsText": "Your Watchful Eye class feature extends to all enemies within Nearby distance for 2 rounds. You may make a Free Basic Attack against any Adjacent enemy who strikes an Ally.",
         "upgrades": [
           {
             "id": "guardian-serve-and-protect",
-            "name": "Serve and Protect",
+            "name": "Rapid Response",
             "description": "Spend 1 Discipline to sprint Nearby to an aggressor; this is not a Movement action but you are still susceptible to Provoked Attacks.",
             "purchased": false
           },
           {
             "id": "guardian-enduring-watch",
-            "name": "Enduring Watch",
-            "description": "Guardian lasts an additional round and costs no Discipline.",
+            "name": "Enduring Protection",
+            "description": "Vigilant Protector lasts an additional round and costs no Discipline.",
             "purchased": false
           }
         ]
       },
       {
         "id": "iron-maiden",
-        "name": "Iron Maiden",
+        "name": "Thorned Stance",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "3 Discipline",
@@ -3699,13 +3699,13 @@
         "upgrades": [
           {
             "id": "iron-maiden-adept",
-            "name": "Adept",
+            "name": "Efficient Thorns",
             "description": "Cost reduced to 2 Discipline for both activation and maintenance.",
             "purchased": false
           },
           {
             "id": "iron-maiden-steel-maiden",
-            "name": "Steel Maiden",
+            "name": "Reinforced Thorns",
             "description": "Initial strikes hit 1d4+1 enemies; retaliation damage increases by +1d4.",
             "purchased": false
           }
@@ -3713,7 +3713,7 @@
       },
       {
         "id": "intercept",
-        "name": "Intercept",
+        "name": "Take the Hit",
         "tier": 2,
         "actionType": "Reaction",
         "cost": "2 Discipline",
@@ -3723,13 +3723,13 @@
         "upgrades": [
           {
             "id": "intercept-sprint",
-            "name": "Sprint",
+            "name": "Rush to Aid",
             "description": "Spend 1 additional Discipline to extend the range to Nearby.",
             "purchased": false
           },
           {
             "id": "intercept-prepared",
-            "name": "Prepared",
+            "name": "Braced Intercept",
             "description": "Add HL to your DR against the intercepted attack.",
             "purchased": false
           }
@@ -3737,7 +3737,7 @@
       },
       {
         "id": "last-stand",
-        "name": "Last Stand",
+        "name": "Iron Will",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "1 Discipline",
@@ -3747,13 +3747,13 @@
         "upgrades": [
           {
             "id": "last-stand-iron-focus",
-            "name": "Iron Focus",
-            "description": "Your AR is also increased by half your AV while Last Stand is active.",
+            "name": "Fortified Will",
+            "description": "Your AR is also increased by half your AV while Iron Will is active.",
             "purchased": false
           },
           {
             "id": "last-stand-heroic-inspiration",
-            "name": "Heroic Inspiration",
+            "name": "Rallying Defense",
             "description": "Adjacent Allies generate 2 Class Resource on activation.",
             "purchased": false
           }
@@ -3761,7 +3761,7 @@
       },
       {
         "id": "warden",
-        "name": "Warden",
+        "name": "Hold the Line",
         "tier": 2,
         "actionType": "Reaction",
         "cost": "2 Discipline",
@@ -3771,13 +3771,13 @@
         "upgrades": [
           {
             "id": "warden-you-shall-not-pass",
-            "name": "You Shall Not Pass",
+            "name": "Immovable Guardian",
             "description": "Gain Benefit on the attack roll.",
             "purchased": false
           },
           {
             "id": "warden-effortless",
-            "name": "Effortless",
+            "name": "Practiced Defense",
             "description": "Cost reduced to 1 Discipline.",
             "purchased": false
           }
@@ -3785,7 +3785,7 @@
       },
       {
         "id": "defensive-manoeuvres",
-        "name": "Defensive Manoeuvres",
+        "name": "Defensive Footwork",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
@@ -3796,7 +3796,7 @@
       },
       {
         "id": "shield-push",
-        "name": "Shield Push",
+        "name": "Repelling Push",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Discipline",
@@ -3806,13 +3806,13 @@
         "upgrades": [
           {
             "id": "shield-push-heads-up",
-            "name": "Heads Up!",
+            "name": "Opening Move",
             "description": "Allies may make Provoked Attacks against the displaced target.",
             "purchased": false
           },
           {
             "id": "shield-push-freight-train",
-            "name": "Freight Train",
+            "name": "Chase Down",
             "description": "Displace the target Nearby away while you remain; then charge at them.",
             "purchased": false
           }
@@ -3822,7 +3822,7 @@
     "lv3": [
       {
         "id": "sentinel-forced-march",
-        "name": "Forced March",
+        "name": "Iron Endurance",
         "tier": "lv3",
         "actionType": "Passive",
         "cost": "None",
@@ -3835,20 +3835,20 @@
     "lv8": [
       {
         "id": "sentinel-rocksteady",
-        "name": "Rocksteady",
+        "name": "Unshakeable",
         "tier": "lv8",
         "actionType": "Overdrive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "In combat, any attack that attempts to displace you is resisted completely. Outside of combat, events or actions that would send a lesser warrior sprawling or sailing across the room are stopped cold when inflicted upon you.",
+        "effectsText": "In combat, any attack that attempts to displace you is resisted completely. Outside of combat, events or actions that would send a lesser warrior sprawling are stopped cold when inflicted upon you.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "sentinel-desperate-defense",
-        "name": "Desperate Defense",
+        "name": "Wounded Resolve",
         "tier": "lv10",
         "actionType": "Passive",
         "cost": "None",
