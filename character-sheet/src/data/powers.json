@@ -1686,31 +1686,31 @@
     "baseline": [
       {
         "id": "mystic-force-bolt",
-        "name": "Force Bolt",
+        "name": "Arcane Bolt",
         "tier": "baseline",
         "actionType": "Standard",
         "cost": "Free",
         "target": "Single",
         "range": "Very Far",
-        "effectsText": "Roll your Basic Attack. Success: You deal 1d8+MIND damage. Failure: You miss.",
+        "effectsText": "Roll your Basic Attack. Success: Deal 1d8+MIND damage. Failure: Miss.",
         "upgrades": []
       },
       {
         "id": "mystic-amplify-magick",
-        "name": "Amplify Magick",
+        "name": "Spell Surge",
         "tier": "baseline",
         "actionType": "Standard",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Roll your Basic Attack to determine X. Your next damaging spell deals an extra X damage in the elemental form of that spell. Amplify Magick does not stack; declare which spell you are Amplifying when you activate it. When you use Amplify Magick, roll 1d10 — 1-5: Cauterize (heal +MIND); 6-10: Arcane Field (gain +MIND to AV for 1 round). Basic Attack result: 2-8 = 1d6, 9-19 = 2d4, 20-24 = 2d6, 25+ = 2d8.",
+        "effectsText": "Roll your Basic Attack to determine X. Your next damaging spell deals an extra X damage in the elemental form of that spell. Spell Surge does not stack; declare which spell you are Surging when you activate it. When you use Spell Surge, roll 1d10 — 1-5: Mend (heal +MIND); 6-10: Arcane Shell (gain +MIND to AV for 1 round). Basic Attack result: 2-8 = 1d6, 9-19 = 2d4, 20-24 = 2d6, 25+ = 2d8.",
         "upgrades": []
       }
     ],
     "tier1": [
       {
         "id": "spark-lance",
-        "name": "Spark Lance",
+        "name": "Volt Strike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "3 Mana",
@@ -1720,7 +1720,7 @@
         "upgrades": [
           {
             "id": "spark-lance-relay",
-            "name": "Relay",
+            "name": "Extended Range",
             "description": "Range increased to Very Far.",
             "purchased": false
           }
@@ -1728,7 +1728,7 @@
       },
       {
         "id": "gravity-well",
-        "name": "Gravity Well",
+        "name": "Vortex",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "2 Mana",
@@ -1738,13 +1738,13 @@
         "upgrades": [
           {
             "id": "gravity-well-singularity",
-            "name": "Singularity",
+            "name": "Crushing Center",
             "description": "Pulled enemies are also Rooted.",
             "purchased": false
           },
           {
             "id": "gravity-well-implosion",
-            "name": "Implosion",
+            "name": "Burst Collapse",
             "description": "Spend 1 Mana to deal 1d12+MIND+HL damage to all pulled enemies.",
             "purchased": false
           }
@@ -1752,7 +1752,7 @@
       },
       {
         "id": "frost-blast",
-        "name": "Frost Blast",
+        "name": "Ice Shard",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Mana",
@@ -1762,13 +1762,13 @@
         "upgrades": [
           {
             "id": "frost-blast-subzero",
-            "name": "Subzero",
+            "name": "Efficient Cast",
             "description": "Refund 1 Mana on success.",
             "purchased": false
           },
           {
             "id": "frost-blast-permafrost",
-            "name": "Permafrost",
+            "name": "Persistent Chill",
             "description": "The AV penalty applies even on failure.",
             "purchased": false
           }
@@ -1776,7 +1776,7 @@
       },
       {
         "id": "battle-blink",
-        "name": "Battle Blink",
+        "name": "Survival Blink",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -1786,7 +1786,7 @@
         "upgrades": [
           {
             "id": "battle-blink-feedback",
-            "name": "Feedback",
+            "name": "Retaliatory Pulse",
             "description": "Deal 1d12+MIND Arcane damage to the source of the negated attack.",
             "purchased": false
           }
@@ -1794,7 +1794,7 @@
       },
       {
         "id": "bounce",
-        "name": "Bounce",
+        "name": "Arcane Leap",
         "tier": 1,
         "actionType": "Movement",
         "cost": "2 Mana",
@@ -1804,7 +1804,7 @@
         "upgrades": [
           {
             "id": "bounce-rubberfoot",
-            "name": "Rubberfoot",
+            "name": "Double Jump",
             "description": "Jump again immediately after landing; costs 1 additional Mana.",
             "purchased": false
           }
@@ -1812,7 +1812,7 @@
       },
       {
         "id": "acid-bolt",
-        "name": "Acid Bolt",
+        "name": "Corrosive Bolt",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Mana",
@@ -1822,7 +1822,7 @@
         "upgrades": [
           {
             "id": "acid-bolt-fizzle",
-            "name": "Fizzle",
+            "name": "Conservation",
             "description": "Refund 1 Mana on failure.",
             "purchased": false
           }
@@ -1830,7 +1830,7 @@
       },
       {
         "id": "mana-weaver",
-        "name": "Mana Weaver",
+        "name": "Mana Flow",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -1840,31 +1840,31 @@
         "upgrades": [
           {
             "id": "mana-weaver-fumes-to-flames",
-            "name": "Fumes to Flames",
-            "description": "When at 2 or less Mana, your Force Bolt class feature gains Benefit.",
+            "name": "Last Reserves",
+            "description": "When at 2 or less Mana, your Arcane Bolt class feature gains Benefit.",
             "purchased": false
           }
         ]
       },
       {
         "id": "volatile-bulwark",
-        "name": "Volatile Bulwark",
+        "name": "Arcane Barrier",
         "tier": 1,
         "actionType": "Maintain",
         "cost": "3 Mana",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Roll your Basic Attack to determine X. Conjure a shield that absorbs X+MIND damage (all types except True). When the shield is destroyed, it explodes for half its absorption value as Arcane damage to Adjacent enemies. Lasts while Maintained or until shattered.",
+        "effectsText": "Roll your Basic Attack to determine X. Conjure a barrier that absorbs X+MIND damage (all types except True). When the barrier is destroyed, it explodes for half its absorption value as Arcane damage to Adjacent enemies. Lasts while Maintained or until shattered.",
         "upgrades": [
           {
             "id": "volatile-bulwark-controlled-explosion",
-            "name": "Controlled Explosion",
+            "name": "Directed Blast",
             "description": "The explosion only damages enemies.",
             "purchased": false
           },
           {
             "id": "volatile-bulwark-reinforce",
-            "name": "Reinforce",
+            "name": "Reinforced Field",
             "description": "Absorption value also includes LEVEL.",
             "purchased": false
           }
@@ -1872,7 +1872,7 @@
       },
       {
         "id": "breath-of-fire",
-        "name": "Breath of Fire",
+        "name": "Flame Wave",
         "tier": 1,
         "actionType": "Standard",
         "cost": "3 Mana",
@@ -1882,13 +1882,13 @@
         "upgrades": [
           {
             "id": "breath-of-fire-blinding-flames",
-            "name": "Blinding Flames",
+            "name": "Searing Flash",
             "description": "Targets suffer Hindrance on Provoked Attacks for 1 round.",
             "purchased": false
           },
           {
             "id": "breath-of-fire-unending-breath",
-            "name": "Unending Breath",
+            "name": "Full Sweep",
             "description": "Hit all Adjacent enemies instead of 1d4+1.",
             "purchased": false
           }
@@ -1898,7 +1898,7 @@
     "tier2": [
       {
         "id": "angas-mana-blade",
-        "name": "Anga's Mana Blade",
+        "name": "Mana Blade",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "3 Mana",
@@ -1908,13 +1908,13 @@
         "upgrades": [
           {
             "id": "mana-blade-lingering-hunger",
-            "name": "Lingering Hunger",
-            "description": "Charge an enemy; Allies striking that enemy recharge 1 Class Resource. Only 1 charge per enemy.",
+            "name": "Charged Weapon",
+            "description": "Mark an enemy; Allies striking that enemy recharge 1 Class Resource. Only 1 mark per enemy.",
             "purchased": false
           },
           {
             "id": "mana-blade-ethereal-heft",
-            "name": "Ethereal Heft",
+            "name": "Heavy Weave",
             "description": "Damage increased to 2d6+MIND.",
             "purchased": false
           }
@@ -1922,7 +1922,7 @@
       },
       {
         "id": "mirage",
-        "name": "Mirage",
+        "name": "Illusory Form",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Mana",
@@ -1932,13 +1932,13 @@
         "upgrades": [
           {
             "id": "mirage-hardy-illusion",
-            "name": "Hardy Illusion",
+            "name": "Resilient Illusion",
             "description": "On taking damage, roll 1d10; on 6+ the illusion persists, on 5 or below it cancels.",
             "purchased": false
           },
           {
             "id": "mirage-indistinct",
-            "name": "Indistinct",
+            "name": "Deep Blur",
             "description": "Gain Benefit on the determining roll; also gain HL bonus to stealth.",
             "purchased": false
           }
@@ -1946,7 +1946,7 @@
       },
       {
         "id": "fireball",
-        "name": "Fireball",
+        "name": "Blazing Orb",
         "tier": 2,
         "actionType": "Standard",
         "cost": "4 Mana",
@@ -1956,7 +1956,7 @@
         "upgrades": [
           {
             "id": "fireball-scorched-earth",
-            "name": "Scorched Earth",
+            "name": "Burning Ground",
             "description": "The area burns for 2 rounds; anyone starting their turn there suffers +MIND Fire damage.",
             "purchased": false
           }
@@ -1964,7 +1964,7 @@
       },
       {
         "id": "caustic-whip",
-        "name": "Caustic Whip",
+        "name": "Acid Lash",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Mana",
@@ -1974,7 +1974,7 @@
         "upgrades": [
           {
             "id": "caustic-whip-messy-impact",
-            "name": "Messy Impact",
+            "name": "Splatter",
             "description": "On success, automatically deal +MIND Corrosive damage to all enemies Adjacent to the target.",
             "purchased": false
           }
@@ -1982,7 +1982,7 @@
       },
       {
         "id": "deep-freeze",
-        "name": "Deep Freeze",
+        "name": "Flash Freeze",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Mana",
@@ -1992,69 +1992,69 @@
         "upgrades": [
           {
             "id": "deep-freeze-shatter",
-            "name": "Shatter",
+            "name": "Ice Shatter",
             "description": "The next attack on a Rooted target explodes ice, dealing 1d4+MIND to Adjacent enemies.",
             "purchased": false
           },
           {
             "id": "deep-freeze-chilled-to-the-bone",
-            "name": "Chilled to the Bone",
+            "name": "Frozen Solid",
             "description": "Spend 2 additional Mana to Stun the target for 1 round instead. Contest if Elite.",
             "purchased": false
           },
           {
             "id": "deep-freeze-winter-winds",
-            "name": "Winter Winds",
-            "description": "Gain Benefit on Deep Freeze; this also applies to any Contest.",
+            "name": "Favorable Winds",
+            "description": "Gain Benefit on Flash Freeze; this also applies to any Contest.",
             "purchased": false
           }
         ]
       },
       {
         "id": "levitate",
-        "name": "Levitate",
+        "name": "Hover",
         "tier": 2,
         "actionType": "Quick",
         "cost": "2 Mana",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Levitate 2 meters off the ground for the battle or 10 minutes. Gain Benefit against Provoked Attacks. Cancelled when you take damage.",
+        "effectsText": "Float 2 meters off the ground for the battle or 10 minutes. Gain Benefit against Provoked Attacks. Cancelled when you take damage.",
         "upgrades": [
           {
             "id": "levitate-high-ground",
-            "name": "High Ground",
-            "description": "+2 to DR while levitating.",
+            "name": "Elevated Position",
+            "description": "+2 to DR while hovering.",
             "purchased": false
           },
           {
             "id": "levitate-concentrate",
-            "name": "Concentrate",
-            "description": "Spend 1 Mana when taking damage to prevent levitation from being cancelled.",
+            "name": "Focused Concentration",
+            "description": "Spend 1 Mana when taking damage to prevent hovering from being cancelled.",
             "purchased": false
           }
         ]
       },
       {
         "id": "teleport",
-        "name": "Teleport",
+        "name": "Warp",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "2 Mana (set point) or 1 Mana (teleport)",
         "target": "Self",
         "range": "Very Far",
-        "effectsText": "Set a Set Point as a Quick action (2 Mana; lasts battle or 10 minutes). Teleport back to your Set Point as a Quick action (1 Mana; can be used multiple times). Immune to Provoked Attacks during teleport.",
+        "effectsText": "Set a Warp Point as a Quick action (2 Mana; lasts battle or 10 minutes). Warp back to your Warp Point as a Quick action (1 Mana; can be used multiple times). Immune to Provoked Attacks during warp.",
         "upgrades": [
           {
             "id": "teleport-swap",
-            "name": "Swap",
-            "description": "Without a Set Point, swap positions with a willing Ally up to Far away (1 Mana; uses the Overdrive tag).",
+            "name": "Ally Swap",
+            "description": "Without a Warp Point, swap positions with a willing Ally up to Far away (1 Mana; uses the Overdrive tag).",
             "purchased": false
           }
         ]
       },
       {
         "id": "force-push",
-        "name": "Force Push",
+        "name": "Kinetic Burst",
         "tier": 2,
         "actionType": "Standard",
         "cost": "4 Mana",
@@ -2064,7 +2064,7 @@
         "upgrades": [
           {
             "id": "force-push-unstoppable-force",
-            "name": "Unstoppable Force",
+            "name": "Unstoppable Wave",
             "description": "Targets are displaced even on failure.",
             "purchased": false
           }
@@ -2072,7 +2072,7 @@
       },
       {
         "id": "bright-beam",
-        "name": "Bright Beam",
+        "name": "Focused Ray",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Mana (reduced by stacks, minimum 1)",
@@ -2082,13 +2082,13 @@
         "upgrades": [
           {
             "id": "bright-beam-multitasker",
-            "name": "Multitasker",
+            "name": "Mobile Focus",
             "description": "Moving does not cause you to lose Focused Mind stacks.",
             "purchased": false
           },
           {
             "id": "bright-beam-amplitude",
-            "name": "Amplitude",
+            "name": "Amplified Output",
             "description": "Baseline damage increased to 1d12.",
             "purchased": false
           }
@@ -2096,7 +2096,7 @@
       },
       {
         "id": "arc-lightning",
-        "name": "Arc Lightning",
+        "name": "Chained Lightning",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "3 Mana",
@@ -2106,13 +2106,13 @@
         "upgrades": [
           {
             "id": "arc-lightning-undying-currents",
-            "name": "Undying Currents",
+            "name": "Sustained Current",
             "description": "Spend 2 Mana to reroll a failed bounce attempt; can chain this.",
             "purchased": false
           },
           {
             "id": "arc-lightning-supercharged",
-            "name": "Supercharged",
+            "name": "Overcharged",
             "description": "Start at 1d10 and reach 1d20 in only 2 bounces.",
             "purchased": false
           }
@@ -2122,39 +2122,39 @@
     "lv3": [
       {
         "id": "mystic-orb-of-attunement",
-        "name": "Orb of Attunement",
+        "name": "Focus Orb",
         "tier": "lv3",
         "actionType": "Maintain",
         "cost": "1 Mana",
         "target": "Special",
         "range": "Special",
-        "effectsText": "After a Full Rest, expend and reserve 1 Mana to attune yourself to a single elemental type you know (e.g. Frost). Attunement grants HL as bonus elemental damage when using a single-target power matching the attuned element. As a Reaction to being attacked or observing an Ally being attacked, you may expend 1 Mana and sacrifice the Orb to teleport yourself or the targeted Ally up to FAR distance away, or grant yourself HL+MIND to a single attack. The Orb is gone until your next Full Rest. A small glowing orb of the element's colour orbits you while active, illuminating up to 5 metres around you. This light can be turned on and off at will.",
+        "effectsText": "After a Full Rest, spend and reserve 1 Mana to align yourself to a single elemental type you know (e.g. Frost). Alignment grants HL as bonus elemental damage when using a single-target power of the attuned element. As a Reaction to being attacked or seeing an Ally attacked, you may spend 1 Mana and release the Orb to teleport yourself or the targeted Ally up to Far distance away, or grant yourself HL+MIND to a single attack. The Orb is consumed until your next Full Rest. A small glowing orb matching the element's colour orbits you while active, illuminating up to 5 metres. This light can be toggled on and off at will.",
         "upgrades": []
       }
     ],
     "lv8": [
       {
         "id": "mystic-portal",
-        "name": "Portal",
+        "name": "Rift Gate",
         "tier": "lv8",
         "actionType": "Overdrive",
         "cost": "4 Mana",
         "target": "Special",
         "range": "Very Far",
-        "effectsText": "You may open up a portal that exits somewhere in your field of view up to a VERY FAR distance (24m). The portal remains open until the end of combat or 10 minutes outside of combat. Anyone can use the portal by walking through it, even enemies.",
+        "effectsText": "Open a rift that exits somewhere in your field of view up to a Very Far distance (24m). The rift remains open until the end of combat or 10 minutes outside of combat. Anyone can pass through the rift by walking into it, including enemies.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "mystic-haste",
-        "name": "Haste",
+        "name": "Time Surge",
         "tier": "lv10",
         "actionType": "Ultimate",
         "cost": "4 Mana",
         "target": "Special",
         "range": "Very Far",
-        "effectsText": "Roll your Basic Attack to determine X. You speed up time for yourself and X allies. You and your chosen target(s) have their Standard, Movement, Reaction, and Quick Actions available again. 2-14: X=1 | 15-23: X=2 | 24-27: X=3 | 28+: X=4.",
+        "effectsText": "Roll your Basic Attack to determine X. Speed up time for yourself and X allies; chosen targets have their Standard, Movement, Reaction, and Quick Actions available again. 2-14: X=1 | 15-23: X=2 | 24-27: X=3 | 28+: X=4.",
         "upgrades": []
       }
     ]
