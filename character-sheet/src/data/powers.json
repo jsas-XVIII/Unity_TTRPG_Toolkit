@@ -1255,47 +1255,47 @@
     "baseline": [
       {
         "id": "judge-zealot",
-        "name": "Zealot",
+        "name": "Unyielding Faith",
         "tier": "baseline",
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "When not wielding a shield: You can choose to re-roll any weapon damage dice that come up as a 1 or 2. You must accept the next roll even if it is a 1 or 2. When wielding a shield: You can choose to re-roll a Defense roll if the 2d10 portion of the roll comes up in the range of 2-5. You must accept the next roll no matter what it is.",
+        "effectsText": "When not wielding a shield: Re-roll any weapon damage dice that show a 1 or 2; you must accept the second roll. When wielding a shield: Re-roll a Defense roll if the 2d10 portion shows 2–5; you must accept the second roll.",
         "upgrades": []
       },
       {
         "id": "judge-holy-smite",
-        "name": "Holy Smite",
+        "name": "Sacred Smite",
         "tier": "baseline",
         "actionType": "Quick",
         "cost": "1 Fervor",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Upon dealing Melee damage, you may add an additional Divine damage bonus: +1d4 at levels 1-4, +1d6 at levels 5-9, +1d8 at level 10.",
+        "effectsText": "Upon dealing Melee damage, add a Divine damage bonus: +1d4 at levels 1–4, +1d6 at levels 5–9, +1d8 at level 10.",
         "upgrades": []
       }
     ],
     "tier1": [
       {
         "id": "radiant-strike",
-        "name": "Radiant Strike",
+        "name": "Warding Strike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Fervor",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; target's AR is lowered by HL for 1 round. Failure: Deal half Basic Attack damage.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; lower the target's AR by HL for 1 round. Failure: Deal half Basic Attack damage.",
         "upgrades": [
           {
             "id": "radiant-strike-burst-of-light",
-            "name": "Burst of Light",
+            "name": "Ripple Effect",
             "description": "An enemy Adjacent to the target also has their AR lowered.",
             "purchased": false
           },
           {
             "id": "radiant-strike-dutiful",
-            "name": "Dutiful",
+            "name": "Efficient Devotion",
             "description": "Refund 1 Fervor on success.",
             "purchased": false
           }
@@ -1303,18 +1303,18 @@
       },
       {
         "id": "righteous-defense",
-        "name": "Righteous Defense",
+        "name": "Steadfast Guard",
         "tier": 1,
         "actionType": "Reaction",
         "cost": "1 Fervor",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Activate after a failed Defense roll, before rolling damage. Increase your AV by 1d4+PRESENCE (increases to 2d4 at Level 5) against that single attack.",
+        "effectsText": "Activate after a failed Defense roll, before damage is rolled. Increase your AV by 1d4+PRESENCE (increases to 2d4 at Level 5) against that single attack.",
         "upgrades": []
       },
       {
         "id": "and-you-shall-know-his-name",
-        "name": "And You Shall Know His Name",
+        "name": "Sacred Bane",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -1325,23 +1325,23 @@
       },
       {
         "id": "rallying-strike",
-        "name": "Rallying Strike",
+        "name": "Vanguard Strike",
         "tier": 1,
         "actionType": "Standard",
         "cost": "3 Fervor",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; choose a Nearby Ally to inspire, granting them 2 Class Resource points. Failure: Deal half damage; the Ally still recharges 1 Class Resource.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; inspire a Nearby Ally, granting them 2 Class Resource points. Failure: Deal half damage; the Ally still recharges 1 Class Resource.",
         "upgrades": [
           {
             "id": "rallying-strike-hearten",
-            "name": "Hearten",
+            "name": "Invigorating Blow",
             "description": "Gain 1 Fervor on success.",
             "purchased": false
           },
           {
             "id": "rallying-strike-favoured",
-            "name": "Favoured",
+            "name": "Blessed Timing",
             "description": "Rolling 16–20 on the base 2d10 makes this power cost 0 Fervor.",
             "purchased": false
           }
@@ -1349,7 +1349,7 @@
       },
       {
         "id": "divine-grace",
-        "name": "Divine Grace",
+        "name": "Sacred Ward",
         "tier": 1,
         "actionType": "Reaction",
         "cost": "1 Fervor",
@@ -1360,7 +1360,7 @@
       },
       {
         "id": "to-the-ends-of-the-earth",
-        "name": "To the Ends of the Earth",
+        "name": "Sworn Quarry",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "3 Fervor",
@@ -1370,7 +1370,7 @@
         "upgrades": [
           {
             "id": "ends-of-earth-resolute",
-            "name": "Resolute",
+            "name": "Relentless Focus",
             "description": "Gain Benefit on all rolls involving the selected target.",
             "purchased": false
           }
@@ -1378,7 +1378,7 @@
       },
       {
         "id": "heavens-reach",
-        "name": "Heaven's Reach",
+        "name": "Distant Reckoning",
         "tier": 1,
         "actionType": "Standard",
         "cost": "2 Fervor",
@@ -1388,37 +1388,37 @@
         "upgrades": [
           {
             "id": "heavens-reach-justice-is-dealt",
-            "name": "Justice is Dealt",
+            "name": "Swift Judgment",
             "description": "Refund the Fervor cost on success.",
             "purchased": false
           },
           {
             "id": "heavens-reach-marked-for-punishment",
-            "name": "Marked for Punishment",
-            "description": "Brand the target; the next successful attack against them adds +MIGHT Divine damage. Expires on activation or at end of your next turn.",
+            "name": "Branded for Reckoning",
+            "description": "Mark the target; the next successful attack against them adds +MIGHT Divine damage. Expires on activation or at end of your next turn.",
             "purchased": false
           }
         ]
       },
       {
         "id": "speed-of-light",
-        "name": "Speed of Light",
+        "name": "Divine Rush",
         "tier": 1,
         "actionType": "Overdrive",
         "cost": "3 Fervor",
         "target": "AoE",
         "range": "Nearby",
-        "effectsText": "Roll your Basic Attack to determine X. Bolt to a Nearby area, avoiding Provoked Attacks. Deal automatic Divine damage to all Adjacent enemies based on X: 2–8 = 1d6, 9–15 = 2d4, 16–21 = 2d6, 22+ = 2d8.",
+        "effectsText": "Roll your Basic Attack to determine X. Dash to a Nearby area, avoiding Provoked Attacks. Deal automatic Divine damage to all Adjacent enemies based on X: 2–8 = 1d6, 9–15 = 2d4, 16–21 = 2d6, 22+ = 2d8.",
         "upgrades": [
           {
             "id": "speed-of-light-posthaste",
-            "name": "Posthaste",
+            "name": "Unimpeded Rush",
             "description": "Range increased to Far; the power costs no Fervor.",
             "purchased": false
           },
           {
             "id": "speed-of-light-radiance",
-            "name": "Radiance",
+            "name": "Blazing Impact",
             "description": "Damage increased by +MIGHT and +PRESENCE.",
             "purchased": false
           }
@@ -1426,7 +1426,7 @@
       },
       {
         "id": "commander",
-        "name": "Commander",
+        "name": "Battle Commander",
         "tier": 1,
         "actionType": "Passive",
         "cost": "None",
@@ -1436,8 +1436,8 @@
         "upgrades": [
           {
             "id": "commander-to-me",
-            "name": "To Me, Brothers and Sisters!",
-            "description": "Spend 3 Fervor as a Quick action to grant Adjacent Allies the Commander DR bonus for 1 round.",
+            "name": "Rally to Me!",
+            "description": "Spend 3 Fervor as a Quick action to grant Adjacent Allies the Battle Commander DR bonus for 1 round.",
             "purchased": false
           }
         ]
@@ -1446,17 +1446,17 @@
     "tier2": [
       {
         "id": "inspiring-presence",
-        "name": "Inspiring Presence",
+        "name": "Leadership Aura",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
         "target": "Self",
         "range": "Self",
-        "effectsText": "Every time you take a Standard action, grant a Nearby Ally of your choice +2 to AR on their next single attack. This bonus expires after 1 round.",
+        "effectsText": "Each time you take a Standard action, grant a Nearby Ally of your choice +2 to AR on their next single attack. This bonus expires after 1 round.",
         "upgrades": [
           {
             "id": "inspiring-presence-flexible-leadership",
-            "name": "Flexible Leadership",
+            "name": "Adaptive Command",
             "description": "Grant a +DR bonus instead of +AR.",
             "purchased": false
           }
@@ -1464,23 +1464,23 @@
       },
       {
         "id": "zeal",
-        "name": "Zeal",
+        "name": "Relentless Assault",
         "tier": 2,
         "actionType": "Standard",
         "cost": "2 Fervor + 1 Fervor per chain",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; spend 1 Fervor to attempt another strike (+MIGHT damage). Continue chaining while hits land and resources allow. Failure: Deal half damage; Zeal ends.",
+        "effectsText": "Roll your Basic Attack. Success: Deal Basic Attack damage; spend 1 Fervor to attempt another strike (+MIGHT damage). Continue chaining while hits land and resources allow. Failure: Deal half damage; Relentless Assault ends.",
         "upgrades": [
           {
             "id": "zeal-deliberation",
-            "name": "Deliberation",
+            "name": "Measured Strike",
             "description": "The initial attack gains Benefit.",
             "purchased": false
           },
           {
             "id": "zeal-golden-blade",
-            "name": "Golden Blade",
+            "name": "Divine Edge",
             "description": "Subsequent chain strikes deal Divine damage.",
             "purchased": false
           }
@@ -1488,7 +1488,7 @@
       },
       {
         "id": "punish",
-        "name": "Punish",
+        "name": "Guardian's Reprisal",
         "tier": 2,
         "actionType": "Reaction",
         "cost": "3 Fervor",
@@ -1498,27 +1498,27 @@
         "upgrades": [
           {
             "id": "punish-guided-by-justice",
-            "name": "Guided by Justice",
+            "name": "True Strike",
             "description": "Your retaliation always hits.",
             "purchased": false
           },
           {
             "id": "punish-retributive-pains",
-            "name": "Retributive Pains",
+            "name": "Savage Reprisal",
             "description": "Inflict an additional +1d8 damage on the retaliation.",
             "purchased": false
           },
           {
             "id": "punish-justified",
-            "name": "Justified",
-            "description": "Refund 1 Fervor on success (guaranteed if you have Guided by Justice).",
+            "name": "Efficient Reprisal",
+            "description": "Refund 1 Fervor on success (guaranteed if you have True Strike).",
             "purchased": false
           }
         ]
       },
       {
         "id": "spirit-of-vengeance",
-        "name": "Spirit of Vengeance",
+        "name": "Avenger's Resolve",
         "tier": 2,
         "actionType": "Passive",
         "cost": "None",
@@ -1529,7 +1529,7 @@
       },
       {
         "id": "hallowed-ground",
-        "name": "Hallowed Ground",
+        "name": "Consecrated Ground",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "2 Fervor",
@@ -1539,21 +1539,21 @@
         "upgrades": [
           {
             "id": "hallowed-ground-light-of-aluvane",
-            "name": "Light of Aluvane",
-            "description": "All creatures on the hallowed ground also heal for LEVEL+PRESENCE at the start of each round.",
+            "name": "Restorative Ground",
+            "description": "All creatures on the consecrated ground also restore LEVEL+PRESENCE HP at the start of each round.",
             "purchased": false
           },
           {
             "id": "hallowed-ground-walk-in-the-light",
-            "name": "Walk in the Light",
-            "description": "Hallowed Ground follows you as you move.",
+            "name": "Mobile Sanctum",
+            "description": "Consecrated Ground follows you as you move.",
             "purchased": false
           }
         ]
       },
       {
         "id": "gavel-of-thunder",
-        "name": "Gavel of Thunder",
+        "name": "Divine Thunder",
         "tier": 2,
         "actionType": "Overdrive",
         "cost": "3 Fervor",
@@ -1563,13 +1563,13 @@
         "upgrades": [
           {
             "id": "gavel-thunderclap",
-            "name": "Thunderclap",
+            "name": "Shockwave",
             "description": "Adjacent targets also suffer half damage as Electric.",
             "purchased": false
           },
           {
             "id": "gavel-electricity-in-the-air",
-            "name": "Electricity in the Air",
+            "name": "Charged Battlefield",
             "description": "Nearby Allies' Physical attacks become Electric for 1 round.",
             "purchased": false
           }
@@ -1577,7 +1577,7 @@
       },
       {
         "id": "gaze-of-guilt",
-        "name": "Gaze of Guilt",
+        "name": "Condemning Gaze",
         "tier": 2,
         "actionType": "Standard",
         "cost": "3 Fervor",
@@ -1587,13 +1587,13 @@
         "upgrades": [
           {
             "id": "gaze-practiced-glare",
-            "name": "Practiced Glare",
+            "name": "Efficient Condemnation",
             "description": "Cost reduced to 2 Fervor.",
             "purchased": false
           },
           {
             "id": "gaze-penetrating-glare",
-            "name": "Penetrating Glare",
+            "name": "Far-Reaching Judgment",
             "description": "Range increased to Far; deals +PRESENCE additional damage.",
             "purchased": false
           }
@@ -1601,7 +1601,7 @@
       },
       {
         "id": "retribution",
-        "name": "Retribution",
+        "name": "Punishing Aura",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "2 Fervor",
@@ -1611,13 +1611,13 @@
         "upgrades": [
           {
             "id": "retribution-circle",
-            "name": "Circle of Retribution",
-            "description": "All Adjacent Allies gain the Retribution effect for 1 round.",
+            "name": "Shared Punishment",
+            "description": "All Adjacent Allies gain the Punishing Aura effect for 1 round.",
             "purchased": false
           },
           {
             "id": "retribution-slow-burn",
-            "name": "Slow Burn",
+            "name": "Sustained Vigilance",
             "description": "Activation and maintain costs are each reduced to 1 Fervor.",
             "purchased": false
           }
@@ -1625,17 +1625,17 @@
       },
       {
         "id": "heavenly-flames",
-        "name": "Heavenly Flames",
+        "name": "Sacred Flames",
         "tier": 2,
         "actionType": "Maintain",
         "cost": "3 Fervor",
         "target": "Self",
         "range": "Self",
-        "effectsText": "While Maintained, all your Physical attacks deal Fire damage instead. Powers with a different elemental type override this while they are active.",
+        "effectsText": "While Maintained, all your Physical attacks deal Fire damage instead. Powers with a different elemental type override this while active.",
         "upgrades": [
           {
             "id": "heavenly-flames-share",
-            "name": "Share the Righteousness",
+            "name": "Shared Blaze",
             "description": "Spend 1 additional Fervor to grant an Adjacent Ally the same effect. New maintain cost becomes 4 Fervor.",
             "purchased": false
           }
@@ -1645,7 +1645,7 @@
     "lv3": [
       {
         "id": "judge-peoples-champion",
-        "name": "People's Champion",
+        "name": "Commanding Presence",
         "tier": "lv3",
         "actionType": "Passive",
         "cost": "None",
@@ -1658,26 +1658,26 @@
     "lv8": [
       {
         "id": "judge-purify",
-        "name": "Purify",
+        "name": "Absolution",
         "tier": "lv8",
         "actionType": "Overdrive",
         "cost": "None",
         "target": "Single",
         "range": "Adjacent",
-        "effectsText": "You clear an ADJACENT target of 1 Status Effect from this list: Hindered, Poisoned, Diseased, Staggered, Rooted, Confused, Stunned. On top of the Purify effect, your target is also healed by your Level multiplied by 5. You are able to use Purify on yourself.",
+        "effectsText": "Remove 1 Status Effect from an Adjacent target from the following list: Hindered, Poisoned, Diseased, Staggered, Rooted, Confused, Stunned. The target is also restored for Level × 5 HP. You can use Absolution on yourself.",
         "upgrades": []
       }
     ],
     "lv10": [
       {
         "id": "judge-falling-star",
-        "name": "Falling Star",
+        "name": "Divine Descent",
         "tier": "lv10",
         "actionType": "Ultimate",
         "cost": "3 Fervor",
         "target": "Multiple",
         "range": "See Effects",
-        "effectsText": "You are removed from the battlefield as soon as you activate this power. At the start of your next turn you may land anywhere on the battlefield and roll your dice. Success: You deal 1d20+2d6 Divine damage to all enemies ADJACENT and up to a NEARBY distance. All allies on the battlefield are inspired — they receive +6 to AR and Damage for their next attack. Failure: You deal half damage. Allies still receive +6 to AR and Damage for their next attack.",
+        "effectsText": "You vanish from the battlefield as soon as you activate this power. At the start of your next turn you may land anywhere on the battlefield and roll your dice. Success: Deal 1d20+2d6 Divine damage to all enemies Adjacent and up to a Nearby distance; all Allies on the battlefield are inspired, receiving +6 to AR and Damage on their next attack. Failure: Deal half damage; Allies still receive +6 to AR and Damage on their next attack.",
         "upgrades": []
       }
     ]
