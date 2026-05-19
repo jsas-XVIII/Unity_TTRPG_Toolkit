@@ -3,13 +3,32 @@ import monstersJson from './monsters.json'
 import abilitiesJson from './monster-abilities.json'
 import templatesJson from './monster-templates.json'
 import { getHomebrewMonsters, getHomebrewAbilities } from '../services/monsterStorage'
+import {
+  getOfficialMonsters as getOfficialMonstersFromStorage,
+  getOfficialAbilities as getOfficialAbilitiesFromStorage,
+} from '../services/officialContentStorage'
+import { mergeOfficial } from '../utils/mergeOfficial'
 
 const staticMonsters = monstersJson as Monster[]
 const staticAbilities = abilitiesJson as MonsterAbility[]
 const staticTemplates = templatesJson as MonsterTemplate[]
 
+const staticMonsterIds = new Set(staticMonsters.map((m) => m.id))
+const staticAbilityIds = new Set(staticAbilities.map((a) => a.id))
+
+export function isStaticMonster(id: string): boolean {
+  return staticMonsterIds.has(id)
+}
+
+export function isStaticAbility(id: string): boolean {
+  return staticAbilityIds.has(id)
+}
+
 export function getAllMonsters(): Monster[] {
-  return [...staticMonsters, ...getHomebrewMonsters()]
+  return mergeOfficial(
+    mergeOfficial(staticMonsters, getOfficialMonstersFromStorage() ?? []),
+    getHomebrewMonsters()
+  )
 }
 
 export function getMonsterById(id: string): Monster | undefined {
@@ -35,7 +54,10 @@ export function getFactions(): string[] {
 }
 
 export function getAllAbilities(): MonsterAbility[] {
-  return [...staticAbilities, ...getHomebrewAbilities()]
+  return mergeOfficial(
+    mergeOfficial(staticAbilities, getOfficialAbilitiesFromStorage() ?? []),
+    getHomebrewAbilities()
+  )
 }
 
 export function getAbilityById(id: string): MonsterAbility | undefined {

@@ -7,6 +7,7 @@ import type { Character } from '../../types/character'
 import { useCharacter } from '../../hooks/useCharacter'
 
 import SheetHeader from './SheetHeader'
+import DiceTrayModal from '../dice/DiceTrayModal'
 import AttributeBlock from '../identity/AttributeBlock'
 import DerivedStats from '../identity/DerivedStats'
 import HPTracker from '../resources/HPTracker'
@@ -41,6 +42,7 @@ export default function CharacterSheet({
   const { character, derived, dispatch, setCharacter } = useCharacter(initial)
 
   const [activeTab, setActiveTab] = useState<'sheet' | 'advancement'>('sheet')
+  const [showDiceTray, setShowDiceTray] = useState(false)
 
   // Ref for the hidden file input — clicked programmatically by the Import JSON button
   const importInputRef = useRef<HTMLInputElement>(null)
@@ -76,6 +78,13 @@ export default function CharacterSheet({
           onClick={() => importInputRef.current?.click()}
         >
           Import JSON
+        </button>
+        <div className="w-px bg-gray-700 mx-1" />
+        <button
+          className="px-4 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm"
+          onClick={() => setShowDiceTray(true)}
+        >
+          Dice Tray
         </button>
         <input
           data-testid="sheet-import-input"
@@ -200,7 +209,7 @@ export default function CharacterSheet({
               <WeaponSlots weapons={character.weapons} dispatch={dispatch} />
               <ArmorSlot armor={character.armor} dispatch={dispatch} />
               <ArtifactList
-                artifacts={character.artifacts}
+                equippedArtifacts={character.equippedArtifacts}
                 artifactCapacity={character.artifactCapacity}
                 dispatch={dispatch}
               />
@@ -239,6 +248,13 @@ export default function CharacterSheet({
           />
         )}
       </div>
+      {showDiceTray && (
+        <DiceTrayModal
+          character={character}
+          derived={derived}
+          onClose={() => setShowDiceTray(false)}
+        />
+      )}
     </div>
   )
 }

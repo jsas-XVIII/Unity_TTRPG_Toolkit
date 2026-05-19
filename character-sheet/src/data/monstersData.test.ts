@@ -66,10 +66,10 @@ describe('monsters.json — data integrity', () => {
 // ─── Lookup helpers ───────────────────────────────────────────────────────────
 
 describe('getMonsterById', () => {
-  it('finds Goblin Fighter by id', () => {
+  it('finds Gremlix Scrapper by id', () => {
     const m = getMonsterById('m-009')
     expect(m).toBeDefined()
-    expect(m?.name).toBe('Goblin Fighter')
+    expect(m?.name).toBe('Gremlix Scrapper')
   })
 
   it('returns undefined for unknown id', () => {
@@ -79,9 +79,9 @@ describe('getMonsterById', () => {
 
 describe('getMonstersByFaction', () => {
   it('returns only monsters from the requested faction', () => {
-    const fell = getMonstersByFaction('The Fell')
+    const fell = getMonstersByFaction('Iron Conclave')
     expect(fell.length).toBeGreaterThan(0)
-    expect(fell.every((m) => m.faction === 'The Fell')).toBe(true)
+    expect(fell.every((m) => m.faction === 'Iron Conclave')).toBe(true)
   })
 
   it('returns empty array for unknown faction', () => {
@@ -102,11 +102,11 @@ describe('getMonstersByDangerLevel', () => {
 })
 
 describe('getFactions', () => {
-  it('includes Crimson Horde, The Fell, The Risen', () => {
+  it('includes Iron Conclave, The Void, The Hollow', () => {
     const factions = getFactions()
-    expect(factions).toContain('Crimson Horde')
-    expect(factions).toContain('The Fell')
-    expect(factions).toContain('The Risen')
+    expect(factions).toContain('Iron Conclave')
+    expect(factions).toContain('The Void')
+    expect(factions).toContain('The Hollow')
   })
 
   it('contains no duplicates', () => {

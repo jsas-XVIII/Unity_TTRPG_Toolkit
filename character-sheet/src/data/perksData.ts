@@ -1,12 +1,14 @@
 import type { Perk } from '../types/character'
 import perksJson from './perks.json'
 import { getHomebrewPerks } from '../services/perksStorage'
+import { getOfficialPerks as getOfficialPerksFromStorage } from '../services/officialContentStorage'
 import { mergeOfficial } from '../utils/mergeOfficial'
 
 const staticPerks = perksJson as Perk[]
 
 export function getAllPerks(): Perk[] {
-  return mergeOfficial(staticPerks, getHomebrewPerks())
+  const withOfficial = mergeOfficial(staticPerks, getOfficialPerksFromStorage() ?? [])
+  return mergeOfficial(withOfficial, getHomebrewPerks())
 }
 
 export function getOfficialPerks(): Perk[] {

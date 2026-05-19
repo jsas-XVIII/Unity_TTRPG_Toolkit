@@ -32,6 +32,7 @@ describe('parseContentPack', () => {
         },
       ],
       perks: [{ id: 'hb-perk1', name: 'Test Perk', description: 'A perk.', source: 'General' }],
+      artifacts: [],
     }
 
     const result = parseContentPack(JSON.stringify(pack))
@@ -43,14 +44,14 @@ describe('parseContentPack', () => {
   })
 
   it('returns empty arrays for an empty pack', () => {
-    const pack: ContentPack = { version: 1, powers: [], perks: [] }
+    const pack: ContentPack = { version: 1, powers: [], perks: [], artifacts: [] }
     const result = parseContentPack(JSON.stringify(pack))
-    expect(result).toEqual({ powers: [], perks: [] })
+    expect(result).toEqual({ powers: [], perks: [], artifacts: [] })
   })
 
   it('handles missing powers/perks keys gracefully', () => {
     const result = parseContentPack(JSON.stringify({ version: 1 }))
-    expect(result).toEqual({ powers: [], perks: [] })
+    expect(result).toEqual({ powers: [], perks: [], artifacts: [] })
   })
 
   it('throws on invalid JSON', () => {
@@ -91,6 +92,7 @@ describe('parseContentPack', () => {
         },
       ],
       perks: [{ id: 'hb-k1', name: 'Test Perk', description: '', source: 'General' }],
+      artifacts: [],
     }
     parseContentPack(JSON.stringify(pack))
     expect(localStorage.getItem(POWERS_KEY)).toBeNull()

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import MonsterRoster from './monsters/MonsterRoster'
 import PowersPanel from './powers/PowersPanel'
 import PerksPanel from './perks/PerksPanel'
+import ArtifactsPanel from './artifacts/ArtifactsPanel'
 import { exportContentPack } from '../../services/contentPackService'
 
-type GMView = 'dashboard' | 'monsters' | 'powers' | 'perks'
+type GMView = 'dashboard' | 'monsters' | 'powers' | 'perks' | 'artifacts'
 
 interface Props {
   onBack: () => void
@@ -49,6 +50,7 @@ export default function GMDashboard({ onBack }: Props) {
   if (gmView === 'monsters') return <MonsterRoster onBack={() => setGMView('dashboard')} />
   if (gmView === 'powers') return <PowersPanel onBack={() => setGMView('dashboard')} />
   if (gmView === 'perks') return <PerksPanel onBack={() => setGMView('dashboard')} />
+  if (gmView === 'artifacts') return <ArtifactsPanel onBack={() => setGMView('dashboard')} />
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col">
@@ -86,8 +88,13 @@ export default function GMDashboard({ onBack }: Props) {
             onClick={() => setGMView('perks')}
           />
           <ToolCard
+            title="Artifacts Editor"
+            description="Browse, edit, and add homebrew artifacts for your campaign."
+            onClick={() => setGMView('artifacts')}
+          />
+          <ToolCard
             title="Export Content Pack"
-            description="Download all homebrew powers and perks as unity-content-pack.json to share with players."
+            description="Download all homebrew powers, perks, and artifacts as unity-content-pack.json to share with players."
             onClick={exportContentPack}
           />
           <ToolCard
