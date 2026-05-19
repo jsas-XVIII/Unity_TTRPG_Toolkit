@@ -2,5 +2,13 @@
 Unity - Core Rules.pdf
 unity_rules.txt
 
+# Official content bundler and output (private — never commit)
+tools/
+unity-official-content.json
+replace-final-three.js
+
 # GitLab runner state
 .runner_system_id
+
+# Local Claude Code settings (may contain tokens or machine-specific paths)
+.claude/settings.local.json

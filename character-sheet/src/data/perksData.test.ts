@@ -55,10 +55,10 @@ describe('isOfficialPerk', () => {
 })
 
 describe('getPerkById', () => {
-  it('finds Combat Specialist by id', () => {
+  it('finds Relentless by id', () => {
     const perk = getPerkById('gp-001')
     expect(perk).toBeDefined()
-    expect(perk?.name).toBe('Combat Specialist')
+    expect(perk?.name).toBe('Relentless')
   })
 
   it('returns undefined for an unknown id', () => {
@@ -68,7 +68,7 @@ describe('getPerkById', () => {
 
 describe('getPerkByName', () => {
   it('finds a perk by exact name', () => {
-    const perk = getPerkByName('Combat Specialist')
+    const perk = getPerkByName('Relentless')
     expect(perk).toBeDefined()
     expect(perk?.id).toBe('gp-001')
   })

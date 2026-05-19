@@ -48,14 +48,29 @@ The GM creates homebrew content via the in-app GM panels. Content packs are expo
 
 ## Remaining
 
-### Phase 3 — Import-pack resilience
-**Branch:** `feat/import-validation`
-**Scope:** keep small. Two changes only:
+- ~~Phase 3 — Import-pack resilience~~ ✓ 2026-05-06
 
-- Wrap `JSON.parse` in `src/services/contentPackService.ts:36` in `try/catch` so a malformed file shows a friendly error instead of crashing.
-- Reject the import unless the parsed object has `version === 1` and arrays for `powers`/`perks`. Anything else surfaces as an error to the user.
+---
 
-Deliberately **not** doing: deep field validation, unknown-key stripping, or rewriting `isValidCharacter`. The XSS angle is gone (no `dangerouslySetInnerHTML` anywhere — confirmed 2026-04-28), so the remaining concern is just "don't crash on a typo'd file."
+## Upcoming Features
+
+### ~~Dice Rolling — Character Sheet~~ ✓ 2026-05-14
+
+Dice Tray modal on the character sheet with quick-roll buttons (Attack/Defense/Mind Resist), custom roll form (dice type, attribute, benefit/hindrance, half level, misc bonus, label), Roll20 macro export, 500ms tumbling animation, procedural Web Audio sound effects, and per-character roll history (last 50, localStorage).
+
+**Deferred:** GM dice rolling — GMs don't roll dice in standard rules. Will be added as part of the GM Screen feature if needed.
+
+### Encounter Builder — GM Tools
+GM tool to build and run encounters: select monsters from the roster, set quantities, track initiative and HP during a session.
+
+### GM Screen
+A GM-facing panel for session management: free-form notes, active encounter tracker, quick reference tables.
+
+### Ruin Tracker
+Track Ruin (the campaign's corruption/doom mechanic) at the party or per-character level. Design TBD — needs more thought on how the GM wants to surface and interact with it.
+
+### Story Progression Bonuses — Homebrew
+Allow the GM to define and distribute out-of-band bonuses tied to story events: bonus attributes, bonus perks, bonus Power Tokens, or other stat adjustments. These would be authored in the GM panel and included in the content pack so players receive them automatically on import.
 
 ---
 

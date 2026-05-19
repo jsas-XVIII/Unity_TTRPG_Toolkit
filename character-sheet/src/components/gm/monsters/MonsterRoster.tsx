@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import StorageErrorToast from '../../ui/StorageErrorToast'
 import { isQuotaError } from '../../../utils/storageErrors'
 import type { Monster } from '../../../types/monster'
-import { getAllMonsters, getFactions } from '../../../data/monstersData'
+import { getAllMonsters, getFactions, isStaticMonster } from '../../../data/monstersData'
 import { useHomebrew } from '../../../context/HomebrewContext'
 import MonsterCard from './MonsterCard'
 import MonsterForm from './MonsterForm'
@@ -31,7 +31,13 @@ export default function MonsterRoster({ onBack }: Props) {
   const [factionFilter, setFactionFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'Standard' | 'Elite'>('all')
   const [storageError, setStorageError] = useState(false)
-  const { monsters: homebrewMonsters, addMonster, updateMonster, deleteMonster } = useHomebrew()
+  const {
+    monsters: homebrewMonsters,
+    addMonster,
+    updateMonster,
+    deleteMonster,
+    officialMonsters,
+  } = useHomebrew()
 
   const allMonsters = useMemo(() => {
     // homebrewMonsters is read so this memo recomputes when homebrew changes; getAllMonsters()
@@ -203,6 +209,7 @@ export default function MonsterRoster({ onBack }: Props) {
           <div className="space-y-2">
             {sorted.map((m: Monster) => {
               const homebrew = homebrewIds.has(m.id)
+              const isDemo = isStaticMonster(m.id) && officialMonsters.length === 0 && !homebrew
               return (
                 <div key={m.id} className="relative group">
                   <button
@@ -224,6 +231,11 @@ export default function MonsterRoster({ onBack }: Props) {
                         {m.type}
                       </span>
                       <span className="font-semibold text-gray-100 flex-1">{m.name}</span>
+                      {isDemo && (
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-gray-600 text-gray-300 shrink-0">
+                          Demo
+                        </span>
+                      )}
                       {homebrew && (
                         <span className="text-xs px-1.5 py-0.5 rounded bg-gray-700 text-gray-400 shrink-0">
                           Homebrew

@@ -1,4 +1,4 @@
-// HomebrewProvider — owns the React state mirror of the homebrew localStorage stores.
+// HomebrewProvider — owns the React state mirror of the homebrew and official localStorage stores.
 //
 // Mutators delegate to the storage services first (which write localStorage and keep
 // their internal cache in sync), then update React state. If the storage call throws
@@ -24,11 +24,35 @@ import {
   addHomebrewMonster,
   updateHomebrewMonster,
   deleteHomebrewMonster,
+  replaceHomebrewMonsters,
   getHomebrewAbilities,
   addHomebrewAbility,
+  replaceHomebrewAbilities,
 } from '../services/monsterStorage'
+import {
+  getHomebrewArtifacts,
+  upsertHomebrewArtifact,
+  deleteHomebrewArtifact,
+  replaceHomebrewArtifacts,
+} from '../services/artifactsStorage'
+import {
+  getOfficialPowers,
+  setOfficialPowers,
+  getOfficialPerks,
+  setOfficialPerks,
+  getOfficialMonsters,
+  setOfficialMonsters,
+  getOfficialAbilities,
+  setOfficialAbilities,
+  getOfficialArtifacts,
+  setOfficialArtifacts,
+  clearAllOfficialContent,
+} from '../services/officialContentStorage'
 import type { Perk } from '../types/character'
 import type { Monster, MonsterAbility } from '../types/monster'
+import type { ArtifactDefinition } from '../types/artifact'
+import type { ClassPowerPool } from '../data/powersData'
+import type { OfficialContentBundle } from '../utils/parseOfficialBundle'
 import { HomebrewContext } from './HomebrewContext'
 
 export function HomebrewProvider({ children }: { children: ReactNode }) {
@@ -36,6 +60,21 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
   const [perks, setPerks] = useState<Perk[]>(() => getHomebrewPerks())
   const [monsters, setMonsters] = useState<Monster[]>(() => getHomebrewMonsters())
   const [abilities, setAbilities] = useState<MonsterAbility[]>(() => getHomebrewAbilities())
+  const [artifacts, setArtifacts] = useState<ArtifactDefinition[]>(() => getHomebrewArtifacts())
+
+  const [officialPowers, setOfficialPowersState] = useState<Record<string, ClassPowerPool> | null>(
+    () => getOfficialPowers()
+  )
+  const [officialPerks, setOfficialPerksState] = useState<Perk[]>(() => getOfficialPerks() ?? [])
+  const [officialMonsters, setOfficialMonstersState] = useState<Monster[]>(
+    () => getOfficialMonsters() ?? []
+  )
+  const [officialAbilities, setOfficialAbilitiesState] = useState<MonsterAbility[]>(
+    () => getOfficialAbilities() ?? []
+  )
+  const [officialArtifacts, setOfficialArtifactsState] = useState<ArtifactDefinition[]>(
+    () => getOfficialArtifacts() ?? []
+  )
 
   const upsertPower = useCallback((power: HomebrewPower) => {
     upsertHomebrewPower(power)
@@ -87,6 +126,56 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
     setAbilities(getHomebrewAbilities())
   }, [])
 
+  const upsertArtifact = useCallback((artifact: ArtifactDefinition) => {
+    upsertHomebrewArtifact(artifact)
+    setArtifacts(getHomebrewArtifacts())
+  }, [])
+
+  const deleteArtifact = useCallback((id: string) => {
+    deleteHomebrewArtifact(id)
+    setArtifacts(getHomebrewArtifacts())
+  }, [])
+
+  const replaceArtifacts = useCallback((next: ArtifactDefinition[]) => {
+    replaceHomebrewArtifacts(next)
+    setArtifacts(getHomebrewArtifacts())
+  }, [])
+
+  const clearAllHomebrew = useCallback(() => {
+    replaceHomebrewPowers([])
+    setPowers([])
+    replaceHomebrewPerks([])
+    setPerks([])
+    replaceHomebrewMonsters([])
+    setMonsters([])
+    replaceHomebrewAbilities([])
+    setAbilities([])
+    replaceHomebrewArtifacts([])
+    setArtifacts([])
+  }, [])
+
+  const importOfficialContent = useCallback((bundle: OfficialContentBundle) => {
+    setOfficialPowers(bundle.powers)
+    setOfficialPowersState(getOfficialPowers())
+    setOfficialPerks(bundle.perks)
+    setOfficialPerksState(getOfficialPerks() ?? [])
+    setOfficialMonsters(bundle.monsters)
+    setOfficialMonstersState(getOfficialMonsters() ?? [])
+    setOfficialAbilities(bundle.monsterAbilities)
+    setOfficialAbilitiesState(getOfficialAbilities() ?? [])
+    setOfficialArtifacts(bundle.artifacts)
+    setOfficialArtifactsState(getOfficialArtifacts() ?? [])
+  }, [])
+
+  const clearOfficialContent = useCallback(() => {
+    clearAllOfficialContent()
+    setOfficialPowersState(null)
+    setOfficialPerksState([])
+    setOfficialMonstersState([])
+    setOfficialAbilitiesState([])
+    setOfficialArtifactsState([])
+  }, [])
+
   return (
     <HomebrewContext.Provider
       value={{
@@ -94,6 +183,7 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
         perks,
         monsters,
         abilities,
+        artifacts,
         upsertPower,
         deletePower,
         replacePowers,
@@ -104,6 +194,17 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
         updateMonster,
         deleteMonster,
         addAbility,
+        upsertArtifact,
+        deleteArtifact,
+        replaceArtifacts,
+        clearAllHomebrew,
+        officialPowers,
+        officialPerks,
+        officialMonsters,
+        officialAbilities,
+        officialArtifacts,
+        importOfficialContent,
+        clearOfficialContent,
       }}
     >
       {children}

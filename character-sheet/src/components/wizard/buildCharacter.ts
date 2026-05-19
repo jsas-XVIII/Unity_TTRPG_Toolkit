@@ -73,7 +73,7 @@ export function buildCharacter(draft: WizardDraft): Character {
     perks,
     weapons: draft.weapons,
     armor: draft.armor,
-    artifacts: [],
+    equippedArtifacts: [],
     artifactCapacity: classDef.startingArtifactCapacity,
     denerim: draft.startingDenerim - spentDenerim,
     necessities: 3,

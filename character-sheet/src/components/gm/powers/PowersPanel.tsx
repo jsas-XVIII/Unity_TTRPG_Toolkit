@@ -35,7 +35,7 @@ export default function PowersPanel({ onBack }: Props) {
   const [search, setSearch] = useState('')
   const [editing, setEditing] = useState<{ power: HomebrewPower; readOnly: boolean } | null>(null)
   const [storageError, setStorageError] = useState(false)
-  const { powers: homebrewPowers, upsertPower, deletePower } = useHomebrew()
+  const { powers: homebrewPowers, upsertPower, deletePower, officialPowers } = useHomebrew()
 
   const homebrewIds = useMemo(() => new Set(homebrewPowers.map((p) => p.id)), [homebrewPowers])
 
@@ -215,12 +215,14 @@ export default function PowersPanel({ onBack }: Props) {
         ) : (
           <div className="space-y-2">
             {filtered.map(({ power }) => {
-              // official=true  + overridden=false → official, untouched
+              // official=true  + overridden=false + no official content → Demo placeholder
+              // official=true  + overridden=false + official content loaded → real official entry
               // official=true  + overridden=true  → official entry shadowed by homebrew override
               // official=false + homebrewOnly=true → net-new homebrew (no official equivalent)
               const official = isOfficialPower(power.id)
               const overridden = official && homebrewIds.has(power.id)
               const homebrewOnly = !official
+              const isDemo = official && officialPowers === null && !homebrewIds.has(power.id)
 
               return (
                 <div
@@ -238,6 +240,11 @@ export default function PowersPanel({ onBack }: Props) {
                       <span className="text-xs text-gray-500 shrink-0">{power.actionType}</span>
                       {power.cost !== 'None' && power.cost && (
                         <span className="text-xs text-gray-500 shrink-0">{power.cost}</span>
+                      )}
+                      {isDemo && (
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-gray-600 text-gray-300 shrink-0">
+                          Demo
+                        </span>
                       )}
                       {overridden && (
                         <span className="text-xs px-1.5 py-0.5 rounded bg-amber-900 text-amber-300 shrink-0">

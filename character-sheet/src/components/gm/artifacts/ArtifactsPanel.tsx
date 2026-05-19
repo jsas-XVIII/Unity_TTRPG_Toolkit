@@ -1,47 +1,67 @@
 import { useState, useMemo } from 'react'
 import StorageErrorToast from '../../ui/StorageErrorToast'
 import { isQuotaError } from '../../../utils/storageErrors'
-import type { Perk } from '../../../types/character'
-import { getAllPerks, getOfficialPerks, isOfficialPerk } from '../../../data/perksData'
+import type { ArtifactDefinition } from '../../../types/artifact'
+import {
+  getAllArtifacts,
+  getOfficialArtifacts,
+  isOfficialArtifact,
+} from '../../../data/artifactsData'
 import { useHomebrew } from '../../../context/HomebrewContext'
-import PerkEditorForm from './PerkEditorForm'
+import ArtifactEditorForm from './ArtifactEditorForm'
 import { uid } from '../../../utils/idGenerator'
 
 interface Props {
   onBack: () => void
 }
 
-export default function PerksPanel({ onBack }: Props) {
-  const [editing, setEditing] = useState<{ perk: Perk; readOnly: boolean } | null>(null)
+export default function ArtifactsPanel({ onBack }: Props) {
+  const [editing, setEditing] = useState<{
+    artifact: ArtifactDefinition
+    readOnly: boolean
+  } | null>(null)
   const [storageError, setStorageError] = useState(false)
-  const { perks: homebrewPerks, upsertPerk, deletePerk, officialPerks } = useHomebrew()
+  const {
+    artifacts: homebrewArtifacts,
+    upsertArtifact,
+    deleteArtifact,
+    officialArtifacts,
+  } = useHomebrew()
 
-  const homebrewIds = useMemo(() => new Set(homebrewPerks.map((p) => p.id)), [homebrewPerks])
-  const perks = useMemo(() => {
-    // homebrewPerks is read so this memo recomputes when homebrew changes; getAllPerks()
-    // reads the storage cache, which is kept current by the context.
-    void homebrewPerks
-    return getAllPerks()
-  }, [homebrewPerks])
+  const homebrewIds = useMemo(
+    () => new Set(homebrewArtifacts.map((a) => a.id)),
+    [homebrewArtifacts]
+  )
+  const artifacts = useMemo(() => {
+    void homebrewArtifacts
+    return getAllArtifacts()
+  }, [homebrewArtifacts])
 
-  function startView(perk: Perk) {
-    setEditing({ perk, readOnly: true })
+  function startView(artifact: ArtifactDefinition) {
+    setEditing({ artifact, readOnly: true })
   }
 
-  function startEdit(perk: Perk) {
-    setEditing({ perk, readOnly: false })
+  function startEdit(artifact: ArtifactDefinition) {
+    setEditing({ artifact, readOnly: false })
   }
 
   function startNew() {
     setEditing({
-      perk: { id: `hb-perk-${uid()}`, name: '', description: '', source: 'General' },
+      artifact: {
+        id: `hb-art-${uid()}`,
+        name: '',
+        category: 'Accessory',
+        subtype: '',
+        description: '',
+        effects: [],
+      },
       readOnly: false,
     })
   }
 
-  function handleSave(perk: Perk) {
+  function handleSave(artifact: ArtifactDefinition) {
     try {
-      upsertPerk(perk)
+      upsertArtifact(artifact)
       setEditing(null)
     } catch (e) {
       if (isQuotaError(e)) setStorageError(true)
@@ -49,30 +69,30 @@ export default function PerksPanel({ onBack }: Props) {
   }
 
   function handleReset(id: string) {
-    deletePerk(id)
+    deleteArtifact(id)
     setEditing(null)
   }
 
   function handleDelete(id: string) {
-    deletePerk(id)
+    deleteArtifact(id)
     setEditing(null)
   }
 
   if (editing) {
-    const { perk, readOnly } = editing
-    const official = isOfficialPerk(perk.id)
-    const overridden = official && homebrewIds.has(perk.id)
+    const { artifact, readOnly } = editing
+    const official = isOfficialArtifact(artifact.id)
+    const overridden = official && homebrewIds.has(artifact.id)
     return (
       <>
         {storageError && <StorageErrorToast onDismiss={() => setStorageError(false)} />}
-        <PerkEditorForm
-          initial={perk}
+        <ArtifactEditorForm
+          initial={artifact}
           isOfficial={official}
           isOverridden={overridden}
           readOnly={readOnly}
           onSave={handleSave}
-          onReset={overridden ? () => handleReset(perk.id) : undefined}
-          onDelete={!official ? () => handleDelete(perk.id) : undefined}
+          onReset={overridden ? () => handleReset(artifact.id) : undefined}
+          onDelete={!official ? () => handleDelete(artifact.id) : undefined}
           onCancel={() => setEditing(null)}
         />
       </>
@@ -90,33 +110,35 @@ export default function PerksPanel({ onBack }: Props) {
           >
             ← Back
           </button>
-          <h1 className="text-xl font-bold text-gray-100">Perks Editor</h1>
-          <span className="text-xs text-gray-500">{perks.length} perks</span>
+          <h1 className="text-xl font-bold text-gray-100">Artifacts Editor</h1>
+          <span className="text-xs text-gray-500">{artifacts.length} artifacts</span>
           <div className="ml-auto">
             <button
               onClick={startNew}
               className="text-xs px-3 py-1.5 rounded bg-amber-700 hover:bg-amber-600 text-white transition-colors"
             >
-              + New Perk
+              + New Artifact
             </button>
           </div>
         </div>
 
         <div className="space-y-2">
-          {perks.map((perk) => {
-            const official = isOfficialPerk(perk.id)
-            const overridden = official && homebrewIds.has(perk.id)
+          {artifacts.map((artifact) => {
+            const official = isOfficialArtifact(artifact.id)
+            const overridden = official && homebrewIds.has(artifact.id)
             const homebrewOnly = !official
-            const isDemo = official && officialPerks.length === 0 && !homebrewIds.has(perk.id)
+            const isDemo =
+              official && officialArtifacts.length === 0 && !homebrewIds.has(artifact.id)
 
             return (
               <div
-                key={perk.id}
+                key={artifact.id}
                 className="flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-lg px-4 py-3"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-gray-100">{perk.name}</span>
+                    <span className="font-semibold text-gray-100">{artifact.name}</span>
+                    <span className="text-xs text-gray-500">{artifact.category}</span>
                     {isDemo && (
                       <span className="text-xs px-1.5 py-0.5 rounded bg-gray-600 text-gray-300">
                         Demo
@@ -133,19 +155,20 @@ export default function PerksPanel({ onBack }: Props) {
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 leading-snug line-clamp-2">
-                    {perk.description}
+                  <p className="text-xs text-gray-500 leading-snug line-clamp-1">
+                    {artifact.subtype ? `${artifact.subtype} · ` : ''}
+                    {artifact.description}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
-                    onClick={() => startView(perk)}
+                    onClick={() => startView(artifact)}
                     className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors"
                   >
                     View
                   </button>
                   <button
-                    onClick={() => startEdit(perk)}
+                    onClick={() => startEdit(artifact)}
                     className="text-xs px-3 py-1.5 rounded border border-amber-800 text-amber-400 hover:border-amber-600 hover:text-amber-300 transition-colors"
                   >
                     Edit
@@ -156,9 +179,8 @@ export default function PerksPanel({ onBack }: Props) {
           })}
         </div>
 
-        {/* Official count reference */}
         <p className="mt-4 text-xs text-gray-600">
-          {getOfficialPerks().length} official · {homebrewIds.size} homebrew
+          {getOfficialArtifacts().length} official · {homebrewIds.size} homebrew
         </p>
       </div>
     </>

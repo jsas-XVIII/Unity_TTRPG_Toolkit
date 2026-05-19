@@ -1,18 +1,22 @@
 import type { Perk } from '../types/character'
 import type { HomebrewPower } from './powersStorage'
+import type { ArtifactDefinition } from '../types/artifact'
 import { getHomebrewPowers } from './powersStorage'
 import { getHomebrewPerks } from './perksStorage'
+import { getHomebrewArtifacts } from './artifactsStorage'
 
 export interface ContentPack {
   // Literal 1 (not number) so future schema versions can be narrowed with a discriminated union
   version: 1
   powers: HomebrewPower[]
   perks: Perk[]
+  artifacts: ArtifactDefinition[]
 }
 
 export interface ImportResult {
   powersCount: number
   perksCount: number
+  artifactsCount: number
 }
 
 export function exportContentPack(): void {
@@ -20,6 +24,7 @@ export function exportContentPack(): void {
     version: 1,
     powers: getHomebrewPowers(),
     perks: getHomebrewPerks(),
+    artifacts: getHomebrewArtifacts(),
   }
   const blob = new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
@@ -35,7 +40,11 @@ export function exportContentPack(): void {
 // Pure parser — validates the pack JSON and returns the arrays. Persisting them is the
 // caller's job, since the player-side import flow needs to update HomebrewContext too,
 // which can only happen from inside React. See HomeScreen.handleContentPackFile.
-export function parseContentPack(json: string): { powers: HomebrewPower[]; perks: Perk[] } {
+export function parseContentPack(json: string): {
+  powers: HomebrewPower[]
+  perks: Perk[]
+  artifacts: ArtifactDefinition[]
+} {
   let raw: unknown
   try {
     raw = JSON.parse(json)
@@ -57,5 +66,8 @@ export function parseContentPack(json: string): { powers: HomebrewPower[]; perks
   // an older version), so we still import whichever half is present.
   const powers: HomebrewPower[] = Array.isArray(pack.powers) ? (pack.powers as HomebrewPower[]) : []
   const perks: Perk[] = Array.isArray(pack.perks) ? (pack.perks as Perk[]) : []
-  return { powers, perks }
+  const artifacts: ArtifactDefinition[] = Array.isArray(pack.artifacts)
+    ? (pack.artifacts as ArtifactDefinition[])
+    : []
+  return { powers, perks, artifacts }
 }
