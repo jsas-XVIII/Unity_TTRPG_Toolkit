@@ -141,3 +141,16 @@ build:
       - character-sheet/dist/
     expire_in: 1 week
   <<: *rules_gate_mr
+
+mirror-to-github:
+  stage: build
+  image: alpine:latest
+  variables:
+    GIT_DEPTH: 0
+  cache: {}
+  before_script:
+    - apk add --no-cache git
+  script:
+    - git push --mirror https://oauth2:${GITHUB_TOKEN}@github.com/jsas-XVIII/Unity_TTRPG_Toolkit.git
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
