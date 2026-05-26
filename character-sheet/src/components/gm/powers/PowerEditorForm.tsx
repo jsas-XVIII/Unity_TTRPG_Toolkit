@@ -3,6 +3,8 @@ import type { Power, PowerUpgrade, ActionType, ClassName } from '../../../types/
 import type { HomebrewPower } from '../../../services/powersStorage'
 import { CLASS_NAMES } from '../../../data/powersData'
 import PowerUpgradeEditor from './PowerUpgradeEditor'
+import { FORM_INPUT, FORM_LABEL } from '../../../styles/classes'
+import ConfirmButton from '../../ui/ConfirmButton'
 
 interface Props {
   initial: HomebrewPower
@@ -38,10 +40,8 @@ const TIERS: Array<{ value: Power['tier']; label: string }> = [
 
 const RANGES = ['Self', 'Adjacent', 'Nearby', 'Far', 'Very Far', 'See Effects', 'Special']
 
-const inputCls =
-  'w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-500'
-const labelCls = 'block text-xs text-gray-400 mb-1'
-
+// Create/edit/view form for a GM power definition including action type, cost, range, and upgrades.
+// [JSas | 2026-05-25] Modified: replaced local inputCls/labelCls with FORM_INPUT/FORM_LABEL; swapped inline confirm state for ConfirmButton
 export default function PowerEditorForm({
   initial,
   isOfficial,
@@ -66,9 +66,6 @@ export default function PowerEditorForm({
   const [range, setRange] = useState(initial.range)
   const [effectsText, setEffectsText] = useState(initial.effectsText)
   const [upgrades, setUpgrades] = useState<PowerUpgrade[]>(initial.upgrades)
-  const [confirmReset, setConfirmReset] = useState(false)
-  const [confirmDelete, setConfirmDelete] = useState(false)
-
   function handleSave() {
     if (!name.trim()) return
     onSave({
@@ -120,7 +117,7 @@ export default function PowerEditorForm({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={labelCls}>Class</label>
+              <label className={FORM_LABEL}>Class</label>
               {isOfficial || readOnly ? (
                 <p className="text-sm text-gray-300 px-3 py-1.5 bg-gray-800 rounded border border-gray-700">
                   {initial.className}
@@ -129,7 +126,7 @@ export default function PowerEditorForm({
                 <select
                   value={className}
                   onChange={(e) => setClassName(e.target.value as ClassName)}
-                  className={inputCls}
+                  className={FORM_INPUT}
                 >
                   {CLASS_NAMES.map((c) => (
                     <option key={c} value={c}>
@@ -140,7 +137,7 @@ export default function PowerEditorForm({
               )}
             </div>
             <div>
-              <label className={labelCls}>Tier</label>
+              <label className={FORM_LABEL}>Tier</label>
               {isOfficial || readOnly ? (
                 <p className="text-sm text-gray-300 px-3 py-1.5 bg-gray-800 rounded border border-gray-700">
                   {tierLabel}
@@ -152,7 +149,7 @@ export default function PowerEditorForm({
                     const v = e.target.value
                     setTier(v === '1' ? 1 : v === '2' ? 2 : (v as Power['tier']))
                   }}
-                  className={inputCls}
+                  className={FORM_INPUT}
                 >
                   {TIERS.map((t) => (
                     <option key={String(t.value)} value={String(t.value)}>
@@ -165,13 +162,13 @@ export default function PowerEditorForm({
           </div>
 
           <div>
-            <label className={labelCls}>Name</label>
+            <label className={FORM_LABEL}>Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               readOnly={readOnly}
-              className={inputCls}
+              className={FORM_INPUT}
               placeholder="Power name"
             />
           </div>
@@ -184,7 +181,7 @@ export default function PowerEditorForm({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className={labelCls.replace('mb-1', '')}>Action Type</label>
+                <label className={FORM_LABEL.replace('mb-1', '')}>Action Type</label>
                 {!readOnly && (
                   <button
                     type="button"
@@ -199,7 +196,7 @@ export default function PowerEditorForm({
                 value={actionType}
                 onChange={(e) => setActionType(e.target.value as ActionType)}
                 disabled={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
               >
                 {ACTION_TYPES.map((a) => (
                   <option key={a} value={a}>
@@ -217,7 +214,7 @@ export default function PowerEditorForm({
                       )
                     }
                     disabled={readOnly}
-                    className={`${inputCls} flex-1`}
+                    className={`${FORM_INPUT} flex-1`}
                   >
                     {ACTION_TYPES.map((a) => (
                       <option key={a} value={a}>
@@ -240,34 +237,34 @@ export default function PowerEditorForm({
               ))}
             </div>
             <div>
-              <label className={labelCls}>Cost</label>
+              <label className={FORM_LABEL}>Cost</label>
               <input
                 type="text"
                 value={cost}
                 onChange={(e) => setCost(e.target.value)}
                 readOnly={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
                 placeholder="e.g. 2 Fury"
               />
             </div>
             <div>
-              <label className={labelCls}>Target</label>
+              <label className={FORM_LABEL}>Target</label>
               <input
                 type="text"
                 value={target}
                 onChange={(e) => setTarget(e.target.value)}
                 readOnly={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
                 placeholder="e.g. Single"
               />
             </div>
             <div>
-              <label className={labelCls}>Range</label>
+              <label className={FORM_LABEL}>Range</label>
               <select
                 value={range}
                 onChange={(e) => setRange(e.target.value)}
                 disabled={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
               >
                 {RANGES.map((r) => (
                   <option key={r} value={r}>
@@ -279,13 +276,13 @@ export default function PowerEditorForm({
           </div>
 
           <div>
-            <label className={labelCls}>Effects Text</label>
+            <label className={FORM_LABEL}>Effects Text</label>
             <textarea
               value={effectsText}
               onChange={(e) => setEffectsText(e.target.value)}
               readOnly={readOnly}
               rows={5}
-              className={`${inputCls} resize-none`}
+              className={`${FORM_INPUT} resize-none`}
               placeholder="Describe what the power does..."
             />
           </div>
@@ -306,70 +303,23 @@ export default function PowerEditorForm({
             </button>
 
             {isOverridden && onReset && (
-              <>
-                {confirmReset ? (
-                  <>
-                    <span className="text-xs text-gray-400">Reset to official?</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onReset()
-                        setConfirmReset(false)
-                      }}
-                      className="text-xs px-3 py-1.5 rounded bg-red-800 hover:bg-red-700 text-white transition-colors"
-                    >
-                      Confirm Reset
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setConfirmReset(false)}
-                      className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setConfirmReset(true)}
-                    className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors"
-                  >
-                    Reset to Default
-                  </button>
-                )}
-              </>
+              <ConfirmButton
+                triggerLabel="Reset to Default"
+                promptText="Reset to official?"
+                confirmLabel="Confirm Reset"
+                onConfirm={onReset}
+                triggerClassName="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors"
+              />
             )}
 
             {!isOfficial && onDelete && (
-              <>
-                {confirmDelete ? (
-                  <>
-                    <span className="text-xs text-gray-400">Delete this power?</span>
-                    <button
-                      type="button"
-                      onClick={onDelete}
-                      className="text-xs px-3 py-1.5 rounded bg-red-800 hover:bg-red-700 text-white transition-colors"
-                    >
-                      Confirm Delete
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setConfirmDelete(false)}
-                      className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setConfirmDelete(true)}
-                    className="text-xs px-3 py-1.5 rounded border border-red-900 text-red-400 hover:border-red-700 hover:text-red-300 transition-colors ml-auto"
-                  >
-                    Delete
-                  </button>
-                )}
-              </>
+              <ConfirmButton
+                triggerLabel="Delete"
+                promptText="Delete this power?"
+                confirmLabel="Confirm Delete"
+                onConfirm={onDelete}
+                triggerClassName="text-xs px-3 py-1.5 rounded border border-red-900 text-red-400 hover:border-red-700 hover:text-red-300 transition-colors ml-auto"
+              />
             )}
           </div>
         )}

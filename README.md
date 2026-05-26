@@ -131,6 +131,28 @@ The GM exports all homebrew content (powers, perks, artifacts) as a single `unit
 
 ---
 
+## How It's Built
+
+### State Management — `useReducer` over `useState`
+
+Character state is managed with React's `useReducer` rather than component-local `useState`. The character sheet is highly interdependent — leveling up touches HP, token budgets, AR/DR, and feature upgrades simultaneously, and rendering requires resolving power IDs against whatever homebrew content is currently loaded. A typed `Action` union keeps all of those transitions in one place and makes the state machine auditable. `useState` works well for simple isolated values; `useReducer` is the right tool when actions carry structured payloads and multiple fields have to change together consistently.
+
+### Persistence — localStorage with a Swappable Backend
+
+All character data is stored in the browser's localStorage. The original design considered a server-backed SQLite database — useful for carrying characters across devices or sharing between groups. After evaluating the actual use case (most TTRPG groups play together in one place, on one machine), the added complexity of a server didn't earn its keep. localStorage is simpler, requires no account, and needs no backend infrastructure.
+
+The persistence layer is abstracted behind a `CharacterRepository` interface (`services/api.ts`) with methods for `getAll`, `getById`, `create`, `update`, and `delete`. The localStorage implementation is one file. A future backend — REST API, Supabase, IndexedDB — would implement the same interface without touching any component code.
+
+### Homebrew Layering — Override Without Duplication
+
+Official game content (powers, perks, artifacts, monsters) lives in static JSON files checked into the repo. Homebrew content created by the GM lives in localStorage. At runtime, the two layers are merged: if a homebrew entry shares an ID with an official entry, homebrew wins; otherwise official content is used, and homebrew-only entries are appended.
+
+This design came from real experience running TTRPGs. GMs frequently tweak existing rules for a better table experience — a power that's slightly too strong, a perk that doesn't fit the campaign. If the edited version and the original both appeared in the player's sheet, that would be confusing. Homebrew taking priority over official means a GM can silently adjust any rule without the player seeing two conflicting versions. If no change is needed, the original just shows up unchanged.
+
+The GM exports all homebrew as a single `unity-content-pack.json` and shares it with players. Import replaces the player's homebrew wholesale — entries the GM removed disappear from the player's storage automatically.
+
+---
+
 ## Tech Stack
 
 | | |

@@ -1,4 +1,5 @@
 import type { MonsterAbility, MonsterAbilityKind } from '../../../types/monster'
+import { FORM_INPUT, FORM_LABEL } from '../../../styles/classes'
 
 export interface AbilityDraft {
   name: string
@@ -6,10 +7,6 @@ export interface AbilityDraft {
   ruinCost: string
   recharge: string
 }
-
-const inputCls =
-  'w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-500'
-const labelCls = 'block text-xs text-gray-400 mb-1'
 
 interface Props {
   kind: MonsterAbilityKind
@@ -23,6 +20,8 @@ interface Props {
   onDraftChange: (draft: AbilityDraft) => void
 }
 
+// Library picker + inline draft form for a single monster trait or power.
+// [JSas | 2026-05-25] Modified: replaced local inputCls/labelCls with FORM_INPUT/FORM_LABEL
 export default function MonsterAbilitySection({
   kind,
   library,
@@ -94,48 +93,48 @@ export default function MonsterAbilitySection({
             New {kind === 'trait' ? 'Trait' : 'Power'}
           </p>
           <div>
-            <label className={labelCls}>Name</label>
+            <label className={FORM_LABEL}>Name</label>
             <input
               type="text"
               value={draft.name}
               onChange={(e) => onDraftChange({ ...draft, name: e.target.value })}
-              className={inputCls}
+              className={FORM_INPUT}
               placeholder={kind === 'trait' ? 'e.g. Regeneration' : 'e.g. Fireball'}
             />
           </div>
           {kind === 'power' && (
             <div className="flex gap-2">
               <div className="flex-1">
-                <label className={labelCls}>Ruin Cost</label>
+                <label className={FORM_LABEL}>Ruin Cost</label>
                 <input
                   type="number"
                   min="0"
                   value={draft.ruinCost}
                   onChange={(e) => onDraftChange({ ...draft, ruinCost: e.target.value })}
-                  className={inputCls}
+                  className={FORM_INPUT}
                   placeholder="0"
                 />
               </div>
               <div className="flex-1">
-                <label className={labelCls}>Recharge (rds)</label>
+                <label className={FORM_LABEL}>Recharge (rds)</label>
                 <input
                   type="number"
                   min="0"
                   value={draft.recharge}
                   onChange={(e) => onDraftChange({ ...draft, recharge: e.target.value })}
-                  className={inputCls}
+                  className={FORM_INPUT}
                   placeholder="—"
                 />
               </div>
             </div>
           )}
           <div>
-            <label className={labelCls}>Description</label>
+            <label className={FORM_LABEL}>Description</label>
             <textarea
               rows={3}
               value={draft.description}
               onChange={(e) => onDraftChange({ ...draft, description: e.target.value })}
-              className={`${inputCls} resize-none`}
+              className={`${FORM_INPUT} resize-none`}
               placeholder="What does this ability do?"
             />
           </div>

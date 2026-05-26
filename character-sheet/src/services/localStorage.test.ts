@@ -111,6 +111,53 @@ describe('localStorageRepository.update()', () => {
   })
 })
 
+// Corrupt-storage resilience: verifies backup-and-recover behaviour added to loadAll().
+// [JSas | 2026-05-25] Added: covers non-JSON, non-array, bad-record, null, and write-once backup cases
+describe('localStorageRepository — corrupt storage resilience', () => {
+  const STORAGE_KEY = 'unity_ttrpg_characters'
+  const BACKUP_KEY = `${STORAGE_KEY}__backup`
+
+  it('returns [] and writes backup when blob is non-JSON', async () => {
+    localStorage.setItem(STORAGE_KEY, 'not-valid-json}}}')
+    const all = await repo.getAll()
+    expect(all).toHaveLength(0)
+    expect(localStorage.getItem(BACKUP_KEY)).toBe('not-valid-json}}}')
+  })
+
+  it('returns [] and writes backup when blob is valid JSON but not an array', async () => {
+    const blob = JSON.stringify({ not: 'an array' })
+    localStorage.setItem(STORAGE_KEY, blob)
+    const all = await repo.getAll()
+    expect(all).toHaveLength(0)
+    expect(localStorage.getItem(BACKUP_KEY)).toBe(blob)
+  })
+
+  it('valid records survive when one record fails migration; backup written', async () => {
+    const blob = JSON.stringify([baseCharacter, { id: 'bad', powers: 'not-an-array' }])
+    localStorage.setItem(STORAGE_KEY, blob)
+    const all = await repo.getAll()
+    expect(all).toHaveLength(1)
+    expect(all[0].id).toBe(baseCharacter.id)
+    expect(localStorage.getItem(BACKUP_KEY)).toBe(blob)
+  })
+
+  it('returns [] with no backup when storage is null (first run)', async () => {
+    // localStorage is clear from beforeEach
+    const all = await repo.getAll()
+    expect(all).toHaveLength(0)
+    expect(localStorage.getItem(BACKUP_KEY)).toBeNull()
+  })
+
+  it('backup is write-once — second corrupt load does not overwrite the first backup', async () => {
+    localStorage.setItem(STORAGE_KEY, 'first-corrupt')
+    await repo.getAll()
+    invalidateCharacterCache()
+    localStorage.setItem(STORAGE_KEY, 'second-corrupt')
+    await repo.getAll()
+    expect(localStorage.getItem(BACKUP_KEY)).toBe('first-corrupt')
+  })
+})
+
 describe('localStorageRepository — cross-tab cache invalidation', () => {
   it('reflects changes written directly to localStorage (simulating another tab)', async () => {
     await repo.create(baseCharacter)
