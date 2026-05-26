@@ -1,8 +1,6 @@
 import type { PowerUpgrade } from '../../../types/character'
 import { uid } from '../../../utils/idGenerator'
-
-const inputCls =
-  'w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-500'
+import { FORM_INPUT } from '../../../styles/classes'
 
 interface Props {
   upgrades: PowerUpgrade[]
@@ -10,6 +8,8 @@ interface Props {
   onChange: (upgrades: PowerUpgrade[]) => void
 }
 
+// Inline list editor for power upgrades; supports add, edit, and remove within the power form.
+// [JSas | 2026-05-25] Modified: replaced local inputCls with FORM_INPUT shared constant
 export default function PowerUpgradeEditor({ upgrades, readOnly, onChange }: Props) {
   function addUpgrade() {
     onChange([...upgrades, { id: `upg-${uid()}`, name: '', description: '', purchased: false }])
@@ -49,7 +49,7 @@ export default function PowerUpgradeEditor({ upgrades, readOnly, onChange }: Pro
                 value={u.name}
                 onChange={(e) => updateUpgrade(i, 'name', e.target.value)}
                 readOnly={readOnly}
-                className={`${inputCls} flex-1`}
+                className={`${FORM_INPUT} flex-1`}
                 placeholder="Upgrade name"
               />
               {!readOnly && (
@@ -67,7 +67,7 @@ export default function PowerUpgradeEditor({ upgrades, readOnly, onChange }: Pro
               onChange={(e) => updateUpgrade(i, 'description', e.target.value)}
               readOnly={readOnly}
               rows={2}
-              className={`${inputCls} resize-none`}
+              className={`${FORM_INPUT} resize-none`}
               placeholder="Upgrade description"
             />
           </div>

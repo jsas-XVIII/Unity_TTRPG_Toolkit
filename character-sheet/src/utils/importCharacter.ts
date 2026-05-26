@@ -83,6 +83,8 @@ export type ImportCheckResult =
   | { status: 'duplicate'; parsed: Character }
   | { status: 'invalid' }
 
+// Type-guard that validates a parsed JSON blob is a well-formed Character.
+// [JSas | 2026-05-25] Modified: added per-field checks for attributes and resource nested objects
 function isValidCharacter(obj: unknown): obj is Character {
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false
   const c = obj as Record<string, unknown>
@@ -100,6 +102,10 @@ function isValidCharacter(obj: unknown): obj is Character {
     !!c.attributes &&
     typeof c.attributes === 'object' &&
     !Array.isArray(c.attributes) &&
+    Number.isFinite((c.attributes as Record<string, unknown>).might) &&
+    Number.isFinite((c.attributes as Record<string, unknown>).agility) &&
+    Number.isFinite((c.attributes as Record<string, unknown>).mind) &&
+    Number.isFinite((c.attributes as Record<string, unknown>).presence) &&
     typeof c.arBonus === 'number' &&
     typeof c.drBonus === 'number' &&
     typeof c.currentHp === 'number' &&
@@ -107,6 +113,16 @@ function isValidCharacter(obj: unknown): obj is Character {
     !!c.primaryResource &&
     typeof c.primaryResource === 'object' &&
     !Array.isArray(c.primaryResource) &&
+    typeof (c.primaryResource as Record<string, unknown>).name === 'string' &&
+    Number.isFinite((c.primaryResource as Record<string, unknown>).current) &&
+    Number.isFinite((c.primaryResource as Record<string, unknown>).max) &&
+    typeof (c.primaryResource as Record<string, unknown>).rechargeDie === 'string' &&
+    (c.secondaryResource == null ||
+      (typeof c.secondaryResource === 'object' &&
+        !Array.isArray(c.secondaryResource) &&
+        typeof (c.secondaryResource as Record<string, unknown>).name === 'string' &&
+        Number.isFinite((c.secondaryResource as Record<string, unknown>).current) &&
+        Number.isFinite((c.secondaryResource as Record<string, unknown>).max))) &&
     typeof c.recuperationBonus === 'number' &&
     typeof c.recuperationDie === 'string' &&
     Array.isArray(c.corePaths) &&

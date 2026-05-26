@@ -37,18 +37,58 @@ if (typeof window !== 'undefined') {
 // Internal helpers — not part of the public interface
 // ---------------------------------------------------------------------------
 
+// Saves the raw blob to a write-once backup key so corrupt data can be recovered.
+// Best-effort: never throws, never overwrites an existing backup.
+// [JSas | 2026-05-25] Added: corruption resilience — back up before discarding bad data
+function backupCorruptBlob(raw: string): void {
+  try {
+    const backupKey = `${STORAGE_KEY}__backup`
+    if (localStorage.getItem(backupKey) === null) {
+      localStorage.setItem(backupKey, raw)
+    }
+  } catch {
+    // Intentionally swallowed — backup must never break a load.
+  }
+}
+
 // Reads and deserialises all characters from localStorage.
-// Returns an empty array on parse failure so a corrupt entry doesn't crash the app.
+// null storage  → empty roster, no backup (legitimate first-run state).
+// Corrupt blob  → backup written, empty roster returned.
+// Bad record    → that record skipped, backup written, others survive.
+// [JSas | 2026-05-25] Modified: per-record try/catch so one bad entry doesn't wipe the whole roster
 function loadAll(): Character[] {
   if (cache !== null) return cache
+
+  const raw = localStorage.getItem(STORAGE_KEY)
+  if (raw === null) return []
+
+  let parsed: unknown
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    const characters: Character[] = raw ? (JSON.parse(raw) as Character[]) : []
-    cache = characters.map(migrateCharacter)
-    return cache
+    parsed = JSON.parse(raw)
   } catch {
-    return []
+    backupCorruptBlob(raw)
+    cache = []
+    return cache
   }
+
+  if (!Array.isArray(parsed)) {
+    backupCorruptBlob(raw)
+    cache = []
+    return cache
+  }
+
+  const survivors: Character[] = []
+  let anyDropped = false
+  for (const record of parsed) {
+    try {
+      survivors.push(migrateCharacter(record as Character))
+    } catch {
+      anyDropped = true
+    }
+  }
+  if (anyDropped) backupCorruptBlob(raw)
+  cache = survivors
+  return cache
 }
 
 // Serialises the full character array back to localStorage.

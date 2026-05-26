@@ -5,14 +5,43 @@ export function makeHomebrewStore<T extends { id: string }>(key: string) {
     cache = null
   }
 
+  // Saves the raw blob to a write-once backup key so corrupt data can be recovered.
+  // Best-effort: never throws, never overwrites an existing backup.
+  // [JSas | 2026-05-25] Added: corruption resilience — back up before discarding bad data
+  function backupCorruptBlob(raw: string): void {
+    try {
+      const backupKey = `${key}__backup`
+      if (localStorage.getItem(backupKey) === null) {
+        localStorage.setItem(backupKey, raw)
+      }
+    } catch {
+      // Intentionally swallowed — backup must never break a load.
+    }
+  }
+
+  // Reads all items from localStorage; returns [] on null, non-JSON, or non-array values.
+  // [JSas | 2026-05-25] Modified: added null-check, non-array guard, and backup-on-corrupt
   function getAll(): T[] {
     if (cache !== null) return cache
-    try {
-      cache = JSON.parse(localStorage.getItem(key) ?? '[]') as T[]
-    } catch {
-      // localStorage value is corrupted (non-JSON); treat as empty rather than crashing.
+    const raw = localStorage.getItem(key)
+    if (raw === null) {
       cache = []
+      return cache
     }
+    let parsed: unknown
+    try {
+      parsed = JSON.parse(raw)
+    } catch {
+      backupCorruptBlob(raw)
+      cache = []
+      return cache
+    }
+    if (!Array.isArray(parsed)) {
+      backupCorruptBlob(raw)
+      cache = []
+      return cache
+    }
+    cache = parsed as T[]
     return cache
   }
 

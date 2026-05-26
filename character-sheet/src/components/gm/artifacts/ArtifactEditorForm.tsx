@@ -7,6 +7,8 @@ import type {
   ArtifactUpgrade,
 } from '../../../types/artifact'
 import { uid } from '../../../utils/idGenerator'
+import { FORM_INPUT, FORM_LABEL } from '../../../styles/classes'
+import ConfirmButton from '../../ui/ConfirmButton'
 
 interface Props {
   initial: ArtifactDefinition
@@ -42,10 +44,6 @@ const EFFECT_KINDS: ArtifactEffectKind[] = [
   'Movement',
 ]
 
-const inputCls =
-  'w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-500'
-const labelCls = 'block text-xs text-gray-400 mb-1'
-
 function blankEffect(): ArtifactEffect {
   return { name: '', kind: 'Passive', description: '' }
 }
@@ -54,6 +52,8 @@ function blankUpgrade(): ArtifactUpgrade {
   return { id: `hb-upg-${uid()}`, name: '', description: '' }
 }
 
+// Create/edit/view form for a GM artifact definition including effects and upgrades.
+// [JSas | 2026-05-25] Modified: replaced local inputCls/labelCls with FORM_INPUT/FORM_LABEL; swapped inline confirm state for ConfirmButton
 export default function ArtifactEditorForm({
   initial,
   isOfficial,
@@ -73,9 +73,6 @@ export default function ArtifactEditorForm({
     initial.effects.length > 0 ? initial.effects : [blankEffect()]
   )
   const [upgrades, setUpgrades] = useState<ArtifactUpgrade[]>(initial.upgrades ?? [])
-  const [confirmReset, setConfirmReset] = useState(false)
-  const [confirmDelete, setConfirmDelete] = useState(false)
-
   const isNew = !isOfficial && !isOverridden
 
   function updateEffect(i: number, field: keyof ArtifactEffect, value: string) {
@@ -143,23 +140,23 @@ export default function ArtifactEditorForm({
         <section className="bg-gray-900 rounded-lg p-4 space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
-              <label className={labelCls}>Name</label>
+              <label className={FORM_LABEL}>Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 readOnly={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
                 placeholder="Artifact name"
               />
             </div>
             <div>
-              <label className={labelCls}>Category</label>
+              <label className={FORM_LABEL}>Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as ArtifactCategory)}
                 disabled={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
               >
                 {CATEGORIES.map((c) => (
                   <option key={c} value={c}>
@@ -169,35 +166,35 @@ export default function ArtifactEditorForm({
               </select>
             </div>
             <div>
-              <label className={labelCls}>Subtype</label>
+              <label className={FORM_LABEL}>Subtype</label>
               <input
                 type="text"
                 value={subtype}
                 onChange={(e) => setSubtype(e.target.value)}
                 readOnly={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
                 placeholder="e.g. Dagger, Amulet"
               />
             </div>
             <div className="col-span-2">
-              <label className={labelCls}>Flavor Description</label>
+              <label className={FORM_LABEL}>Flavor Description</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 readOnly={readOnly}
                 rows={2}
-                className={`${inputCls} resize-none`}
+                className={`${FORM_INPUT} resize-none`}
                 placeholder="Short flavor text"
               />
             </div>
             <div>
-              <label className={labelCls}>Set ID (optional)</label>
+              <label className={FORM_LABEL}>Set ID (optional)</label>
               <input
                 type="text"
                 value={setId}
                 onChange={(e) => setSetId(e.target.value)}
                 readOnly={readOnly}
-                className={inputCls}
+                className={FORM_INPUT}
                 placeholder="e.g. bosley"
               />
             </div>
@@ -223,23 +220,23 @@ export default function ArtifactEditorForm({
               <div key={i} className="border border-gray-800 rounded p-3 space-y-2">
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className={labelCls}>Name</label>
+                    <label className={FORM_LABEL}>Name</label>
                     <input
                       type="text"
                       value={effect.name}
                       onChange={(e) => updateEffect(i, 'name', e.target.value)}
                       readOnly={readOnly}
-                      className={inputCls}
+                      className={FORM_INPUT}
                       placeholder="Effect name"
                     />
                   </div>
                   <div>
-                    <label className={labelCls}>Kind</label>
+                    <label className={FORM_LABEL}>Kind</label>
                     <select
                       value={effect.kind}
                       onChange={(e) => updateEffect(i, 'kind', e.target.value)}
                       disabled={readOnly}
-                      className={inputCls}
+                      className={FORM_INPUT}
                     >
                       {EFFECT_KINDS.map((k) => (
                         <option key={k} value={k}>
@@ -249,13 +246,13 @@ export default function ArtifactEditorForm({
                     </select>
                   </div>
                   <div className="col-span-2">
-                    <label className={labelCls}>Description</label>
+                    <label className={FORM_LABEL}>Description</label>
                     <textarea
                       value={effect.description}
                       onChange={(e) => updateEffect(i, 'description', e.target.value)}
                       readOnly={readOnly}
                       rows={3}
-                      className={`${inputCls} resize-none`}
+                      className={`${FORM_INPUT} resize-none`}
                       placeholder="Effect description"
                     />
                   </div>
@@ -295,24 +292,24 @@ export default function ArtifactEditorForm({
               {upgrades.map((upgrade, i) => (
                 <div key={upgrade.id} className="border border-gray-800 rounded p-3 space-y-2">
                   <div>
-                    <label className={labelCls}>Name</label>
+                    <label className={FORM_LABEL}>Name</label>
                     <input
                       type="text"
                       value={upgrade.name}
                       onChange={(e) => updateUpgrade(i, 'name', e.target.value)}
                       readOnly={readOnly}
-                      className={inputCls}
+                      className={FORM_INPUT}
                       placeholder="Upgrade name"
                     />
                   </div>
                   <div>
-                    <label className={labelCls}>Description</label>
+                    <label className={FORM_LABEL}>Description</label>
                     <textarea
                       value={upgrade.description}
                       onChange={(e) => updateUpgrade(i, 'description', e.target.value)}
                       readOnly={readOnly}
                       rows={3}
-                      className={`${inputCls} resize-none`}
+                      className={`${FORM_INPUT} resize-none`}
                       placeholder="Upgrade description"
                     />
                   </div>
@@ -344,70 +341,23 @@ export default function ArtifactEditorForm({
             </button>
 
             {isOverridden && onReset && (
-              <>
-                {confirmReset ? (
-                  <>
-                    <span className="text-xs text-gray-400">Reset to official?</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onReset()
-                        setConfirmReset(false)
-                      }}
-                      className="text-xs px-3 py-1.5 rounded bg-red-800 hover:bg-red-700 text-white transition-colors"
-                    >
-                      Confirm Reset
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setConfirmReset(false)}
-                      className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setConfirmReset(true)}
-                    className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors"
-                  >
-                    Reset to Default
-                  </button>
-                )}
-              </>
+              <ConfirmButton
+                triggerLabel="Reset to Default"
+                promptText="Reset to official?"
+                confirmLabel="Confirm Reset"
+                onConfirm={onReset}
+                triggerClassName="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors"
+              />
             )}
 
             {!isOfficial && onDelete && (
-              <>
-                {confirmDelete ? (
-                  <>
-                    <span className="text-xs text-gray-400">Delete this artifact?</span>
-                    <button
-                      type="button"
-                      onClick={onDelete}
-                      className="text-xs px-3 py-1.5 rounded bg-red-800 hover:bg-red-700 text-white transition-colors"
-                    >
-                      Confirm Delete
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setConfirmDelete(false)}
-                      className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setConfirmDelete(true)}
-                    className="text-xs px-3 py-1.5 rounded border border-red-900 text-red-400 hover:border-red-700 hover:text-red-300 transition-colors ml-auto"
-                  >
-                    Delete
-                  </button>
-                )}
-              </>
+              <ConfirmButton
+                triggerLabel="Delete"
+                promptText="Delete this artifact?"
+                confirmLabel="Confirm Delete"
+                onConfirm={onDelete}
+                triggerClassName="text-xs px-3 py-1.5 rounded border border-red-900 text-red-400 hover:border-red-700 hover:text-red-300 transition-colors ml-auto"
+              />
             )}
           </div>
         )}

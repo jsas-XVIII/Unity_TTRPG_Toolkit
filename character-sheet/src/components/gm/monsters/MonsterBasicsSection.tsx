@@ -1,12 +1,6 @@
 import type { Monster } from '../../../types/monster'
 import type { DLRange } from './dlRanges'
-
-const inputCls =
-  'w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-500'
-const inputWarnCls =
-  'w-full bg-gray-800 border border-amber-500 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-400'
-const labelCls = 'block text-xs text-gray-400 mb-1'
-const labelWarnCls = 'block text-xs text-amber-400 mb-1'
+import { FORM_INPUT, FORM_INPUT_WARN, FORM_LABEL, FORM_LABEL_WARN } from '../../../styles/classes'
 
 interface Props {
   name: string
@@ -26,6 +20,8 @@ interface Props {
   onApplyBaseline: () => void
 }
 
+// Identity/basics fields (name, DL, type, size, faction, XP) for the monster creation form.
+// [JSas | 2026-05-25] Modified: replaced local inputCls/labelCls with FORM_INPUT/FORM_LABEL shared constants
 export default function MonsterBasicsSection({
   name,
   onNameChange,
@@ -48,12 +44,12 @@ export default function MonsterBasicsSection({
       <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Identity</h2>
 
       <div>
-        <label className={labelCls}>Name</label>
+        <label className={FORM_LABEL}>Name</label>
         <input
           type="text"
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
-          className={inputCls}
+          className={FORM_INPUT}
           placeholder="Monster name"
         />
       </div>
@@ -77,11 +73,11 @@ export default function MonsterBasicsSection({
             max="12"
             value={dangerLevel}
             onChange={(e) => onDangerLevelChange(e.target.value)}
-            className={inputCls}
+            className={FORM_INPUT}
           />
         </div>
         <div>
-          <label className={labelCls}>Type</label>
+          <label className={FORM_LABEL}>Type</label>
           <div className="flex rounded overflow-hidden border border-gray-700 h-[34px]">
             {(['Standard', 'Elite'] as const).map((t) => (
               <button
@@ -100,11 +96,11 @@ export default function MonsterBasicsSection({
           </div>
         </div>
         <div>
-          <label className={labelCls}>Size</label>
+          <label className={FORM_LABEL}>Size</label>
           <select
             value={size}
             onChange={(e) => onSizeChange(e.target.value as Monster['size'])}
-            className={inputCls}
+            className={FORM_INPUT}
           >
             {(['Small', 'Medium', 'Large', 'Massive', 'Colossal'] as const).map((s) => (
               <option key={s} value={s}>
@@ -117,17 +113,17 @@ export default function MonsterBasicsSection({
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className={labelCls}>Faction</label>
+          <label className={FORM_LABEL}>Faction</label>
           <input
             type="text"
             value={faction}
             onChange={(e) => onFactionChange(e.target.value)}
-            className={inputCls}
+            className={FORM_INPUT}
             placeholder="e.g. Crimson Horde"
           />
         </div>
         <div>
-          <label className={xpOutOfRange ? labelWarnCls : labelCls}>
+          <label className={xpOutOfRange ? FORM_LABEL_WARN : FORM_LABEL}>
             XP Reward{xpOutOfRange ? ' ⚠' : ''}
           </label>
           <input
@@ -135,7 +131,7 @@ export default function MonsterBasicsSection({
             min="0"
             value={xp}
             onChange={(e) => onXpChange(e.target.value)}
-            className={xpOutOfRange ? inputWarnCls : inputCls}
+            className={xpOutOfRange ? FORM_INPUT_WARN : FORM_INPUT}
           />
           {xpOutOfRange && dlRange && (
             <p className="text-xs text-amber-500 mt-0.5">

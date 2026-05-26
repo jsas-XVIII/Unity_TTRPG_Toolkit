@@ -137,6 +137,55 @@ describe('checkImport — invalid file cases', () => {
   })
 })
 
+// Nested-field validation: verifies isValidCharacter rejects malformed attributes and resources.
+// [JSas | 2026-05-25] Added: exercises the new Number.isFinite / string checks on attribute and resource fields
+describe('checkImport — nested field validation', () => {
+  it('returns "invalid" when attributes is an empty object (missing fields)', async () => {
+    const file = makeFile({ ...baseCharacter, attributes: {} as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when an attribute value is NaN', async () => {
+    const file = makeFile({
+      ...baseCharacter,
+      attributes: { might: NaN, agility: 1, mind: 1, presence: 1 },
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when primaryResource is an empty object (missing fields)', async () => {
+    const file = makeFile({ ...baseCharacter, primaryResource: {} as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when primaryResource.current is NaN', async () => {
+    const file = makeFile({
+      ...baseCharacter,
+      primaryResource: { name: 'Fury', current: NaN, max: 6, rechargeDie: '1d4' },
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when secondaryResource is present but malformed', async () => {
+    const file = makeFile({
+      ...baseCharacter,
+      secondaryResource: { name: 'Focus', current: 'bad' as never, max: 4 },
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('accepts null secondaryResource as valid', async () => {
+    const file = makeFile({ ...baseCharacter, secondaryResource: null })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('new')
+  })
+})
+
 describe('checkImport — unknown key sanitization', () => {
   it('strips unknown keys from the parsed character', async () => {
     const withExtra = { ...baseCharacter, unknownField: 'should be removed' }

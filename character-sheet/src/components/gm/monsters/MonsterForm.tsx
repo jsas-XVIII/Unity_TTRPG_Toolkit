@@ -7,6 +7,8 @@ import MonsterBasicsSection from './MonsterBasicsSection'
 import MonsterStatsSection from './MonsterStatsSection'
 import type { StatField } from './MonsterStatsSection'
 import MonsterAbilitiesSection from './MonsterAbilitiesSection'
+import { FORM_INPUT, FORM_LABEL } from '../../../styles/classes'
+import ConfirmButton from '../../ui/ConfirmButton'
 
 interface Props {
   initial?: Monster
@@ -15,10 +17,8 @@ interface Props {
   onDelete?: () => void
 }
 
-const inputCls =
-  'w-full bg-gray-800 border border-gray-700 rounded px-3 py-1.5 text-sm text-gray-200 focus:outline-none focus:border-amber-500'
-const labelCls = 'block text-xs text-gray-400 mb-1'
-
+// Full create/edit form for a homebrew monster including stats, attacks, abilities, and extras.
+// [JSas | 2026-05-25] Modified: replaced local inputCls/labelCls with FORM_INPUT/FORM_LABEL; swapped inline confirm state for ConfirmButton
 export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Props) {
   const isEditing = !!initial
 
@@ -43,7 +43,6 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
   const [powerIds, setPowerIds] = useState<string[]>(initial?.powerIds ?? [])
   const [imageUrl, setImageUrl] = useState(initial?.imageUrl ?? '')
   const [notes, setNotes] = useState(initial?.notes ?? '')
-  const [confirmDelete, setConfirmDelete] = useState(false)
   const [showRangeWarning, setShowRangeWarning] = useState(false)
 
   const dlNum = Number(dangerLevel) || 1
@@ -238,12 +237,12 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
               ] as { label: string; value: string; set: (v: string) => void }[]
             ).map(({ label, value, set }) => (
               <div key={label}>
-                <label className={labelCls}>{label}</label>
+                <label className={FORM_LABEL}>{label}</label>
                 <input
                   type="number"
                   value={value}
                   onChange={(e) => set(e.target.value)}
-                  className={inputCls}
+                  className={FORM_INPUT}
                 />
               </div>
             ))}
@@ -269,32 +268,32 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
             {attacks.map((atk, i) => (
               <div key={i} className="flex gap-2 items-end">
                 <div className="flex-1">
-                  {i === 0 && <label className={labelCls}>Name</label>}
+                  {i === 0 && <label className={FORM_LABEL}>Name</label>}
                   <input
                     type="text"
                     value={atk.name}
                     onChange={(e) => updateAttack(i, 'name', e.target.value)}
-                    className={inputCls}
+                    className={FORM_INPUT}
                     placeholder="e.g. Melee Attack"
                   />
                 </div>
                 <div className="flex-1">
-                  {i === 0 && <label className={labelCls}>Range</label>}
+                  {i === 0 && <label className={FORM_LABEL}>Range</label>}
                   <input
                     type="text"
                     value={atk.range}
                     onChange={(e) => updateAttack(i, 'range', e.target.value)}
-                    className={inputCls}
+                    className={FORM_INPUT}
                     placeholder="e.g. Melee"
                   />
                 </div>
                 <div className="flex-1">
-                  {i === 0 && <label className={labelCls}>Damage</label>}
+                  {i === 0 && <label className={FORM_LABEL}>Damage</label>}
                   <input
                     type="text"
                     value={atk.damage}
                     onChange={(e) => updateAttack(i, 'damage', e.target.value)}
-                    className={inputCls}
+                    className={FORM_INPUT}
                     placeholder="e.g. 1d8+4"
                   />
                 </div>
@@ -323,23 +322,23 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
           <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Extras</h2>
 
           <div>
-            <label className={labelCls}>Image URL</label>
+            <label className={FORM_LABEL}>Image URL</label>
             <input
               type="text"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
-              className={inputCls}
+              className={FORM_INPUT}
               placeholder="https://... or /monsters/filename.png"
             />
           </div>
 
           <div>
-            <label className={labelCls}>Notes</label>
+            <label className={FORM_LABEL}>Notes</label>
             <textarea
               rows={3}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className={`${inputCls} resize-none`}
+              className={`${FORM_INPUT} resize-none`}
               placeholder="GM notes, tactics, lore..."
             />
           </div>
@@ -348,33 +347,16 @@ export default function MonsterForm({ initial, onSave, onCancel, onDelete }: Pro
         {/* Actions */}
         <div className="flex items-center justify-between pb-6">
           {onDelete ? (
-            confirmDelete ? (
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-red-400">Delete this monster?</span>
-                <button
-                  type="button"
-                  onClick={onDelete}
-                  className="text-xs px-3 py-1.5 rounded bg-red-800 hover:bg-red-700 text-white transition-colors"
-                >
-                  Confirm
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setConfirmDelete(false)}
-                  className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setConfirmDelete(true)}
-                className="text-xs text-red-500 hover:text-red-400 transition-colors"
-              >
-                Delete Monster
-              </button>
-            )
+            <div className="flex items-center gap-2">
+              <ConfirmButton
+                triggerLabel="Delete Monster"
+                promptText="Delete this monster?"
+                confirmLabel="Confirm"
+                onConfirm={onDelete}
+                triggerClassName="text-xs text-red-500 hover:text-red-400 transition-colors"
+                promptClassName="text-xs text-red-400"
+              />
+            </div>
           ) : (
             <span />
           )}
