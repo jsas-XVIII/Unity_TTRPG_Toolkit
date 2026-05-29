@@ -153,6 +153,22 @@ The GM exports all homebrew as a single `unity-content-pack.json` and shares it 
 
 ---
 
+## Testing
+
+### Unit Tests — Pure Logic First
+
+Vitest + Testing Library covers all domain logic that doesn't need a browser: stat formulas, level-up progression, power/perk resolution, storage CRUD, import/migration, and the homebrew merge layer. These are the pieces where a wrong value is silent — a derived stat that's off by one, a token budget that doesn't reset after leveling, or a duplicate import that slips through won't throw an error; they just produce a wrong number. Unit tests are the only practical way to assert those values across all nine classes and all ten levels without clicking through the app manually each time. A shared `baseCharacter` fixture in `src/test/` keeps test setup consistent and out of individual test files.
+
+### E2E Tests — Critical User Flows
+
+Cypress covers the character creation wizard, import flow, and roster management end-to-end in a real Chrome browser against a running dev server. The wizard is the most stateful part of the UI — nine steps, validation at each step, back-navigation, conditional branches for class paths — and unit tests can't exercise that wiring. The E2E suite validates that Next/Back navigation updates the step counter, validation errors appear on the right step, and a completed wizard produces a character that lands on the sheet.
+
+### Selector Convention — `data-testid` over Text
+
+Cypress tests target form inputs using `data-testid` attributes with `.should('have.value', ...)` rather than `cy.contains()`. React-managed inputs don't expose their values as rendered text nodes — `cy.contains()` scans the DOM for visible text and would silently pass even if the binding was broken. A `data-testid` plus `.should('have.value', ...)` reads the actual DOM property, so the test fails if the state binding is broken rather than matching on coincidental text nearby.
+
+---
+
 ## Tech Stack
 
 | | |
