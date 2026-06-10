@@ -3,9 +3,12 @@ import MonsterRoster from './monsters/MonsterRoster'
 import PowersPanel from './powers/PowersPanel'
 import PerksPanel from './perks/PerksPanel'
 import ArtifactsPanel from './artifacts/ArtifactsPanel'
+import EncounterBuilder from './encounter/EncounterBuilder'
+import GMScreen from './GMScreen'
 import { exportContentPack } from '../../services/contentPackService'
+import { ACTIVE_CAMPAIGN_KEY } from '../../services/campaignStorage'
 
-type GMView = 'dashboard' | 'monsters' | 'powers' | 'perks' | 'artifacts'
+type GMView = 'dashboard' | 'gmscreen' | 'encounter' | 'monsters' | 'powers' | 'perks' | 'artifacts'
 
 interface Props {
   onBack: () => void
@@ -46,11 +49,36 @@ function ToolCard({ title, description, onClick, disabled, badge }: ToolCardProp
 
 export default function GMDashboard({ onBack }: Props) {
   const [gmView, setGMView] = useState<GMView>('dashboard')
+  // Tracks where to return when leaving EncounterBuilder — either dashboard (direct entry)
+  // or gmscreen (when launched via the "Encounter Builder →" button in GMScreen).
+  const [encounterReturnView, setEncounterReturnView] = useState<GMView>('dashboard')
+  // Persisted so the active campaign survives navigation between GMScreen and EncounterBuilder.
+  const [activeCampaignId, setActiveCampaignId] = useState<string | null>(() =>
+    localStorage.getItem(ACTIVE_CAMPAIGN_KEY)
+  )
 
   if (gmView === 'monsters') return <MonsterRoster onBack={() => setGMView('dashboard')} />
   if (gmView === 'powers') return <PowersPanel onBack={() => setGMView('dashboard')} />
   if (gmView === 'perks') return <PerksPanel onBack={() => setGMView('dashboard')} />
   if (gmView === 'artifacts') return <ArtifactsPanel onBack={() => setGMView('dashboard')} />
+  if (gmView === 'gmscreen')
+    return (
+      <GMScreen
+        onBack={() => setGMView('dashboard')}
+        onNavigateToEncounter={() => {
+          setEncounterReturnView('gmscreen')
+          setGMView('encounter')
+        }}
+        onCampaignChange={(id) => setActiveCampaignId(id)}
+      />
+    )
+  if (gmView === 'encounter')
+    return (
+      <EncounterBuilder
+        onBack={() => setGMView(encounterReturnView)}
+        campaignId={activeCampaignId ?? undefined}
+      />
+    )
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col">
@@ -72,6 +100,19 @@ export default function GMDashboard({ onBack }: Props) {
         </div>
 
         <div className="w-full max-w-sm flex flex-col gap-4">
+          <ToolCard
+            title="GM Screen"
+            description="Live session hub — campaign notes, Ruin tracker, dice roller, and quick access to encounters."
+            onClick={() => setGMView('gmscreen')}
+          />
+          <ToolCard
+            title="Encounter Builder"
+            description="Pre-build and save encounters, then run them live with initiative and HP tracking."
+            onClick={() => {
+              setEncounterReturnView('dashboard')
+              setGMView('encounter')
+            }}
+          />
           <ToolCard
             title="Monster Compendium"
             description="Browse, filter, and manage monster stat blocks for your encounters."
@@ -96,18 +137,6 @@ export default function GMDashboard({ onBack }: Props) {
             title="Export Content Pack"
             description="Download all homebrew powers, perks, and artifacts as unity-content-pack.json to share with players."
             onClick={exportContentPack}
-          />
-          <ToolCard
-            title="Ruin Tracker"
-            description="Track accumulated Ruin points to spend on monster abilities."
-            disabled
-            badge="Coming Soon"
-          />
-          <ToolCard
-            title="Encounter Builder"
-            description="Build and balance encounters by party level and danger level."
-            disabled
-            badge="Coming Soon"
           />
         </div>
       </div>

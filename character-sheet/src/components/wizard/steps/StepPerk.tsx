@@ -136,6 +136,7 @@ export default function StepPerk({ draft, onChange }: Props) {
             return (
               <button
                 key={perk.id}
+                data-testid={`perk-${perk.id}`}
                 onClick={() => onChange({ selectedPerkId: perk.id })}
                 className={`w-full text-left rounded-lg border-2 p-4 transition-colors ${
                   selected
