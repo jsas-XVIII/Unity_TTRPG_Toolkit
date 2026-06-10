@@ -30,6 +30,7 @@ export default function StepClass({ draft, onChange }: Props) {
           return (
             <button
               key={cls.name}
+              data-testid={`class-${cls.name.toLowerCase().replace(/ /g, '-')}`}
               onClick={() =>
                 onChange({
                   className: cls.name as ClassName,

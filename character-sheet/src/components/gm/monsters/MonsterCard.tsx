@@ -14,6 +14,13 @@ function resolveName(text: string, name: string): string {
 interface Props {
   monster: Monster
   onBack: () => void
+  backLabel?: string
+  // Seeds the template toggle state from an existing roster entry or pending selection.
+  initialTemplateIds?: string[]
+  // Fires on every toggle so the parent (EncounterForm or EncounterTracker) can sync its state.
+  onTemplatesChange?: (ids: string[]) => void
+  // True when viewing a monster mid-combat; shows applied templates but prevents changes.
+  readOnlyTemplates?: boolean
   onEdit?: () => void
   onClone?: () => void
 }
@@ -56,9 +63,18 @@ function StatBox({
   )
 }
 
-export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props) {
+export default function MonsterCard({
+  monster,
+  onBack,
+  backLabel = 'Back to Compendium',
+  initialTemplateIds,
+  onTemplatesChange,
+  readOnlyTemplates = false,
+  onEdit,
+  onClone,
+}: Props) {
   const allTemplates = getAllTemplates()
-  const [activeTemplateIds, setActiveTemplateIds] = useState<string[]>([])
+  const [activeTemplateIds, setActiveTemplateIds] = useState<string[]>(initialTemplateIds ?? [])
 
   const activeTemplates: MonsterTemplate[] = activeTemplateIds
     .map((id) => allTemplates.find((t) => t.id === id))
@@ -71,9 +87,11 @@ export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props)
   const isElite = monster.type === 'Elite'
 
   function toggleTemplate(id: string) {
-    setActiveTemplateIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    )
+    setActiveTemplateIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      onTemplatesChange?.(next)
+      return next
+    })
   }
 
   function statDelta(key: keyof Monster): number {
@@ -91,7 +109,7 @@ export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props)
           onClick={onBack}
           className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
         >
-          ← Back to Compendium
+          ← {backLabel}
         </button>
         <div className="flex items-center gap-2">
           {onClone && (
@@ -122,22 +140,26 @@ export default function MonsterCard({ monster, onBack, onEdit, onClone }: Props)
             return (
               <button
                 key={t.id}
-                onClick={() => toggleTemplate(t.id)}
+                onClick={() => !readOnlyTemplates && toggleTemplate(t.id)}
+                disabled={readOnlyTemplates}
                 title={t.description}
                 className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
                   active
                     ? 'bg-amber-700 border-amber-500 text-amber-100'
                     : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200'
-                }`}
+                } ${readOnlyTemplates ? 'cursor-default' : ''}`}
               >
                 {t.name}
               </button>
             )
           })}
         </div>
-        {activeTemplates.length > 0 && (
+        {activeTemplates.length > 0 && !readOnlyTemplates && (
           <button
-            onClick={() => setActiveTemplateIds([])}
+            onClick={() => {
+              setActiveTemplateIds([])
+              onTemplatesChange?.([])
+            }}
             className="mt-1.5 text-xs text-gray-600 hover:text-gray-400 transition-colors"
           >
             Clear all

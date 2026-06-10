@@ -48,4 +48,14 @@ describe('GMDashboard — tool cards', () => {
     renderDashboard()
     expect(screen.getByRole('button', { name: /artifacts editor/i })).toBeInTheDocument()
   })
+
+  it('renders the Encounter Builder card', () => {
+    renderDashboard()
+    expect(screen.getByRole('button', { name: /encounter builder/i })).toBeInTheDocument()
+  })
+
+  it('renders the GM Screen card', () => {
+    renderDashboard()
+    expect(screen.getByRole('button', { name: /gm screen/i })).toBeInTheDocument()
+  })
 })

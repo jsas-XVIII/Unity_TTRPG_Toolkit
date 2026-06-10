@@ -125,6 +125,16 @@ The GM Dashboard is a separate view accessible from the opening screen. It provi
 - View and edit all official artifacts (weapons, armor, accessories, shields)
 - Create homebrew artifacts with full effect and upgrade definitions
 
+### Encounter Builder
+
+- Pre-build and save named encounters by picking monsters from the full compendium (filterable by name and type, sorted by DL)
+- Set quantities per monster type and optionally apply templates (Elite, Bloodied, etc.) before saving
+- Saved encounters persist in localStorage and appear in the encounter list
+- **Run** an encounter to enter the live tracker: each monster type is expanded into individual combatants (Goblin 1, Goblin 2, …) with HP bars, initiative input, and per-combatant action tracking (Standard, Movement, Quick, etc.)
+- HP can be adjusted with ±1 / ±5 buttons or typed directly; a color-coded bar shows health at a glance
+- **Next Turn** cycles the active combatant; defeated combatants are removed from the rotation
+- Click any combatant name to open its full stat block mid-combat
+
 ### Content Pack — Export & Import
 
 The GM exports all homebrew content (powers, perks, artifacts) as a single `unity-content-pack.json` file and shares it with players. Players import it via the **Import Content Pack** card on the opening screen. The imported pack replaces the player's homebrew library wholesale — entries the GM deleted are removed from the player's storage automatically.

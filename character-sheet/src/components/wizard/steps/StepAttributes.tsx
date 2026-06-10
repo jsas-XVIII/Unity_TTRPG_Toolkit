@@ -148,6 +148,7 @@ export default function StepAttributes({ draft, onChange }: Props) {
               <div className="text-center">
                 <div className="text-xs text-gray-500 mb-0.5">Modifier</div>
                 <select
+                  data-testid={`attr-select-${attr}`}
                   className="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-amber-500"
                   value={current ?? ''}
                   onChange={(e) => {
