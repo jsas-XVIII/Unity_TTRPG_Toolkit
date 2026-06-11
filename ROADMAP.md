@@ -4,7 +4,7 @@ For architecture decisions, tech stack, and detailed feature notes see `PLAN.md`
 
 ---
 
-## Refactor Score: 13 / 34 *(reset 2026-06-09 — test coverage refactor cycle)*
+## Refactor Score: 0 / 34 *(reset 2026-06-11 — Fable bug-hunting refactor cycle)*
 
 Score accumulates each standard feature session (Fibonacci effort value added per session). Resets to 0 after any refactor cycle (skills 08–12).
 
@@ -34,6 +34,7 @@ Score accumulates each standard feature session (Fibonacci effort value added pe
 | Replace official content with demo text (all 9 classes) | Official_Content_Removal | 2026-05-19 |
 | Encounter Builder (saved encounters, live HP + initiative tracker) | Development | 2026-06-09 |
 | GM Screen (campaign management, notes, Ruin tracker, dice roller) | GM_Screen | 2026-06-10 |
+| Bug fixes — 15 bugs from Fable refactor audit (storage robustness, crash fixes, silent failures) | Refactor_Bug_Fixes | 2026-06-11 |
 
 ---
 

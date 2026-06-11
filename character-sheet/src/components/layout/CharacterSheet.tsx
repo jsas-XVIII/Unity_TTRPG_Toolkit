@@ -126,30 +126,6 @@ export default function CharacterSheet({
         </button>
       </div>
 
-      {/* Tab bar */}
-      <div className="flex border-b border-gray-800 px-4 bg-gray-900">
-        <button
-          onClick={() => setActiveTab('sheet')}
-          className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
-            activeTab === 'sheet'
-              ? 'border-amber-500 text-amber-400'
-              : 'border-transparent text-gray-500 hover:text-gray-300'
-          }`}
-        >
-          Character Sheet
-        </button>
-        <button
-          onClick={() => setActiveTab('advancement')}
-          className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
-            activeTab === 'advancement'
-              ? 'border-amber-500 text-amber-400'
-              : 'border-transparent text-gray-500 hover:text-gray-300'
-          }`}
-        >
-          Advancement
-        </button>
-      </div>
-
       <div className="max-w-5xl mx-auto p-4 space-y-4">
         {activeTab === 'sheet' ? (
           <>

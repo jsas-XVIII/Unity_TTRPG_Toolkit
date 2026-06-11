@@ -41,7 +41,15 @@ export function makeHomebrewStore<T extends { id: string }>(key: string) {
       cache = []
       return cache
     }
-    cache = parsed as T[]
+    // Drop primitive or id-less entries that could accumulate from a failed migration
+    // or a manually edited localStorage key. All store operations key on `item.id`,
+    // so corrupt entries without a string id would cause silent downstream failures.
+    cache = (parsed as unknown[]).filter(
+      (item): item is T =>
+        item !== null &&
+        typeof item === 'object' &&
+        typeof (item as Record<string, unknown>).id === 'string'
+    )
     return cache
   }
 

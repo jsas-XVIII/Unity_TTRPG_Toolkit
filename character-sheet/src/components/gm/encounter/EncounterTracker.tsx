@@ -91,22 +91,10 @@ export default function EncounterTracker({ encounter, campaignId, onEnd }: Props
   const monsterMap = useMemo(() => new Map(getAllMonsters().map((m) => [m.id, m])), [])
 
   const [combatants, setCombatants] = useState<Combatant[]>(initialCombatants)
-  const [activeId, setActiveId] = useState<string | null>(null)
   const [viewingMonsterId, setViewingMonsterId] = useState<string | null>(null)
 
   const alive = combatants.filter((c) => !c.defeated)
   const allDefeated = alive.length === 0
-
-  function nextTurn() {
-    if (alive.length === 0) return
-    if (activeId === null) {
-      setActiveId(alive[0].id)
-      return
-    }
-    const currentIdx = alive.findIndex((c) => c.id === activeId)
-    const nextIdx = (currentIdx + 1) % alive.length
-    setActiveId(alive[nextIdx].id)
-  }
 
   function adjustHp(id: string, delta: number) {
     setCombatants((prev) =>
@@ -126,15 +114,6 @@ export default function EncounterTracker({ encounter, campaignId, onEnd }: Props
 
   function toggleDefeated(id: string) {
     setCombatants((prev) => prev.map((c) => (c.id === id ? { ...c, defeated: !c.defeated } : c)))
-    if (id === activeId) {
-      const nextAlive = alive.filter((c) => c.id !== id)
-      if (nextAlive.length === 0) {
-        setActiveId(null)
-      } else {
-        const currentIdx = alive.findIndex((c) => c.id === id)
-        setActiveId(nextAlive[Math.min(currentIdx, nextAlive.length - 1)].id)
-      }
-    }
   }
 
   function toggleAction(id: string, action: ActionType) {
@@ -156,8 +135,6 @@ export default function EncounterTracker({ encounter, campaignId, onEnd }: Props
   function resetAllActions() {
     setCombatants((prev) => prev.map((c) => ({ ...c, usedActions: [] })))
   }
-
-  const activeName = combatants.find((c) => c.id === activeId)?.label
 
   if (viewingMonsterId) {
     const monster = monsterMap.get(viewingMonsterId)
@@ -198,23 +175,11 @@ export default function EncounterTracker({ encounter, campaignId, onEnd }: Props
       {/* Controls */}
       <div className="flex items-center gap-3 mb-6 flex-wrap">
         <button
-          onClick={nextTurn}
-          disabled={allDefeated}
-          className="text-xs px-3 py-1.5 rounded bg-amber-700 hover:bg-amber-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-        >
-          Next Turn
-        </button>
-        <button
           onClick={resetAllActions}
           className="text-xs px-3 py-1.5 rounded border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-200 transition-colors"
         >
           Reset All Actions
         </button>
-        {activeName && (
-          <span className="text-xs text-gray-400">
-            Active: <span className="text-amber-300 font-semibold">{activeName}</span>
-          </span>
-        )}
         {allDefeated && (
           <span className="text-xs text-green-400 font-semibold">All enemies defeated!</span>
         )}
@@ -223,7 +188,6 @@ export default function EncounterTracker({ encounter, campaignId, onEnd }: Props
       {/* Combatant list */}
       <div className="space-y-3">
         {combatants.map((c) => {
-          const isActive = c.id === activeId
           const hpPercent = c.maxHp > 0 ? Math.round((c.currentHp / c.maxHp) * 100) : 0
           const hpBarColor =
             hpPercent > 50 ? 'bg-green-600' : hpPercent > 25 ? 'bg-yellow-600' : 'bg-red-600'
@@ -234,14 +198,11 @@ export default function EncounterTracker({ encounter, campaignId, onEnd }: Props
               className={`rounded-lg border px-4 py-3 transition-colors ${
                 c.defeated
                   ? 'bg-gray-950 border-gray-800 opacity-50'
-                  : isActive
-                    ? 'bg-gray-900 border-amber-600'
-                    : 'bg-gray-900 border-gray-800'
+                  : 'bg-gray-900 border-gray-800'
               }`}
             >
-              {/* Top row: indicator, name, badges, defeated */}
+              {/* Top row: name, badges, defeated */}
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="w-4 text-amber-400 text-sm shrink-0">{isActive ? '▶' : ''}</span>
                 <button
                   onClick={() => setViewingMonsterId(c.monsterId)}
                   className={`font-semibold flex-1 min-w-0 truncate text-left hover:text-amber-300 transition-colors ${c.defeated ? 'line-through text-gray-500' : 'text-gray-100'}`}

@@ -155,15 +155,28 @@ export function HomebrewProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const importOfficialContent = useCallback((bundle: OfficialContentBundle) => {
-    setOfficialPowers(bundle.powers)
+    try {
+      setOfficialPowers(bundle.powers)
+      setOfficialPerks(bundle.perks)
+      setOfficialMonsters(bundle.monsters)
+      setOfficialAbilities(bundle.monsterAbilities)
+      setOfficialArtifacts(bundle.artifacts)
+    } catch (e) {
+      // Partial write (quota): wipe whatever was committed so storage is consistent.
+      // We don't attempt to restore the previous values — re-writing large JSON blobs
+      // when already at quota would also fail. The caller surfaces an error to the user.
+      clearAllOfficialContent()
+      setOfficialPowersState(null)
+      setOfficialPerksState([])
+      setOfficialMonstersState([])
+      setOfficialAbilitiesState([])
+      setOfficialArtifactsState([])
+      throw e
+    }
     setOfficialPowersState(getOfficialPowers())
-    setOfficialPerks(bundle.perks)
     setOfficialPerksState(getOfficialPerks() ?? [])
-    setOfficialMonsters(bundle.monsters)
     setOfficialMonstersState(getOfficialMonsters() ?? [])
-    setOfficialAbilities(bundle.monsterAbilities)
     setOfficialAbilitiesState(getOfficialAbilities() ?? [])
-    setOfficialArtifacts(bundle.artifacts)
     setOfficialArtifactsState(getOfficialArtifacts() ?? [])
   }, [])
 
