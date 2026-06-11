@@ -107,6 +107,7 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
     importOfficialContent,
     clearOfficialContent,
     powers,
+    perks,
     artifacts,
   } = useHomebrew()
 
@@ -117,25 +118,39 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
     officialAbilities.length > 0 ||
     officialArtifacts.length > 0
 
-  const hasHomebrew = powers.length > 0 || artifacts.length > 0
+  const hasHomebrew = powers.length > 0 || perks.length > 0 || artifacts.length > 0
 
   function handleContentPackFile(file: File) {
     const reader = new FileReader()
     reader.onload = (e) => {
+      const prevPowers = powers
+      const prevPerks = perks
+      const prevArtifacts = artifacts
       try {
-        const { powers: pw, perks, artifacts: art } = parseContentPack(e.target?.result as string)
+        const {
+          powers: pw,
+          perks: pk,
+          artifacts: art,
+        } = parseContentPack(e.target?.result as string)
         // Full replace, not merge: the GM's exported pack is authoritative, so entries the
         // GM deleted must disappear from the player's storage too.
         replacePowers(pw)
-        replacePerks(perks)
+        replacePerks(pk)
         replaceArtifacts(art)
         const result: ImportResult = {
           powersCount: pw.length,
-          perksCount: perks.length,
+          perksCount: pk.length,
           artifactsCount: art.length,
         }
         setPackStatus({ ok: true, result })
       } catch {
+        try {
+          replacePowers(prevPowers)
+          replacePerks(prevPerks)
+          replaceArtifacts(prevArtifacts)
+        } catch {
+          // Restore failed (quota) — leave in error state
+        }
         setPackStatus({ ok: false })
       }
     }
@@ -240,7 +255,7 @@ export default function HomeScreen({ onNewCharacter, onExistingCharacter, onImpo
               <UploadIcon />
               <span className="text-sm font-bold text-gray-100">Import Content Pack</span>
               {!packStatus.ok ? (
-                <span className="text-xs text-red-400">Invalid file.</span>
+                <span className="text-xs text-red-400">Import failed.</span>
               ) : (
                 <span
                   className={`text-xs leading-relaxed ${packStatusMessage(packStatus.result).color}`}

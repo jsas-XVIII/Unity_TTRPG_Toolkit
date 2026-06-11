@@ -1,4 +1,4 @@
-import { useState, useRef, type JSX } from 'react'
+import { useState, useRef, useEffect, type JSX } from 'react'
 import type { DiceType, BenHinState, AttributeKey, RollResult } from '../../types/dice'
 import type { DerivedStats } from '../../utils/derivedStats'
 import type { Attributes } from '../../types/character'
@@ -141,6 +141,12 @@ export default function RollTab({ characterId, attributes, derived, onRoll }: Pr
   const [copied, setCopied] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [])
+
   const is2d10 = dice === '2d10'
 
   function computeTotalBonus(): number {
@@ -203,9 +209,13 @@ export default function RollTab({ characterId, attributes, derived, onRoll }: Pr
       totalBonus: computeTotalBonus(),
       label,
     })
-    await navigator.clipboard.writeText(macro)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      await navigator.clipboard.writeText(macro)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setCopied(false)
+    }
   }
 
   const SELECT_CLASS =

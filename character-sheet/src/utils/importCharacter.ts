@@ -126,13 +126,34 @@ function isValidCharacter(obj: unknown): obj is Character {
     typeof c.recuperationBonus === 'number' &&
     typeof c.recuperationDie === 'string' &&
     Array.isArray(c.corePaths) &&
+    (c.corePaths as unknown[]).every((el) => el !== null && typeof el === 'object') &&
     Array.isArray(c.powers) &&
+    (c.powers as unknown[]).every((el) => {
+      if (el === null || typeof el !== 'object') return false
+      const p = el as Record<string, unknown>
+      if (typeof p.id !== 'string') return false
+      // Old-format characters store upgrade selections under `upgrades[]` rather than
+      // `purchasedUpgradeIds`, so we only reject if the field is present but wrong-typed.
+      if ('purchasedUpgradeIds' in p && !Array.isArray(p.purchasedUpgradeIds)) return false
+      return true
+    }) &&
     Array.isArray(c.perks) &&
+    (c.perks as unknown[]).every((el) => el !== null && typeof el === 'object') &&
     Array.isArray(c.weapons) &&
+    (c.weapons as unknown[]).every((el) => el !== null && typeof el === 'object') &&
     Array.isArray(c.armor) &&
+    (c.armor as unknown[]).every(
+      (el) =>
+        el !== null &&
+        typeof el === 'object' &&
+        typeof (el as Record<string, unknown>).av === 'number'
+    ) &&
     (Array.isArray(c.equippedArtifacts) ||
       Array.isArray(c.artifactIds) ||
       Array.isArray(c.artifacts)) &&
+    (Array.isArray(c.equippedArtifacts)
+      ? (c.equippedArtifacts as unknown[]).every((el) => el !== null && typeof el === 'object')
+      : true) &&
     typeof c.artifactCapacity === 'number' &&
     typeof c.denerim === 'number' &&
     typeof c.necessities === 'number' &&

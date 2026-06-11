@@ -77,7 +77,7 @@ function reducer(state: Character, action: Action): Character {
       return { ...state, attributes: { ...state.attributes, [action.attr]: action.value } }
 
     case 'SET_HP':
-      return { ...state, currentHp: action.value }
+      return { ...state, currentHp: Math.max(0, action.value) }
 
     // Clamps fading stacks to the valid range 0–5
     case 'SET_FADING':

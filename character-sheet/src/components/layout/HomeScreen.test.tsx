@@ -21,6 +21,8 @@ import HomeScreen from './HomeScreen'
 import { baseCharacter } from '../../test/fixtures'
 import { parseContentPack } from '../../services/contentPackService'
 import { HomebrewProvider } from '../../context/HomebrewProvider'
+import { invalidatePerksCache } from '../../services/perksStorage'
+import { invalidatePowerCache } from '../../services/powersStorage'
 
 vi.mock('../../services/contentPackService', () => ({
   parseContentPack: vi.fn(),
@@ -32,6 +34,8 @@ expect.extend(matchers)
 
 beforeEach(() => {
   localStorage.clear()
+  invalidatePowerCache()
+  invalidatePerksCache()
   mockParseContentPack.mockReset()
 })
 
@@ -117,6 +121,22 @@ describe('HomeScreen', () => {
     expect(onGM).toHaveBeenCalledOnce()
   })
 
+  describe('Clear homebrew — hasHomebrew includes perks (#10)', () => {
+    it('shows "Clear all homebrew" when only homebrew perks exist (no powers or artifacts)', async () => {
+      localStorage.setItem(
+        'unity_ttrpg_homebrew_perks',
+        JSON.stringify([{ id: 'perk-1', name: 'Test Perk', tier: 1, description: 'A perk.' }])
+      )
+      renderHome()
+      expect(await screen.findByText(/clear all homebrew/i)).toBeInTheDocument()
+    })
+
+    it('does not show "Clear all homebrew" when all homebrew stores are empty', () => {
+      renderHome()
+      expect(screen.queryByText(/clear all homebrew/i)).not.toBeInTheDocument()
+    })
+  })
+
   describe('Import Content Pack', () => {
     function triggerContentPackFile(json: string) {
       const file = new File([json], 'unity-content-pack.json', { type: 'application/json' })
@@ -159,13 +179,14 @@ describe('HomeScreen', () => {
       )
     })
 
-    it('shows error message for an invalid file', async () => {
+    it('shows "Import failed." (not "Invalid file.") when parsing throws (#5)', async () => {
       mockParseContentPack.mockImplementation(() => {
         throw new Error('bad json')
       })
       renderHome()
       triggerContentPackFile('not-json')
-      await waitFor(() => expect(screen.getByText(/invalid file/i)).toBeInTheDocument())
+      await waitFor(() => expect(screen.getByText(/import failed/i)).toBeInTheDocument())
+      expect(screen.queryByText(/invalid file/i)).not.toBeInTheDocument()
     })
 
     it('"Import another" resets back to the card', async () => {

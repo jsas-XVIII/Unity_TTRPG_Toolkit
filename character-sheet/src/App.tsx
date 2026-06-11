@@ -3,7 +3,7 @@
 // All persistence calls (create / update) flow through the `api` hook so the same
 // code works whether the backend is localStorage (Phase 1) or a C# REST API (Phase 2).
 
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import HomeScreen from './components/layout/HomeScreen'
 import CharacterRoster from './components/layout/CharacterRoster'
 import CharacterSheet from './components/layout/CharacterSheet'
@@ -35,6 +35,7 @@ function AppRoutes() {
   const [view, setView] = useState<View>('home')
   const [character, setCharacter] = useState<Character | null>(null)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error' | 'quota'>('idle')
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const {
     importedCharacter,
@@ -80,7 +81,7 @@ function AppRoutes() {
     } catch (e) {
       setCharacter(newChar)
       setView('sheet')
-      if (isQuotaError(e)) setSaveStatus('quota')
+      setSaveStatus(isQuotaError(e) ? 'quota' : 'error')
     }
   }
 
@@ -90,12 +91,12 @@ function AppRoutes() {
   async function handleSave(c: Character) {
     try {
       setCharacter(c)
-      await api.update(c.id, c).catch(async () => {
-        const created = await api.create(c)
-        setCharacter(created)
-      })
+      await api.update(c.id, c)
       setSaveStatus('saved')
-      setTimeout(() => setSaveStatus('idle'), 2000)
+      // Cancel any pending "idle" reset so a rapid double-save doesn't dismiss
+      // the "saved" toast before the second save has finished.
+      clearTimeout(saveTimerRef.current ?? undefined)
+      saveTimerRef.current = setTimeout(() => setSaveStatus('idle'), 2000)
     } catch (e) {
       setSaveStatus(isQuotaError(e) ? 'quota' : 'error')
     }
@@ -140,6 +141,13 @@ function AppRoutes() {
         <CharacterWizard onComplete={handleWizardComplete} onCancel={() => setView('home')} />
       )}
 
+      {saveStatus === 'error' && (
+        <div className="fixed top-4 right-4 bg-red-800 text-red-200 px-4 py-2 rounded shadow-lg z-40 text-sm">
+          Save failed.
+        </div>
+      )}
+      {saveStatus === 'quota' && <StorageErrorToast onDismiss={() => setSaveStatus('idle')} />}
+
       {view === 'sheet' && character && (
         <>
           {saveStatus === 'saved' && (
@@ -147,12 +155,6 @@ function AppRoutes() {
               Character saved!
             </div>
           )}
-          {saveStatus === 'error' && (
-            <div className="fixed top-4 right-4 bg-red-800 text-red-200 px-4 py-2 rounded shadow-lg z-40 text-sm">
-              Save failed.
-            </div>
-          )}
-          {saveStatus === 'quota' && <StorageErrorToast onDismiss={() => setSaveStatus('idle')} />}
           <CharacterSheet
             key={character.id}
             initial={character}

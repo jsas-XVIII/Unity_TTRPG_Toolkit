@@ -84,6 +84,18 @@ describe('Import JSON button', () => {
   })
 })
 
+describe('CharacterSheet — tab bar (#3)', () => {
+  it('renders exactly one Advancement tab button', () => {
+    renderSheet()
+    expect(screen.getAllByRole('button', { name: /advancement/i })).toHaveLength(1)
+  })
+
+  it('renders exactly one Character Sheet tab button', () => {
+    renderSheet()
+    expect(screen.getAllByRole('button', { name: /character sheet/i })).toHaveLength(1)
+  })
+})
+
 describe('CharacterSheet — navigation', () => {
   it('renders the "← Main Menu" button', () => {
     renderSheet()

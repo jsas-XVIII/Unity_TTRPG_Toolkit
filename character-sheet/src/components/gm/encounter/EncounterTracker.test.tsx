@@ -90,21 +90,22 @@ describe('EncounterTracker — defeated', () => {
   })
 })
 
-describe('EncounterTracker — turn tracking', () => {
-  it('shows no active combatant before Next Turn is clicked', () => {
-    renderTracker(makeEncounter(1))
-    expect(screen.queryByText(/^active:/i)).not.toBeInTheDocument()
-  })
-
-  it('activates the first combatant after Next Turn is clicked', async () => {
-    renderTracker(makeEncounter(1))
-    await userEvent.click(screen.getByRole('button', { name: /next turn/i }))
-    expect(screen.getByText(/active:/i)).toBeInTheDocument()
-  })
-
+describe('EncounterTracker — navigation', () => {
   it('calls onEnd when End Encounter is clicked', async () => {
     const { onEnd } = renderTracker(makeEncounter(1))
     await userEvent.click(screen.getByRole('button', { name: /end encounter/i }))
     expect(onEnd).toHaveBeenCalled()
+  })
+})
+
+describe('EncounterTracker — per-combatant turn feature removed (#8)', () => {
+  it('does not render a Next Turn button', () => {
+    renderTracker(makeEncounter(3))
+    expect(screen.queryByRole('button', { name: /next turn/i })).not.toBeInTheDocument()
+  })
+
+  it('does not show an "Active:" combatant indicator', () => {
+    renderTracker(makeEncounter(3))
+    expect(screen.queryByText(/active:/i)).not.toBeInTheDocument()
   })
 })

@@ -24,7 +24,12 @@ let artifactsCache: ArtifactDefinition[] | null | undefined = undefined
 function readItem<T>(key: string, cache: T | null | undefined): T | null {
   if (cache !== undefined) return cache
   const raw = localStorage.getItem(key)
-  return raw ? (JSON.parse(raw) as T) : null
+  if (!raw) return null
+  try {
+    return JSON.parse(raw) as T
+  } catch {
+    return null
+  }
 }
 
 // --- Powers ---

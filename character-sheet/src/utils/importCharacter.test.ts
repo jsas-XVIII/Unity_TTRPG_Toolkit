@@ -320,6 +320,77 @@ describe('checkImport — power format migration', () => {
   })
 })
 
+describe('checkImport — array element validation (#2)', () => {
+  it('returns "invalid" when armor contains null', async () => {
+    const file = makeFile({ ...baseCharacter, armor: [null] as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when armor element is missing av (empty object)', async () => {
+    const file = makeFile({ ...baseCharacter, armor: [{}] as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when powers element is null', async () => {
+    const file = makeFile({ ...baseCharacter, powers: [null] as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when powers element has purchasedUpgradeIds: null', async () => {
+    const file = makeFile({
+      ...baseCharacter,
+      powers: [{ id: 'power-x', purchasedUpgradeIds: null }] as never,
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when perks contains null', async () => {
+    const file = makeFile({ ...baseCharacter, perks: [null] as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when weapons contains null', async () => {
+    const file = makeFile({ ...baseCharacter, weapons: [null] as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when corePaths contains null', async () => {
+    const file = makeFile({ ...baseCharacter, corePaths: [null] as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('returns "invalid" when equippedArtifacts contains null', async () => {
+    const file = makeFile({ ...baseCharacter, equippedArtifacts: [null] as never })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('invalid')
+  })
+
+  it('accepts a valid armor element with an av number', async () => {
+    const file = makeFile({
+      ...baseCharacter,
+      armor: [{ id: 'armor-1', name: 'Leather', av: 2, penalty: 0 }] as never,
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('new')
+  })
+
+  it('accepts new-format powers element with purchasedUpgradeIds array', async () => {
+    const file = makeFile({
+      ...baseCharacter,
+      powers: [{ id: 'power-x', purchasedUpgradeIds: [] }],
+    })
+    const result = await checkImport(file, mockApi())
+    expect(result.status).toBe('new')
+  })
+})
+
 describe('migrateCharacter — hpBonus field', () => {
   it('adds hpBonus: 0 when the field is missing', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

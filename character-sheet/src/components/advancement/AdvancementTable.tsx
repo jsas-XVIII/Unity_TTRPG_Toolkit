@@ -73,7 +73,9 @@ export default function AdvancementTable({ character, classDef, onLevelUp }: Pro
   const progressXp = xp - prevThreshold
   const rangeXp = nextThreshold !== null ? nextThreshold - prevThreshold : 1
   const progressPct =
-    nextThreshold !== null ? Math.min(100, Math.round((progressXp / rangeXp) * 100)) : 100
+    nextThreshold !== null
+      ? Math.max(0, Math.min(100, Math.round((progressXp / rangeXp) * 100)))
+      : 100
 
   return (
     <div className="space-y-4">
@@ -115,6 +117,7 @@ export default function AdvancementTable({ character, classDef, onLevelUp }: Pro
         {level < 10 && nextThreshold !== null && (
           <div className="w-full bg-gray-700 rounded-full h-2">
             <div
+              data-testid="xp-progress-bar"
               className="bg-amber-500 h-2 rounded-full transition-all"
               style={{ width: `${progressPct}%` }}
             />
