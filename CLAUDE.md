@@ -52,6 +52,7 @@ npm run dev          # dev server at http://localhost:5173
 npm run build        # tsc type-check + production build
 npm run lint         # ESLint
 npm run typecheck    # type-check only (no emit)
+npm test             # Vitest unit tests (non-interactive; alias of test:unit)
 npm run test:unit    # Vitest unit tests (non-interactive)
 npm run cy:open      # open Cypress test runner (interactive)
 npm run test:e2e     # start dev server + run Cypress headless
@@ -64,6 +65,12 @@ npx vitest run src/data/advancementData.test.ts
 
 ### Cypress Test Conventions
 For form inputs bound to state, use `data-testid` selectors with `.should('have.value', ...)` rather than `cy.contains()`, which only matches rendered text nodes.
+
+---
+
+## Branch workflow
+
+Feature branches merge into `Development`, which merges into `main`. Netlify deploys only on `main` changes (to reduce build usage). Never commit feature work directly to `main`.
 
 ---
 
@@ -84,10 +91,11 @@ character-sheet/src/
   App.tsx           — root: owns view state ('home'|'roster'|'wizard'|'sheet'|'gm') + import flow
   types/            — shared TypeScript interfaces (character.ts primary; monster.ts for GM tools)
   constants/        — static class/race/armor/weapon/perk definitions (ClassDefinition, etc.)
-  data/             — powers.json + powersData.ts, advancementData.ts, monsters.json, monster-abilities.json, monstersData.ts
+  data/             — static JSON (powers, perks, monsters, monster-abilities, monster-templates, artifacts) + *Data.ts accessors, advancementData.ts
+  context/          — HomebrewContext + HomebrewProvider (homebrew content as React state)
   hooks/            — useCharacter (reducer + derived stats), useApi (persistence abstraction)
-  services/         — localStorage.ts (CharacterRepository), monsterStorage.ts (homebrew abilities)
-  utils/            — derivedStats.ts (pure formulas), importCharacter.ts (migration + dedup)
+  services/         — localStorage.ts (CharacterRepository); homebrew stores (powersStorage, perksStorage, monsterStorage, artifactsStorage, homebrewStore); campaignStorage, encounterStorage, rollHistoryStorage; contentPackService, officialContentStorage
+  utils/            — derivedStats.ts (pure formulas), importCharacter.ts (migration + dedup), dice.ts + diceAudio.ts, mergeOfficial.ts + parseOfficialBundle.ts (official content import)
   components/
     layout/         — HomeScreen, CharacterRoster, CharacterSheet (top-level sheet container)
     wizard/         — CharacterWizard + 8 Step* components + buildCharacter.ts
@@ -98,8 +106,11 @@ character-sheet/src/
     paths/          — Core Paths stepper
     perks/          — perk picker
     resources/      — HP, class resource pips
+    dice/           — DiceTrayModal, RollTab, HistoryTab (dice tray with animation + sound)
     ui/             — reusable primitives (buttons, modals, etc.)
-    gm/             — GMDashboard; monsters/ (MonsterRoster, MonsterCard, MonsterForm)
+    gm/             — GMDashboard, GMScreen (campaigns/notes/Ruin tracker/dice), RuinWidget;
+                      monsters/, powers/, perks/, artifacts/ (editor panels),
+                      encounter/ (EncounterBuilder, EncounterForm, EncounterList, EncounterTracker)
 ```
 
 ### State management
@@ -137,7 +148,7 @@ All nine classes are defined in `constants/classes.ts` as `ClassDefinition[]`, e
 
 **Data layer:**
 - `types/monster.ts` — `Monster`, `MonsterAbility`, `MonsterAbilityKind` types
-- `data/monsters.json` — built-in/official compendium monsters (currently 4 entries; more to be added)
+- `data/monsters.json` — built-in compendium monsters (36 entries; validated by `monsters.schema.json`)
 - `data/monster-abilities.json` — flat ability library; monsters reference by `traitIds`/`powerIds` arrays
 - `data/monstersData.ts` — `getAllMonsters`, `getMonsterById`, `getAllAbilities`, `resolveTraits`, `resolvePowers`, filter helpers
 - `services/monsterStorage.ts` — homebrew ability persistence under `localStorage["unity_ttrpg_monsters_abilities"]`
@@ -154,7 +165,7 @@ All nine classes are defined in `constants/classes.ts` as `ClassDefinition[]`, e
 
 All GM-managed game content (powers, perks, monsters) follows a two-layer model:
 
-- **Official layer** — static JSON files checked into the repo (`powers.json`, `perks.json`, `monsters.json`, `monster-abilities.json`). Always present, never mutated at runtime.
+- **Official layer** — static JSON files checked into the repo (`powers.json`, `perks.json`, `monsters.json`, `monster-abilities.json`). Always present, never mutated at runtime. The checked-in content is **demo data** (copyrighted official content was removed for public release); real official content is imported separately via a UUID-gated bundle flow (`utils/parseOfficialBundle.ts`, `utils/mergeOfficial.ts`, `services/officialContentStorage.ts`) and GM panels show demo-mode badges when it's absent.
 - **Homebrew layer** — stored in localStorage. Handles both *overrides* (homebrew entry with the same ID as an official entry shadows it) and *additions* (homebrew entry with a new ID appended alongside official entries). Resolution is identical for both: homebrew wins on ID match, otherwise official is used, then homebrew-only entries are appended.
 
 **Sharing homebrew content:** The GM exports a single `unity-content-pack.json` (all homebrew powers + perks) and sends it to players. Players import it via the HomeScreen, which writes it into their localStorage. Import replaces the player's homebrew library wholesale — the GM's exported pack is authoritative, so entries the GM deleted disappear from the player's storage too.
@@ -190,6 +201,15 @@ Mutators delegate to the storage services first (which persist to localStorage a
 - Cancel/Back button style: `border border-gray-700 text-gray-400 hover:border-gray-500`
 
 **Upcoming improvements:** See `PLAN.md` for sequenced perf, security, and hygiene phases.
+
+### GM Tools — other shipped systems
+
+These follow the same patterns described above (homebrew localStorage stores, GM panel UI conventions):
+
+- **Artifacts** — `data/artifacts.json` (23 entries) + `artifactsData.ts`, `services/artifactsStorage.ts`, `components/gm/artifacts/`
+- **Encounter Builder** — `services/encounterStorage.ts`, `components/gm/encounter/` (Builder, Form, List, Tracker); group initiative, not per-character
+- **GM Screen** — campaign management, notes, Ruin tracker, dice roller (`GMScreen.tsx`, `RuinWidget.tsx`, `services/campaignStorage.ts`, `services/rollHistoryStorage.ts`); see `docs/gm-screen.md`
+- **Dice tray** — `components/dice/` + `utils/dice.ts`/`diceAudio.ts`; shared between player sheet and GM screen
 
 ### Game reference docs
 

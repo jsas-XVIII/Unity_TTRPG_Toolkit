@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc -b",
+    "test": "vitest run --passWithNoTests",
     "test:unit": "vitest run --passWithNoTests",
     "cy:open": "cypress open",
     "cy:run": "cypress run",

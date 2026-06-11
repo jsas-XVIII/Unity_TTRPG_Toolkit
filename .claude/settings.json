@@ -3,7 +3,7 @@
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
-        "hooks": [{"type": "command", "command": "cd \"/c/Users/jsas4/Gitlab Projects/Unity_TTRPG_Toolkit/character-sheet\" && npx eslint $CLAUDE_FILE_PATHS --fix 2>&1 | tail -20"}]
+        "hooks": [{"type": "command", "command": "case \"$CLAUDE_FILE_PATHS\" in *character-sheet*.ts|*character-sheet*.tsx) cd \"/c/Users/jsas4/Gitlab Projects/Unity_TTRPG_Toolkit/character-sheet\" && npx eslint $CLAUDE_FILE_PATHS --fix 2>&1 | tail -20;; esac"}]
       }
     ]
   }
